@@ -510,7 +510,15 @@ summary:hover{color:var(--accent)}
 .intro .hero #only{animation:rise .8s .22s var(--ease) backwards}
 .intro .card{animation:rise .7s calc(.25s + var(--i,0)*45ms) var(--ease) backwards}
 /* si el catálogo se vuelve a pintar (buscar, filtrar), las tarjetas nuevas no repiten la entrada */
-.intro #catalog.no-rise .card{animation:none}
+.intro .no-rise .card{animation:none}
+/* tarjeta destacada junto al buscador (a la derecha en pantallas anchas) */
+@media(min-width:1000px){
+  .hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) 280px;column-gap:40px;align-items:start}
+  .hero h1,#catalog,#empty{grid-column:1/-1}
+  #feat{grid-column:2;grid-row:2/5}
+  #only{justify-self:start}
+}
+@media(max-width:999px){#feat{margin-top:20px;max-width:360px}}
 
 /* transición entre pantallas (View Transitions, con alternativa sin ella) */
 @keyframes vt-out{to{opacity:0;transform:translateY(-6px)}}
@@ -568,6 +576,7 @@ window.LANG=(function(){try{var l=localStorage.getItem("lang");if(l==="en"||l===
       <input id="q" type="search" placeholder="Busca una herramienta: notas, PDF, PAU…" autocomplete="off">
     </div>
     <button type="button" class="tog" id="only" aria-pressed="false" style="margin-top:12px">Solo disponibles</button>
+    <div id="feat" hidden></div>
     <h2 class="sr-only">Herramientas</h2>
     <div id="catalog"></div>
     <p id="empty" role="status" hidden></p>
@@ -1080,20 +1089,28 @@ TOOLS.forEach(t=>{const e=T_EN[t[0]];if(e){t[1]=e[0];t[2]=e[1]}})}
 const norm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 
 let onlyOn=false;
+const FEATURED='noticias';
+const cardHTML=(t,i)=>`<article class="card${t[5]?' on':''}" id="t-${t[0]}" style="--i:${Math.min(i,8)}"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[t[4]]}</svg></div><h4>${t[1]}</h4><p>${t[2]}</p><div class="foot">${t[5]?'<span class="badge on">'+tr('Disponible','Available')+'</span><a class="go" href="#'+t[5]+'">'+tr('Probar ahora','Try it now')+'</a>':'<span class="badge">'+tr('Próximamente','Coming soon')+'</span>'}</div></article>`;
 function renderCatalog(query){
   const words=norm(query).split(/\s+/).filter(Boolean);
   const hits=TOOLS.filter(t=>{const h=norm(t[1]+' '+t[2]);return words.every(w=>h.includes(w))&&(!onlyOn||t[5])});
   let html='';
   for(const c in CATS){
-    const list=hits.filter(t=>t[3]===c);
+    const list=hits.filter(t=>t[3]===c&&t[0]!==FEATURED);
     if(!list.length)continue;
     html+=`<div class="cat"><h3>${CATS[c][0]}</h3><p>${CATS[c][1]}</p><div class="grid">`+
-    list.map((t,i)=>`<article class="card${t[5]?' on':''}" id="t-${t[0]}" style="--i:${Math.min(i,8)}"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[t[4]]}</svg></div><h4>${t[1]}</h4><p>${t[2]}</p><div class="foot">${t[5]?'<span class="badge on">'+tr('Disponible','Available')+'</span><a class="go" href="#'+t[5]+'">'+tr('Probar ahora','Try it now')+'</a>':'<span class="badge">'+tr('Próximamente','Coming soon')+'</span>'}</div></article>`).join('')+
+    list.map((t,i)=>cardHTML(t,i)).join('')+
     `</div></div>`;
   }
   if(renderCatalog.last!==html){
     if(renderCatalog.last!==undefined)document.getElementById('catalog').classList.add('no-rise');
     renderCatalog.last=html;document.getElementById('catalog').innerHTML=html;
+  }
+  /* herramienta destacada: vive junto al buscador y sigue la búsqueda y el filtro */
+  const ft=hits.find(t=>t[0]===FEATURED),fh=ft?cardHTML(ft,2):'',fe=document.getElementById('feat');
+  if(renderCatalog.lastF!==fh){
+    if(renderCatalog.lastF!==undefined)fe.classList.add('no-rise');
+    renderCatalog.lastF=fh;fe.innerHTML=fh;fe.hidden=!fh;
   }
   const empty=document.getElementById('empty');
   empty.hidden=hits.length>0;
