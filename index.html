@@ -1917,6 +1917,432 @@ function qrDraw(){
 $('qr-png').addEventListener('click',()=>qrCv.toBlob(b=>b&&qrSave(b,'qr-aulalia.png')));
 $('qr-svg').addEventListener('click',()=>qrM&&qrSave(new Blob([qrSvg(qrM,$('qr-fg').value,$('qr-bg').value)],{type:'image/svg+xml'}),'qr-aulalia.svg'));
 
+/* ---- Generador de flashcards ---- */
+/*FC-GEN-START*/
+const FC_MAX=60,FC_WPM=225,FC_MIN_S=30;
+const fcW=s=>(String(s).match(/\S+/g)||[]).length;
+const fcCap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+const fcClean=t=>String(t).replace(/\r/g,'').replace(/ /g,' ').replace(/([a-záéíóúñ])-\n(?=[a-záéíóúñ])/g,'$1').replace(/[ \t]+/g,' ').replace(/ ?\n ?/g,'\n').replace(/\n{3,}/g,'\n\n').trim();
+const fcSents=p=>p.split(/(?<=[.!?…])\s+(?=[¿¡"“(A-ZÁÉÍÓÚÑ0-9])/).map(s=>s.trim()).filter(Boolean);
+const FC_BAD=/^(esto|eso|ello|este|esta|estos|estas|ese|esa|esos|esas|aqu[ií]|all[ií]|hoy|entonces|tambi[eé]n|adem[aá]s|por|en|si|cuando|como|aunque|pero|sin|as[ií]|no|lo|le|les|se|me|nos|y|o|that|this|these|those|it|there|here|also|but|if|when|because)(?![a-záéíóúñ])/i;
+const FC_FILL=/^(tambi[eé]n|durante|adem[aá]s|porque|mientras|aunque|entonces|mediante|seg[uú]n|siempre|despu[eé]s|algunos|muchos|cualquier|therefore|however|because|although|between|through|another)$/i;
+const DEF_ES=/^([A-ZÁÉÍÓÚÑ"“(\d][^.,;:!?]{1,70}?)\s+(se define como|se denomina|se llama|se conoce como|consiste en|significa|se refiere a|se caracteriza por|es|son)\s+(\S.{6,})$/;
+const DEF_EN=/^([A-Z"“(\d][^.,;:!?]{1,70}?)\s+(is defined as|refers to|consists of|means|is|are)\s+(\S.{6,})$/;
+const FC_QT={'es':'¿Qué es %?','son':'¿Qué son %?','se define como':'¿Cómo se define %?','se denomina':'¿Cómo se denomina %?','se llama':'¿Cómo se llama %?','se conoce como':'¿Cómo se conoce %?','consiste en':'¿En qué consiste %?','significa':'¿Qué significa %?','se refiere a':'¿A qué se refiere %?','se caracteriza por':'¿Por qué se caracteriza %?','is':'What is %?','are':'What are %?','is defined as':'How is % defined?','refers to':'What does % refer to?','consists of':'What does % consist of?','means':'What does % mean?'};
+/* «X es Y» → «¿Qué es X?» (solo si el sujeto es corto y no parece una frase subordinada) */
+function fcDef(s){
+  let m=s.match(DEF_ES);
+  if(!m&&EN)m=s.match(DEF_EN);
+  if(!m)return null;
+  const subj=m[1].trim(),T=FC_QT[m[2].toLowerCase()];
+  if(!T||fcW(subj)>8||FC_BAD.test(subj)||/(^|\s)(que|cuando|donde|si|which|that|when|where)(\s|$)/i.test(subj))return null;
+  return{q:T.replace('%',subj.replace(/^(El|La|Los|Las|Un|Una|Unos|Unas|The|A|An)\s/,x=>x.toLowerCase())),a:s,subj};
+}
+/* ¿Esta línea es un título? */
+function fcHead(s,pb,nx){
+  const w=fcW(s);
+  if(w>12||s.length>90||/[.;,]$/.test(s))return false;
+  if(/^(tema|unidad|cap[ií]tulo|lecci[oó]n|bloque|topic|unit|chapter|lesson)\s+(\d+|[IVXL]+)\b/i.test(s))return true;
+  if(/^((\d+(\.\d+)*[.)])|(\d+(\.\d+)+)|([IVXL]+[.)]))\s+\S/.test(s))return true;
+  if(/:$/.test(s))return w<=10;
+  if(s===s.toUpperCase()&&/[A-ZÁÉÍÓÚÑ]{3}/.test(s))return true;
+  return !!(pb&&nx&&w<=8&&!/[.!?]$/.test(s)&&/^[A-ZÁÉÍÓÚÑ¿¡"“(\d]/.test(s));
+}
+const fcTitleClean=s=>{let t=s.replace(/^(\d+(\.\d+)*[.)]?|[IVXL]+[.)])\s+/,'').replace(/[:.\s]+$/,'').trim();if(t===t.toUpperCase()&&/[A-ZÁÉÍÓÚÑ]{3}/.test(t))t=fcCap(t.toLowerCase());return t||s};
+function fcTitle(par){
+  const s=fcSents(par.replace(/^•\s*/,''))[0]||par,d=fcDef(s);
+  if(d)return fcCap(d.subj);
+  const ws=s.replace(/[.!?…:;,]+$/,'').split(/\s+/);
+  return ws.slice(0,8).join(' ')+(ws.length>8?'…':'');
+}
+function fcChunk(p){
+  if(fcW(p)<=160)return[p];
+  const out=[];let cur='';
+  fcSents(p).forEach(s=>{cur+=(cur?' ':'')+s;if(fcW(cur)>=100){out.push(cur);cur=''}});
+  if(cur)out.push(cur);
+  return out;
+}
+/* texto → secciones {t:título, p:[párrafos]} */
+function fcSections(raw){
+  const L=fcClean(raw).split('\n'),BUL=/^([-•*–—·▪]|\d+[.)])\s+/;
+  let secs=[],cur={t:'',p:[]},buf='';
+  const flush=()=>{if(buf.trim())cur.p.push(buf.trim());buf=''};
+  const push=()=>{flush();if(cur.t||cur.p.length)secs.push(cur)};
+  for(let i=0;i<L.length;i++){
+    const s=L[i].trim();
+    if(!s){flush();continue}
+    const pb=i===0||!L[i-1].trim(),nx=(L[i+1]||'').trim();
+    if(fcHead(s,pb,nx)){push();cur={t:fcTitleClean(s),p:[]};buf='';continue}
+    if(BUL.test(s)){flush();buf='• '+s.replace(BUL,'');flush();continue}
+    buf+=(buf?' ':'')+s;
+  }
+  push();
+  if(!secs.some(s=>s.t)){
+    /* sin títulos: se agrupan párrafos de unas 70 palabras */
+    const paras=secs.flatMap(s=>s.p).flatMap(fcChunk);
+    secs=[];let g=[],gw=0;
+    const close=()=>{if(g.length){secs.push({t:fcTitle(g[0]),p:g});g=[];gw=0}};
+    paras.forEach(p=>{g.push(p);gw+=fcW(p);if(gw>=70)close()});
+    close();
+    return secs;
+  }
+  const out=[];
+  secs.forEach(s=>{
+    if(!s.t&&s.p.length)s.t=fcTitle(s.p[0]);
+    const w=s.p.reduce((a,p)=>a+fcW(p),0);
+    if(!s.p.length)return;
+    if(w<6&&out.length){out[out.length-1].p.push((s.t?s.t+': ':'')+s.p.join(' '));return}
+    out.push(s);
+  });
+  return out;
+}
+/* hueco para las frases: primero un número, luego un nombre propio, luego la palabra más larga */
+function fcBlank(s){
+  let m=/(?<![\wáéíóúñü])\d+(?:[.,]\d+)?(?:\s?%)?/.exec(s);
+  if(m&&m.index>0)return{t:m[0],i:m.index};
+  const re=/[A-ZÁÉÍÓÚÑ][A-Za-záéíóúñü]+(?:\s+(?:de|del|la|las|los|y|of|the)\s+[A-ZÁÉÍÓÚÑ][A-Za-záéíóúñü]+|\s+[A-ZÁÉÍÓÚÑ][A-Za-záéíóúñü]+)*/g;
+  while((m=re.exec(s)))if(m.index>0&&m[0].length>2)return{t:m[0],i:m.index};
+  const re2=/[A-Za-záéíóúñüÁÉÍÓÚÑ]{8,}/g;let best=null;
+  while((m=re2.exec(s)))if(m.index>0&&!FC_FILL.test(m[0])&&(!best||m[0].length>best.t.length))best={t:m[0],i:m.index};
+  return best;
+}
+function fcDev(secs){
+  return secs.filter(s=>s.p.length).map(s=>({k:'dev',tag:tr('Desarrollo','Development'),q:tr('Desarrolla el tema: ','Explain in detail: ')+s.t,a:s.p.join('\n\n')}));
+}
+function fcQs(secs){
+  const out=[],seen=new Set();
+  const add=c=>{if(!seen.has(c.q)){seen.add(c.q);out.push(c)}};
+  secs.forEach(sec=>{
+    const n0=out.length,tag=sec.t||tr('Pregunta','Question');let el=0,cl=0;
+    sec.p.forEach(raw=>{
+      const par=raw.replace(/^•\s*/,''),cm=par.match(/^([^.:]{2,60}):\s+(\S.{10,})$/);
+      if(cm&&fcW(cm[1])<=6&&!/^(nota|importante|ojo|recuerda|ejemplos?|note|remember|example|important)$/i.test(cm[1].trim())){
+        add({k:'def',tag,q:tr('Explica: ','Explain: ')+cm[1].trim(),a:cm[2].trim()});return;
+      }
+      fcSents(par).forEach(s=>{
+        const w=fcW(s);if(w<5||w>50)return;
+        const d=fcDef(s);
+        if(d){add({k:'def',tag,q:d.q,a:d.a});return}
+        if(w<8)return;
+        if(el++%2||cl>=3)return;
+        const b=fcBlank(s);if(!b||b.t.length<3)return;
+        cl++;
+        add({k:'cloze',tag:tr('Completa la frase','Fill in the blank')+(sec.t?' · '+sec.t:''),q:s.slice(0,b.i)+'_____'+s.slice(b.i+b.t.length),a:b.t,ctx:s});
+      });
+    });
+    if(out.length===n0&&sec.t){
+      const body=fcSents(sec.p.join(' ')).slice(0,2).join(' ');
+      if(fcW(body)>=6)add({k:'def',tag,q:tr('Explica brevemente: ','Briefly explain: ')+sec.t,a:body});
+    }
+  });
+  return out;
+}
+function fcBuild(text,mode){
+  const secs=fcSections(text);
+  let c=mode==='dev'?fcDev(secs):fcQs(secs);
+  if(c.length>FC_MAX){const st=c.length/FC_MAX;c=Array.from({length:FC_MAX},(_,i)=>c[Math.floor(i*st)])}
+  return c;
+}
+/*FC-GEN-END*/
+
+const FC={stage:'setup',mode:'dev',timer:false,mad:false,cards:[],queue:[],cur:null,seen:false,face:false,fails:0,resets:0,iv:0,left:0,total:0,last:0,busy:false,say:null,lbl:'',nt:0};
+const FCL={pdf:'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',worker:'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js',ocr:'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'},FCP={};
+let fcOw=null;
+/* las librerías de lectura (PDF y OCR) se descargan solo cuando hacen falta; el archivo no sale del navegador */
+function fcLib(k){
+  if(FCP[k])return FCP[k];
+  return FCP[k]=new Promise((ok,ko)=>{const s=document.createElement('script');s.src=FCL[k];s.onload=ok;s.onerror=()=>{delete FCP[k];s.remove();ko(new Error('lib'))};document.head.appendChild(s)});
+}
+async function fcOcr(img,say,label){
+  await fcLib('ocr');
+  FC.say=say;FC.lbl=label;
+  if(!fcOw){
+    say(tr('Preparando el reconocimiento de texto (la primera vez se descargan los idiomas)…','Preparing text recognition (languages are downloaded the first time)…'));
+    fcOw=await Tesseract.createWorker('spa+eng',1,{logger:m=>{if(m.status==='recognizing text'&&FC.say)FC.say(FC.lbl+': '+tr('reconociendo texto','recognising text')+' '+Math.round(m.progress*100)+' %')}});
+  }
+  const r=await fcOw.recognize(img);
+  return r.data.text;
+}
+async function fcPdf(f,say){
+  await fcLib('pdf');
+  pdfjsLib.GlobalWorkerOptions.workerSrc=FCL.worker;
+  const pdf=await pdfjsLib.getDocument({data:new Uint8Array(await f.arrayBuffer())}).promise,n=pdf.numPages;
+  let out='';
+  for(let p=1;p<=n;p++){
+    say(f.name+': '+tr(`leyendo la página ${p} de ${n}…`,`reading page ${p} of ${n}…`));
+    const tc=await (await pdf.getPage(p)).getTextContent();
+    let ly=null,lh=10,s='';
+    for(const it of tc.items){
+      if(typeof it.str!=='string')continue;
+      const y=it.transform[5],h=it.height||lh;
+      if(ly!==null&&Math.abs(y-ly)>h*.4)s+=(ly-y>h*1.9)?'\n\n':'\n';
+      s+=it.str;ly=y;lh=h;
+    }
+    out+=s+'\n\n';
+  }
+  if(out.replace(/\s/g,'').length>=40)return out;
+  /* PDF escaneado (sin texto): se lee como imagen, máximo 12 páginas */
+  const m=Math.min(n,12);let t='';
+  for(let p=1;p<=m;p++){
+    const pg=await pdf.getPage(p),vp=pg.getViewport({scale:2}),cv=document.createElement('canvas');
+    cv.width=vp.width;cv.height=vp.height;
+    await pg.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise;
+    t+=await fcOcr(cv,say,f.name+' · '+p+'/'+m)+'\n\n';
+  }
+  return t;
+}
+async function fcFiles(files){
+  const list=[...files];
+  if(!list.length||FC.busy)return;
+  FC.busy=true;$('fc-go').disabled=true;
+  const st=$('fc-st'),say=(m,bad)=>{st.textContent=m;st.classList.toggle('bad',!!bad)};
+  let got='';
+  try{
+    for(const f of list){
+      let t='';
+      if(/pdf/i.test(f.type)||/\.pdf$/i.test(f.name))t=await fcPdf(f,say);
+      else if(/^image\//.test(f.type))t=await fcOcr(f,say,f.name);
+      else{say(tr(`«${f.name}» no es un PDF ni una imagen.`,`“${f.name}” is not a PDF or an image.`),true);continue}
+      got+=(got?'\n\n':'')+t.trim();
+    }
+    if(got){
+      const ta=$('fc-txt');
+      ta.value=((ta.value.trim()?ta.value.trim()+'\n\n':'')+got).slice(0,60000);
+      say(tr(`Texto listo (${fcW(ta.value)} palabras). Revísalo y corrige lo que haga falta antes de crear las tarjetas.`,`Text ready (${fcW(ta.value)} words). Check it and fix anything needed before creating the cards.`));
+    }else if(!st.classList.contains('bad'))say(tr('No he encontrado texto en el archivo. Prueba con una imagen más nítida o pega el texto a mano.','I could not find any text in the file. Try a sharper image or paste the text by hand.'),true);
+  }catch(e){
+    say(e&&e.message==='lib'?tr('No se han podido cargar las herramientas de lectura. Comprueba tu conexión o pega el texto a mano.','The reading tools could not be loaded. Check your connection or paste the text by hand.'):tr('No se ha podido leer el archivo. Prueba con otro o pega el texto a mano.','The file could not be read. Try another one or paste the text by hand.'),true);
+  }
+  FC.busy=false;$('fc-go').disabled=false;
+}
+
+/* confeti: un canvas propio, sin librerías */
+const CF={cv:null,cx:null,ps:[],raf:0,t:0};
+function fcConfetti(x,y,n){
+  if(RM.matches)return;
+  if(!CF.cv){const c=document.createElement('canvas');c.setAttribute('aria-hidden','true');c.style.cssText='position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:90';document.body.appendChild(c);CF.cv=c;CF.cx=c.getContext('2d')}
+  const dpr=Math.min(2,devicePixelRatio||1);
+  if(CF.cv.width!==Math.round(innerWidth*dpr)||CF.cv.height!==Math.round(innerHeight*dpr)){CF.cv.width=Math.round(innerWidth*dpr);CF.cv.height=Math.round(innerHeight*dpr)}
+  const cols=['#2740D6','#FFE45C','#1A7F37','#E5484D','#8FA2FF','#FF9F1C','#5FD08A'];
+  for(let i=0;i<n;i++){
+    const a=-Math.PI/2+(Math.random()-.5)*Math.PI*1.15,sp=6+Math.random()*10;
+    CF.ps.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,s:6+Math.random()*6,r:Math.random()*6,vr:(Math.random()-.5)*.4,c:cols[i%cols.length],round:Math.random()<.3,l:0,m:70+Math.random()*50});
+  }
+  if(!CF.raf){CF.t=performance.now();CF.raf=requestAnimationFrame(fcCfLoop)}
+}
+function fcCfLoop(t){
+  const dt=Math.min(2.5,(t-CF.t)/16.67||1),cx=CF.cx,dpr=CF.cv.width/innerWidth;CF.t=t;
+  cx.setTransform(dpr,0,0,dpr,0,0);cx.clearRect(0,0,innerWidth,innerHeight);
+  CF.ps=CF.ps.filter(p=>p.l<p.m&&p.y<innerHeight+30);
+  for(const p of CF.ps){
+    p.vy+=.38*dt;p.vx*=Math.pow(.985,dt);p.vy*=Math.pow(.992,dt);p.x+=p.vx*dt;p.y+=p.vy*dt;p.r+=p.vr*dt;p.l+=dt;
+    cx.save();cx.translate(p.x,p.y);cx.rotate(p.r);cx.globalAlpha=Math.max(0,Math.min(1,(p.m-p.l)/20));cx.fillStyle=p.c;
+    if(p.round){cx.beginPath();cx.arc(0,0,p.s/2,0,7);cx.fill()}else cx.fillRect(-p.s/2,-p.s/3,p.s,p.s*.6);
+    cx.restore();
+  }
+  if(CF.ps.length)CF.raf=requestAnimationFrame(fcCfLoop);else{CF.raf=0;cx.clearRect(0,0,innerWidth,innerHeight)}
+}
+
+/* temporizador: 225 palabras por minuto sobre la respuesta, mínimo 30 s */
+const fcMMSS=s=>{s=Math.ceil(s);return(s/60|0)+':'+String(s%60).padStart(2,'0')};
+function fcTimerStop(){clearInterval(FC.iv);FC.iv=0}
+function fcTimerPaint(){
+  $('fc-tm').classList.toggle('low',FC.left<=10);
+  $('fc-tm-t').textContent=FC.left<=0?tr('¡Tiempo!','Time!'):fcMMSS(FC.left);
+  $('fc-tm-b').style.transform='scaleX('+Math.max(0,FC.left/FC.total)+')';
+}
+function fcTimerRun(){
+  fcTimerStop();
+  if(!FC.timer||FC.seen||FC.left<=0)return;
+  FC.last=performance.now();
+  FC.iv=setInterval(()=>{
+    const n=performance.now();FC.left-=(n-FC.last)/1000;FC.last=n;
+    if(FC.left<=0){FC.left=0;fcTimerStop();fcTimerPaint();if(!FC.face)fcFlip()}else fcTimerPaint();
+  },250);
+}
+function fcTimerStart(){
+  const t=$('fc-tm');t.hidden=!FC.timer;
+  if(!FC.timer){fcTimerStop();return}
+  FC.total=FC.left=Math.max(FC_MIN_S,Math.ceil(fcW(FC.cur.a)/FC_WPM*60/5)*5);
+  const b=$('fc-tm-b');b.style.transition='none';fcTimerPaint();void b.offsetWidth;b.style.transition='';
+  fcTimerRun();
+}
+const fcResume=()=>{if(FC.stage==='study')fcTimerRun()};
+
+function fcShow(s){
+  FC.stage=s;
+  $('fc-setup').hidden=s!=='setup';$('fc-study').hidden=s!=='study';$('fc-end').hidden=s!=='end';
+  if(s!=='study')fcTimerStop();
+  $('fc-t').scrollIntoView({block:'start'});
+}
+function fcStats(){
+  const ok=FC.cards.filter(c=>c.s==='ok').length,del=FC.cards.filter(c=>c.s==='del').length,live=FC.cards.length-del;
+  $('fc-n-rem').textContent=FC.queue.length;$('fc-n-ok').textContent=ok;$('fc-n-del').textContent=del;
+  $('fc-n-rs-w').hidden=!FC.mad;$('fc-n-rs').textContent=FC.resets;
+  $('fc-pg').style.transform='scaleX('+(live?ok/live:1)+')';
+}
+function fcBtns(){$('fc-ok').disabled=$('fc-ko').disabled=!FC.seen}
+function fcOne(el,cls){
+  el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);
+  const end=e=>{if(e.target!==el)return;el.classList.remove(cls);el.removeEventListener('animationend',end)};
+  el.addEventListener('animationend',end);
+}
+function fcDrawCard(){
+  const c=FC.cur,inn=$('fc-in'),a=$('fc-a');
+  inn.style.transition='none';inn.classList.remove('flip');
+  $('fc-tag').textContent=c.tag;
+  $('fc-q').innerHTML=esc(c.q).replace('_____','<span class="fc-bl"></span>');
+  a.innerHTML=c.k==='cloze'?'<mark>'+esc(c.a)+'</mark><p>'+esc(c.ctx)+'</p>':esc(c.a);
+  a.classList.toggle('short',c.k==='cloze'||fcW(c.a)<=25);
+  void inn.offsetWidth;inn.style.transition='';
+  FC.face=false;FC.seen=false;fcBtns();fcStats();fcTimerStart();
+  fcOne($('fc-card'),'fc-enter');
+  $('fc-card').focus({preventScroll:true});
+}
+function fcNext(){
+  if(!FC.queue.length)return fcEnd();
+  FC.cur=FC.cards[FC.queue[0]];fcDrawCard();
+}
+function fcFlip(){
+  if(FC.stage!=='study'||!FC.cur)return;
+  FC.face=!FC.face;$('fc-in').classList.toggle('flip',FC.face);
+  if(FC.face&&!FC.seen){FC.seen=true;fcTimerStop();fcBtns()}
+}
+function fcNote(m){
+  const n=$('fc-note');n.textContent=m;n.hidden=false;
+  clearTimeout(FC.nt);FC.nt=setTimeout(()=>{n.hidden=true},3500);
+}
+function fcAnswer(kind){
+  if(FC.stage!=='study'||!FC.cur)return;
+  if(kind!=='del'&&!FC.seen)return;
+  const c=FC.cur;
+  FC.queue.shift();
+  if(kind==='ok'){
+    c.s='ok';
+    const r=$('fc-ok').getBoundingClientRect();
+    fcConfetti(r.left+r.width/2,r.top+r.height/2,70);
+  }else if(kind==='del')c.s='del';
+  else{
+    FC.fails++;
+    if(FC.mad){
+      /* manicomio: vuelve todo el mazo (menos lo eliminado) y la fallada queda al fondo */
+      FC.cards.forEach(x=>{if(x.s==='ok')x.s='rem'});
+      FC.resets++;
+      FC.queue=FC.cards.filter(x=>x.s!=='del'&&x!==c).map(x=>x.id);FC.queue.push(c.id);
+      fcNote(tr('¡Manicomio! Has fallado: el mazo se reinicia.','Madhouse! You got one wrong: the deck restarts.'));
+    }else FC.queue.push(c.id);
+  }
+  fcNext();
+}
+function fcStart(cards){
+  FC.cards=cards.map((c,i)=>({...c,id:i,s:'rem'}));
+  FC.queue=FC.cards.map(c=>c.id);FC.fails=FC.resets=0;FC.cur=null;
+  $('fc-note').hidden=true;
+  fcShow('study');fcNext();
+}
+function fcEnd(){
+  const ok=FC.cards.filter(c=>c.s==='ok').length,del=FC.cards.filter(c=>c.s==='del').length;
+  FC.cur=null;fcShow('end');
+  $('fc-end-t').textContent=ok?tr('¡Mazo completado!','Deck completed!'):tr('Mazo vacío','Empty deck');
+  $('fc-end-s').textContent=ok?tr('Has dado por buenas todas las tarjetas que quedaban.','You marked every remaining card as correct.'):tr('Has eliminado todas las tarjetas.','You deleted every card.');
+  $('fc-sum').innerHTML=[[ok,tr('Correctas','Correct')],[del,tr('Eliminadas','Deleted')],[FC.fails,tr('Fallos','Mistakes')]].concat(FC.mad?[[FC.resets,tr('Reinicios','Resets')]]:[]).map(r=>'<div><b>'+r[0]+'</b><span>'+r[1]+'</span></div>').join('');
+  if(ok){const W=innerWidth,H=innerHeight;[[.25,.75,0],[.5,.65,150],[.75,.75,300]].forEach(p=>setTimeout(()=>fcConfetti(W*p[0],H*p[1],90),p[2]))}
+}
+function fcMode(m){
+  FC.mode=m;
+  $('fc-m-dev').setAttribute('aria-pressed',m==='dev');$('fc-m-q').setAttribute('aria-pressed',m==='q');
+  $('fc-mh').textContent=m==='dev'?tr('Cada tarjeta muestra un tema: lo desarrollas de memoria y luego lo comparas con tus apuntes.','Each card shows a topic: you develop it from memory and then compare it with your notes.'):tr('Cada tarjeta muestra una pregunta (definiciones y frases con huecos) con su respuesta corta.','Each card shows a question (definitions and fill-in-the-blank sentences) with its short answer.');
+}
+function fcGo(){
+  const w=$('fc-warn'),say=m=>{w.textContent=m;w.hidden=!m},txt=$('fc-txt').value;
+  if(fcW(txt)<20)return say(tr('Sube un PDF o una imagen, o pega al menos unas 20 palabras de apuntes.','Upload a PDF or an image, or paste at least 20 words of notes.'));
+  const cards=fcBuild(txt,FC.mode);
+  if(!cards.length)return say(tr('No he encontrado contenido suficiente para crear tarjetas. Prueba con más texto o cambia de modo.','I could not find enough content to create cards. Try more text or switch mode.'));
+  say('');fcStart(cards);
+}
+const FC_OK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4 4 10-10"/></svg>',FC_KO='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',FC_DEL='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>';
+function fcInit(){
+  $('fc-app').innerHTML=`<div id="fc-setup">
+  <div class="calc-grid">
+    <section class="calc"><h2>${tr('Tus apuntes','Your notes')}</h2>
+      <label class="fc-drop" id="fc-drop"><input id="fc-file" type="file" accept="application/pdf,.pdf,image/*" multiple><b>${tr('Sube un PDF o una imagen','Upload a PDF or an image')}</b><span>${tr('o arrástralo aquí. Si es una imagen (o un PDF escaneado), se convierte a texto.','or drag it here. If it is an image (or a scanned PDF), it is converted to text.')}</span></label>
+      <p class="sub fc-st" id="fc-st" role="status" aria-live="polite"></p>
+      <div class="fld"><label for="fc-txt">${tr('Texto de los apuntes','Notes text')}</label><textarea id="fc-txt" maxlength="60000" placeholder="${tr('También puedes pegar aquí tus apuntes. El texto que se lea de un archivo aparecerá aquí para que lo revises.','You can also paste your notes here. Text read from a file will appear here so you can check it.')}"></textarea></div>
+      <button type="button" class="link" id="fc-clear">${tr('Vaciar texto','Clear text')}</button>
+      <p class="sub">${tr('Tus apuntes se procesan en tu navegador: no se envían a ningún servidor.','Your notes are processed in your browser: nothing is sent to a server.')}</p>
+    </section>
+    <section class="calc"><h2>${tr('Cómo quieres estudiar','How do you want to study')}</h2>
+      <div class="seg" role="group" aria-label="${tr('Modo','Mode')}"><button type="button" id="fc-m-dev" aria-pressed="true">${tr('Modo desarrollo','Development mode')}</button><button type="button" id="fc-m-q" aria-pressed="false">${tr('Modo pregunta','Question mode')}</button></div>
+      <p class="sub" id="fc-mh"></p>
+      <h2 style="margin-top:20px">${tr('Modificadores','Modifiers')}</h2>
+      <label class="sw"><input id="fc-tmr" type="checkbox"><span class="trk"></span>${tr('Temporizador','Timer')}</label>
+      <p class="sub" style="margin:-4px 0 6px 52px">${tr('Tiempo según la respuesta (225 palabras por minuto), con un mínimo de 30 s. Al acabarse, se muestra la respuesta.','Time based on the answer (225 words per minute), with a minimum of 30 s. When it runs out, the answer is shown.')}</p>
+      <label class="sw"><input id="fc-mad" type="checkbox"><span class="trk"></span>${tr('Manicomio','Madhouse')}</label>
+      <p class="sub" style="margin:-4px 0 6px 52px">${tr('Si fallas una, el mazo se reinicia: las correctas vuelven a quedar pendientes. Las eliminadas no vuelven.','If you get one wrong, the deck restarts: the correct ones become pending again. Deleted cards do not come back.')}</p>
+      <p class="warn" id="fc-warn" role="alert" hidden></p>
+      <div class="ex-bar" style="margin-top:14px"><button type="button" class="pri" id="fc-go" style="margin-left:0">${tr('Crear flashcards','Create flashcards')}</button></div>
+      <p class="sub">${tr('Las tarjetas se crean a partir de la estructura de tu texto (títulos, definiciones y frases), sin IA. Elimina las que no te sirvan mientras estudias.','Cards are built from the structure of your text (headings, definitions and sentences), without AI. Delete the ones you do not need as you study.')}</p>
+    </section>
+  </div>
+</div>
+<section id="fc-study" hidden>
+  <div class="fc-top"><div class="fc-stats"><span><b id="fc-n-rem">0</b> ${tr('restantes','left')}</span><span><b id="fc-n-ok">0</b> ${tr('correctas','correct')}</span><span><b id="fc-n-del">0</b> ${tr('eliminadas','deleted')}</span><span id="fc-n-rs-w" hidden><b id="fc-n-rs">0</b> ${tr('reinicios','resets')}</span></div><button type="button" class="tog" id="fc-exit">${tr('Salir','Exit')}</button></div>
+  <div class="fc-prog"><i id="fc-pg"></i></div>
+  <p class="warn" id="fc-note" role="alert" hidden style="margin-top:12px"></p>
+  <div class="fc-tm" id="fc-tm" hidden><b id="fc-tm-t">0:30</b><div class="fc-prog"><i id="fc-tm-b"></i></div></div>
+  <div class="fc-stage"><div class="fc-card" id="fc-card" tabindex="0" role="button" aria-label="${tr('Dar la vuelta a la tarjeta','Flip the card')}"><div class="fc-in" id="fc-in">
+    <div class="fc-f"><span class="fc-tag" id="fc-tag"></span><p class="fc-q" id="fc-q"></p><span class="fc-hint">${tr('Toca la tarjeta o pulsa Espacio para ver la respuesta','Tap the card or press Space to see the answer')}</span></div>
+    <div class="fc-b"><span class="fc-tag">${tr('Respuesta','Answer')}</span><div class="fc-a" id="fc-a"></div></div>
+  </div></div></div>
+  <div class="fc-act">
+    <button type="button" class="fc-btn ko" id="fc-ko" disabled>${FC_KO}${tr('Mal','Wrong')}</button>
+    <button type="button" class="fc-btn del" id="fc-del" aria-label="${tr('Eliminar la tarjeta','Delete the card')}" title="${tr('Eliminar la tarjeta','Delete the card')}">${FC_DEL}</button>
+    <button type="button" class="fc-btn ok" id="fc-ok" disabled>${FC_OK}${tr('Bien','Right')}</button>
+  </div>
+  <p class="sub fc-keys">${tr('Teclado: Espacio da la vuelta · ← mal · → bien · Supr elimina','Keyboard: Space flips · ← wrong · → right · Del deletes')}</p>
+</section>
+<section id="fc-end" class="calc" hidden style="max-width:640px;margin:28px auto 0;text-align:center">
+  <h2 id="fc-end-t"></h2><p class="sub" id="fc-end-s"></p><div class="fc-sum" id="fc-sum"></div>
+  <div class="ex-bar" style="justify-content:center"><button type="button" class="pri" id="fc-again" style="margin-left:0">${tr('Repetir el mazo','Study the deck again')}</button><button type="button" class="tog" id="fc-new">${tr('Nuevos apuntes','New notes')}</button></div>
+</section>`;
+  fcMode(FC.mode);
+  const app=$('fc-app'),dz=$('fc-drop');
+  app.addEventListener('click',e=>{
+    if(e.target.closest('#fc-card'))return fcFlip();
+    const b=e.target.closest('button');if(!b)return;
+    const id=b.id;
+    if(id==='fc-m-dev')fcMode('dev');
+    else if(id==='fc-m-q')fcMode('q');
+    else if(id==='fc-go')fcGo();
+    else if(id==='fc-clear'){$('fc-txt').value='';$('fc-st').textContent='';$('fc-warn').hidden=true}
+    else if(id==='fc-ok')fcAnswer('ok');
+    else if(id==='fc-ko')fcAnswer('bad');
+    else if(id==='fc-del')fcAnswer('del');
+    else if(id==='fc-exit'){if(confirm(tr('¿Salir del mazo? Perderás tu progreso.','Leave the deck? You will lose your progress.')))fcShow('setup')}
+    else if(id==='fc-again')fcStart(FC.cards);
+    else if(id==='fc-new')fcShow('setup');
+  });
+  app.addEventListener('change',e=>{
+    if(e.target.id==='fc-tmr')FC.timer=e.target.checked;
+    else if(e.target.id==='fc-mad')FC.mad=e.target.checked;
+    else if(e.target.id==='fc-file'){const f=e.target.files;fcFiles(f);e.target.value=''}
+  });
+  dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('over')});
+  dz.addEventListener('dragleave',()=>dz.classList.remove('over'));
+  dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('over');fcFiles(e.dataTransfer.files)});
+}
+document.addEventListener('keydown',e=>{
+  if($('vista-flashcards').hidden||FC.stage!=='study'||e.ctrlKey||e.metaKey||e.altKey)return;
+  const tg=e.target.tagName;
+  if(/^(INPUT|TEXTAREA|SELECT)$/.test(tg))return;
+  if((e.key===' '||e.key==='Enter')&&tg==='BUTTON')return;
+  if(e.key===' '||e.key==='Enter'){e.preventDefault();fcFlip()}
+  else if(e.key==='ArrowRight'){e.preventDefault();fcAnswer('ok')}
+  else if(e.key==='ArrowLeft'){e.preventDefault();fcAnswer('bad')}
+  else if(e.key==='Delete'){e.preventDefault();fcAnswer('del')}
+});
+fcInit();
+
 /* ---- Vistas: portada y calculadora (pantalla aparte) ---- */
 const home=document.getElementById('inicio'),calcView=document.getElementById('vista-calculadora');
 let homeY=0;
