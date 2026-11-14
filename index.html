@@ -552,6 +552,23 @@ html.no-tr *,html.no-tr *::before,html.no-tr *::after{transition:none!important}
 .nw-full p{margin:0 0 1em}
 #nd-t:focus,#qr-t:focus{outline:none}
 #qr-cv{display:block;width:100%;max-width:320px;height:auto;image-rendering:pixelated;border:1px solid var(--line);border-radius:8px;margin:0 0 14px}
+
+/* flashcards */
+#fc-t:focus{outline:none}
+.fc-top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:24px}
+.fc-st{color:var(--muted);font-size:.92rem;margin:0}.fc-st b{color:var(--ink)}
+.fc-bar{height:6px;border-radius:9px;background:var(--line);overflow:hidden;margin:10px 0}
+.fc-bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+.fc-tm{display:flex;align-items:center;gap:12px;font:600 .95rem var(--body)}.fc-tm .fc-bar{flex:1;margin:0}.fc-tm.low i{background:var(--bad)}
+.fc-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px 24px;min-height:220px;margin-top:12px;animation:fcin .25s}
+@keyframes fcin{from{opacity:0;transform:translateY(8px)}}
+.fc-card small{color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:.75rem}
+.fc-q{font:700 clamp(1.3rem,3.5vw,1.9rem)/1.25 var(--head);margin:8px 0 0;white-space:pre-line}
+.fc-a{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);white-space:pre-line}
+.fc-act{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.fc-act button{padding:11px 18px;border-radius:10px;font:600 .95rem var(--body);cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.fc-act .pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.fc-act .ok{background:#1E7A46;border-color:#1E7A46;color:#fff}.fc-act .ko{background:var(--bad);border-color:var(--bad);color:var(--accent-ink)}
 </style>
 <script>try{if(localStorage.getItem("theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}
 window.LANG=(function(){try{var l=localStorage.getItem("lang");if(l==="en"||l==="es")return l}catch(e){}return "es"})();document.documentElement.lang=window.LANG;</script>
@@ -691,6 +708,37 @@ window.LANG=(function(){try{var l=localStorage.getItem("lang");if(l==="en"||l===
         <div class="ex-bar"><button type="button" class="pri" id="qr-png" style="margin-left:0" disabled>Descargar PNG</button><button type="button" class="tog" id="qr-svg" disabled>Descargar SVG</button></div>
       </section>
     </div>
+  </div>
+</section>
+
+<section id="vista-flashcards" class="view" hidden aria-labelledby="fc-t">
+  <div class="wrap">
+    <a class="back" href="#inicio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Volver a las herramientas</a>
+    <h1 id="fc-t" tabindex="-1">Generador de flashcards</h1>
+    <p class="intro">Sube tus apuntes en PDF o imagen, elige cómo repasar y estudia con tarjetas. Todo se procesa en tu navegador.</p>
+    <div class="calc-grid" id="fc-setup">
+      <section class="calc"><h2>Tus apuntes</h2>
+        <div class="fld"><label for="fc-file">PDF o imagen</label><input id="fc-file" type="file" accept="application/pdf,image/*"></div>
+        <div class="fld"><label for="fc-in">Texto de los apuntes</label><textarea id="fc-in" style="min-height:200px" placeholder="Pega aquí tus apuntes o sube un archivo. Usa títulos para separar los temas."></textarea></div>
+        <p class="sub" id="fc-msg" role="status" aria-live="polite"></p>
+      </section>
+      <section class="calc"><h2>Cómo repasar</h2>
+        <div class="seg" role="group" aria-label="Modo"><button type="button" id="fc-m1" aria-pressed="true">Modo desarrollo</button><button type="button" id="fc-m2" aria-pressed="false">Modo pregunta</button></div>
+        <p class="sub" id="fc-md"></p>
+        <label class="chk" style="margin-top:14px"><input type="checkbox" id="fc-timer"><span>Temporizador: tiempo según la longitud de la respuesta (mínimo 30 s)</span></label>
+        <label class="chk"><input type="checkbox" id="fc-mad"><span>Manicomio: si fallas una, el mazo se reinicia</span></label>
+        <div class="ex-bar" style="margin-top:14px"><button type="button" class="pri" id="fc-go" style="margin-left:0">Crear flashcards</button></div>
+      </section>
+    </div>
+    <div id="fc-play" hidden>
+      <div class="fc-top"><p class="fc-st" id="fc-st" role="status" aria-live="polite"></p><button type="button" class="tog" id="fc-exit">Salir</button></div>
+      <div class="fc-bar" aria-hidden="true"><i id="fc-pb"></i></div>
+      <div class="fc-tm" id="fc-tm" hidden><div class="fc-bar" aria-hidden="true"><i id="fc-tb"></i></div><span id="fc-tt"></span></div>
+      <article class="fc-card" id="fc-card"><small id="fc-lab"></small><p class="fc-q" id="fc-q"></p><div class="fc-a" id="fc-a" hidden></div></article>
+      <div class="fc-act" id="fc-act"><button type="button" class="pri" id="fc-show">Mostrar respuesta</button><button type="button" class="ok" id="fc-ok" hidden>✓ Bien</button><button type="button" class="ko" id="fc-ko" hidden>✕ Mal</button><button type="button" id="fc-del">Eliminar</button></div>
+      <section class="calc" id="fc-end" hidden style="margin-top:12px"><h2>¡Mazo completado!</h2><p class="sub" id="fc-sum"></p><div class="ex-bar" style="margin-top:12px"><button type="button" class="pri" id="fc-again" style="margin-left:0">Repasar de nuevo</button><button type="button" class="tog" id="fc-new">Nuevos apuntes</button></div></section>
+    </div>
+    <canvas id="fc-cf" hidden style="position:fixed;inset:0;pointer-events:none;z-index:60"></canvas>
   </div>
 </section>
 
@@ -1007,7 +1055,12 @@ const I18N={
 "Generador de códigos QR":"QR code generator",
 "Escribe un enlace o un texto y descarga tu código QR en PNG o SVG. Se genera en tu navegador: no se envía nada.":"Type a link or text and download your QR code as PNG or SVG. It is generated in your browser: nothing is sent.",
 "Contenido":"Content","Enlace o texto":"Link or text","Corrección de errores":"Error correction","Baja (7 %)":"Low (7%)","Media (15 %)":"Medium (15%)","Alta (25 %)":"High (25%)","Máxima (30 %)":"Maximum (30%)",
-"Tamaño de la imagen":"Image size","Color del código":"Code colour","Color de fondo":"Background colour","Tu código QR":"Your QR code","Descargar PNG":"Download PNG","Descargar SVG":"Download SVG","Volver a las noticias":"Back to the news"
+"Tamaño de la imagen":"Image size","Color del código":"Code colour","Color de fondo":"Background colour","Tu código QR":"Your QR code","Descargar PNG":"Download PNG","Descargar SVG":"Download SVG","Volver a las noticias":"Back to the news",
+"Generador de flashcards":"Flashcard generator","Sube tus apuntes en PDF o imagen, elige cómo repasar y estudia con tarjetas. Todo se procesa en tu navegador.":"Upload your notes as a PDF or image, choose how to revise and study with cards. Everything is processed in your browser.",
+"Tus apuntes":"Your notes","PDF o imagen":"PDF or image","Texto de los apuntes":"Notes text","Pega aquí tus apuntes o sube un archivo. Usa títulos para separar los temas.":"Paste your notes here or upload a file. Use headings to separate topics.",
+"Cómo repasar":"How to revise","Modo desarrollo":"Explain mode","Modo pregunta":"Question mode","Temporizador: tiempo según la longitud de la respuesta (mínimo 30 s)":"Timer: time based on the length of the answer (minimum 30 s)",
+"Manicomio: si fallas una, el mazo se reinicia":"Madhouse: if you miss one, the deck restarts","Crear flashcards":"Create flashcards","Salir":"Exit","Mostrar respuesta":"Show answer","✓ Bien":"✓ Right","✕ Mal":"✕ Wrong","Eliminar":"Delete",
+"¡Mazo completado!":"Deck complete!","Repasar de nuevo":"Revise again","Nuevos apuntes":"New notes"
 };
 function i18nStatic(){
   if(!EN)return;
@@ -1060,7 +1113,7 @@ const TOOLS=[
 ["generador-qr","Generador de códigos QR","Crea un código QR de un enlace o un texto y descárgalo en PNG o SVG.","utilidades","qr","qr"],
 ["corrector-ejercicios","Corrector de ejercicios","Corrección razonada con errores y resolución correcta.","aprendizaje","check",0],
 ["resumidor-pdf","Resumidor de apuntes PDF","Resúmenes cortos, medios o detallados de tus PDF.","utilidades","pdf",0],
-["generador-flashcards","Generador de flashcards","Tarjetas de pregunta y respuesta para repasar.","aprendizaje","cards",0],
+["generador-flashcards","Generador de flashcards","Sube tus apuntes y repasa con tarjetas de desarrollo o de pregunta.","aprendizaje","cards","flashcards"],
 ["explicador-temas","Explicador de temas con IA","Explicaciones con ejemplos adaptadas a tu nivel.","aprendizaje","bulb",0],
 ["simulador-pau","Simulador y calculadora PAU","Nota de acceso y de admisión con su desglose.","pau","cap",0],
 ["noticias-pau","Noticias y actualizaciones PAU","Novedades de fuentes oficiales, con fecha y enlace.","pau","news","noticias-pau"],
@@ -1075,7 +1128,7 @@ if(EN){const T_EN={
 "planificador-estudio":["Study planner","Create a study routine based on your exams and grades, and export it to your calendar."],
 "corrector-ejercicios":["Exercise checker","Reasoned marking with mistakes and the correct solution."],
 "resumidor-pdf":["PDF notes summariser","Short, medium or detailed summaries of your PDFs."],
-"generador-flashcards":["Flashcard generator","Question and answer cards for revision."],
+"generador-flashcards":["Flashcard generator","Upload your notes and revise with explain or question cards."],
 "explicador-temas":["AI topic explainer","Explanations with examples adapted to your level."],
 "simulador-pau":["PAU simulator and calculator","Access and admission grade with its breakdown."],
 "noticias-pau":["PAU news and updates","News from official sources, with date and link."],
@@ -1917,17 +1970,131 @@ function qrDraw(){
 $('qr-png').addEventListener('click',()=>qrCv.toBlob(b=>b&&qrSave(b,'qr-aulalia.png')));
 $('qr-svg').addEventListener('click',()=>qrM&&qrSave(new Blob([qrSvg(qrM,$('qr-fg').value,$('qr-bg').value)],{type:'image/svg+xml'}),'qr-aulalia.svg'));
 
+/* ---- Flashcards ---- */
+const fcS={mode:'dev',cards:[],q:[],ko:0,t:0},fcP=[];let fcRun=0;
+const fcMsg=s=>{$('fc-msg').textContent=s};
+const fcLoad=u=>new Promise((r,j)=>{const s=document.createElement('script');s.src=u;s.onload=r;s.onerror=j;document.head.appendChild(s)});
+async function fcOcr(img){
+  if(!window.Tesseract)await fcLoad('https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js');
+  const r=await Tesseract.recognize(img,tr('spa+eng','eng+spa'),{logger:m=>{if(m.status==='recognizing text')fcMsg(tr('Pasando la imagen a texto… ','Converting the image to text… ')+Math.round(m.progress*100)+' %')}});
+  return r.data.text;
+}
+async function fcPdf(f){
+  const V='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/';
+  if(!window.pdfjsLib){await fcLoad(V+'pdf.min.js');pdfjsLib.GlobalWorkerOptions.workerSrc=V+'pdf.worker.min.js'}
+  const d=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;let out='';
+  for(let p=1;p<=d.numPages;p++){const tc=await(await d.getPage(p)).getTextContent();let ly=null;
+    for(const it of tc.items){const y=it.transform[5];if(ly!==null&&Math.abs(y-ly)>2)out+=ly-y>it.height*1.9?'\n\n':'\n';out+=it.str;ly=y}out+='\n\n'}
+  if(out.trim().length>=30)return out;
+  out='';/* PDF escaneado: se pasa cada página a imagen y se lee con OCR */
+  for(let p=1;p<=Math.min(d.numPages,8);p++){const pg=await d.getPage(p),vp=pg.getViewport({scale:2}),cv=document.createElement('canvas');
+    cv.width=vp.width;cv.height=vp.height;await pg.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise;out+=await fcOcr(cv)+'\n\n'}
+  return out;
+}
+$('fc-file').addEventListener('change',async e=>{
+  const f=e.target.files[0];if(!f)return;fcMsg(tr('Leyendo el archivo…','Reading the file…'));
+  try{const t=(f.type==='application/pdf'||/\.pdf$/i.test(f.name)?await fcPdf(f):await fcOcr(f)).trim();
+    $('fc-in').value=t;fcMsg(t?tr('Texto extraído. Revísalo y corrígelo si hace falta.','Text extracted. Check it and fix it if needed.'):tr('No he encontrado texto en el archivo.','No text found in the file.'))}
+  catch(err){fcMsg(tr('No se pudo leer el archivo. Pega el texto a mano.','Could not read the file. Paste the text instead.'))}
+});
+/* Crea tarjetas a partir del texto, sin enviar nada a ningún servidor */
+function fcBuild(raw,mode){
+  const L=raw.replace(/\r/g,'').split('\n').map(s=>s.replace(/\s+/g,' ').trim());
+  const isH=i=>{const l=L[i];if(!l||l.length>70||/[.,;]$/.test(l)||l.split(' ').length>9)return false;
+    if(/^(\d+(\.\d+)*[.)]?\s|[IVX]+[.)]\s|tema\s+\d)/i.test(l)||/:$/.test(l)||(l===l.toUpperCase()&&/\p{L}{3}/u.test(l)))return true;
+    return(i===0||!L[i-1])&&!!L[i+1]&&L[i+1].length>l.length};
+  const S=[];let c=null;
+  L.forEach((l,i)=>{if(!l){if(c&&!c.t)c=null;return}
+    if(isH(i)){c={t:l.replace(/:$/,'').replace(/^(\d+(\.\d+)*[.)]?|[IVX]+[.)])\s+/,''),b:[]};S.push(c)}
+    else{if(!c){c={t:'',b:[]};S.push(c)}c.b.push(l)}});
+  const J=a=>a.reduce((s,l)=>!s?l:/^([-•*·]|\d+[.)])\s/.test(l)||/[.:;!?]$/.test(s)?s+'\n'+l:s+' '+l,'');
+  const out=[],seen=new Set();
+  const add=(f,b,l)=>{if(f&&b&&out.length<60&&!seen.has(f)){seen.add(f);out.push({f,b,l,st:0})}};
+  if(mode==='dev'){
+    S.forEach(s=>{const b=J(s.b);if(b.length>=30)add(s.t||b.split(/\s+/).slice(0,7).join(' ')+'…',b,tr('Desarrolla el tema','Explain the topic'))});
+    return out}
+  const D=/^(?:[-•*·]\s*)?([^,.:;]{3,60}?)\s+(es|son|consiste en|sirve para|se define como)\s+(.{12,})$/i,
+    BAD=/^(esto|eso|ello|este|esta|ese|esa|lo|que|y|pero|además|también|aunque|si|cuando|donde|aquí|ahí)\b/i,rest=[];
+  S.forEach(s=>(J(s.b).match(/[^.!?\n]+[.!?]*/g)||[]).map(x=>x.trim()).filter(x=>x.length>=25).forEach(x=>{
+    const m=x.match(D);
+    if(m&&!BAD.test(m[1])&&m[1].split(' ').length<=8){const w=m[2].toLowerCase(),n=m[1].replace(/^(El|La|Los|Las|Un|Una)\b/,k=>k.toLowerCase());
+      add(w==='consiste en'?`¿En qué consiste ${n}?`:w==='sirve para'?`¿Para qué sirve ${n}?`:w==='se define como'?`¿Cómo se define ${n}?`:`¿Qué ${w} ${n}?`,x.replace(/^[-•*·]\s*/,''),tr('Pregunta','Question'))}
+    else rest.push(x)}));
+  rest.forEach(x=>{if(x.length>220)return;const w=x.split(' ');if(w.length<5)return;
+    const k=w.findIndex((t,i)=>i>1&&/^(\d{3,}|\p{Lu}\p{L}{3,})/u.test(t)),len=t=>t.replace(/[^\p{L}\d]/gu,'').length;
+    const i=k>0?k:w.reduce((b,t,j)=>j>1&&len(t)>len(w[b])?j:b,2);
+    const a=w[i].replace(/^[^\p{L}\d]+|[^\p{L}\d]+$/gu,'');if(a.length<4)return;
+    w[i]=w[i].replace(a,'_____');add(tr('Completa: ','Fill in: ')+w.join(' '),a+'\n'+x,tr('Completa','Fill in'))});
+  return out}
+const fcShuf=a=>{for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const fcMD={dev:tr('Cada tarjeta muestra un tema y tú lo desarrollas con tus palabras.','Each card shows a topic and you explain it in your own words.'),q:tr('Cada tarjeta muestra una pregunta: definiciones y frases con un hueco por completar.','Each card shows a question: definitions and sentences with a blank to fill in.')};
+function fcMode(m){fcS.mode=m;$('fc-m1').setAttribute('aria-pressed',m==='dev');$('fc-m2').setAttribute('aria-pressed',m==='q');$('fc-md').textContent=fcMD[m]}
+$('fc-m1').onclick=()=>fcMode('dev');$('fc-m2').onclick=()=>fcMode('q');fcMode('dev');
+function fcDraw(){
+  clearInterval(fcS.t);
+  const q=fcS.q,A=fcS.cards,n=A.filter(c=>c.st!==2).length,g=A.filter(c=>c.st===1).length,end=!q.length;
+  $('fc-st').innerHTML=`${tr('Restantes','Left')}: <b>${q.length}</b> · ${tr('Bien','Right')}: <b>${g}</b> · ${tr('Fallos','Misses')}: <b>${fcS.ko}</b> · ${tr('Eliminadas','Deleted')}: <b>${A.length-n}</b>`;
+  $('fc-pb').style.width=(n?100*g/n:100)+'%';
+  ['fc-card','fc-act','fc-tm'].forEach(i=>$(i).hidden=end);$('fc-end').hidden=!end;
+  if(end){$('fc-again').hidden=!n;$('fc-sum').textContent=n?tr(`Has acertado ${g} de ${n} tarjetas, con ${fcS.ko} fallos por el camino.`,`You got ${g} of ${n} cards right, with ${fcS.ko} misses along the way.`):tr('Has eliminado todas las tarjetas.','You deleted every card.');return}
+  const c=q[0],card=$('fc-card'),tm=$('fc-tm');
+  $('fc-lab').textContent=c.l;$('fc-q').textContent=c.f;$('fc-a').textContent=c.b;$('fc-a').hidden=true;
+  $('fc-show').hidden=false;$('fc-ok').hidden=$('fc-ko').hidden=true;
+  card.style.animation='none';void card.offsetWidth;card.style.animation='';
+  tm.hidden=!$('fc-timer').checked;
+  if(!tm.hidden){
+    const T=Math.max(30,Math.ceil(c.b.split(/\s+/).length/225*60)),t0=Date.now();/* 225 palabras por minuto */
+    const tick=()=>{const r=Math.max(0,T-(Date.now()-t0)/1000),s=Math.ceil(r);
+      $('fc-tb').style.width=100*r/T+'%';$('fc-tt').textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0');tm.classList.toggle('low',r<=10);
+      if(r<=0)fcReveal(true)};
+    tick();if(!(T<=0))fcS.t=setInterval(tick,250)}
+  $('fc-show').focus({preventScroll:true});
+}
+function fcReveal(to){
+  clearInterval(fcS.t);$('fc-a').hidden=false;$('fc-show').hidden=true;$('fc-ok').hidden=$('fc-ko').hidden=false;
+  if(to)$('fc-tt').textContent='0:00 · '+tr('¡Se acabó el tiempo!','Time is up!');
+  $('fc-ok').focus({preventScroll:true});
+}
+function fcAct(k){
+  const q=fcS.q,c=q.shift();
+  if(k===1){c.st=1;fcBoom()}
+  else if(k===3)c.st=2;
+  else{fcS.ko++;
+    if($('fc-mad').checked){fcS.cards.forEach(x=>{if(x.st===1)x.st=0});fcS.q=fcShuf(fcS.cards.filter(x=>x.st!==2))}/* manicomio: se reinicia el mazo */
+    else q.push(c)}/* mal: al fondo del mazo */
+  fcDraw();
+}
+function fcBoom(){
+  if(RM.matches)return;
+  const cv=$('fc-cf'),x=cv.getContext('2d'),o=$('fc-ok').getBoundingClientRect(),col=['#2740D6','#FFE45C','#1E7A46','#FF6B6B','#8FA2FF'];
+  for(let i=0;i<90;i++)fcP.push({x:o.left+o.width/2,y:o.top,vx:(Math.random()-.5)*14,vy:-Math.random()*14-4,s:4+Math.random()*5,c:col[Math.random()*5|0],r:Math.random()*6,vr:(Math.random()-.5)*.4,l:0});
+  if(fcRun)return;fcRun=1;cv.width=innerWidth;cv.height=innerHeight;cv.hidden=false;
+  (function a(){x.clearRect(0,0,cv.width,cv.height);
+    for(const p of fcP){p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.vx*=.99;p.r+=p.vr;p.l++;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);x.restore()}
+    const k=fcP.filter(p=>p.l<110&&p.y<innerHeight+20);fcP.length=0;fcP.push(...k);
+    if(fcP.length)requestAnimationFrame(a);else{fcRun=0;cv.hidden=true}})();
+}
+function fcExit(){clearInterval(fcS.t);$('fc-play').hidden=true;$('fc-setup').hidden=false}
+$('fc-go').onclick=()=>{
+  const c=fcBuild($('fc-in').value,fcS.mode);
+  if(!c.length){fcMsg(tr('No he podido crear tarjetas. Añade más texto o separa los temas con títulos.','Could not create cards. Add more text or separate topics with headings.'));return}
+  fcS.cards=c;fcS.ko=0;fcS.q=fcShuf(c.slice());$('fc-setup').hidden=true;$('fc-play').hidden=false;fcDraw();
+};
+$('fc-show').onclick=()=>fcReveal();$('fc-ok').onclick=()=>fcAct(1);$('fc-ko').onclick=()=>fcAct(2);$('fc-del').onclick=()=>fcAct(3);
+$('fc-exit').onclick=$('fc-new').onclick=fcExit;
+$('fc-again').onclick=()=>{fcS.cards.forEach(c=>{if(c.st!==2)c.st=0});fcS.ko=0;fcS.q=fcShuf(fcS.cards.filter(c=>c.st!==2));fcDraw()};
+
 /* ---- Vistas: portada y calculadora (pantalla aparte) ---- */
 const home=document.getElementById('inicio'),calcView=document.getElementById('vista-calculadora');
 let homeY=0;
 document.getElementById('catalog').addEventListener('click',e=>{if(e.target.closest('a.go'))homeY=window.scrollY});
 function routeNow(){
   const h=location.hash,nd=h.startsWith('#noticia-')?h.slice(9):null;
-  const VV={'#calculadora':'vista-calculadora','#examenes':'vista-examenes','#planificador':'vista-planificador','#rubricas':'vista-rubricas','#noticias':'vista-noticias','#noticias-pau':'vista-noticias','#qr':'vista-qr'};
-  const TT={'#calculadora':['Calculadora de notas','calc-t'],'#examenes':['Generador de exámenes','ex-t'],'#planificador':['Planificador de estudio','pl-t'],'#rubricas':['Generador de rúbricas','rb-t'],'#noticias':['Noticias y Actualizaciones','nw-t'],'#noticias-pau':['Noticias y actualizaciones PAU','nw-t'],'#qr':['Generador de códigos QR','qr-t']};
+  const VV={'#calculadora':'vista-calculadora','#examenes':'vista-examenes','#planificador':'vista-planificador','#rubricas':'vista-rubricas','#noticias':'vista-noticias','#noticias-pau':'vista-noticias','#qr':'vista-qr','#flashcards':'vista-flashcards'};
+  const TT={'#calculadora':['Calculadora de notas','calc-t'],'#examenes':['Generador de exámenes','ex-t'],'#planificador':['Planificador de estudio','pl-t'],'#rubricas':['Generador de rúbricas','rb-t'],'#noticias':['Noticias y Actualizaciones','nw-t'],'#noticias-pau':['Noticias y actualizaciones PAU','nw-t'],'#qr':['Generador de códigos QR','qr-t'],'#flashcards':['Generador de flashcards','fc-t']};
   const cur=nd!==null?'vista-noticia':VV[h]||'';
   home.hidden=!!cur;
-  ['vista-calculadora','vista-examenes','vista-planificador','vista-rubricas','vista-noticias','vista-noticia','vista-qr'].forEach(i=>{$(i).hidden=i!==cur});
+  ['vista-calculadora','vista-examenes','vista-planificador','vista-rubricas','vista-noticias','vista-noticia','vista-qr','vista-flashcards'].forEach(i=>{$(i).hidden=i!==cur});
   document.title=TT[h]?TT[h][0]+' · Aulalia':'Aulalia · Herramientas para estudiar mejor';
   window.scrollTo({top:cur?0:homeY,left:0,behavior:'instant'});
   if(TT[h])$(TT[h][1]).focus({preventScroll:true});
@@ -1936,6 +2103,7 @@ function routeNow(){
   if(h==='#rubricas'){rbMode('edit');rbDraw()}
   if(h==='#noticias'||h==='#noticias-pau'){nwFrom=h;nwShow(h==='#noticias-pau'?'pau':'all')}
   if(h==='#qr')qrDraw();
+  if(h!=='#flashcards')fcExit();
   if(nd!==null)nwDetail(nd);
 }
 const RM=matchMedia('(prefers-reduced-motion:reduce)');
