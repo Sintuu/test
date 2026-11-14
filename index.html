@@ -553,7 +553,9 @@ html.no-tr *,html.no-tr *::before,html.no-tr *::after{transition:none!important}
 #nd-t:focus,#qr-t:focus{outline:none}
 #qr-cv{display:block;width:100%;max-width:320px;height:auto;image-rendering:pixelated;border:1px solid var(--line);border-radius:8px;margin:0 0 14px}
 
-/* flashcards */
+/* flashcards y control de clase */
+#cc-t:focus{outline:none}
+.cc-n{font:700 clamp(1.5rem,4vw,2.2rem) var(--head);color:var(--accent);margin:0}
 #fc-t:focus{outline:none}
 .fc-top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:24px}
 .fc-st{color:var(--muted);font-size:.92rem;margin:0}.fc-st b{color:var(--ink)}
@@ -711,6 +713,56 @@ window.LANG=(function(){try{var l=localStorage.getItem("lang");if(l==="en"||l===
   </div>
 </section>
 
+<section id="vista-control" class="view" hidden aria-labelledby="cc-t">
+  <div class="wrap">
+    <a class="back" href="#inicio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Volver a las herramientas</a>
+    <h1 id="cc-t" tabindex="-1">Control de clase</h1>
+    <p class="intro">Escribe los alumnos y las preguntas cortas. El control asigna sus preguntas a cada alumno, tú marcas si acierta y al final tienes los resultados.</p>
+    <div id="cc-setup">
+      <div class="calc-grid">
+        <section class="calc"><h2>Alumnos</h2>
+          <div class="fld"><label for="cc-st">Un alumno por línea</label><textarea id="cc-st" style="min-height:200px"></textarea></div>
+          <div class="two">
+            <div class="fld"><label for="cc-k">Preguntas por alumno</label><input id="cc-k" type="number" min="1" max="20" value="1"></div>
+            <div class="fld"><label for="cc-name">Nombre del control</label><input id="cc-name" type="text" maxlength="60"></div>
+          </div>
+        </section>
+        <section class="calc"><h2>Preguntas</h2>
+          <div id="cc-qs"></div>
+          <button type="button" class="link" id="cc-add">Añadir pregunta</button>
+          <details><summary>Importar de Quizlet</summary>
+            <p class="sub">En Quizlet: Más → Exportar. Copia el texto y pégalo aquí (término y definición separados por tabulador, una tarjeta por línea).</p>
+            <div class="fld"><textarea id="cc-qzt" aria-label="Quizlet"></textarea></div>
+            <label class="chk"><input type="checkbox" id="cc-sw"><span>Invertir: la definición es la pregunta y el término la respuesta</span></label>
+            <button type="button" class="tog" id="cc-qz">Importar</button>
+          </details>
+          <details><summary>Crear preguntas desde apuntes</summary>
+            <div class="fld" style="margin-top:8px"><label for="cc-file">PDF o imagen</label><input id="cc-file" type="file" accept="application/pdf,image/*"></div>
+            <div class="fld"><label for="cc-in">Texto de los apuntes</label><textarea id="cc-in"></textarea></div>
+            <div class="fld"><label for="cc-am">Tipo de pregunta</label><select id="cc-am"><option value="q">Pregunta</option><option value="c">Completa la oración</option></select></div>
+            <button type="button" class="tog" id="cc-auto">Crear preguntas</button>
+          </details>
+          <details><summary>Usar mis flashcards guardadas</summary>
+            <div class="fld" style="margin-top:8px"><label for="cc-fd">Mazo</label><select id="cc-fd"></select></div>
+            <button type="button" class="tog" id="cc-fdb">Añadir sus preguntas</button>
+          </details>
+          <p class="sub" id="cc-msg" role="status" aria-live="polite"></p>
+        </section>
+      </div>
+      <div class="ex-bar" style="margin-top:16px"><button type="button" class="pri" id="cc-go" style="margin-left:0">Iniciar control</button><button type="button" class="tog" id="cc-save">Guardar control</button></div>
+    </div>
+    <div id="cc-run" hidden>
+      <div class="fc-top"><p class="fc-st" id="cc-pr" role="status" aria-live="polite"></p><button type="button" class="tog" id="cc-fin">Terminar</button></div>
+      <div class="fc-bar" aria-hidden="true"><i id="cc-pb"></i></div>
+      <article class="fc-card" id="cc-card"><p class="cc-n" id="cc-n"></p><p class="fc-q" id="cc-q"></p><div class="fc-a" id="cc-a" hidden></div></article>
+      <div class="fc-act"><button type="button" class="pri" id="cc-show">Mostrar respuesta</button><button type="button" class="ok" id="cc-ok" hidden>✓ Bien</button><button type="button" class="ko" id="cc-ko" hidden>✕ Mal</button></div>
+    </div>
+    <section class="calc" id="cc-end" hidden style="margin-top:16px"><h2>Resultados</h2><div id="cc-rt" style="overflow-x:auto"></div>
+      <div class="ex-bar" style="margin-top:12px"><button type="button" class="tog" id="cc-back">Volver a editar</button><button type="button" class="tog" id="cc-save2">Guardar control</button><button type="button" class="tog" id="cc-csv">Descargar CSV</button></div></section>
+    <section class="calc" style="margin-top:16px"><h2>Mis controles guardados</h2><p class="sub" id="cc-svm" role="status" style="margin:0 0 6px"></p><div id="cc-svl"></div></section>
+  </div>
+</section>
+
 <section id="vista-flashcards" class="view" hidden aria-labelledby="fc-t">
   <div class="wrap">
     <a class="back" href="#inicio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Volver a las herramientas</a>
@@ -720,6 +772,7 @@ window.LANG=(function(){try{var l=localStorage.getItem("lang");if(l==="en"||l===
       <section class="calc"><h2>Tus apuntes</h2>
         <div class="fld"><label for="fc-file">PDF o imagen</label><input id="fc-file" type="file" accept="application/pdf,image/*"></div>
         <div class="fld"><label for="fc-in">Texto de los apuntes</label><textarea id="fc-in" style="min-height:200px" placeholder="Pega aquí tus apuntes o sube un archivo. Usa títulos para separar los temas."></textarea></div>
+        <div class="fld"><label for="fc-name">Nombre del mazo (para guardarlo)</label><input id="fc-name" type="text" maxlength="60"></div>
         <p class="sub" id="fc-msg" role="status" aria-live="polite"></p>
       </section>
       <section class="calc"><h2>Cómo repasar</h2>
@@ -731,13 +784,14 @@ window.LANG=(function(){try{var l=localStorage.getItem("lang");if(l==="en"||l===
       </section>
     </div>
     <div id="fc-play" hidden>
-      <div class="fc-top"><p class="fc-st" id="fc-st" role="status" aria-live="polite"></p><button type="button" class="tog" id="fc-exit">Salir</button></div>
+      <div class="fc-top"><p class="fc-st" id="fc-st" role="status" aria-live="polite"></p><span><button type="button" class="tog" id="fc-save">Guardar mazo</button> <button type="button" class="tog" id="fc-exit">Salir</button></span></div>
       <div class="fc-bar" aria-hidden="true"><i id="fc-pb"></i></div>
       <div class="fc-tm" id="fc-tm" hidden><div class="fc-bar" aria-hidden="true"><i id="fc-tb"></i></div><span id="fc-tt"></span></div>
       <article class="fc-card" id="fc-card"><small id="fc-lab"></small><p class="fc-q" id="fc-q"></p><div class="fc-a" id="fc-a" hidden></div></article>
       <div class="fc-act" id="fc-act"><button type="button" class="pri" id="fc-show">Mostrar respuesta</button><button type="button" class="ok" id="fc-ok" hidden>✓ Bien</button><button type="button" class="ko" id="fc-ko" hidden>✕ Mal</button><button type="button" id="fc-del">Eliminar</button></div>
       <section class="calc" id="fc-end" hidden style="margin-top:12px"><h2>¡Mazo completado!</h2><p class="sub" id="fc-sum"></p><div class="ex-bar" style="margin-top:12px"><button type="button" class="pri" id="fc-again" style="margin-left:0">Repasar de nuevo</button><button type="button" class="tog" id="fc-new">Nuevos apuntes</button></div></section>
     </div>
+    <section class="calc" style="margin-top:16px"><h2>Mis flashcards guardadas</h2><p class="sub" id="fc-svm" role="status" style="margin:0 0 6px"></p><div id="fc-svl"></div></section>
     <canvas id="fc-cf" hidden style="position:fixed;inset:0;pointer-events:none;z-index:60"></canvas>
   </div>
 </section>
@@ -1060,7 +1114,35 @@ const I18N={
 "Tus apuntes":"Your notes","PDF o imagen":"PDF or image","Texto de los apuntes":"Notes text","Pega aquí tus apuntes o sube un archivo. Usa títulos para separar los temas.":"Paste your notes here or upload a file. Use headings to separate topics.",
 "Cómo repasar":"How to revise","Modo desarrollo":"Explain mode","Modo completa la oración":"Fill-in-the-blank mode","Modo pregunta":"Question mode","Temporizador: tiempo según la longitud de la respuesta (mínimo 30 s)":"Timer: time based on the length of the answer (minimum 30 s)",
 "Manicomio: si fallas una, el mazo se reinicia":"Madhouse: if you miss one, the deck restarts","Crear flashcards":"Create flashcards","Salir":"Exit","Mostrar respuesta":"Show answer","✓ Bien":"✓ Right","✕ Mal":"✕ Wrong","Eliminar":"Delete",
-"¡Mazo completado!":"Deck complete!","Repasar de nuevo":"Revise again","Nuevos apuntes":"New notes"
+"¡Mazo completado!":"Deck complete!","Repasar de nuevo":"Revise again","Nuevos apuntes":"New notes",
+"Control de clase":"Class control",
+"Escribe los alumnos y las preguntas cortas. El control asigna sus preguntas a cada alumno, tú marcas si acierta y al final tienes los resultados.":"Enter the students and the short questions. The control gives each student their questions, you mark whether they get them right and at the end you have the results.",
+"Alumnos":"Students",
+"Un alumno por línea":"One student per line",
+"Preguntas por alumno":"Questions per student",
+"Nombre del control":"Control name",
+"Añadir pregunta":"Add question",
+"Importar de Quizlet":"Import from Quizlet",
+"En Quizlet: Más → Exportar. Copia el texto y pégalo aquí (término y definición separados por tabulador, una tarjeta por línea).":"In Quizlet: More → Export. Copy the text and paste it here (term and definition separated by a tab, one card per line).",
+"Invertir: la definición es la pregunta y el término la respuesta":"Swap: the definition is the question and the term is the answer",
+"Importar":"Import",
+"Crear preguntas desde apuntes":"Create questions from notes",
+"Tipo de pregunta":"Question type",
+"Pregunta":"Question",
+"Completa la oración":"Complete the sentence",
+"Crear preguntas":"Create questions",
+"Usar mis flashcards guardadas":"Use my saved flashcards",
+"Mazo":"Deck",
+"Añadir sus preguntas":"Add its questions",
+"Iniciar control":"Start control",
+"Guardar control":"Save control",
+"Terminar":"Finish",
+"Resultados":"Results",
+"Descargar CSV":"Download CSV",
+"Mis controles guardados":"My saved controls",
+"Mis flashcards guardadas":"My saved flashcards",
+"Guardar mazo":"Save deck",
+"Nombre del mazo (para guardarlo)":"Deck name (to save it)"
 };
 function i18nStatic(){
   if(!EN)return;
@@ -1106,7 +1188,7 @@ pau:tr(["PAU y Universidad","Notas de acceso, exámenes y ponderaciones."],["PAU
 const TOOLS=[
 ["calculadora-notas","Calculadora de notas","Calcula tu media, simple o ponderada, y la nota que necesitas para llegar a tu objetivo.","utilidades","calc","calculadora"],
 ["generador-examenes","Generador de exámenes","Diseña exámenes en hojas A4, con varios tipos (A–F), y expórtalos a PDF.","profesores","exam","examenes"],
-["control-clase","Control de Clase","Herramientas para llevar el control de tu clase.","profesores","check",0],
+["control-clase","Control de Clase","Haz un control oral en clase: preguntas cortas por alumno, resultados y guardado.","profesores","check","control"],
 ["generador-ejercicios","Generador de ejercicios","Ejercicios a tu nivel, con soluciones explicadas.","utilidades","pen",0],
 ["planificador-estudio","Planificador de estudio","Crea una rutina de estudio según tus exámenes y tus notas, y expórtala a tu calendario.","aprendizaje","cal","planificador"],
 ["noticias","Noticias y Actualizaciones","Novedades de educación en España y en el extranjero, con etiquetas para filtrarlas.","utilidades","news","noticias"],
@@ -1136,7 +1218,7 @@ if(EN){const T_EN={
 "generador-qr":["QR code generator","Create a QR code from a link or text and download it as PNG or SVG."],
 "examenes-oficiales":["Official exam finder","Past papers and sample exams by region, subject and year."],
 "ponderaciones-universitarias":["Subject weighting finder","Weightings by degree and university, with their source."],
-"control-clase":["Class Control","Tools to keep track of your class."],
+"control-clase":["Class Control","Run an oral quiz in class: short questions per student, results and saving."],
 "generador-rubricas":["Rubric generator","Rubrics with descriptors for each level, ready to print."]};
 TOOLS.forEach(t=>{const e=T_EN[t[0]];if(e){t[1]=e[0];t[2]=e[1]}})}
 const norm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
@@ -1971,8 +2053,19 @@ $('qr-png').addEventListener('click',()=>qrCv.toBlob(b=>b&&qrSave(b,'qr-aulalia.
 $('qr-svg').addEventListener('click',()=>qrM&&qrSave(new Blob([qrSvg(qrM,$('qr-fg').value,$('qr-bg').value)],{type:'image/svg+xml'}),'qr-aulalia.svg'));
 
 /* ---- Flashcards ---- */
+/* Elementos guardados en este navegador (mismo sistema que los exámenes) */
+const stGet=k=>{try{return JSON.parse(localStorage.getItem(k))||[]}catch(e){return[]}},stPut=(k,a)=>{try{localStorage.setItem(k,JSON.stringify(a));return true}catch(e){return false}};
+function stBox(k,el,msg,T){
+  const draw=()=>{const a=stGet(k);el.innerHTML=a.length?a.map(x=>`<div class="sv"><div><b>${esc(x.name)}</b> <span class="sub">${esc(x.sub)} · ${esc(x.at)}</span></div><span><button type="button" class="tog" data-o="${x.id}">${tr('Abrir','Open')}</button> <button type="button" class="tog" data-r="${x.id}">${tr('Eliminar','Delete')}</button></span></div>`).join(''):`<p class="sub">${T.empty}</p>`};
+  el.addEventListener('click',e=>{const o=e.target.closest('[data-o]'),r=e.target.closest('[data-r]');
+    if(o){const x=stGet(k).find(x=>x.id==o.dataset.o);if(x)T.open(x)}
+    if(r&&confirm(T.del)){stPut(k,stGet(k).filter(x=>x.id!=r.dataset.r));draw();msg.textContent=T.gone}});
+  draw();
+  return(name,sub,d)=>{const a=stGet(k),i=a.findIndex(x=>x.name===name),rec={id:i<0?Date.now():a[i].id,name,sub,at:new Date().toLocaleDateString(LOC,{day:'numeric',month:'short',year:'numeric'}),d};
+    if(i<0)a.unshift(rec);else a[i]=rec;msg.textContent=stPut(k,a)?(i<0?T.saved:T.upd):T.fail;draw()}}
+const FK='aulalia-flashcards',CK='aulalia-controles';
 const fcS={mode:'dev',cards:[],q:[],ko:0,t:0},fcP=[];let fcRun=0;
-const fcMsg=s=>{$('fc-msg').textContent=s};
+let fcT='fc-msg';const fcMsg=s=>{$(fcT).textContent=s};
 const fcLoad=u=>new Promise((r,j)=>{const s=document.createElement('script');s.src=u;s.onload=r;s.onerror=j;document.head.appendChild(s)});
 async function fcOcr(img){
   if(!window.Tesseract)await fcLoad('https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js');
@@ -1991,12 +2084,13 @@ async function fcPdf(f){
     cv.width=vp.width;cv.height=vp.height;await pg.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise;out+=await fcOcr(cv)+'\n\n'}
   return out;
 }
-$('fc-file').addEventListener('change',async e=>{
-  const f=e.target.files[0];if(!f)return;fcMsg(tr('Leyendo el archivo…','Reading the file…'));
+async function fcRead(f,ta,tgt){
+  if(!f)return;fcT=tgt;fcMsg(tr('Leyendo el archivo…','Reading the file…'));
   try{const t=(f.type==='application/pdf'||/\.pdf$/i.test(f.name)?await fcPdf(f):await fcOcr(f)).trim();
-    $('fc-in').value=t;fcMsg(t?tr('Texto extraído. Revísalo y corrígelo si hace falta.','Text extracted. Check it and fix it if needed.'):tr('No he encontrado texto en el archivo.','No text found in the file.'))}
+    $(ta).value=t;fcMsg(t?tr('Texto extraído. Revísalo y corrígelo si hace falta.','Text extracted. Check it and fix it if needed.'):tr('No he encontrado texto en el archivo.','No text found in the file.'))}
   catch(err){fcMsg(tr('No se pudo leer el archivo. Pega el texto a mano.','Could not read the file. Paste the text instead.'))}
-});
+}
+$('fc-file').addEventListener('change',e=>fcRead(e.target.files[0],'fc-in','fc-msg'));
 /* Crea tarjetas a partir del texto, sin enviar nada a ningún servidor */
 function fcBuild(raw,mode){
   const L=raw.replace(/\r/g,'').split('\n').map(s=>s.replace(/\s+/g,' ').trim());
@@ -2048,7 +2142,7 @@ $('fc-m1').onclick=()=>fcMode('dev');$('fc-m2').onclick=()=>fcMode('c');$('fc-m3
 function fcDraw(){
   clearInterval(fcS.t);
   const q=fcS.q,A=fcS.cards,n=A.filter(c=>c.st!==2).length,g=A.filter(c=>c.st===1).length,end=!q.length;
-  $('fc-st').innerHTML=`${tr('Restantes','Left')}: <b>${q.length}</b> · ${tr('Bien','Right')}: <b>${g}</b> · ${tr('Fallos','Misses')}: <b>${fcS.ko}</b> · ${tr('Eliminadas','Deleted')}: <b>${A.length-n}</b>`;
+  $('fc-st').innerHTML=`${tr('Restantes','Left')}: <b>${q.length}</b> · ${tr('Bien','Right')}: <b>${g}/${n}</b> · ${tr('Fallos','Misses')}: <b>${fcS.ko}</b> · ${tr('Eliminadas','Deleted')}: <b>${A.length-n}</b>`;
   $('fc-pb').style.width=(n?100*g/n:100)+'%';
   ['fc-card','fc-act','fc-tm'].forEach(i=>$(i).hidden=end);$('fc-end').hidden=!end;
   if(end){$('fc-again').hidden=!n;$('fc-sum').textContent=n?tr(`Has acertado ${g} de ${n} tarjetas, con ${fcS.ko} fallos por el camino.`,`You got ${g} of ${n} cards right, with ${fcS.ko} misses along the way.`):tr('Has eliminado todas las tarjetas.','You deleted every card.');return}
@@ -2093,11 +2187,85 @@ function fcExit(){clearInterval(fcS.t);$('fc-play').hidden=true;$('fc-setup').hi
 $('fc-go').onclick=()=>{
   const c=fcBuild($('fc-in').value,fcS.mode);
   if(!c.length){fcMsg(tr('No he podido crear tarjetas. Añade más texto, separa los temas con títulos o prueba otro modo.','Could not create cards. Add more text, separate topics with headings or try another mode.'));return}
-  fcS.cards=c;fcS.ko=0;fcS.q=fcShuf(c.slice());$('fc-setup').hidden=true;$('fc-play').hidden=false;fcDraw();
+  fcS.cards=c;fcS.dm=fcS.mode;fcS.ko=0;fcS.q=fcShuf(c.slice());$('fc-setup').hidden=true;$('fc-play').hidden=false;fcDraw();
 };
 $('fc-show').onclick=()=>fcReveal();$('fc-ok').onclick=()=>fcAct(1);$('fc-ko').onclick=()=>fcAct(2);$('fc-del').onclick=()=>fcAct(3);
 $('fc-exit').onclick=$('fc-new').onclick=fcExit;
 $('fc-again').onclick=()=>{fcS.cards.forEach(c=>{if(c.st!==2)c.st=0});fcS.ko=0;fcS.q=fcShuf(fcS.cards.filter(c=>c.st!==2));fcDraw()};
+
+const fcMN={dev:tr('desarrollo','explain'),c:tr('completa la oración','fill-in'),q:tr('pregunta','question')};
+const fcSv=stBox(FK,$('fc-svl'),$('fc-svm'),{
+  empty:tr('Aún no has guardado ninguna flashcard. Crea un mazo y pulsa «Guardar mazo».','You have not saved any flashcards yet. Create a deck and press “Save deck”.'),
+  del:tr('¿Eliminar este mazo guardado?','Delete this saved deck?'),gone:tr('Mazo eliminado.','Deck deleted.'),
+  saved:tr('Mazo guardado en este navegador.','Deck saved in this browser.'),upd:tr('Mazo actualizado.','Deck updated.'),fail:tr('No se ha podido guardar: no queda espacio.','Could not save: no space left.'),
+  open:x=>{fcS.cards=x.d.c.map(c=>({...c,st:0}));fcS.dm=x.d.m||'q';fcS.ko=0;fcS.q=fcShuf(fcS.cards.slice());$('fc-name').value=x.name;
+    $('fc-setup').hidden=true;$('fc-play').hidden=false;fcDraw();$('fc-svm').textContent=tr(`Mazo «${x.name}» abierto.`,`Deck “${x.name}” opened.`)}});
+$('fc-save').onclick=()=>{const c=fcS.cards.filter(c=>c.st!==2).map(({f,b,l})=>({f,b,l}));if(!c.length)return;
+  fcSv($('fc-name').value.trim()||tr('Mazo sin nombre','Untitled deck'),`${c.length} ${tr('tarjetas','cards')} · ${fcMN[fcS.dm]}`,{c,m:fcS.dm})};
+
+/* ---- Control de clase ---- */
+const CC={T:[],i:0,S:[],Q:[],rec:{},res:null};
+const ccMsg=s=>{$('cc-msg').textContent=s},ccRows=$('cc-qs');
+function ccAddRow(q='',a=''){const r=document.createElement('div');r.className='row';
+  r.innerHTML=`<input class="q" aria-label="${tr('Pregunta','Question')}" placeholder="${tr('Pregunta','Question')}"><input class="a" aria-label="${tr('Respuesta','Answer')}" placeholder="${tr('Respuesta','Answer')}"><button type="button" class="x" aria-label="${tr('Quitar pregunta','Remove question')}">×</button>`;
+  r.querySelector('.q').value=q;r.querySelector('.a').value=a;ccRows.appendChild(r)}
+const ccQs=()=>[...ccRows.children].map(r=>[r.querySelector('.q').value.trim(),r.querySelector('.a').value.trim()]).filter(x=>x[0]);
+const ccSt=()=>[...new Set($('cc-st').value.split('\n').map(s=>s.trim()).filter(Boolean))];
+const ccPut=a=>{[...ccRows.children].forEach(r=>{if(!r.querySelector('.q').value.trim()&&!r.querySelector('.a').value.trim())r.remove()});a.forEach(x=>ccAddRow(x[0],x[1]))};
+const ccAns=(b,m)=>m==='dev'?b:b.split('\n')[0];
+ccRows.addEventListener('click',e=>{const x=e.target.closest('.x');if(x)x.closest('.row').remove()});
+$('cc-add').onclick=()=>ccAddRow();ccAddRow();ccAddRow();
+/* importar de Quizlet: término y definición separados por tabulador (exportación por defecto) */
+$('cc-qz').onclick=()=>{const sw=$('cc-sw').checked,a=[];
+  $('cc-qzt').value.split('\n').forEach(l=>{if(!l.trim())return;let p=l.split('\t');if(p.length<2)p=l.split(/\s+[-–]\s+|;/);if(p.length<2)return;
+    const t=p[0].trim(),d=p.slice(1).join(' ').trim();if(t&&d)a.push(sw?[d,t]:[t,d])});
+  ccPut(a);ccMsg(a.length?tr(`${a.length} preguntas importadas.`,`${a.length} questions imported.`):tr('No he encontrado pares término–definición. Comprueba que estén separados por un tabulador.','No term–definition pairs found. Check that they are separated by a tab.'));
+  if(a.length)$('cc-qzt').value=''};
+/* crear automáticamente, como en las flashcards */
+$('cc-file').addEventListener('change',e=>fcRead(e.target.files[0],'cc-in','cc-msg'));
+$('cc-auto').onclick=()=>{const m=$('cc-am').value,c=fcBuild($('cc-in').value,m);
+  ccPut(c.map(x=>[x.f,ccAns(x.b,m)]));ccMsg(c.length?tr(`${c.length} preguntas creadas.`,`${c.length} questions created.`):tr('No he podido crear preguntas. Añade más texto, separa los temas con títulos o prueba otro tipo.','Could not create questions. Add more text, separate topics with headings or try another type.'))};
+function ccFd(){$('cc-fd').innerHTML=stGet(FK).map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join('')||`<option value="">${tr('Aún no has guardado flashcards','No saved flashcards yet')}</option>`}
+$('cc-fdb').onclick=()=>{const x=stGet(FK).find(x=>x.id==$('cc-fd').value);if(!x)return;
+  ccPut(x.d.c.map(c=>[c.f,ccAns(c.b,x.d.m)]));ccMsg(tr(`${x.d.c.length} preguntas añadidas.`,`${x.d.c.length} questions added.`))};
+/* control */
+$('cc-go').onclick=()=>{
+  const S=ccSt(),Q=ccQs(),k=Math.max(1,Math.min(20,+$('cc-k').value||1));
+  if(!S.length||!Q.length){ccMsg(tr('Escribe al menos un alumno y una pregunta.','Add at least one student and one question.'));return}
+  ccMsg('');Object.assign(CC,{S,Q,i:0,rec:{},res:null,T:[]});ccRes();
+  let pool=[];for(let r=0;r<k;r++)fcShuf(S.slice()).forEach(s=>{if(!pool.length)pool=fcShuf(Q.map((_,i)=>i));CC.T.push({s,q:pool.pop()})});
+  $('cc-setup').hidden=true;$('cc-run').hidden=false;ccDraw();
+};
+function ccDraw(){
+  const t=CC.T[CC.i];if(!t)return ccFinish();
+  $('cc-pr').textContent=tr(`Turno ${CC.i+1} de ${CC.T.length}`,`Turn ${CC.i+1} of ${CC.T.length}`);$('cc-pb').style.width=100*CC.i/CC.T.length+'%';
+  $('cc-n').textContent=t.s;$('cc-q').textContent=CC.Q[t.q][0];$('cc-a').textContent=CC.Q[t.q][1]||'—';$('cc-a').hidden=true;
+  $('cc-show').hidden=false;$('cc-ok').hidden=$('cc-ko').hidden=true;
+  const c=$('cc-card');c.style.animation='none';void c.offsetWidth;c.style.animation='';$('cc-show').focus({preventScroll:true});
+}
+function ccAct(ok){const t=CC.T[CC.i],r=CC.rec[t.s]||(CC.rec[t.s]={ok:0,t:0});r.t++;r.ok+=ok;CC.i++;ccDraw()}
+function ccFinish(){
+  CC.res={at:new Date().toLocaleDateString(LOC),rows:CC.S.map(n=>{const r=CC.rec[n]||{ok:0,t:0};return{n,ok:r.ok,t:r.t}})};
+  $('cc-run').hidden=true;$('cc-setup').hidden=true;ccRes();
+}
+const ccGr=x=>x.t?(10*x.ok/x.t).toLocaleString(LOC,{maximumFractionDigits:1}):'—';
+function ccRes(){const r=CC.res;$('cc-end').hidden=!r;if(!r)return;
+  $('cc-rt').innerHTML=`<table><tr><th>${tr('Alumno','Student')}</th><th>${tr('Aciertos','Correct')}</th><th>${tr('Nota','Grade')}</th></tr>`+r.rows.map(x=>`<tr><td>${esc(x.n)}</td><td>${x.ok}/${x.t}</td><td>${ccGr(x)}</td></tr>`).join('')+'</table>'}
+$('cc-show').onclick=()=>{$('cc-a').hidden=false;$('cc-show').hidden=true;$('cc-ok').hidden=$('cc-ko').hidden=false;$('cc-ok').focus({preventScroll:true})};
+$('cc-ok').onclick=()=>ccAct(1);$('cc-ko').onclick=()=>ccAct(0);$('cc-fin').onclick=ccFinish;
+$('cc-back').onclick=()=>{$('cc-setup').hidden=false};
+$('cc-csv').onclick=()=>{const r=CC.res;if(!r)return;const q=s=>'"'+String(s).replace(/"/g,'""')+'"';
+  const h=[tr('Alumno','Student'),tr('Aciertos','Correct'),tr('Preguntas','Questions'),tr('Nota','Grade')].map(q).join(';');
+  qrSave(new Blob(['\ufeff'+[h].concat(r.rows.map(x=>[q(x.n),x.ok,x.t,x.t?(10*x.ok/x.t).toFixed(2):''].join(';'))).join('\n')],{type:'text/csv'}),'control-aulalia.csv')};
+/* controles guardados */
+const ccSv=stBox(CK,$('cc-svl'),$('cc-svm'),{
+  empty:tr('Aún no has guardado ningún control. Pulsa «Guardar control» para conservarlo en este navegador.','You have not saved any controls yet. Press “Save control” to keep it in this browser.'),
+  del:tr('¿Eliminar este control guardado?','Delete this saved control?'),gone:tr('Control eliminado.','Control deleted.'),
+  saved:tr('Control guardado en este navegador.','Control saved in this browser.'),upd:tr('Control actualizado.','Control updated.'),fail:tr('No se ha podido guardar: no queda espacio.','Could not save: no space left.'),
+  open:x=>{const d=x.d;$('cc-name').value=x.name;$('cc-st').value=d.st;$('cc-k').value=d.k;ccRows.innerHTML='';d.qs.forEach(q=>ccAddRow(q[0],q[1]));if(!d.qs.length)ccAddRow();
+    CC.res=d.res||null;ccRes();$('cc-run').hidden=true;$('cc-setup').hidden=false;$('cc-svm').textContent=tr(`Control «${x.name}» abierto.`,`Control “${x.name}” opened.`)}});
+$('cc-save').onclick=$('cc-save2').onclick=()=>{const S=ccSt(),Q=ccQs();
+  ccSv($('cc-name').value.trim()||tr('Control sin nombre','Untitled control'),`${S.length} ${tr('alumnos','students')} · ${Q.length} ${tr('preguntas','questions')}`,{st:$('cc-st').value,qs:Q,k:$('cc-k').value,res:CC.res})};
 
 /* ---- Vistas: portada y calculadora (pantalla aparte) ---- */
 const home=document.getElementById('inicio'),calcView=document.getElementById('vista-calculadora');
@@ -2105,11 +2273,11 @@ let homeY=0;
 document.getElementById('catalog').addEventListener('click',e=>{if(e.target.closest('a.go'))homeY=window.scrollY});
 function routeNow(){
   const h=location.hash,nd=h.startsWith('#noticia-')?h.slice(9):null;
-  const VV={'#calculadora':'vista-calculadora','#examenes':'vista-examenes','#planificador':'vista-planificador','#rubricas':'vista-rubricas','#noticias':'vista-noticias','#noticias-pau':'vista-noticias','#qr':'vista-qr','#flashcards':'vista-flashcards'};
-  const TT={'#calculadora':['Calculadora de notas','calc-t'],'#examenes':['Generador de exámenes','ex-t'],'#planificador':['Planificador de estudio','pl-t'],'#rubricas':['Generador de rúbricas','rb-t'],'#noticias':['Noticias y Actualizaciones','nw-t'],'#noticias-pau':['Noticias y actualizaciones PAU','nw-t'],'#qr':['Generador de códigos QR','qr-t'],'#flashcards':['Generador de flashcards','fc-t']};
+  const VV={'#calculadora':'vista-calculadora','#examenes':'vista-examenes','#planificador':'vista-planificador','#rubricas':'vista-rubricas','#noticias':'vista-noticias','#noticias-pau':'vista-noticias','#qr':'vista-qr','#flashcards':'vista-flashcards','#control':'vista-control'};
+  const TT={'#calculadora':['Calculadora de notas','calc-t'],'#examenes':['Generador de exámenes','ex-t'],'#planificador':['Planificador de estudio','pl-t'],'#rubricas':['Generador de rúbricas','rb-t'],'#noticias':['Noticias y Actualizaciones','nw-t'],'#noticias-pau':['Noticias y actualizaciones PAU','nw-t'],'#qr':['Generador de códigos QR','qr-t'],'#flashcards':['Generador de flashcards','fc-t'],'#control':['Control de clase','cc-t']};
   const cur=nd!==null?'vista-noticia':VV[h]||'';
   home.hidden=!!cur;
-  ['vista-calculadora','vista-examenes','vista-planificador','vista-rubricas','vista-noticias','vista-noticia','vista-qr','vista-flashcards'].forEach(i=>{$(i).hidden=i!==cur});
+  ['vista-calculadora','vista-examenes','vista-planificador','vista-rubricas','vista-noticias','vista-noticia','vista-qr','vista-flashcards','vista-control'].forEach(i=>{$(i).hidden=i!==cur});
   document.title=TT[h]?TT[h][0]+' · Aulalia':'Aulalia · Herramientas para estudiar mejor';
   window.scrollTo({top:cur?0:homeY,left:0,behavior:'instant'});
   if(TT[h])$(TT[h][1]).focus({preventScroll:true});
@@ -2119,6 +2287,7 @@ function routeNow(){
   if(h==='#noticias'||h==='#noticias-pau'){nwFrom=h;nwShow(h==='#noticias-pau'?'pau':'all')}
   if(h==='#qr')qrDraw();
   if(h!=='#flashcards')fcExit();
+  if(h==='#control')ccFd();
   if(nd!==null)nwDetail(nd);
 }
 const RM=matchMedia('(prefers-reduced-motion:reduce)');
