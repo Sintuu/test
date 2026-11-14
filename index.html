@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<script>
+/* AdSense se carga cuando la página ya terminó de cargar, para que no deje la pestaña «cargando» */
+addEventListener('load',function(){setTimeout(function(){
+  var a=document.createElement('script');a.async=true;a.crossOrigin='anonymous';
+  a.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3197760514490618';
+  a.onerror=function(){};document.head.appendChild(a);
+},1500)});
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aulalia · Herramientas para estudiar mejor</title>
+<meta name="description" content="Calculadoras, ejercicios, resúmenes y más para ESO, Bachillerato, PAU y profesores.">
+<meta name="theme-color" content="#F5F6F8">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Aulalia · Herramientas para estudiar mejor">
+<meta property="og:description" content="Calculadoras, ejercicios, resúmenes y más para ESO, Bachillerato, PAU y profesores.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232740D6'/%3E%3Cpath d='M9 23l7-14 7 14M12 18h8' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<style>
+:root{
+  --bg:#F5F6F8;--surface:#FFFFFF;--ink:#15171C;--muted:#586070;--line:#E1E4EA;
+  --accent:#2740D6;--accent-ink:#FFFFFF;--hl:#FFE45C;--grid:rgba(21,23,28,.045);--bad:#B42318;
+  --head:"Bricolage Grotesque","Hanken Grotesk",system-ui,sans-serif;
+  --body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+:root{color-scheme:light}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#101217;--surface:#181B22;--ink:#EEF0F4;--muted:#A0A8B8;--line:#2A2F3A;
+  --accent:#8FA2FF;--accent-ink:#101217;--hl:#E8C93A;--grid:rgba(238,240,244,.05);--bad:#FF8A80}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.55 var(--body);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+h1,h2,h3{font-family:var(--head);line-height:1.1;margin:0;letter-spacing:-.02em}
+
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:52px}
+.logo{font:700 1.25rem var(--head);text-decoration:none;letter-spacing:-.03em}
+.hdr-r{display:flex;align-items:center;gap:8px}
+.lang{height:36px;padding:0 10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;font:600 .85rem var(--body);cursor:pointer;letter-spacing:.04em}
+.lang:hover,.theme:hover{border-color:var(--muted)}
+.theme{width:36px;height:36px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;display:grid;place-items:center;cursor:pointer}
+.theme svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+.hero{background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:32px 32px;border-bottom:1px solid var(--line)}
+.hero .wrap{padding-top:24px;padding-bottom:48px}
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--muted);text-decoration:none;font-weight:600;font-size:.95rem;padding:6px 0}
+.back:hover{color:var(--ink)}
+.back svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.view{padding:20px 0 0}
+.view h1{font-size:clamp(2rem,5vw,3rem);margin-top:12px}
+.view .intro{color:var(--muted);margin:10px 0 0;max-width:38em}
+#calc-t:focus,#pl-t:focus,#rb-t:focus{outline:none}
+.calc-grid{display:grid;gap:16px;margin-top:28px}
+@media(min-width:860px){.calc-grid{grid-template-columns:1fr 1fr;align-items:start}}
+.calc h2{font-size:1.15rem;margin-bottom:6px}
+.calc>.sub{margin:0 0 14px}
+.sec{margin-top:48px;font-size:1.3rem}
+.faq{margin-top:14px;max-width:46em}
+.faq details{border-top:1px solid var(--line);padding:14px 0;margin:0;font-size:1rem}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{font-weight:600}
+.faq p{margin:8px 0 0}
+h1{font-size:clamp(2.4rem,6vw,4rem);font-weight:700}
+.lead{color:var(--muted);font-size:1.1rem;max-width:34em;margin:18px 0 28px}
+.search{position:relative;max-width:30rem}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:20px;height:20px;stroke:var(--muted)}
+.search input{width:100%;padding:13px 14px 13px 44px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font:inherit}
+.hint{color:var(--muted);font-size:.9rem;margin:12px 0 0}
+
+.calc{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px}
+.cols,.row{display:grid;grid-template-columns:1fr 1fr 40px;gap:8px}
+.cols{font-size:.85rem;color:var(--muted);margin-bottom:6px}
+.row{margin-bottom:8px}
+/* campos: mismo estilo para texto, número, fecha, área de texto y desplegable */
+.calc input:not([type=checkbox]),.calc textarea,.calc select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background-color:var(--bg);color:var(--ink);font:inherit;line-height:1.4}
+.calc textarea{display:block;resize:vertical;min-height:92px;line-height:1.45}
+.calc select{appearance:none;-webkit-appearance:none;padding-right:40px;cursor:pointer;background-repeat:no-repeat;background-position:right 13px center;background-size:16px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23586070' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")}
+:root[data-theme="dark"] .calc select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A0A8B8' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")}
+.calc option{background:var(--surface);color:var(--ink)}
+.calc ::placeholder{color:var(--muted);opacity:.6}
+.calc input[type=file]{padding:6px 8px;cursor:pointer}
+.calc input[type=file]::file-selector-button{margin-right:10px;padding:6px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);font:600 .85rem var(--body);cursor:pointer;transition:border-color .2s,color .2s}
+.calc input[type=file]::file-selector-button:hover{border-color:var(--accent);color:var(--accent)}
+.x{border:0;background:none;color:var(--muted);font-size:1.3rem;cursor:pointer;border-radius:8px;min-height:40px}
+.x:hover{color:var(--bad)}
+.link{border:0;background:none;color:var(--accent);font:600 .92rem var(--body);cursor:pointer;padding:6px 0}
+.extra{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 4px}
+.extra label{font-size:.85rem;color:var(--muted);display:block;margin-bottom:6px}
+[hidden]{display:none!important}
+.out{margin-top:16px;padding-top:16px;border-top:1px solid var(--line);min-height:84px}
+.err{color:var(--bad);margin:0;font-size:.95rem}
+.result{margin:0;font-size:1.05rem}
+.result b{font:700 2.3rem var(--head);color:#15171C;background:var(--hl);padding:0 .22em;border-radius:3px;margin-right:6px}
+.sub{color:var(--muted);margin:8px 0 0;font-size:.95rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem;margin-top:12px}
+td,th{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left;font-weight:400}
+th{color:var(--muted);font-size:.85rem}
+details{margin-top:12px;font-size:.9rem;color:var(--muted)}
+summary{cursor:pointer;color:var(--ink);font-weight:600}
+ol{padding-left:20px;margin:8px 0 0}
+
+section.block{padding:64px 0 0}
+.block h2{font-size:clamp(1.7rem,3.6vw,2.3rem)}
+.block>.wrap>p.intro{color:var(--muted);margin:10px 0 0;max-width:36em}
+.cat{margin-top:40px}
+.cat h3{font-size:1.2rem}
+.cat p{margin:4px 0 16px;color:var(--muted);font-size:.95rem}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:8px}
+.card .ic{width:36px;height:36px;border:1px solid var(--line);border-radius:9px;display:grid;place-items:center;margin-bottom:4px}
+.card svg{width:20px;height:20px;fill:none;stroke:var(--ink);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.card h4{margin:0;font:700 1.02rem var(--head);letter-spacing:-.01em}
+.card p{margin:0;color:var(--muted);font-size:.93rem;flex:1}
+.foot{display:flex;align-items:center;justify-content:space-between;margin-top:6px;font-size:.88rem}
+.badge{padding:2px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted);font-size:.8rem}
+.badge.on{border-color:var(--accent);color:var(--accent);font-weight:600}
+.card a.go{color:var(--accent);font-weight:600;text-decoration:none}
+.card a.go:hover{text-decoration:underline}
+#empty{margin-top:32px;color:var(--muted)}
+
+.steps{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.steps li{border-top:2px solid var(--ink);padding-top:14px}
+.steps h3{font-size:1.1rem;margin-bottom:6px}
+.steps p{margin:0;color:var(--muted)}
+.note{margin-top:28px;padding:16px 18px;border:1px dashed var(--line);border-radius:12px;color:var(--muted);font-size:.95rem;max-width:44em}
+
+footer{margin-top:80px;border-top:1px solid var(--line);padding:32px 0 40px;color:var(--muted);font-size:.9rem}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between}
+footer p{margin:0 0 4px}
+
+/* animaciones suaves */
+@keyframes vin{from{opacity:0;transform:translateY(10px)}}
+@keyframes rin{from{opacity:0;transform:translateX(-6px)}}
+@keyframes fin{from{opacity:0}}
+#inicio:not([hidden]),.view:not([hidden]){animation:vin .4s cubic-bezier(.22,.8,.3,1)}
+body,.calc,.theme,.hero,footer,.badge{transition:background-color .35s ease,color .35s ease,border-color .35s ease}
+.card{transition:transform .25s cubic-bezier(.22,.8,.3,1),border-color .25s,box-shadow .25s,background-color .35s}
+.card.on:hover,.card:focus-within{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 10px 22px -14px rgba(21,23,28,.45)}.card.on{cursor:pointer}
+input,textarea,select{transition:border-color .2s,box-shadow .2s,background-color .35s}
+input:focus,textarea:focus,select:focus{border-color:var(--accent)!important;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent);outline:none}
+button,.back,.card a.go{transition:color .2s,background-color .2s,border-color .2s,transform .15s}
+button:active{transform:scale(.97)}
+.row{animation:rin .25s cubic-bezier(.22,.8,.3,1)}
+.row.bye{opacity:0;transform:translateX(8px);transition:opacity .18s,transform .18s}
+details[open]>:not(summary){animation:fin .3s ease}
+.warn{margin:0 0 10px;padding:9px 12px;border:1px solid var(--bad);border-radius:8px;color:var(--bad);font-size:.92rem;animation:fin .25s}
+.tog{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 14px;font:600 .88rem var(--body);cursor:pointer}
+.tog[aria-pressed=true]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+
+/* generador de rúbricas */
+.rl{display:grid;grid-template-columns:minmax(0,1fr) 88px;gap:8px;margin-bottom:8px}
+.rc{display:grid;grid-template-columns:minmax(0,1fr) 110px;gap:12px}
+.rl .fld,.rc .fld{margin:0}
+#vista-rubricas .fld>span{font-size:.85rem;color:var(--muted)}
+.rb{background:#fff;color:#111;border-radius:6px;box-shadow:0 6px 24px -10px rgba(0,0,0,.35);padding:10mm 12mm;font:400 10pt/1.35 "Hanken Grotesk",Arial,sans-serif;overflow-x:auto}
+.rb h2{font-size:16pt;margin:0 0 2mm}
+.rb-m{color:#444;margin-bottom:3mm}
+.rb-s{margin:0 0 4mm}
+.rb table{width:100%;min-width:640px;table-layout:fixed;margin:0;font-size:9.5pt}
+.rb th,.rb td{border:1px solid #111;padding:1.8mm 2.2mm;vertical-align:top;text-align:left;font-weight:400;font-size:9.5pt;color:#111;white-space:pre-line}
+.rb thead th{background:#eee;font-weight:700}
+.rb th small{display:block;font-weight:400;color:#444;font-size:8.5pt}
+.rb .c1{width:24%;font-weight:700;background:#f6f6f6}
+.rb .cp{width:16mm}
+.rb-o{border:1px solid #111;min-height:20mm;margin-top:4mm;padding:1.5mm 2mm}
+.rb-f{display:flex;justify-content:flex-end;margin-top:4mm;font-weight:700}
+.rb-n{margin:2mm 0 0;font-size:8pt;color:#555}
+.rb-top{display:flex;margin-top:20px}
+.rb-pw{position:relative}
+.pop{position:absolute;left:0;top:calc(100% + 6px);z-index:20;display:grid;gap:2px;min-width:230px;padding:6px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 30px -10px rgba(0,0,0,.45);animation:fin .15s}
+.pop button{border:0;background:none;color:inherit;text-align:left;padding:9px 10px;border-radius:8px;font:500 .92rem var(--body);cursor:pointer}
+.pop button:hover{background:var(--bg);color:var(--accent)}
+.opts2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:12px}
+.opt2{display:grid;gap:4px;text-align:left;padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);cursor:pointer;font:inherit}
+.opt2:hover{border-color:var(--accent)}
+.opt2 b{font:700 1.05rem var(--head)}
+.opt2 span{color:var(--muted);font-size:.93rem}
+.ev-grid{display:grid;gap:16px;margin-top:16px}
+@media(min-width:900px){.ev-grid{grid-template-columns:minmax(0,1fr) 320px;align-items:start}.ev-res{position:sticky;top:12px}}
+@media(max-width:899px){.ev-res{position:sticky;bottom:8px;z-index:5;box-shadow:0 8px 24px -10px rgba(0,0,0,.4)}}
+.evc{border:0;padding:0;margin:20px 0 0;min-width:0}
+.evc legend{font:700 1.05rem var(--head);padding:0;margin-bottom:8px}
+.evc legend .sub{margin:0 0 0 8px;font:400 .88rem var(--body)}
+.evg{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.ev{position:relative;display:block;cursor:pointer}
+.calc .ev input[type=radio]{position:absolute;opacity:0;width:1px;height:1px;padding:0;border:0}
+.ev>span{display:block;height:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);transition:border-color .2s,background-color .2s}
+.ev>span:hover{border-color:var(--accent)}
+.ev input:checked+span{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,var(--surface))}
+.ev input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+.ev small{color:var(--muted);margin-left:6px}
+.ev i{display:block;font-style:normal;color:var(--muted);font-size:.92rem;margin-top:4px}
+@page rb{size:A4 landscape;margin:10mm}
+@media print{#rb-t,#vista-rubricas .intro,.rb-ed,#rb-warn,#rb-tip,.rb-nop{display:none!important}.rb{page:rb;box-shadow:none;border-radius:0;padding:0;overflow:visible}.rb tr{break-inside:avoid}}
+/* evaluación de varios alumnos */
+.evb{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.evb .pri{margin-left:0}
+.ev-note{margin:0 0 12px;padding:9px 12px;border:1px solid var(--accent);border-radius:8px;color:var(--accent);font-size:.92rem;animation:fin .25s}
+.evl-h{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;margin-bottom:10px}
+.evl-h h2{margin:0}
+.evl-h span{display:flex;flex-wrap:wrap;gap:8px}
+.calc .tscroll .evt{margin:0;min-width:520px}
+.evt td,.evt th{padding:9px 10px;white-space:nowrap}
+.evt tr.cur td{background:color-mix(in srgb,var(--accent) 10%,var(--surface))}
+.evt .ta{text-align:right}
+.evt .ta .link{margin-left:14px}
+#rb-rep{display:none}
+@media print{.pr-rep #rb-evalv{display:none!important}.pr-rep #rb-rep{display:block!important}}
+
+/* planificador y exámenes guardados */
+.pe{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1.2fr) 84px 116px 40px;gap:8px;align-items:end;margin-bottom:10px}
+.pe .fld{margin:0}.pe .fld span{font-size:.85rem;color:var(--muted)}.pe .x{height:42px}
+@media(max-width:720px){.pe{grid-template-columns:minmax(0,1fr) 84px 110px 40px}.pe .f-s{grid-column:1/-1}}
+#pl-drop{position:fixed;inset:12px;z-index:60;display:grid;place-items:center;border:3px dashed var(--accent);border-radius:20px;background:color-mix(in srgb,var(--bg) 88%,var(--accent));color:var(--accent);font:700 1.3rem var(--head);text-align:center;padding:24px;pointer-events:none}
+.pl-act{display:flex;flex-wrap:wrap;gap:4px 20px}
+.dh{display:grid;grid-template-columns:repeat(auto-fit,minmax(64px,1fr));gap:8px}
+.pd{display:grid;grid-template-columns:110px 1fr;gap:6px 16px;padding:12px 0;border-top:1px solid var(--line)}
+.pd>b{font:700 1rem var(--head)}
+@media(max-width:560px){.pd{grid-template-columns:1fr}}
+.sb{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:6px 0 6px 12px;border-left:4px solid var(--c)}
+.sb a{color:var(--accent);font-size:.88rem;font-weight:600;text-decoration:none}
+.sb a:hover{text-decoration:underline}
+.pri:disabled{opacity:.45;cursor:not-allowed}
+.sv{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 0;border-top:1px solid var(--line)}
+@media print{#sv-box{display:none!important}}
+
+/* generador de exámenes */
+#ex-t:focus{outline:none}
+.ex-grid{display:grid;gap:16px;margin-top:28px}
+@media(min-width:1100px){.ex-grid{grid-template-columns:minmax(360px,440px) 1fr;align-items:start}.ex-pv{position:sticky;top:12px}}
+.fld{display:grid;gap:4px;margin:0 0 10px}
+.fld label,.lbl{font-size:.85rem;color:var(--muted)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chk{display:flex;gap:8px;align-items:center;font-size:.95rem;margin:6px 0}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:var(--surface);color:var(--ink);padding:8px 14px;font:600 .9rem var(--body);cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink)}
+.adds{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.adds button{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:6px 10px;font:500 .88rem var(--body);cursor:pointer}
+.adds button:hover{border-color:var(--accent);color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center}
+.ex-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:6px}
+.pri{margin-left:auto;background:var(--accent);color:var(--accent-ink);border:0;border-radius:10px;padding:10px 16px;font:600 .95rem var(--body);cursor:pointer}
+.page{width:210mm;height:297mm;padding:14mm 16mm 16mm;margin:0 auto 18px;background:#fff;color:#111;box-shadow:0 6px 24px -10px rgba(0,0,0,.35);position:relative;overflow:hidden;font:400 11pt/1.4 "Hanken Grotesk",Arial,sans-serif}
+.pb{height:100%;overflow:hidden}
+.pf{position:absolute;bottom:7mm;left:16mm;right:16mm;font-size:8pt;color:#666;text-align:right}
+.hd{border:1.5px solid #111;border-radius:4px;padding:3mm 4mm;margin-bottom:3mm}
+.hd-top{display:flex;gap:4mm;align-items:center}
+.hd-top img{max-height:16mm;max-width:30mm}
+.hd-m{flex:1;font-size:10.5pt}
+.hd-m b{font-size:15pt;display:block;line-height:1.2}
+.hd-r{text-align:right;font-size:10pt}
+.hd-r strong{font-size:16pt;display:block}
+.hd-st{margin-top:3mm;border-top:1px solid #111;padding-top:2.5mm}
+.sc{display:flex;justify-content:space-between;align-items:center;margin-bottom:5mm;font-size:10pt}
+.sc i{display:inline-block;width:32mm;height:10mm;border:1.5px solid #111;border-radius:3px;vertical-align:middle;margin-left:3mm}
+.q{margin-bottom:5mm}
+.qt{white-space:pre-wrap}
+.pt{color:#555;font-size:9.5pt;white-space:nowrap}
+.ln{height:8mm;border-bottom:1px solid #777;font-size:9pt;color:#555;line-height:10mm}
+.s2{margin:1.5mm 0 0 5mm}
+.tx{border-collapse:collapse;width:100%;margin-top:2mm}
+.tx td,.tx th{border:1px solid #111;padding:1.5mm 2mm;height:8mm;text-align:left;color:#111;font-size:10.5pt}
+.tx th{background:#eee;font-weight:600}
+@media print{
+  @page{size:A4;margin:0}
+  body{background:#fff}
+  header,footer,.back,#ex-t,#vista-examenes .intro,.ex-ed,.ex-bar,#ex-tip,.ed,.pl,#menu{display:none!important}
+  .view{padding:0!important;animation:none!important}
+  .wrap{max-width:none;padding:0}
+  .ex-grid{display:block!important;margin:0!important}
+  .ex-pv{position:static}
+  #sheets{zoom:1!important}
+  .page{margin:0;box-shadow:none;break-after:page;break-inside:avoid;height:296.6mm}
+  .page:last-child{break-after:auto}
+}
+.card{position:relative}.card a.go::after{content:"";position:absolute;inset:0;border-radius:14px}
+
+.sw{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:.95rem;margin:10px 0;position:relative}
+.sw input,.chip input{position:absolute;opacity:0;width:1px;height:1px}
+.trk{flex:none;width:42px;height:24px;border-radius:999px;background:var(--line);position:relative;transition:background-color .2s}
+.trk::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.35);transition:transform .22s cubic-bezier(.22,.8,.3,1)}
+.sw input:checked+.trk{background:var(--accent)}
+.sw input:checked+.trk::after{transform:translateX(18px)}
+.sw input:focus-visible+.trk,.chip input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+.chip{position:relative;cursor:pointer}
+.chip span{display:inline-grid;place-items:center;min-width:44px;height:38px;padding:0 12px;border:1px solid var(--line);border-radius:10px;font-weight:600;background:var(--surface);transition:background-color .2s,color .2s,border-color .2s}
+.chip input:checked+span{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.chips{gap:8px}
+.q{position:relative}
+.ed,.pl{position:absolute;opacity:0;transition:opacity .2s,transform .15s;border:1.5px solid #2740D6;background:#fff;color:#2740D6;cursor:pointer;font:600 9pt "Hanken Grotesk",Arial,sans-serif;z-index:2}
+.ed{top:0;right:0;border-radius:999px;padding:1mm 3.5mm}
+.pl{left:50%;bottom:-6.5mm;transform:translateX(-50%);width:8mm;height:8mm;border-radius:50%;padding:0;font-size:15pt;line-height:1}
+.q:hover .ed,.q:hover .pl,.ed:focus-visible,.pl:focus-visible{opacity:1}
+.pl:hover{background:#2740D6;color:#fff}
+.done .pb{overflow:visible}
+@media(hover:none){.ed,.pl{opacity:.9}}
+#menu{position:fixed;z-index:50;display:grid;gap:2px;min-width:240px;padding:6px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 30px -10px rgba(0,0,0,.45);animation:fin .15s}
+#menu button{border:0;background:none;color:inherit;text-align:left;padding:8px 10px;border-radius:8px;font:500 .92rem var(--body);cursor:pointer}
+#menu button:hover{background:var(--bg);color:var(--accent)}
+
+/* generador: nueva vista */
+.wrap.wide{max-width:1800px}
+.ex-top{display:grid;gap:16px;margin-top:20px}
+@media(min-width:1000px){.ex-top{grid-template-columns:3fr 2fr}}
+.hgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:4px 10px}
+.swrow{display:flex;flex-wrap:wrap;gap:0 28px}
+.ex-grid{display:grid;gap:16px;margin-top:16px}
+@media(min-width:1100px){
+  .ex-grid{grid-template-columns:minmax(340px,400px) 1fr;align-items:start}
+  .ex-q{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto}
+  .ex-pv{position:sticky;top:12px}
+}
+.ex-bar .sw{margin:0 0 0 8px}
+.stage{height:calc(100vh - 130px);min-height:420px;overflow:auto;display:grid;place-items:center;border-radius:12px;background:color-mix(in srgb,var(--ink) 7%,var(--bg))}
+#sheets{display:grid;grid-template-columns:794px;gap:12px;width:max-content}
+.page.off{display:none}
+.tbar{display:flex;align-items:center;gap:6px;margin:4px 0 8px}
+.tbar .lbl:nth-of-type(2){margin-left:10px}
+.tbar button{border:1px solid var(--line);background:none;color:var(--ink);border-radius:6px;width:30px;height:30px;font-size:1.05rem;cursor:pointer}
+.tbar button:hover{border-color:var(--accent);color:var(--accent)}
+.tscroll{overflow-x:auto;margin-bottom:6px;border:1px solid var(--line);border-radius:8px}
+.tg{margin:0;border-collapse:collapse;width:100%}
+.tg td{padding:0;border:1px solid var(--line)}
+.tg input{width:100%;min-width:84px;border:0!important;border-radius:0!important;background:transparent!important;padding:8px 9px!important;box-shadow:none}
+.tg tr:first-child td{background:color-mix(in srgb,var(--accent) 13%,var(--surface))}
+.tg tr:first-child input{font-weight:700}
+.tg.nh tr:first-child td{background:none}.tg.nh tr:first-child input{font-weight:400}
+.ed0{display:block;margin:6mm auto 0;border:1.5px dashed #2740D6;background:#fff;color:#2740D6;border-radius:999px;padding:2mm 6mm;font:600 10pt "Hanken Grotesk",Arial,sans-serif;cursor:pointer}
+.ed0:hover{background:#2740D6;color:#fff}
+/* hoja más compacta */
+.page{padding:10mm 12mm 12mm;margin:0;font-size:10.5pt;line-height:1.32}
+.pf{bottom:4mm;left:12mm;right:12mm}
+.hd{padding:2mm 3mm;margin-bottom:2mm}
+.hd-top img{max-height:13mm}
+.hd-m b{font-size:13.5pt}
+.hd-r strong{font-size:14pt}
+.hd-st{margin-top:2mm;padding-top:1.8mm}
+.sc{margin-bottom:3.5mm}.sc i{height:8mm;width:28mm}
+.q{margin-bottom:3.5mm}
+.ln{height:7mm;line-height:9mm}
+.s2{margin:1mm 0 0 4mm}
+.tx td,.tx th{height:7mm;padding:1mm 2mm}
+
+/* herramientas más grandes: mantienen tamaño en pantalla aunque la hoja se reduzca */
+.ed,.pl{zoom:var(--iz,1)}
+.ed{top:3px;right:3px;padding:6px 16px;border-radius:999px;font:600 14px "Hanken Grotesk",Arial,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.pl{left:50%;bottom:0;transform:translate(-50%,50%);width:36px;height:36px;font:400 26px/1 "Hanken Grotesk",Arial,sans-serif;padding:0 0 3px;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.page:hover .ed,.page:hover .pl{opacity:1}
+.pl:active{transform:translate(-50%,50%) scale(.95)}
+.ed:hover{background:#2740D6;color:#fff}
+.qq{position:relative}
+.trow{display:grid;gap:0 5mm}
+.ic{width:3mm;height:3mm;vertical-align:-.5mm}
+.page{padding:10mm 12mm 11mm}
+/* editor de preguntas: sin tarjetas, solo divisores; contenido arriba y opciones en horizontal debajo */
+#qs{display:block;margin-top:4px}
+.qc{position:relative;padding:20px 0 22px;border-top:1px solid var(--line);transition:box-shadow .3s}
+.qc.flash{box-shadow:0 0 0 10px color-mix(in srgb,var(--accent) 14%,transparent)}
+.qc.new{animation:rin .25s cubic-bezier(.22,.8,.3,1)}
+.qh{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.qh b{font:700 1.02rem var(--head);letter-spacing:-.01em}
+.qh span{display:flex;gap:4px}
+.qh button,.lvr button{border:1px solid var(--line);background:none;color:var(--muted);border-radius:8px;width:32px;height:32px;cursor:pointer}
+.qh button:hover,.lvr button:hover{color:var(--ink);border-color:var(--ink)}
+.qb{display:grid;gap:12px}
+.qb .fld,.qo .fld{margin:0}
+.qb .link{justify-self:start}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px 16px}
+.fgrid textarea{min-height:116px}
+.qc{container-type:inline-size}
+.lvs{display:grid;gap:8px}
+/* nivel: estrecho = nombre, puntos y × arriba y la pregunta debajo; ancho = todo en una fila */
+.lvr{display:grid;grid-template-columns:minmax(0,1fr) 84px 44px;gap:8px}
+.lvr input[data-lk=text]{grid-column:1/-1;grid-row:2}
+.lvr button{grid-column:3;grid-row:1;height:100%;min-height:44px;width:44px}
+@container (min-width:560px){
+  .lvr{grid-template-columns:minmax(120px,1fr) 84px minmax(0,3fr) 44px}
+  .lvr input[data-lk=text]{grid-column:auto;grid-row:auto}
+  .lvr button{grid-column:auto;grid-row:auto}
+}
+.tbar{flex-wrap:wrap;margin:0}
+.tbar .sw{margin:0 0 0 auto}
+.qb .tscroll{margin:0}
+.qo{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px 26px;margin-top:18px;padding-top:18px;border-top:1px dashed var(--line)}
+.qo .sw{margin:0;min-height:44px}
+.qo .og{display:grid;gap:4px}
+.qo .fld.num{width:100px}
+.qo .opt{display:flex;align-items:center;gap:12px}
+.subf{display:flex;align-items:center;gap:8px}
+.calc .qo .subf input{width:80px}
+.subf .sfx{color:var(--muted);font-size:.88rem}
+/* scrollbars discretas, sin fondo */
+*{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--ink) 30%,transparent) transparent}
+@supports not (scrollbar-color:auto){
+  ::-webkit-scrollbar{width:10px;height:10px;background:transparent}
+  ::-webkit-scrollbar-track,::-webkit-scrollbar-corner{background:transparent}
+  ::-webkit-scrollbar-thumb{background:rgba(128,128,140,.45);border-radius:999px;border:3px solid transparent;background-clip:padding-box}
+}
+@media print{
+  #sheets{zoom:1!important;display:block!important;width:auto}
+  .stage{height:auto!important;overflow:visible!important;display:block;background:none}
+  .page.off{display:block}
+  .ex-top,.ex-q,.ed0{display:none!important}
+}
+
+/* noticias PAU */
+#nw-t:focus{outline:none}
+.nw-bar{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.nw-bar .search{flex:1 1 260px;max-width:30rem}
+.nw-bar select{appearance:none;-webkit-appearance:none;height:46px;padding:0 40px 0 14px;border:1px solid var(--line);border-radius:10px;background-color:var(--surface);color:var(--ink);font:inherit;cursor:pointer;background-repeat:no-repeat;background-position:right 13px center;background-size:16px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23586070' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")}
+:root[data-theme="dark"] .nw-bar select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A0A8B8' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")}
+.nw-bar select option{background:var(--surface);color:var(--ink)}
+.nw-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+#nw-n{margin:18px 0 0}
+.nw-list{display:grid;gap:12px;margin-top:12px;max-width:52rem}
+.nw{display:grid;gap:8px;padding:18px 20px;background:var(--surface);border:1px solid var(--line);border-radius:14px;transition:border-color .25s,background-color .35s}
+.nw.imp{border-left:4px solid var(--accent)}
+.nw h2{font:700 1.15rem var(--head);letter-spacing:-.01em;line-height:1.2}
+.nw p{margin:0}
+.nw-m,.nw-f{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:.88rem;color:var(--muted)}
+.nw-f{margin-top:2px;font-size:.9rem}
+.nw-f a{color:var(--accent);font-weight:600;text-underline-offset:3px}
+.badge.new{background:var(--hl);color:#15171C;border-color:transparent;font-weight:600}
+.badge.ex{border-style:dashed}
+#nw-list .nw{animation:fin .25s ease backwards}
+@media(hover:hover){.nw:hover{border-color:color-mix(in srgb,var(--muted) 55%,var(--line))}}
+
+/* ===== Pulido: movimiento, jerarquía y rendimiento ===== */
+:root{--ease:cubic-bezier(.22,.8,.3,1);--hh:53px}
+::selection{background:var(--hl);color:#15171C}
+html{scroll-padding-top:calc(var(--hh) + 12px);scrollbar-gutter:stable;-webkit-text-size-adjust:100%}
+body{min-height:100vh;overflow-wrap:break-word;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+a,button,summary,label{-webkit-tap-highlight-color:transparent}
+button{touch-action:manipulation}
+h1,h2,h3{text-wrap:balance}
+.lead,.intro,.sub,.card p,.steps p,.faq p{text-wrap:pretty}
+
+/* cabecera fija, translúcida, con línea al hacer scroll */
+header{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 80%,transparent);-webkit-backdrop-filter:saturate(1.5) blur(12px);backdrop-filter:saturate(1.5) blur(12px);border-bottom:1px solid transparent;transition:border-color .3s var(--ease),background-color .35s;view-transition-name:site-header}
+header.scrolled{border-bottom-color:var(--line)}
+.logo{transition:opacity .2s}
+.logo:hover{opacity:.72}
+@media(min-width:1100px){.ex-q,.ex-pv{top:calc(var(--hh) + 12px)}.ex-q{max-height:calc(100vh - var(--hh) - 24px)}}
+@media(min-width:900px){.ev-res{top:calc(var(--hh) + 12px)}}
+
+/* portada */
+.hero{background-image:radial-gradient(70% 90% at 88% -10%,color-mix(in srgb,var(--accent) 11%,transparent),transparent 65%),linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:auto,32px 32px,32px 32px}
+.search svg{pointer-events:none;transition:stroke .2s}
+.search:has(input:focus) svg{stroke:var(--accent)}
+.search input{transition:border-color .2s,box-shadow .25s var(--ease),background-color .35s}
+#catalog .cat{animation:fin .25s ease backwards}
+
+/* tarjetas */
+.card{transition:transform .35s var(--ease),border-color .25s,box-shadow .35s var(--ease),background-color .35s}
+.card .ic{transition:background-color .25s,border-color .25s,transform .4s var(--ease)}
+.card svg{transition:stroke .25s}
+.card:not(.on) .ic{border-style:dashed}
+.card.on:hover,.card:focus-within{box-shadow:0 16px 30px -18px color-mix(in srgb,var(--accent) 55%,#000)}
+.card.on:active{transform:translateY(-1px) scale(.992)}
+.card:has(a.go:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.card a.go:focus-visible{outline:none}
+.card a.go{background:linear-gradient(currentColor,currentColor) 0 100%/0 1.5px no-repeat;transition:background-size .3s var(--ease),color .2s}
+.card a.go:hover{text-decoration:none}
+.card.on:hover a.go,.card a.go:focus-visible{background-size:100% 1.5px}
+@media(hover:hover){
+  .card.on:hover .ic{background:var(--accent);border-color:var(--accent);transform:rotate(-6deg) scale(1.07)}
+  .card.on:hover .ic svg{stroke:var(--accent-ink)}
+  .pri{transition:transform .2s var(--ease),filter .2s,box-shadow .25s,opacity .2s}
+  .pri:not(:disabled):hover{filter:brightness(1.1);transform:translateY(-1px);box-shadow:0 8px 18px -10px var(--accent)}
+  .tog:hover,.lang:hover,.theme:hover{border-color:var(--muted)}
+  .tog[aria-pressed=true]:hover{border-color:var(--accent);filter:brightness(1.08)}
+  .link:hover{text-decoration:underline;text-underline-offset:3px}
+  .seg button:not([aria-pressed=true]):hover{background:var(--bg)}
+  .calc input:not([type=checkbox]):not([type=radio]):hover:not(:focus),.calc textarea:hover:not(:focus),.calc select:hover:not(:focus){border-color:color-mix(in srgb,var(--muted) 60%,var(--line))}
+}
+.pri:not(:disabled):active{transform:scale(.97)}
+.seg button,.tog,.adds button,.opt2{transition:background-color .2s,color .2s,border-color .2s,transform .15s var(--ease)}
+.opt2:active{transform:scale(.985)}
+.theme svg{transition:transform .4s var(--ease)}
+@keyframes flip{from{transform:rotate(-90deg) scale(.55);opacity:0}}
+.theme.flip svg{animation:flip .45s var(--ease)}
+.pop,#menu{transform-origin:top left}
+@keyframes pin{from{opacity:0;transform:translateY(-4px) scale(.97)}}
+.pop,#menu{animation:pin .18s var(--ease)}
+
+/* desplegables suaves (preguntas frecuentes, "ver el cálculo") */
+summary{transition:color .2s}
+summary:hover{color:var(--accent)}
+@supports (interpolate-size:allow-keywords){
+  details{interpolate-size:allow-keywords}
+  details::details-content{block-size:0;overflow:clip;transition:block-size .3s var(--ease),content-visibility .3s allow-discrete}
+  details[open]::details-content{block-size:auto}
+}
+
+/* una sola entrada orquestada al abrir la portada */
+@keyframes rise{from{opacity:0;transform:translateY(14px)}}
+.intro #inicio{animation:none}
+.intro .hero h1{animation:rise .8s var(--ease) backwards}
+.intro .hero .lead{animation:rise .8s .08s var(--ease) backwards}
+.intro .hero .search{animation:rise .8s .16s var(--ease) backwards}
+.intro .hero #only{animation:rise .8s .22s var(--ease) backwards}
+.intro .card{animation:rise .7s calc(.25s + var(--i,0)*45ms) var(--ease) backwards}
+
+/* transición entre pantallas (View Transitions, con alternativa sin ella) */
+@keyframes vt-out{to{opacity:0;transform:translateY(-6px)}}
+@keyframes vt-in{from{opacity:0;transform:translateY(10px)}}
+.vt #inicio:not([hidden]),.vt .view:not([hidden]){animation:none}
+.vt::view-transition-old(root){animation:vt-out .16s ease both}
+.vt::view-transition-new(root){animation:vt-in .34s var(--ease) both}
+
+/* rendimiento: no pintar lo que queda fuera de pantalla */
+#como-funciona{content-visibility:auto;contain-intrinsic-size:auto 900px}
+@media(max-width:560px){.hero .wrap{padding-bottom:36px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
+</style>
+<script>try{if(localStorage.getItem("theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}
+window.LANG=(function(){try{var l=localStorage.getItem("lang");if(l==="en"||l==="es")return l}catch(e){}return "es"})();document.documentElement.lang=window.LANG;</script>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="logo" href="#inicio">Aulalia</a>
+    <div class="hdr-r"><button type="button" class="lang" id="lang"></button><button type="button" class="theme" id="theme"></button></div>
+  </div>
+</header>
+
+<main>
+<div id="inicio">
+<section class="hero">
+  <div class="wrap">
+    <h1>Herramientas para estudiar mejor.</h1>
+    <p class="lead">Calculadoras, ejercicios, resúmenes y recursos para la PAU en un solo sitio. Entra, elige una herramienta y úsala. Sin clases ni aulas virtuales.</p>
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg>
+      <label class="sr-only" for="q">Buscar herramientas</label>
+      <input id="q" type="search" placeholder="Busca una herramienta: notas, PDF, PAU…" autocomplete="off">
+    </div>
+    <button type="button" class="tog" id="only" aria-pressed="false" style="margin-top:12px">Solo disponibles</button>
+    <h2 class="sr-only">Herramientas</h2>
+    <div id="catalog"></div>
+    <p id="empty" role="status" hidden></p>
+  </div>
+</section>
+
+<section class="block" id="como-funciona">
+  <div class="wrap">
+    <h2>Cómo funciona</h2>
+    <p class="intro">Aulalia reúne herramientas independientes. No hay clases, grupos ni deberes: entras, usas la que necesitas y sigues con lo tuyo.</p>
+    <ol class="steps">
+      <li><h3>Elige una herramienta</h3><p>Búscala por nombre o recorre las categorías de la portada. Cada tarjeta indica si ya está disponible o llegará pronto.</p></li>
+      <li><h3>Ábrela</h3><p>Cada herramienta se abre en su propia pantalla, con un botón para volver, y funciona por separado de las demás.</p></li>
+      <li><h3>Introduce tus datos</h3><p>Notas, pesos, un tema o un texto, según la herramienta. Si algo no es válido, te dice qué corregir.</p></li>
+      <li><h3>Revisa el resultado</h3><p>Ves el resultado y cómo se ha obtenido. En las herramientas con IA podrás volver a generarlo y copiarlo.</p></li>
+    </ol>
+
+    <h3 class="sec">Qué encontrarás</h3>
+    <ul class="steps">
+      <li><h3>Estudio y aprendizaje</h3><p>La calculadora de notas, el generador de exámenes, el planificador de estudio y, próximamente, ejercicios.</p></li>
+      <li><h3>Inteligencia artificial</h3><p>Corrector, resumidor de PDF, flashcards y explicaciones por nivel. Aún no están disponibles.</p></li>
+      <li><h3>PAU y universidad</h3><p>Simulador de nota, noticias, exámenes oficiales y ponderaciones, siempre con su fuente.</p></li>
+      <li><h3>Profesores</h3><p>Generador de rúbricas con descriptores por nivel, listo para imprimir.</p></li>
+    </ul>
+
+    <h3 class="sec">Preguntas frecuentes</h3>
+    <div class="faq">
+      <details><summary>¿Necesito crear una cuenta?</summary><p>No para las herramientas disponibles, que funcionan directamente. Más adelante habrá cuentas opcionales para guardar favoritos e historial.</p></details>
+      <details><summary>¿Es gratis?</summary><p>Está previsto que Aulalia sea gratuita, con publicidad discreta. Las herramientas con IA tendrán un límite de usos y más adelante habrá una opción premium.</p></details>
+      <details><summary>¿Qué pasa con mis datos?</summary><p>La calculadora, el generador de exámenes, el planificador y el generador de rúbricas funcionan en tu navegador: lo que escribes y guardas se queda en este dispositivo y no se envía a ningún servidor. En las herramientas con IA, el objetivo es guardar lo mínimo posible.</p></details>
+      <details><summary>¿Qué significa «Próximamente»?</summary><p>Que la herramienta aún no existe. No simulamos que funciona: aparecerá como disponible cuando esté terminada y probada.</p></details>
+      <details><summary>¿Es una plataforma para gestionar clases?</summary><p>No. Aulalia no tiene aulas, grupos ni entrega de deberes: son herramientas sueltas para estudiar.</p></details>
+    </div>
+  </div>
+</section>
+</div>
+
+<section id="vista-calculadora" class="view" hidden aria-labelledby="calc-t">
+  <div class="wrap">
+    <a class="back" href="#inicio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Volver a las herramientas</a>
+    <h1 id="calc-t" tabindex="-1">Calculadora de notas</h1>
+    <p class="intro">Introduce tus notas para ver tu media y, si te queda algo por evaluar, qué nota necesitas para llegar a tu objetivo.</p>
+    <div class="calc-grid" id="calc-grid">
+      <section class="calc" aria-labelledby="c1">
+        <h2 id="c1">Tus notas</h2>
+        <p class="sub">El peso puede ser un porcentaje. Si lo dejas vacío, se calcula la media simple.</p>
+        <div class="cols"><span>Nota (0–10)</span><span>Peso</span><span></span></div>
+        <div id="rows"></div>
+        <button type="button" class="link" id="add">Añadir nota</button>
+        <div class="out" id="out-media" aria-live="polite"></div>
+      </section>
+      <section class="calc" aria-labelledby="c2">
+        <h2 id="c2">¿Qué nota necesito?</h2>
+        <p class="sub">Aquí cada nota necesita su peso. Si tus pesos suman menos de 100 %, el resto se rellena solo (puedes desactivarlo). Indica la media que quieres.</p>
+        <div class="extra">
+          <div><label for="pw">Peso pendiente</label><input id="pw" inputmode="decimal" value="40"></div>
+          <div><label for="t">Media objetivo</label><input id="t" inputmode="decimal" value="5"></div>
+        </div>
+        <button type="button" class="tog" id="auto" aria-pressed="true">Autocompletar peso: activado</button>
+        <div class="out" id="out-rec" aria-live="polite"></div>
+      </section>
+    </div>
+  </div>
+</section>
+
+<section id="vista-noticias" class="view" hidden aria-labelledby="nw-t">
+  <div class="wrap">
+    <a class="back" href="#inicio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Volver a las herramientas</a>
+    <h1 id="nw-t" tabindex="-1">Noticias y actualizaciones PAU</h1>
+    <p class="intro">Novedades sobre la PAU con su fecha y un enlace a la fuente. Filtra por tema o por comunidad.</p>
+    <div class="nw-bar">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg>
+        <label class="sr-only" for="nw-q">Buscar noticias</label>
+        <input id="nw-q" type="search" placeholder="Busca una noticia: fechas, notas, matrícula…" autocomplete="off">
+      </div>
+      <select id="nw-c" aria-label="Comunidad" hidden></select>
+    </div>
+    <div class="nw-tags" id="nw-tags" role="group" aria-label="Tema"></div>
+    <p class="sub" id="nw-n" role="status" aria-live="polite"></p>
+    <div class="nw-list" id="nw-list"></div>
+  </div>
+</section>
+
+<section id="vista-examenes" class="view" hidden aria-labelledby="ex-t">
+  <div class="wrap wide">
+    <a class="back" href="#inicio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Volver a las herramientas</a>
+    <h1 id="ex-t" tabindex="-1">Generador de exámenes</h1>
+    <p class="intro">Diseña tu examen en hojas A4, crea hasta seis tipos distintos (A a F) y expórtalo a PDF. Guárdalo para seguir editándolo más tarde.</p>
+    <div class="ex-top">
+      <section class="calc"><h2>Cabecera</h2>
+        <div class="hgrid">
+          <div class="fld"><label for="h-name">Nombre del examen</label><input id="h-name" type="text" value="Examen de la 1.ª evaluación"></div>
+          <div class="fld"><label for="h-subj">Asignatura</label><input id="h-subj" type="text" value="Matemáticas"></div>
+          <div class="fld"><label for="h-date">Fecha</label><input id="h-date" type="date"></div>
+          <div class="fld"><label for="h-logo">Imagen del colegio</label><input id="h-logo" type="file" accept="image/*"></div>
+        </div>
+        <div class="swrow">
+          <label class="sw"><input id="h-stu" type="checkbox" checked><span class="trk"></span>Nombre y apellidos del alumno</label>
+          <label class="sw"><input id="h-sc" type="checkbox" checked><span class="trk"></span>Zona de la nota bajo la cabecera</label>
+        </div>
+      </section>
+      <section class="calc"><h2>Tipos de examen</h2>
+        <div class="hgrid">
+          <div class="fld"><span class="lbl">Modo</span><div class="seg" role="group" aria-label="Modo"><button type="button" id="m-man" aria-pressed="true">Manual</button><button type="button" id="m-aut" aria-pressed="false">Automático</button></div></div>
+          <div class="fld"><label for="h-n">Cantidad de tipos</label><select id="h-n"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div>
+          <div class="fld" id="a-tot" hidden><label for="h-tot">Puntuación total</label><input id="h-tot" type="number" value="10" min="1" step="0.5"></div>
+        </div>
+        <p class="sub" id="m-help" style="margin:0"></p>
+        <button type="button" class="tog" id="a-gen" hidden style="margin-top:8px">Generar tipos de nuevo</button>
+      </section>
+    </div>
+    <section class="calc" id="sv-box" style="margin-top:16px"><h2>Mis exámenes guardados</h2><p class="sub" id="sv-msg" role="status" style="margin:0 0 6px"></p><div id="sv-list"></div></section>
+    <div class="ex-grid" id="ex-grid">
+      <section class="calc ex-q"><h2>Preguntas</h2><div class="fld" id="cols-f" style="max-width:240px" hidden><label for="h-cols">Preguntas tipo test por fila</label><select id="h-cols"><option>1</option><option selected>2</option><option>3</option></select></div><div id="qs"></div></section>
+      <div class="ex-pv">
+        <div class="ex-bar"><div class="seg" id="tabs"></div><label class="sw" id="cmp-w"><input type="checkbox" id="cmp"><span class="trk"></span>Comparar tipos</label><button type="button" class="tog" id="sv">Guardar examen</button><button type="button" class="pri" id="pdf">Exportar a PDF</button></div>
+        <div class="stage" id="stage"><div id="sheets"></div></div>
+        <p class="sub" id="ex-tip" style="margin:8px 0 0">Pasa el cursor por una pregunta para editarla o añadir otra debajo. El PDF se genera desde el diálogo de impresión: elige «Guardar como PDF», tamaño A4 y sin márgenes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="vista-planificador" class="view" hidden aria-labelledby="pl-t">
+  <div class="wrap">
+    <a class="back" href="#inicio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Volver a las herramientas</a>
+    <h1 id="pl-t" tabindex="-1">Planificador de estudio</h1>
+    <p class="intro">Añade tus exámenes, indica cuándo puedes estudiar y obtén una rutina día a día. Se da más tiempo a las asignaturas con peor nota y a los exámenes más cercanos, sin dejar ninguna de lado.</p>
+    <div class="ex-top">
+      <section class="calc"><h2>Tus exámenes</h2>
+        <div id="pl-rows" style="margin-top:12px"></div>
+        <div class="pl-act"><button type="button" class="link" id="pl-add">Añadir examen</button><button type="button" class="link" id="pl-impb">Importar desde un calendario (.ics)</button></div>
+        <p class="sub" style="margin-top:4px">También puedes arrastrar el archivo .ics a cualquier parte de esta página.</p>
+        <input type="file" id="pl-ics" accept=".ics,text/calendar" hidden>
+        <div id="pl-imp" hidden></div>
+      </section>
+      <section class="calc"><h2>Cuándo estudias</h2>
+        <p class="sub">Horas que quieres dedicar cada día. Pon 0 en los días que no puedes.</p>
+        <div class="dh" id="pl-dh" style="margin-top:12px"></div>
+        <div class="two" style="margin-top:12px"><div class="fld"><label for="pl-st">Empiezas a las</label><input id="pl-st" type="time" value="17:00"></div><div class="fld"><label for="pl-from">Empezar el</label><input id="pl-from" type="date"></div></div>
+      </section>
+    </div>
+    <section class="calc" style="margin-top:16px"><h2>Tu rutina</h2>
+      <div class="ex-bar"><button type="button" class="pri" id="pl-dl" style="margin-left:0" disabled>Descargar .ics</button></div>
+      <details><summary>Cómo llevarla a Google Calendar o Notion Calendar</summary><ol><li>Descarga el archivo .ics.</li><li>Google Calendar: en el ordenador, abre calendar.google.com → Configuración → Importar y exportar → Importar. También puedes añadir sesiones sueltas con el enlace «Google Calendar» de cada fila.</li><li>Notion Calendar: si lo tienes conectado a tu cuenta de Google, mostrará las sesiones en cuanto las importes en Google Calendar.</li><li>Para traer tus exámenes, exporta tu calendario a .ics (en Google Calendar: Configuración → Importar y exportar → Exportar) y súbelo con «Importar desde un calendario».</li></ol></details>
+      <div id="pl-out" aria-live="polite"></div>
+    </section>
+  </div>
+</section>
+<section id="vista-rubricas" class="view" hidden aria-labelledby="rb-t">
+  <div class="wrap">
+    <a class="back" href="#inicio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Volver a las herramientas</a>
+    <h1 id="rb-t" tabindex="-1">Generador de rúbricas</h1>
+    <p class="intro" id="rb-intro"></p>
+    <div id="rb-edit">
+      <div class="rb-top rb-nop"><div class="rb-pw"><button type="button" class="tog" id="rb-tplb" aria-haspopup="true" aria-expanded="false">Añadir plantilla</button><div class="pop" id="rb-tplm" hidden><button type="button" data-t="oral">Exposición oral</button><button type="button" data-t="escrito">Trabajo escrito</button><button type="button" data-t="grupo">Trabajo en grupo</button><button type="button" data-t="blank">En blanco</button></div></div></div>
+      <div class="rb-ed">
+        <div class="ex-top" style="margin-top:12px">
+          <section class="calc"><h2>Datos</h2>
+            <div class="hgrid">
+              <div class="fld"><label for="rb-title">Título</label><input id="rb-title" type="text"></div>
+              <div class="fld"><label for="rb-subj">Asignatura o curso</label><input id="rb-subj" type="text"></div>
+              <div class="fld"><label for="rb-n">Número de niveles</label><select id="rb-n"><option>3</option><option>4</option><option>5</option></select></div>
+            </div>
+            <div class="swrow"><label class="sw"><input id="rb-stu" type="checkbox"><span class="trk"></span>Línea para el nombre del alumno</label><label class="sw"><input id="rb-obs" type="checkbox"><span class="trk"></span>Cuadro de observaciones</label></div>
+          </section>
+          <section class="calc"><h2>Niveles</h2><p class="sub">Nombre y puntos de cada nivel de logro.</p><div id="rb-lv" style="margin-top:10px"></div></section>
+        </div>
+        <section class="calc" style="margin-top:16px"><h2>Criterios</h2><div id="rb-cr"></div><button type="button" class="link" id="rb-add">Añadir criterio</button></section>
+      </div>
+      <section class="rb-nop" id="rb-fin" style="margin-top:28px"><h2 style="font-size:1.15rem">Cuando termines</h2>
+        <div class="opts2">
+          <button type="button" class="opt2" id="rb-print"><b>Exportar a PDF</b><span>Hoja A4 en horizontal, lista para imprimir y rellenar a mano.</span></button>
+          <button type="button" class="opt2" id="rb-eval"><b>Evaluar en pantalla</b><span>Elige el nivel de cada criterio y obtén la nota al momento.</span></button>
+        </div>
+        <p class="sub" id="rb-hint" style="margin-top:10px"></p>
+      </section>
+      <h2 class="rb-nop" style="margin:32px 0 12px;font-size:1.15rem">Vista previa</h2>
+      <div id="rb-warn"></div>
+      <div class="rb" id="rb-sheet"></div>
+      <p class="sub" id="rb-tip">La rúbrica se imprime en horizontal. En el diálogo de impresión elige «Guardar como PDF».</p>
+    </div>
+    <div id="rb-evalv" hidden>
+      <div class="ex-bar" style="margin-top:20px"><button type="button" class="tog" id="rb-back">Volver a editar</button><button type="button" class="tog" id="rb-reset">Limpiar formulario</button></div>
+      <div class="ev-grid">
+        <section class="calc"><p class="ev-note" id="rb-ev-note" hidden></p><label class="fld" style="max-width:360px"><span>Nombre del alumno</span><input id="rb-ev-name" type="text"></label><div id="rb-ev-cr"></div></section>
+        <section class="calc ev-res" aria-live="polite"><h2>Nota</h2><div id="rb-ev-out"></div></section>
+      </div>
+      <section class="calc" style="margin-top:16px"><div class="evl-h"><h2 id="rb-ev-lt">Alumnos evaluados</h2><span id="rb-ev-la"></span></div><div id="rb-ev-list"></div></section>
+    </div>
+    <div class="rb" id="rb-rep"></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <p><strong>Aulalia</strong></p>
+      <p>Herramientas para estudiar mejor.</p>
+    </div>
+    <div>
+      <p>Proyecto en desarrollo: las herramientas marcadas como «Próximamente» aún no están disponibles.</p>
+      <p>Aviso legal y política de privacidad: pendientes de redactar antes del lanzamiento.</p>
+    </div>
+  </div>
+</footer>
+
+<script id="noticias-datos">
+/* =====================================================================
+   NOTICIAS PAU · aquí es donde tú escribes las noticias
+   ---------------------------------------------------------------------
+   Para añadir una noticia: copia la PLANTILLA de abajo, pégala al
+   principio de la lista NEWS (justo debajo de "const NEWS=[") y cambia
+   los textos. No importa el orden: la web las ordena por fecha.
+   Para quitar una noticia: borra su bloque entero, de { a }, + la coma.
+
+   PLANTILLA (copia desde la llave { hasta la coma del final):
+
+   {
+     fecha:"2026-11-14",          // AAAA-MM-DD. Obligatorio
+     titulo:"Título de la noticia",   // Obligatorio
+     resumen:"Una o dos frases con lo importante.",
+     categoria:"fechas",          // fechas | matricula | notas | examenes | normativa | otros
+     comunidad:"Todas",           // "Todas" (toda España) o el nombre, p. ej. "Andalucía"
+     fuente:"Nombre del organismo",   // p. ej. BOE, Ministerio de Educación, Junta de Andalucía
+     enlace:"https://...",        // enlace a la fuente oficial (opcional)
+     importante:false             // true = se marca con una barra de color
+   },
+
+   Reglas: comillas dobles ", una coma al final de cada bloque, y si el
+   texto lleva comillas dobles dentro, escríbelas como \" .
+   ===================================================================== */
+const NEWS=[
+  /* ↓ Pega tus noticias aquí, encima del ejemplo ↓ */
+
+  /* Ejemplo de cómo se ve una noticia. Bórralo cuando publiques la primera. */
+  {
+    fecha:"2026-11-14",
+    titulo:"Así se verá una noticia en esta página",
+    resumen:"Esta entrada es solo un ejemplo para que veas el formato. Sustitúyela por una noticia real copiando la plantilla.",
+    categoria:"otros",
+    comunidad:"Todas",
+    fuente:"Organismo oficial",
+    enlace:"",
+    importante:false,
+    ejemplo:true
+  },
+];
+</script>
+<script>
+/* ---- Idioma / Language (ES · EN) ---- */
+const EN=window.LANG==='en',tr=(es,en)=>EN?en:es,LOC=EN?'en-GB':'es-ES';
+const I18N={
+"Aulalia · Herramientas para estudiar mejor":"Aulalia · Tools to study better",
+"Calculadoras, ejercicios, resúmenes y más para ESO, Bachillerato, PAU y profesores.":"Calculators, exercises, summaries and more for secondary school, sixth form, university entrance exams (PAU) and teachers.",
+"Herramientas para estudiar mejor.":"Tools to study better.",
+"Calculadoras, ejercicios, resúmenes y recursos para la PAU en un solo sitio. Entra, elige una herramienta y úsala. Sin clases ni aulas virtuales.":"Calculators, exercises, summaries and university entrance (PAU) resources in one place. Come in, pick a tool and use it. No classes or virtual classrooms.",
+"Buscar herramientas":"Search tools",
+"Busca una herramienta: notas, PDF, PAU…":"Search for a tool: grades, PDF, PAU…",
+"Solo disponibles":"Available only",
+"Herramientas":"Tools",
+"Cómo funciona":"How it works",
+"Aulalia reúne herramientas independientes. No hay clases, grupos ni deberes: entras, usas la que necesitas y sigues con lo tuyo.":"Aulalia brings together independent tools. There are no classes, groups or homework: you come in, use the one you need and get on with your day.",
+"Elige una herramienta":"Pick a tool",
+"Búscala por nombre o recorre las categorías de la portada. Cada tarjeta indica si ya está disponible o llegará pronto.":"Search for it by name or browse the categories on the home page. Each card shows whether it is already available or coming soon.",
+"Ábrela":"Open it",
+"Cada herramienta se abre en su propia pantalla, con un botón para volver, y funciona por separado de las demás.":"Each tool opens on its own screen, with a back button, and works independently of the others.",
+"Introduce tus datos":"Enter your data",
+"Notas, pesos, un tema o un texto, según la herramienta. Si algo no es válido, te dice qué corregir.":"Grades, weights, a topic or a text, depending on the tool. If something is not valid, it tells you what to fix.",
+"Revisa el resultado":"Check the result",
+"Ves el resultado y cómo se ha obtenido. En las herramientas con IA podrás volver a generarlo y copiarlo.":"You see the result and how it was obtained. In the AI tools you will be able to regenerate and copy it.",
+"Qué encontrarás":"What you will find",
+"Estudio y aprendizaje":"Study and learning",
+"La calculadora de notas, el generador de exámenes, el planificador de estudio y, próximamente, ejercicios.":"The grade calculator, the exam generator, the study planner and, coming soon, exercises.",
+"Inteligencia artificial":"Artificial intelligence",
+"Corrector, resumidor de PDF, flashcards y explicaciones por nivel. Aún no están disponibles.":"Exercise checker, PDF summariser, flashcards and level-based explanations. Not available yet.",
+"PAU y universidad":"PAU and university",
+"Simulador de nota, noticias, exámenes oficiales y ponderaciones, siempre con su fuente.":"Grade simulator, news, official exams and subject weightings, always with their source.",
+"Profesores":"Teachers",
+"Generador de rúbricas con descriptores por nivel, listo para imprimir.":"Rubric generator with descriptors for each level, ready to print.",
+"Preguntas frecuentes":"Frequently asked questions",
+"¿Necesito crear una cuenta?":"Do I need to create an account?",
+"No para las herramientas disponibles, que funcionan directamente. Más adelante habrá cuentas opcionales para guardar favoritos e historial.":"Not for the available tools, which work straight away. Later there will be optional accounts to save favourites and history.",
+"¿Es gratis?":"Is it free?",
+"Está previsto que Aulalia sea gratuita, con publicidad discreta. Las herramientas con IA tendrán un límite de usos y más adelante habrá una opción premium.":"Aulalia is planned to be free, with unobtrusive advertising. The AI tools will have a usage limit and a premium option will come later.",
+"¿Qué pasa con mis datos?":"What happens to my data?",
+"La calculadora, el generador de exámenes, el planificador y el generador de rúbricas funcionan en tu navegador: lo que escribes y guardas se queda en este dispositivo y no se envía a ningún servidor. En las herramientas con IA, el objetivo es guardar lo mínimo posible.":"The calculator, the exam generator, the planner and the rubric generator run in your browser: what you type and save stays on this device and is not sent to any server. In the AI tools, the goal is to store as little as possible.",
+"¿Qué significa «Próximamente»?":"What does “Coming soon” mean?",
+"Que la herramienta aún no existe. No simulamos que funciona: aparecerá como disponible cuando esté terminada y probada.":"That the tool does not exist yet. We do not pretend it works: it will show as available once it is finished and tested.",
+"¿Es una plataforma para gestionar clases?":"Is it a platform for managing classes?",
+"No. Aulalia no tiene aulas, grupos ni entrega de deberes: son herramientas sueltas para estudiar.":"No. Aulalia has no classrooms, groups or homework submission: they are standalone tools for studying.",
+"Volver a las herramientas":"Back to the tools",
+"Calculadora de notas":"Grade calculator",
+"Introduce tus notas para ver tu media y, si te queda algo por evaluar, qué nota necesitas para llegar a tu objetivo.":"Enter your grades to see your average and, if something is still to be assessed, what grade you need to reach your target.",
+"Tus notas":"Your grades",
+"El peso puede ser un porcentaje. Si lo dejas vacío, se calcula la media simple.":"The weight can be a percentage. If you leave it empty, the simple average is calculated.",
+"Nota (0–10)":"Grade (0–10)",
+"Peso":"Weight",
+"Añadir nota":"Add grade",
+"¿Qué nota necesito?":"What grade do I need?",
+"Aquí cada nota necesita su peso. Si tus pesos suman menos de 100 %, el resto se rellena solo (puedes desactivarlo). Indica la media que quieres.":"Here every grade needs its weight. If your weights add up to less than 100%, the rest is filled in automatically (you can turn this off). Enter the average you want.",
+"Peso pendiente":"Remaining weight",
+"Media objetivo":"Target average",
+"Autocompletar peso: activado":"Auto-fill weight: on",
+"Generador de exámenes":"Exam generator",
+"Diseña tu examen en hojas A4, crea hasta seis tipos distintos (A a F) y expórtalo a PDF. Guárdalo para seguir editándolo más tarde.":"Design your exam on A4 sheets, create up to six different versions (A to F) and export it to PDF. Save it to keep editing later.",
+"Cabecera":"Header",
+"Nombre del examen":"Exam name",
+"Examen de la 1.ª evaluación":"First term exam",
+"Asignatura":"Subject",
+"Matemáticas":"Mathematics",
+"Fecha":"Date",
+"Imagen del colegio":"School logo",
+"Nombre y apellidos del alumno":"Student's full name",
+"Zona de la nota bajo la cabecera":"Grade box below the header",
+"Tipos de examen":"Exam versions",
+"Modo":"Mode",
+"Automático":"Automatic",
+"Cantidad de tipos":"Number of versions",
+"Puntuación total":"Total score",
+"Generar tipos de nuevo":"Regenerate versions",
+"Mis exámenes guardados":"My saved exams",
+"Preguntas":"Questions",
+"Preguntas tipo test por fila":"Multiple-choice questions per row",
+"Comparar tipos":"Compare versions",
+"Guardar examen":"Save exam",
+"Exportar a PDF":"Export to PDF",
+"Pasa el cursor por una pregunta para editarla o añadir otra debajo. El PDF se genera desde el diálogo de impresión: elige «Guardar como PDF», tamaño A4 y sin márgenes.":"Hover over a question to edit it or add another one below. The PDF is created from the print dialog: choose “Save as PDF”, A4 size and no margins.",
+"Planificador de estudio":"Study planner",
+"Añade tus exámenes, indica cuándo puedes estudiar y obtén una rutina día a día. Se da más tiempo a las asignaturas con peor nota y a los exámenes más cercanos, sin dejar ninguna de lado.":"Add your exams, say when you can study and get a day-by-day routine. More time goes to the subjects with lower grades and the nearest exams, without leaving any behind.",
+"Tus exámenes":"Your exams",
+"Añadir examen":"Add exam",
+"Importar desde un calendario (.ics)":"Import from a calendar (.ics)",
+"También puedes arrastrar el archivo .ics a cualquier parte de esta página.":"You can also drag the .ics file anywhere on this page.",
+"Cuándo estudias":"When you study",
+"Horas que quieres dedicar cada día. Pon 0 en los días que no puedes.":"Hours you want to spend each day. Enter 0 on the days you can't.",
+"Empiezas a las":"You start at",
+"Empezar el":"Start on",
+"Tu rutina":"Your routine",
+"Descargar .ics":"Download .ics",
+"Cómo llevarla a Google Calendar o Notion Calendar":"How to add it to Google Calendar or Notion Calendar",
+"Descarga el archivo .ics.":"Download the .ics file.",
+"Google Calendar: en el ordenador, abre calendar.google.com → Configuración → Importar y exportar → Importar. También puedes añadir sesiones sueltas con el enlace «Google Calendar» de cada fila.":"Google Calendar: on a computer, open calendar.google.com → Settings → Import & export → Import. You can also add single sessions with the “Google Calendar” link on each row.",
+"Notion Calendar: si lo tienes conectado a tu cuenta de Google, mostrará las sesiones en cuanto las importes en Google Calendar.":"Notion Calendar: if it is connected to your Google account, it will show the sessions as soon as you import them into Google Calendar.",
+"Para traer tus exámenes, exporta tu calendario a .ics (en Google Calendar: Configuración → Importar y exportar → Exportar) y súbelo con «Importar desde un calendario».":"To bring in your exams, export your calendar as .ics (in Google Calendar: Settings → Import & export → Export) and upload it with “Import from a calendar”.",
+"Generador de rúbricas":"Rubric generator",
+"Añadir plantilla":"Add template",
+"Exposición oral":"Oral presentation",
+"Trabajo escrito":"Written assignment",
+"Trabajo en grupo":"Group work",
+"En blanco":"Blank",
+"Datos":"Details",
+"Título":"Title",
+"Asignatura o curso":"Subject or year",
+"Número de niveles":"Number of levels",
+"Línea para el nombre del alumno":"Line for the student's name",
+"Cuadro de observaciones":"Comments box",
+"Niveles":"Levels",
+"Nombre y puntos de cada nivel de logro.":"Name and points for each achievement level.",
+"Criterios":"Criteria",
+"Añadir criterio":"Add criterion",
+"Cuando termines":"When you finish",
+"Hoja A4 en horizontal, lista para imprimir y rellenar a mano.":"Landscape A4 sheet, ready to print and fill in by hand.",
+"Evaluar en pantalla":"Assess on screen",
+"Elige el nivel de cada criterio y obtén la nota al momento.":"Pick the level for each criterion and get the grade instantly.",
+"Vista previa":"Preview",
+"La rúbrica se imprime en horizontal. En el diálogo de impresión elige «Guardar como PDF».":"The rubric prints in landscape. In the print dialog choose “Save as PDF”.",
+"Volver a editar":"Back to editing",
+"Limpiar formulario":"Clear form",
+"Nombre del alumno":"Student name",
+"Nota":"Grade",
+"Alumnos evaluados":"Assessed students",
+"Proyecto en desarrollo: las herramientas marcadas como «Próximamente» aún no están disponibles.":"Project in development: tools marked “Coming soon” are not available yet.",
+"Aviso legal y política de privacidad: pendientes de redactar antes del lanzamiento.":"Legal notice and privacy policy: to be written before launch.",
+"Noticias y actualizaciones PAU":"PAU news and updates",
+"Novedades sobre la PAU con su fecha y un enlace a la fuente. Filtra por tema o por comunidad.":"News about the PAU with its date and a link to the source. Filter by topic or region.",
+"Busca una noticia: fechas, notas, matrícula…":"Search news: dates, grades, enrolment…",
+"Buscar noticias":"Search news",
+"Comunidad":"Region"
+};
+function i18nStatic(){
+  if(!EN)return;
+  const T=s=>{const k=s.trim();return Object.prototype.hasOwnProperty.call(I18N,k)?s.replace(k,I18N[k]):null};
+  const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode:n=>/^(SCRIPT|STYLE)$/.test(n.parentNode.nodeName)?2:1});
+  const ns=[];while(w.nextNode())ns.push(w.currentNode);
+  ns.forEach(n=>{const v=T(n.nodeValue);if(v!=null)n.nodeValue=v});
+  document.querySelectorAll('[placeholder],[aria-label],[title],input[type="text"][value]').forEach(el=>{
+    ['placeholder','aria-label','title'].forEach(a=>{if(el.hasAttribute(a)){const v=T(el.getAttribute(a));if(v!=null)el.setAttribute(a,v)}});
+    if(el.matches('input[type="text"]')){const v=T(el.value);if(v!=null)el.value=v}
+  });
+  document.querySelectorAll('meta[name="description"],meta[property^="og:"]').forEach(m=>{const v=T(m.content);if(v!=null)m.content=v});
+}
+i18nStatic();
+const langBtn=document.getElementById('lang');
+langBtn.textContent=EN?'ES':'EN';
+langBtn.setAttribute('aria-label',EN?'Ver en español':'View in English');langBtn.title=langBtn.getAttribute('aria-label');
+langBtn.setAttribute('lang',EN?'es':'en');
+langBtn.addEventListener('click',()=>{try{localStorage.setItem('lang',EN?'es':'en')}catch(e){}location.reload()});
+const ICONS={
+calc:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/>',
+target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+exam:'<path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h5"/>',
+pen:'<path d="M4 20l4-1 11-11-3-3L5 16z"/>',
+cal:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>',
+check:'<path d="M5 12l4 4 10-10"/>',
+pdf:'<path d="M6 3h9l4 4v14H6z"/><path d="M9 8h3M9 12h7M9 16h7"/>',
+cards:'<rect x="3" y="8" width="14" height="11" rx="2"/><path d="M7 5h14v11"/>',
+bulb:'<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/>',
+cap:'<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/>',
+news:'<path d="M5 4h11v16H7a2 2 0 0 1-2-2z"/><path d="M16 8h3v10a2 2 0 0 1-2 2M8 8h5M8 12h5"/>',
+find:'<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/>',
+scale:'<path d="M12 4v16M6 20h12M5 7h14M5 7l-3 7a3 3 0 0 0 6 0zM19 7l-3 7a3 3 0 0 0 6 0z"/>',
+rubric:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 12h6M9 16h6"/>'
+};
+const CATS={
+estudio:tr(["Estudio y aprendizaje","Calcula, practica y organiza tu estudio."],["Study and learning","Calculate, practise and organise your studying."]),
+ia:tr(["Inteligencia artificial","Corrige, resume y explica con ayuda de IA."],["Artificial intelligence","Check, summarise and explain with the help of AI."]),
+pau:tr(["PAU y universidad","Notas de acceso, exámenes y ponderaciones."],["PAU and university","Entrance grades, exams and subject weightings."]),
+profesores:tr(["Profesores","Recursos para preparar la evaluación."],["Teachers","Resources to prepare assessment."])};
+// [id, nombre, descripción, categoría, icono, disponible]
+const TOOLS=[
+["calculadora-notas","Calculadora de notas","Calcula tu media, simple o ponderada, y la nota que necesitas para llegar a tu objetivo.","estudio","calc","calculadora"],
+["generador-examenes","Generador de exámenes","Diseña exámenes en hojas A4, con varios tipos (A–F), y expórtalos a PDF.","estudio","exam","examenes"],
+["generador-ejercicios","Generador de ejercicios","Ejercicios a tu nivel, con soluciones explicadas.","estudio","pen",0],
+["planificador-estudio","Planificador de estudio","Crea una rutina de estudio según tus exámenes y tus notas, y expórtala a tu calendario.","estudio","cal","planificador"],
+["corrector-ejercicios","Corrector de ejercicios","Corrección razonada con errores y resolución correcta.","ia","check",0],
+["resumidor-pdf","Resumidor de apuntes PDF","Resúmenes cortos, medios o detallados de tus PDF.","ia","pdf",0],
+["generador-flashcards","Generador de flashcards","Tarjetas de pregunta y respuesta para repasar.","ia","cards",0],
+["explicador-temas","Explicador de temas con IA","Explicaciones con ejemplos adaptadas a tu nivel.","ia","bulb",0],
+["simulador-pau","Simulador y calculadora PAU","Nota de acceso y de admisión con su desglose.","pau","cap",0],
+["noticias-pau","Noticias y actualizaciones PAU","Novedades de fuentes oficiales, con fecha y enlace.","pau","news","noticias"],
+["examenes-oficiales","Buscador de exámenes oficiales","Modelos y exámenes anteriores por comunidad, materia y año.","pau","find",0],
+["ponderaciones-universitarias","Buscador de ponderaciones","Ponderaciones por grado y universidad, con su fuente.","pau","scale",0],
+["generador-rubricas","Generador de rúbricas","Rúbricas con descriptores por nivel, listas para imprimir.","profesores","rubric","rubricas"]
+];
+if(EN){const T_EN={
+"calculadora-notas":["Grade calculator","Work out your average, simple or weighted, and the grade you need to reach your target."],
+"generador-examenes":["Exam generator","Design exams on A4 sheets, with several versions (A–F), and export them to PDF."],
+"generador-ejercicios":["Exercise generator","Exercises at your level, with explained solutions."],
+"planificador-estudio":["Study planner","Create a study routine based on your exams and grades, and export it to your calendar."],
+"corrector-ejercicios":["Exercise checker","Reasoned marking with mistakes and the correct solution."],
+"resumidor-pdf":["PDF notes summariser","Short, medium or detailed summaries of your PDFs."],
+"generador-flashcards":["Flashcard generator","Question and answer cards for revision."],
+"explicador-temas":["AI topic explainer","Explanations with examples adapted to your level."],
+"simulador-pau":["PAU simulator and calculator","Access and admission grade with its breakdown."],
+"noticias-pau":["PAU news and updates","News from official sources, with date and link."],
+"examenes-oficiales":["Official exam finder","Past papers and sample exams by region, subject and year."],
+"ponderaciones-universitarias":["Subject weighting finder","Weightings by degree and university, with their source."],
+"generador-rubricas":["Rubric generator","Rubrics with descriptors for each level, ready to print."]};
+TOOLS.forEach(t=>{const e=T_EN[t[0]];if(e){t[1]=e[0];t[2]=e[1]}})}
+const norm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+
+let onlyOn=false;
+function renderCatalog(query){
+  const words=norm(query).split(/\s+/).filter(Boolean);
+  const hits=TOOLS.filter(t=>{const h=norm(t[1]+' '+t[2]);return words.every(w=>h.includes(w))&&(!onlyOn||t[5])});
+  let html='';
+  for(const c in CATS){
+    const list=hits.filter(t=>t[3]===c);
+    if(!list.length)continue;
+    html+=`<div class="cat"><h3>${CATS[c][0]}</h3><p>${CATS[c][1]}</p><div class="grid">`+
+    list.map((t,i)=>`<article class="card${t[5]?' on':''}" id="t-${t[0]}" style="--i:${Math.min(i,8)}"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[t[4]]}</svg></div><h4>${t[1]}</h4><p>${t[2]}</p><div class="foot">${t[5]?'<span class="badge on">'+tr('Disponible','Available')+'</span><a class="go" href="#'+t[5]+'">'+tr('Probar ahora','Try it now')+'</a>':'<span class="badge">'+tr('Próximamente','Coming soon')+'</span>'}</div></article>`).join('')+
+    `</div></div>`;
+  }
+  if(renderCatalog.last!==html){renderCatalog.last=html;document.getElementById('catalog').innerHTML=html}
+  const empty=document.getElementById('empty');
+  empty.hidden=hits.length>0;
+  if(!hits.length)empty.textContent=tr(`No hay herramientas que coincidan con “${query.trim()}”. Prueba con otra palabra.`,`No tools match “${query.trim()}”. Try another word.`);
+}
+const q=document.getElementById('q');
+q.addEventListener('input',()=>renderCatalog(q.value));
+renderCatalog('');
+const onlyB=document.getElementById('only');
+onlyB.addEventListener('click',()=>{onlyOn=!onlyOn;onlyB.setAttribute('aria-pressed',onlyOn);renderCatalog(q.value)});
+document.addEventListener('keydown',e=>{
+  if(e.key==='/'&&!home.hidden&&!/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)){e.preventDefault();q.focus()}
+});
+
+/* ---- Calculadora (misma lógica que src/lib/calculators, con pruebas) ---- */
+const rows=document.getElementById('rows'),outM=document.getElementById('out-media'),outR=document.getElementById('out-rec');
+const r2=n=>{n=Number(n);if(!isFinite(n)||Math.abs(n)<1e-6)return 0;if(Math.abs(n)>=1e15)return n;return (n<0?-1:1)*Number(Math.round(Math.abs(n)+'e2')+'e-2')+0};
+const fmt=n=>EN?String(r2(n)):String(r2(n)).replace('.',',');
+const ceil2=n=>Math.ceil(n*100-1e-7)/100+0;
+const num=v=>{v=String(v).trim().replace(',','.').replace(/\s*%$/,'');return v===''?null:/^(\d+\.?\d*|\.\d+)$/.test(v)?Number(v):NaN};
+const fail=(box,list)=>{box.innerHTML=list.map(m=>`<p class="err">${m}</p>`).join('')};
+
+function addRow(g='',w=''){
+  const d=document.createElement('div');d.className='row';
+  d.innerHTML='<input class="g" inputmode="decimal" placeholder="'+tr('7,5','7.5')+'" aria-label="'+tr('Nota','Grade')+'"><input class="w" inputmode="decimal" placeholder="'+tr('Peso','Weight')+'" aria-label="'+tr('Peso','Weight')+'"><button type="button" class="x" aria-label="'+tr('Quitar nota','Remove grade')+'">×</button>';
+  d.querySelector('.g').value=g;d.querySelector('.w').value=w;rows.appendChild(d);
+}
+function average(data,anyW){
+  if(!anyW){
+    const s=data.reduce((a,d)=>a+d.g,0),m=s/data.length;
+    outM.innerHTML=`<p class="result"><b>${fmt(m)}</b>${tr('de media','average')}</p><p class="sub">${tr(`Media simple de ${data.length} nota${data.length>1?'s':''}.`,`Simple average of ${data.length} grade${data.length>1?'s':''}.`)}</p>`+
+    `<details><summary>${tr('Ver el cálculo','Show the calculation')}</summary><ol><li>${tr('Suma','Sum')}: ${data.map(d=>fmt(d.g)).join(' + ')} = ${fmt(s)}</li><li>${tr('Media','Average')}: ${fmt(s)} ÷ ${data.length} = ${fmt(m)}</li></ol></details>`;
+  }else{
+    const W=data.reduce((a,d)=>a+d.w,0),P=data.reduce((a,d)=>a+d.g*d.w,0),m=P/W;
+    outM.innerHTML=`<p class="result"><b>${fmt(m)}</b>${tr('de media','average')}</p><p class="sub">${tr(`Media ponderada; los pesos suman ${fmt(W)}.`,`Weighted average; the weights add up to ${fmt(W)}.`)}</p>`+
+    `<details><summary>${tr('Ver el cálculo','Show the calculation')}</summary><ol>${data.map(d=>`<li>${fmt(d.g)} × ${fmt(d.w)} = ${fmt(d.g*d.w)}</li>`).join('')}<li>${tr(`Suma ponderada: ${fmt(P)}. Suma de pesos: ${fmt(W)}.`,`Weighted sum: ${fmt(P)}. Sum of weights: ${fmt(W)}.`)}</li><li>${tr('Media','Average')}: ${fmt(P)} ÷ ${fmt(W)} = ${fmt(m)}</li></ol></details>`;
+  }
+}
+function recovery(data,allW){
+  const pwRaw=document.getElementById('pw').value.trim(),tRaw=document.getElementById('t').value.trim();
+  if(autoOn&&allW&&!pwRaw){outR.innerHTML='<p class="sub">'+tr('Ya has evaluado el 100 %: no queda nada pendiente. Baja algún peso para calcular una recuperación.','You have already assessed 100%: nothing is left. Lower a weight to calculate a resit.')+'</p>';return}
+  if(!pwRaw&&!tRaw){outR.innerHTML='<p class="sub">'+tr('Indica el peso pendiente y la media que quieres conseguir.','Enter the remaining weight and the average you want to achieve.')+'</p>';return}
+  const pw=num(pwRaw),t=num(tRaw),errs=[];
+  if(!allW)errs.push(tr('Para la recuperación, cada nota necesita su peso.','To calculate a resit, every grade needs its weight.'));
+  if(!(pw>0))errs.push(tr('El peso pendiente debe ser un número mayor que 0.','The remaining weight must be a number greater than 0.'));
+  if(t===null||isNaN(t)||t>10)errs.push(tr('La media objetivo debe estar entre 0 y 10.','The target average must be between 0 and 10.'));
+  if(errs.length)return fail(outR,errs);
+  const done=data.reduce((a,d)=>a+d.w,0),P=data.reduce((a,d)=>a+d.g*d.w,0),tot=done+pw;
+  const need=x=>{const raw=(x*tot-P)/pw;return raw<=1e-9?{s:'ok',v:0}:raw>10+1e-9?{s:'no',v:ceil2(raw)}:{s:'yes',v:ceil2(raw)}};
+  const main=need(t);
+  const txt=(EN?{ok:'You already have that average secured, even with a 0.',yes:'is the minimum grade you need in what remains.',no:`Not possible: you would need more than 10. With a 10 you would reach ${fmt((P+10*pw)/tot)}.`}:{ok:'Ya tienes asegurada esa media, incluso con un 0.',yes:'es la nota mínima que necesitas en lo pendiente.',no:`No es posible: harían falta más de 10. Con un 10 llegarías a ${fmt((P+10*pw)/tot)}.`})[main.s];
+  const targets=[...new Set([5,6,7,8,9,t])].sort((a,b)=>a-b);
+  outR.innerHTML=(main.s==='yes'?`<p class="result"><b>${fmt(main.v)}</b>${txt}</p>`:`<p class="result">${txt}</p>`)+
+   `<table><tr><th>${tr('Media objetivo','Target average')}</th><th>${tr('Nota necesaria','Grade needed')}</th></tr>${targets.map(x=>{const n=need(x);return `<tr><td>${fmt(x)}</td><td>${n.s==='ok'?tr('Ya lo tienes','Already secured'):n.s==='no'?tr('No es posible','Not possible'):fmt(n.v)}</td></tr>`}).join('')}</table>`+
+   (EN?`<details><summary>Show the calculation</summary><ol><li>Assessed weight: ${fmt(done)}. Remaining: ${fmt(pw)}. Total: ${fmt(tot)}.</li><li>Points accumulated (grade × weight): ${fmt(P)}.</li><li>Points needed: ${fmt(t)} × ${fmt(tot)} = ${fmt(t*tot)}.</li><li>Grade needed: (${fmt(t*tot)} − ${fmt(P)}) ÷ ${fmt(pw)}.</li></ol></details>`
+   :`<details><summary>Ver el cálculo</summary><ol><li>Peso evaluado: ${fmt(done)}. Pendiente: ${fmt(pw)}. Total: ${fmt(tot)}.</li><li>Puntos acumulados (nota × peso): ${fmt(P)}.</li><li>Puntos necesarios: ${fmt(t)} × ${fmt(tot)} = ${fmt(t*tot)}.</li><li>Nota necesaria: (${fmt(t*tot)} − ${fmt(P)}) ÷ ${fmt(pw)}.</li></ol></details>`);
+}
+let autoOn=true;
+function calc(){
+  const data=[...rows.children].map((r,i)=>({i:i+1,g:num(r.querySelector('.g').value),w:num(r.querySelector('.w').value)}))
+    .filter(d=>!(d.g===null&&d.w===null));
+  const errs=[];
+  if(!data.length)errs.push(tr('Introduce al menos una nota.','Enter at least one grade.'));
+  data.forEach(d=>{
+    if(d.g===null)errs.push(tr(`Nota ${d.i}: falta la nota.`,`Grade ${d.i}: the grade is missing.`));
+    else if(isNaN(d.g)||d.g>10)errs.push(tr(`Nota ${d.i}: debe ser un número entre 0 y 10.`,`Grade ${d.i}: must be a number between 0 and 10.`));
+    if(d.w!==null&&(isNaN(d.w)||d.w<=0))errs.push(tr(`Nota ${d.i}: el peso debe ser un número mayor que 0.`,`Grade ${d.i}: the weight must be a number greater than 0.`));
+  });
+  const anyW=data.some(d=>d.w!==null),allW=data.every(d=>d.w!==null);
+  if(anyW&&!allW)errs.push(tr('Rellena el peso en todas las notas o déjalo vacío en todas.','Fill in the weight for every grade or leave it empty for all of them.'));
+  if(errs.length){fail(outM,errs);outR.innerHTML='<p class="sub">'+tr('Corrige las notas para ver la recuperación.','Fix the grades to see the resit calculation.')+'</p>';return}
+  const W=data.reduce((a,d)=>a+(d.w||0),0),pwEl=document.getElementById('pw');
+  if(autoOn&&anyW&&allW)pwEl.value=W<100?fmt(100-W):'';
+  average(data,anyW);recovery(data,allW);
+  if(anyW&&W>100+1e-9)outM.insertAdjacentHTML('afterbegin',`<p class="warn" role="alert">${tr(`Los pesos suman ${fmt(W)} %, más del 100 %. Revisa los pesos.`,`The weights add up to ${fmt(W)}%, more than 100%. Check the weights.`)}</p>`);
+  else if(allW){const T=W+(num(pwEl.value)||0);if(T>100+1e-9)outR.insertAdjacentHTML('afterbegin',`<p class="warn" role="alert">${tr(`El peso evaluado y el pendiente suman ${fmt(T)} %, más del 100 %.`,`The assessed and remaining weights add up to ${fmt(T)}%, more than 100%.`)}</p>`)}
+}
+document.getElementById('add').addEventListener('click',()=>{if(rows.children.length<12){addRow();rows.lastChild.querySelector('.g').focus()}});
+rows.addEventListener('click',e=>{if(e.target.classList.contains('x')){const r=e.target.parentElement;r.classList.add('bye');setTimeout(()=>{r.remove();if(!rows.children.length)addRow();calc()},180)}});
+document.getElementById('calc-grid').addEventListener('input',calc);
+addRow('4','40');addRow('6','20');calc();
+const autoB=document.getElementById('auto');
+function setAuto(v){autoOn=v;autoB.setAttribute('aria-pressed',v);autoB.textContent=v?tr('Autocompletar peso: activado','Auto-fill weight: on'):tr('Autocompletar peso: desactivado','Auto-fill weight: off')}
+autoB.addEventListener('click',()=>{setAuto(!autoOn);calc()});
+document.getElementById('pw').addEventListener('input',e=>{if(e.isTrusted&&autoOn)setAuto(false)});
+
+/* ---- Generador de exámenes ---- */
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const QT={
+  dev:['Desarrollo','Pregunta de desarrollo',{txt:'Explica…',pts:1}],
+  tab:['Tabla','Tabla de datos',{txt:'Completa la tabla.',grid:[['Magnitud','Valor','Unidad'],['','',''],['','','']],hdr:true,pts:1}],
+  mul:['Multinivel','Pregunta multinivel',{txt:'Resuelve según tu nivel:',lv:[{name:'Nivel básico',pts:1,text:'2+2'},{name:'Nivel intermedio',pts:1.5,text:'2+2x4'},{name:'Nivel avanzado',pts:2,text:'3+4/8x2'}]}],
+  tst:['Tipo test','Tipo test',{txt:'Elige la opción correcta.',opts:'Opción 1\nOpción 2\nOpción 3\nOpción 4',pts:1}],
+  vf:['V / F','Verdadero o falso con justificación',{txt:'Indica si es verdadero o falso y justifica.',opts:'Afirmación 1\nAfirmación 2',pts:2}],
+  cor:['Cortas','Preguntas cortas',{txt:'Responde brevemente.',opts:'2+2\nCapital de Francia',pts:1}],
+  txt:['Texto','Texto',{txt:'Escribe aquí el texto: una lectura, unas instrucciones o un enunciado común.',pts:0}]
+};
+if(EN)Object.assign(QT,{
+  dev:['Open-ended','Open-ended question',{txt:'Explain…',pts:1}],
+  tab:['Table','Data table',{txt:'Complete the table.',grid:[['Quantity','Value','Unit'],['','',''],['','','']],hdr:true,pts:1}],
+  mul:['Multi-level','Multi-level question',{txt:'Solve according to your level:',lv:[{name:'Basic level',pts:1,text:'2+2'},{name:'Intermediate level',pts:1.5,text:'2+2x4'},{name:'Advanced level',pts:2,text:'3+4/8x2'}]}],
+  tst:['Multiple choice','Multiple choice',{txt:'Choose the correct option.',opts:'Option 1\nOption 2\nOption 3\nOption 4',pts:1}],
+  vf:['T / F','True or false with justification',{txt:'State whether it is true or false and justify your answer.',opts:'Statement 1\nStatement 2',pts:2}],
+  cor:['Short','Short questions',{txt:'Answer briefly.',opts:'2+2\nCapital of France',pts:1}],
+  txt:['Text','Text',{txt:'Write the text here: a reading, instructions or a shared prompt.',pts:0}]
+});
+const X={q:[],mode:'man',logo:'',sets:{},id:0,view:['A'],cmp:false,newId:0};
+const letters=()=>'ABCDEF'.slice(0,+$('h-n').value);
+const P=q=>q.k==='mul'?q.lv.reduce((a,l)=>Math.max(a,+l.pts||0),0):(+q.pts||0); /* multinivel: cuenta solo el nivel con más puntos */
+const Pm=q=>q.ex?0:P(q);
+const ls=s=>String(s).split('\n').map(x=>x.trim()).filter(Boolean);
+function addQ(k,after){
+  const q=structuredClone(QT[k][2]);Object.assign(q,{k,id:++X.id,t:'ABCDEF',fx:false,ex:false,ln:0,bl:0,neg:0});
+  const i=after?X.q.findIndex(x=>x.id==after):-1;
+  if(i<0)X.q.push(q);else X.q.splice(i+1,0,q);
+  X.newId=q.id;if(X.mode==='aut')gen();edRender();exRender();return q.id;
+}
+function focusQ(id){
+  const c=document.querySelector('.qc[data-id="'+id+'"]');if(!c)return;
+  c.scrollIntoView({behavior:'smooth',block:'center'});c.classList.add('flash');setTimeout(()=>c.classList.remove('flash'),1400);
+  const f=c.querySelector('textarea,input');if(f)f.focus({preventScroll:true});
+}
+const qTitle=q=>q.k==='txt'?QT.txt[1]:(X.q.filter(x=>x.k!=='txt').indexOf(q)+1)+'. '+QT[q.k][1];
+function qcHTML(q,i){
+  const k=q.k;
+  const f=(n,l,t='text',cls='',tip='')=>`<div class="fld${cls?' '+cls:''}"${tip?` title="${tip}"`:''}><label>${l}</label><input type="${t}" data-k="${n}" value="${esc(q[n])}"${t==='number'?' min="0" step="0.25"':''}></div>`;
+  const ta=(n,l)=>`<div class="fld"><label>${l}</label><textarea data-k="${n}">${esc(q[n])}</textarea></div>`;
+  const sw=(a,l,on,tip)=>`<label class="sw"${tip?` title="${tip}"`:''}><input type="checkbox" ${a}${on?' checked':''}><span class="trk"></span>${l}</label>`;
+  const sub=(n,aria,sfx)=>`<span class="subf" data-f="${n}"${q[n]>0?'':' hidden'}><input type="number" data-k="${n}" value="${q[n]}" min="0" step="0.25" aria-label="${aria}"><span class="sfx">${sfx}</span></span>`;
+  /* arriba: enunciado y contenido de la pregunta */
+  let b;const ENUN=tr('Enunciado','Question text');
+  if(k==='mul')b=ta('txt',ENUN)+`<div class="lvs">${q.lv.map((l,j)=>`<div class="lvr"><input type="text" data-lk="name" data-i="${j}" value="${esc(l.name)}" aria-label="${tr('Nombre del nivel','Level name')}"><input type="number" data-lk="pts" data-i="${j}" value="${l.pts}" min="0" step="0.25" aria-label="${tr('Puntos','Points')}"><input type="text" data-lk="text" data-i="${j}" value="${esc(l.text)}" aria-label="${tr('Pregunta del nivel','Level question')}"><button type="button" data-a="rmlv" data-i="${j}" aria-label="${tr('Quitar nivel','Remove level')}">×</button></div>`).join('')}</div><button type="button" class="link" data-a="addlv">${tr('Añadir nivel','Add level')}</button>`;
+  else if(k==='tab')b=ta('txt',ENUN)+`<div class="tbar"><span class="lbl">${tr('Filas','Rows')}</span><button type="button" data-a="tr-" aria-label="${tr('Quitar fila','Remove row')}">−</button><button type="button" data-a="tr+" aria-label="${tr('Añadir fila','Add row')}">+</button><span class="lbl">${tr('Columnas','Columns')}</span><button type="button" data-a="tc-" aria-label="${tr('Quitar columna','Remove column')}">−</button><button type="button" data-a="tc+" aria-label="${tr('Añadir columna','Add column')}">+</button>${sw('data-k="hdr"',tr('Primera fila como cabecera','First row as header'),q.hdr)}</div><div class="tscroll"><table class="tg${q.hdr?'':' nh'}">${q.grid.map((r,ri)=>`<tr>${r.map((c,ci)=>`<td><input type="text" data-g="${ri}:${ci}" value="${esc(c)}" aria-label="${tr(`Fila ${ri+1}, columna ${ci+1}`,`Row ${ri+1}, column ${ci+1}`)}"></td>`).join('')}</tr>`).join('')}</table></div>`;
+  else if(k==='dev')b=ta('txt',ENUN);
+  else if(k==='txt')b=ta('txt',tr('Texto (no puntúa ni se numera)','Text (not scored or numbered)'));
+  else b=`<div class="fgrid">${ta('txt',ENUN)}${ta('opts',k==='tst'?tr('Opciones (una por línea, hasta 10: a–j)','Options (one per line, up to 10: a–j)'):k==='vf'?tr('Afirmaciones (una por línea)','Statements (one per line)'):tr('Preguntas (una por línea; usa ___ para el hueco)','Questions (one per line; use ___ for the blank)'))}</div>`;
+  /* debajo del divisor: opciones en una fila */
+  const o=[];
+  if(k!=='mul'&&k!=='txt')o.push(f('pts',X.mode==='aut'?tr('Peso (puntos)','Weight (points)'):tr('Puntos','Points'),'number','num'));
+  if(k==='tst')o.push(f('neg',tr('Resta por error','Penalty per error'),'number','num',tr('Cada respuesta incorrecta resta estos puntos','Each wrong answer subtracts these points')));
+  if(k!=='txt')o.push(sw('data-k="ex"',tr('Puntuación extra','Bonus points'),q.ex,tr('Suma nota sin subir la máxima','Adds to the grade without raising the maximum')));
+  o.push(`<div class="opt">${sw('data-tg="ln"',tr('Añadir líneas','Add lines'),q.ln>0)}${sub('ln',tr('Número de líneas','Number of lines'),tr('líneas','lines'))}</div>`);
+  o.push(`<div class="opt">${sw('data-tg="bl"',tr('Añadir espacio en blanco','Add blank space'),q.bl>0)}${sub('bl',tr('Alto del espacio, en líneas','Space height, in lines'),tr('líneas de alto','lines high'))}</div>`);
+  o.push(X.mode==='man'
+    ?`<div class="og"><span class="lbl">${tr('Aparece en los tipos','Appears in versions')}</span><div class="chips">${letters().split('').map(c=>`<label class="chip"><input type="checkbox" data-c="${c}"${q.t.includes(c)?' checked':''}><span>${c}</span></label>`).join('')}</div></div>`
+    :sw('data-k="fx"',tr('Obligatoria','Mandatory'),q.fx,tr('Sale en todos los tipos','Appears in every version')));
+  return `<div class="qc${q.id===X.newId?' new':''}" data-id="${q.id}"><div class="qh"><b>${qTitle(q)}</b><span><button type="button" data-a="up" aria-label="${tr('Subir','Move up')}">↑</button><button type="button" data-a="dn" aria-label="${tr('Bajar','Move down')}">↓</button><button type="button" data-a="del" aria-label="${tr('Eliminar','Delete')}">×</button></span></div><div class="qb">${b}</div><div class="qo">${o.join('')}</div></div>`;
+}
+function edRender(){
+  $('qs').innerHTML=X.q.map(qcHTML).join('')||'<p class="sub">'+tr('Aún no hay preguntas. Usa el botón «+ Añadir primera pregunta» de la hoja.','No questions yet. Use the “+ Add first question” button on the sheet.')+'</p>';
+  X.newId=0;
+}
+function replaceCard(q){
+  const c=document.querySelector('.qc[data-id="'+q.id+'"]'),t=document.createElement('div');
+  t.innerHTML=qcHTML(q,X.q.indexOf(q));c.replaceWith(t.firstChild);
+}
+function renum(){document.querySelectorAll('#qs .qc').forEach((c,i)=>{const q=X.q.find(q=>q.id==c.dataset.id);c.querySelector('.qh b').textContent=qTitle(q)})}
+$('qs').addEventListener('input',e=>{
+  const t=e.target,c=t.closest('.qc');if(!c)return;
+  const q=X.q.find(q=>q.id==c.dataset.id),d=t.dataset;
+  if(d.tg){q[d.tg]=t.checked?(d.tg==='ln'?5:6):0;const sf=c.querySelector('.subf[data-f="'+d.tg+'"]');sf.hidden=!t.checked;sf.querySelector('input').value=q[d.tg]}
+  else if(d.c)q.t=t.checked?[...new Set((q.t+d.c).split(''))].sort().join(''):q.t.replace(d.c,'');
+  else if(d.lk)q.lv[d.i][d.lk]=d.lk==='pts'?(+t.value||0):t.value;
+  else if(d.g){const [r,col]=d.g.split(':');q.grid[r][col]=t.value}
+  else if(d.k==='hdr'){q.hdr=t.checked;c.querySelector('.tg').classList.toggle('nh',!t.checked)}
+  else if(d.k==='fx'||d.k==='ex')q[d.k]=t.checked;
+  else if(d.k)q[d.k]=t.type==='number'?Math.abs(+t.value||0):t.value;
+  exRender();
+});
+$('qs').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-a]');if(!b)return;
+  const c=b.closest('.qc'),i=X.q.findIndex(q=>q.id==c.dataset.id),q=X.q[i],a=b.dataset.a;
+  if(a==='del'){X.q.splice(i,1);c.remove();renum();if(X.mode==='aut')gen();if(!X.q.length)edRender()}
+  else if(a==='up'&&i>0){[X.q[i-1],X.q[i]]=[X.q[i],X.q[i-1]];c.parentNode.insertBefore(c,c.previousElementSibling);renum()}
+  else if(a==='dn'&&i<X.q.length-1){[X.q[i+1],X.q[i]]=[X.q[i],X.q[i+1]];c.parentNode.insertBefore(c.nextElementSibling,c);renum()}
+  else{
+    if(a==='addlv')q.lv.push({name:tr('Nuevo nivel','New level'),pts:1,text:''});
+    else if(a==='rmlv'&&q.lv.length>1)q.lv.splice(b.dataset.i,1);
+    else if(a==='tr+')q.grid.push(q.grid[0].map(()=>''));
+    else if(a==='tr-'&&q.grid.length>1)q.grid.pop();
+    else if(a==='tc+')q.grid.forEach(r=>r.push(''));
+    else if(a==='tc-'&&q.grid[0].length>1)q.grid.forEach(r=>r.pop());
+    replaceCard(q);
+  }
+  exRender();
+});
+
+/* modo automático: obligatorias en todos los tipos; las demás se reparten al azar hasta la puntuación total */
+function gen(){
+  const vars=X.q.filter(q=>!q.fx),R=Math.max(0,(+$('h-tot').value||0)-X.q.filter(q=>q.fx).reduce((a,q)=>a+Pm(q),0));
+  const seen=new Set();X.sets={};
+  for(const L of letters()){
+    let best=null;
+    for(let n=0;n<200;n++){
+      const pick=[];let s=0;
+      for(const q of [...vars].sort(()=>Math.random()-.5))if(s+Pm(q)<=R+1e-9){pick.push(q.id);s+=Pm(q)}
+      const key=[...pick].sort().join(),sc=Math.abs(R-s)+(seen.has(key)?1e3:0);
+      if(!best||sc<best.sc)best={sc,pick,key};
+    }
+    seen.add(best.key);X.sets[L]=best.pick;
+  }
+}
+function setMode(m){
+  X.mode=m;$('m-man').setAttribute('aria-pressed',m==='man');$('m-aut').setAttribute('aria-pressed',m==='aut');
+  $('a-tot').hidden=$('a-gen').hidden=m==='man';
+  $('m-help').textContent=m==='man'?tr('Tú eliges en qué tipos sale cada pregunta.','You choose which versions each question appears in.'):tr('Las obligatorias salen en todos los tipos. Las demás se reparten al azar según su peso (puntos) hasta llegar a la puntuación total.','Mandatory questions appear in every version. The rest are shared out at random by weight (points) until the total score is reached.');
+  if(m==='aut')gen();edRender();exRender();
+}
+$('m-man').onclick=()=>setMode('man');$('m-aut').onclick=()=>setMode('aut');
+$('a-gen').onclick=()=>{gen();exRender()};
+$('vista-examenes').addEventListener('input',e=>{
+  const id=e.target.id;if(!id||id.slice(0,2)!=='h-')return;
+  if(id==='h-logo'){
+    const f=e.target.files[0];if(!f){X.logo='';return exRender()}
+    const r=new FileReader();r.onload=()=>{X.logo=r.result;exRender()};r.readAsDataURL(f);return;
+  }
+  if((id==='h-n'||id==='h-tot')&&X.mode==='aut')gen();
+  if(id==='h-n')edRender();
+  exRender();
+});
+
+/* vista previa A4 con paginación automática */
+const sel=L=>X.mode==='man'?X.q.filter(q=>q.t.includes(L)):X.q.filter(q=>q.fx||(X.sets[L]||[]).includes(q.id));
+const IC_OK='<svg class="ic" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5.5" fill="#1a7f37"/><path d="M3.3 6.2l1.8 1.8 3.5-3.8" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const IC_KO='<svg class="ic" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5.5" fill="#b42318"/><path d="M3.9 3.9l4.2 4.2M8.1 3.9L3.9 8.1" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>';
+const pts_=n=>fmt(n)+' '+(n===1?tr('punto','point'):tr('puntos','points'));
+const ln=n=>'<div class="ln"></div>'.repeat(Math.max(0,+n||0));
+function qH(q,n){
+  if(q.k==='txt')return `<div class="qt">${esc(q.txt)}</div>`+ln(q.ln)+(q.bl>0?`<div style="height:${7*q.bl}mm"></div>`:'');
+  const p=P(q),ng=Math.abs(+q.neg||0),pt=!p?'':(q.k==='tst'&&ng>0)?` <span class="pt">(${IC_OK} +${pts_(p)}${q.ex?tr(' extra',' bonus'):''}, ${IC_KO} −${pts_(ng)})</span>`:` <span class="pt">(${pts_(p)}${q.ex?tr(' extra',' bonus'):''})</span>`;
+  const h=`<div class="qt"><b>${n}.</b> ${esc(q.txt)}${pt}</div>`;
+  const k=q.k;let b='';
+  if(k==='tab')b='<table class="tx">'+q.grid.map((r,ri)=>'<tr>'+r.map(c=>ri===0&&q.hdr?`<th>${esc(c)}</th>`:`<td>${esc(c)}</td>`).join('')+'</tr>').join('')+'</table>';
+  else if(k==='mul')b=q.lv.map(l=>`<div class="s2"><b>${esc(l.name)}</b> <span class="pt">(${fmt(+l.pts||0)} pt)</span>: ${esc(l.text)}</div>`).join('');
+  else if(k==='tst')b=ls(q.opts).slice(0,10).map((o,i)=>`<div class="s2">${'abcdefghij'[i]}) ${esc(o)}</div>`).join('');
+  else if(k==='vf')b=ls(q.opts).map(o=>`<div class="s2">${tr('( V / F )','( T / F )')} ${esc(o)}<div class="ln">${tr('Justificación:','Justification:')}</div><div class="ln"></div></div>`).join('');
+  else if(k==='cor')b=ls(q.opts).map(o=>`<div class="s2">${esc(o)}${o.includes('__')?'':' ________________'}</div>`).join('');
+  return h+b+ln(q.ln)+(q.bl>0?`<div style="height:${7*q.bl}mm"></div>`:'');
+}
+function paginate(S,items,head,L,multi){
+  const mk=()=>{const p=document.createElement('div');p.className='page';p.dataset.t=L;p.innerHTML='<div class="pb"></div>';S.appendChild(p);return p.firstChild};
+  let b=mk();b.innerHTML=head;
+  items.forEach(it=>{
+    const d=document.createElement('div');d.className='q'+(it.g?' g':'');d.dataset.id=it.id;d.innerHTML=it.h;b.appendChild(d);
+    if(b.scrollHeight>b.clientHeight+1&&b.children.length>1){b.removeChild(d);b=mk();b.appendChild(d)}
+  });
+  const ps=[...S.querySelectorAll('.page[data-t="'+L+'"]')];
+  if(ps.length>1||multi)ps.forEach((p,i)=>p.insertAdjacentHTML('beforeend',`<div class="pf">${multi?tr('Tipo ','Version ')+L+' · ':''}${tr(`Página ${i+1} de ${ps.length}`,`Page ${i+1} of ${ps.length}`)}</div>`));
+}
+let raf;
+function exRender(){cancelAnimationFrame(raf);raf=requestAnimationFrame(draw)}
+function draw(){
+  if($('vista-examenes').hidden)return;
+  /* «tipo test por fila» solo tiene sentido si, en algún tipo, hay dos preguntas tipo test seguidas */
+  $('cols-f').hidden=!letters().split('').some(L=>{const s=sel(L);return s.some((q,i)=>i>0&&q.k==='tst'&&s[i-1].k==='tst')});
+  const S=$('sheets'),Ls=letters().split(''),multi=Ls.length>1,v=$('h-date').value;
+  const date=v?new Date(v+'T12:00').toLocaleDateString(LOC,{day:'numeric',month:'long',year:'numeric'}):tr('Fecha: ________','Date: ________');
+  S.style.zoom='';S.style.gridTemplateColumns='';S.classList.remove('done');S.innerHTML='';
+  Ls.forEach(L=>{
+    const qs=sel(L),tot=qs.reduce((a,q)=>a+Pm(q),0),xt=qs.reduce((a,q)=>a+(q.ex?P(q):0),0);
+    const cols=+$('h-cols').value||2,items=[];let n=0;
+    for(let i=0;i<qs.length;){
+      if(qs[i].k==='tst'&&cols>1){
+        let j=i;while(j<qs.length&&qs[j].k==='tst'&&j-i<cols)j++;
+        if(j-i>1){items.push({id:qs[i].id,g:1,h:`<div class="trow" style="grid-template-columns:repeat(${cols},1fr)">${qs.slice(i,j).map(q=>`<div class="qq" data-id="${q.id}">${qH(q,++n)}</div>`).join('')}</div>`});i=j;continue}
+      }
+      items.push({id:qs[i].id,h:qs[i].k==='txt'?qH(qs[i]):qH(qs[i],++n)});i++;
+    }
+    const head=`<div class="hd"><div class="hd-top">${X.logo?`<img src="${X.logo}" alt="">`:''}<div class="hd-m"><b>${esc($('h-name').value)}</b>${esc($('h-subj').value)}</div><div class="hd-r">${multi?`<strong>${tr('Tipo','Version')} ${L}</strong>`:''}${esc(date)}</div></div>${$('h-stu').checked?'<div class="hd-st">'+tr('Nombre y apellidos','Full name')+': ______________________________________________</div>':''}</div>`+
+      ($('h-sc').checked?`<div class="sc"><span>${tr('Puntuación máxima','Maximum score')}: <b>${fmt(tot)}</b> pts${xt?` (+${fmt(xt)} ${tr('extra','bonus')})`:''}</span><span>${tr('Nota','Grade')}:<i></i></span></div>`:'');
+    paginate(S,items,head,L,multi);
+  });
+  if(!X.q.length)S.querySelector('.pb').insertAdjacentHTML('beforeend','<button type="button" class="ed0" data-plus="0">'+tr('+ Añadir primera pregunta','+ Add first question')+'</button>');
+  S.querySelectorAll('.q:not(.g),.qq').forEach(d=>d.insertAdjacentHTML('beforeend',`<button type="button" class="ed" data-edit="${d.dataset.id}">${tr('Editar','Edit')}</button><button type="button" class="pl" data-plus="${d.dataset.id}" aria-label="${tr('Añadir pregunta debajo','Add question below')}">+</button>`));
+  S.classList.add('done');
+  /* siempre se ve la hoja completa: la vista se escala para que quepa */
+  let show=X.view.filter(L=>Ls.includes(L));if(!show.length)show=[Ls[0]];X.view=show;
+  const pages=[...S.querySelectorAll('.page')];
+  pages.forEach(p=>p.classList.toggle('off',!show.includes(p.dataset.t)));
+  const n=pages.filter(p=>!p.classList.contains('off')).length,st=$('stage'),grid=$('ex-grid'),wide=innerWidth>=1100,g=12;
+  const H=st.clientHeight-20,Wmax=wide?grid.clientWidth-16-380:st.clientWidth-20;
+  let best={s:0,c:1};
+  for(let c=1;c<=n;c++){const r=Math.ceil(n/c),k=Math.min(Math.max(Wmax,200)/(c*794+(c-1)*g),H/(r*1123+(r-1)*g));if(k>best.s)best={s:k,c}}
+  const z=Math.max(.1,Math.min(best.s,1.25));
+  S.style.gridTemplateColumns=`repeat(${best.c},794px)`;S.style.zoom=z;S.style.setProperty('--iz',1/z);
+  grid.style.gridTemplateColumns=wide?`minmax(0,1fr) ${Math.ceil(Math.max(640,(best.c*794+(best.c-1)*g)*z+24))}px`:'';
+  $('tabs').hidden=$('cmp-w').hidden=!multi;
+  $('tabs').innerHTML=Ls.map(L=>`<button type="button" data-t="${L}" aria-pressed="${show.includes(L)}">${tr('Tipo','Version')} ${L}</button>`).join('');
+}
+/* herramientas junto a las preguntas: Editar y + */
+const menu=document.createElement('div');menu.id='menu';menu.hidden=true;
+menu.innerHTML=Object.keys(QT).map(k=>`<button type="button" data-add="${k}">${QT[k][1]}</button>`).join('');
+document.body.appendChild(menu);
+let menuAfter=0;
+$('sheets').addEventListener('click',e=>{
+  const ed=e.target.closest('[data-edit]'),pl=e.target.closest('[data-plus]');
+  if(ed)focusQ(ed.dataset.edit);
+  if(pl){
+    menuAfter=pl.dataset.plus;const r=pl.getBoundingClientRect();menu.hidden=false;
+    menu.style.left=Math.max(8,Math.min(r.left,innerWidth-menu.offsetWidth-8))+'px';
+    menu.style.top=Math.max(8,Math.min(r.bottom+6,innerHeight-menu.offsetHeight-8))+'px';
+    e.stopPropagation();
+  }
+});
+menu.addEventListener('click',e=>{const b=e.target.closest('[data-add]');if(b){menu.hidden=true;focusQ(addQ(b.dataset.add,menuAfter))}});
+document.addEventListener('click',e=>{if(!menu.contains(e.target))menu.hidden=true});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')menu.hidden=true});
+$('tabs').addEventListener('click',e=>{
+  const b=e.target.closest('[data-t]');if(!b)return;const L=b.dataset.t;
+  if(X.cmp)X.view=X.view.includes(L)?(X.view.length>1?X.view.filter(x=>x!==L):X.view):[...X.view,L].sort();else X.view=[L];
+  exRender();
+});
+$('cmp').addEventListener('input',()=>{X.cmp=$('cmp').checked;X.view=X.cmp?letters().split(''):[X.view[0]||'A'];exRender()});
+$('pdf').onclick=()=>{draw();window.print()};
+window.addEventListener('resize',exRender);
+['dev','mul','tst','cor'].forEach(k=>addQ(k));
+setMode('man');
+
+/* ---- Exámenes guardados (en este navegador) ---- */
+const SK='aulalia-examenes';
+const svLoad=()=>{try{return JSON.parse(localStorage.getItem(SK))||[]}catch(e){return[]}};
+const svPut=a=>{try{localStorage.setItem(SK,JSON.stringify(a));return true}catch(e){return false}};
+const svMsg=t=>{$('sv-msg').textContent=t};
+function svList(){
+  const a=svLoad();
+  $('sv-list').innerHTML=a.length?a.map(x=>`<div class="sv"><div><b>${esc(x.name)}</b> <span class="sub">${esc(x.subj)} · ${esc(x.at)}</span></div><span><button type="button" class="tog" data-o="${x.id}">${tr('Abrir','Open')}</button> <button type="button" class="tog" data-r="${x.id}">${tr('Eliminar','Delete')}</button></span></div>`).join(''):'<p class="sub">'+tr('Aún no has guardado ningún examen. Pulsa «Guardar examen» para conservarlo en este navegador.','You have not saved any exams yet. Press “Save exam” to keep it in this browser.')+'</p>';
+}
+$('sv').onclick=()=>{
+  const name=$('h-name').value.trim()||tr('Examen sin nombre','Untitled exam'),a=svLoad(),i=a.findIndex(x=>x.name===name);
+  const rec={id:i<0?Date.now():a[i].id,name,subj:$('h-subj').value,at:new Date().toLocaleDateString(LOC,{day:'numeric',month:'short',year:'numeric'}),
+    d:{h:{name:$('h-name').value,subj:$('h-subj').value,date:$('h-date').value,n:$('h-n').value,tot:$('h-tot').value,cols:$('h-cols').value,stu:$('h-stu').checked,sc:$('h-sc').checked},q:X.q,mode:X.mode,sets:X.sets,logo:X.logo}};
+  if(i<0)a.unshift(rec);else a[i]=rec;
+  svMsg(svPut(a)?(i<0?tr('Examen guardado en este navegador.','Exam saved in this browser.'):tr('Examen actualizado.','Exam updated.')):tr('No se ha podido guardar: no queda espacio. Prueba a quitar la imagen del colegio.','Could not save: no space left. Try removing the school logo.'));
+  svList();
+};
+function svOpen(id){
+  const r=svLoad().find(x=>x.id==id);if(!r)return;const d=r.d,h=d.h;
+  $('h-name').value=h.name;$('h-subj').value=h.subj;$('h-date').value=h.date;$('h-n').value=h.n;$('h-tot').value=h.tot;$('h-cols').value=h.cols;$('h-stu').checked=h.stu;$('h-sc').checked=h.sc;$('h-logo').value='';
+  X.q=d.q;X.id=Math.max(0,...X.q.map(q=>q.id));X.logo=d.logo||'';X.cmp=false;$('cmp').checked=false;X.view=['A'];
+  setMode(d.mode);if(d.mode==='aut')X.sets=d.sets||{};
+  svMsg(tr('Examen «'+r.name+'» abierto.','Exam “'+r.name+'” opened.'));
+}
+$('sv-list').addEventListener('click',e=>{
+  const o=e.target.closest('[data-o]'),r=e.target.closest('[data-r]');
+  if(o)svOpen(o.dataset.o);
+  if(r&&confirm(tr('¿Eliminar este examen guardado?','Delete this saved exam?'))){svPut(svLoad().filter(x=>x.id!=r.dataset.r));svList();svMsg(tr('Examen eliminado.','Exam deleted.'))}
+});
+svList();
+
+/* ---- Planificador de estudio ---- */
+const z2=n=>String(n).padStart(2,'0');
+const iso=d=>d.getFullYear()+'-'+z2(d.getMonth()+1)+'-'+z2(d.getDate());
+const D=s=>new Date(s+'T12:00');
+const fmtD=k=>D(k).toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short'});
+const tm=m=>{m=Math.min(m,1439);return z2(m/60|0)+':'+z2(m%60)};
+const hhmm=m=>tm(m).replace(':','')+'00';
+const col=e=>`hsl(${(e.i*67+220)%360} 62% 48%)`;
+const plRows=$('pl-rows');
+let PLAN=null,IMP=[];
+const DESC='¡Mucha suerte y a darle caña!\n\nRutina automatizada con Aulalia';
+function addPlRow(s='',d='',g='',p='1'){
+  const r=document.createElement('div');r.className='pe';
+  r.innerHTML='<label class="fld f-s"><span>Asignatura</span><input class="s" placeholder="Ej.: Matemáticas"></label><label class="fld"><span>Fecha del examen</span><input class="d" type="date"></label><label class="fld"><span>Nota actual</span><input class="g" inputmode="decimal" placeholder="0–10"></label><label class="fld"><span>Prioridad</span><select class="p"><option value="1">Normal</option><option value="1.5">Alta</option><option value=".6">Baja</option></select></label><button type="button" class="x" aria-label="Quitar examen">×</button>';
+  r.querySelector('.s').value=s;r.querySelector('.d').value=d;r.querySelector('.g').value=g;r.querySelector('.p').value=p;plRows.appendChild(r);
+}
+const plData=()=>[...plRows.children].map(r=>({s:r.querySelector('.s').value.trim(),d:r.querySelector('.d').value,g:r.querySelector('.g').value,p:r.querySelector('.p').value}));
+const plHours=()=>[...document.querySelectorAll('#pl-dh input')].map(i=>i.value);
+function plSave(){try{localStorage.setItem('aulalia-plan',JSON.stringify({ex:plData(),h:plHours(),t:$('pl-st').value}))}catch(e){}}
+function plan(){
+  const o=$('pl-out'),from=$('pl-from').value||iso(new Date()),hrs=plHours().map(v=>Math.max(0,+v||0)),warn=new Set(),E=[];
+  plData().forEach(e=>{
+    if(!e.s&&!e.d)return;
+    if(!e.s||!e.d)return warn.add('Cada examen necesita asignatura y fecha.');
+    if(e.d<=from)return warn.add(`El examen de ${esc(e.s)} es anterior al día de inicio: no se planifica.`);
+    const n=num(e.g);if(isNaN(n)||n>10)warn.add(`La nota de ${esc(e.s)} no es válida (0–10): se usa un 5.`);
+    const g=(n==null||isNaN(n)||n>10)?5:n;
+    E.push({s:e.s,d:e.d,w:(11-g)*(+e.p||1),i:E.length});
+  });
+  const done=()=>{o.innerHTML=[...warn].map(m=>`<p class="warn">${m}</p>`).join('')+(done.h||'');$('pl-dl').disabled=!PLAN};
+  PLAN=null;
+  if(!E.length){done.h='<p class="sub">Añade al menos un examen con su fecha para ver tu rutina.</p>';return done()}
+  const days=[],last=Math.max(...E.map(e=>+D(e.d)));
+  for(const t=D(from);t<last;t.setDate(t.getDate()+1)){
+    const key=iso(t),S=Math.round(hrs[(t.getDay()+6)%7]*2),act=E.filter(e=>e.d>key).sort((a,b)=>a.d<b.d?-1:1);
+    if(!S||!act.length)continue;
+    const ws=act.map(e=>e.w*(1+3/Math.max(1,Math.round((D(e.d)-t)/864e5)))),tw=ws.reduce((a,b)=>a+b,0),al=act.map(()=>0);
+    /* 70 % según nota y cercanía del examen + 30 % a partes iguales; lo que no cabe hoy se acumula para mañana, así ninguna asignatura se queda sin horas */
+    act.forEach((e,i)=>{e.q=(e.q||0)+S*(.7*ws[i]/tw+.3/act.length)});
+    for(let k=0;k<S;k++){let m=0;act.forEach((e,i)=>{if(e.q>act[m].q+1e-9)m=i});al[m]++;act[m].q--}
+    days.push({key,blocks:act.map((e,i)=>({e,n:al[i]})).filter(b=>b.n>0).sort((a,b)=>a.e.d<b.e.d?-1:1)});
+  }
+  if(!days.length){done.h='<p class="sub">Con esos días y horas no queda ningún hueco antes de los exámenes. Añade horas o días disponibles.</p>';return done()}
+  const st=($('pl-st').value||'17:00').split(':'),s0=+st[0]*60+(+st[1]||0),tot={};
+  days.forEach(d=>{let c=s0;d.blocks.forEach(b=>{b.a=c;b.b=c+b.n*30;c=b.b+10;tot[b.e.i]=(tot[b.e.i]||0)+b.n/2});if(c-10>1440)warn.add('Algún día termina después de medianoche: adelanta la hora de inicio o reduce las horas.')});
+  E.forEach(e=>{if(!tot[e.i])warn.add(`Sin tiempo para ${esc(e.s)}: no hay días disponibles antes de su examen.`)});
+  const gl=(b,k)=>'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent('Estudiar '+b.e.s)+'&details='+encodeURIComponent(DESC)+'&dates='+k.replace(/-/g,'')+'T'+hhmm(b.a)+'/'+k.replace(/-/g,'')+'T'+hhmm(b.b);
+  done.h=`<table><tr><th>Asignatura</th><th>Examen</th><th>Horas de estudio</th></tr>${E.map(e=>`<tr><td><span style="border-left:4px solid ${col(e)};padding-left:8px">${esc(e.s)}</span></td><td>${fmtD(e.d)}</td><td>${tot[e.i]?fmt(tot[e.i])+' h':'—'}</td></tr>`).join('')}</table>`+
+    days.map(d=>`<div class="pd"><b>${fmtD(d.key)}</b><div>${d.blocks.map(b=>`<div class="sb" style="--c:${col(b.e)}"><span><b>${tm(b.a)}–${tm(b.b)}</b> ${esc(b.e.s)} · ${fmt(b.n/2)} h</span><a href="${esc(gl(b,d.key))}" target="_blank" rel="noopener">Google Calendar</a></div>`).join('')}</div></div>`).join('');
+  PLAN={days,E};done();
+}
+/* importar exámenes desde un .ics */
+function parseICS(t){
+  const L=t.replace(/\r?\n[ \t]/g,'').split(/\r?\n/),ev=[];let c=null;
+  for(const l of L){
+    if(l==='BEGIN:VEVENT')c={};
+    else if(l==='END:VEVENT'){if(c&&c.s&&c.d)ev.push(c);c=null}
+    else if(c){
+      const i=l.indexOf(':'),k=l.slice(0,i).split(';')[0],v=l.slice(i+1);
+      if(k==='SUMMARY')c.s=v.replace(/\\([,;nN\\])/g,(m,x)=>/n/i.test(x)?' ':x);
+      else if(k==='DTSTART'&&!c.d){const m=v.match(/^(\d{4})(\d{2})(\d{2})(?:T(\d{2})(\d{2})(\d{2})(Z)?)?/);if(m)c.d=m[7]?iso(new Date(Date.UTC(+m[1],m[2]-1,+m[3],+m[4],+m[5],+m[6]))):m[1]+'-'+m[2]+'-'+m[3]}
+    }
+  }
+  return ev;
+}
+const cleanS=s=>(s.replace(/^\s*(examen|control|prueba|parcial)\s*(de|del)?\s*[:\-–]?\s*/i,'').trim()||s).replace(/^./,c=>c.toUpperCase());
+$('pl-impb').onclick=()=>$('pl-ics').click();
+function plLoad(f){
+  if(!/\.ics$/i.test(f.name)&&!/calendar/.test(f.type)){const b=$('pl-imp');b.hidden=false;b.innerHTML='<p class="warn">Ese archivo no es un .ics. Exporta tu calendario como .ics y súbelo o suéltalo aquí.</p>';return}
+  f.text().then(t=>{
+    IMP=parseICS(t).filter(x=>x.d>=iso(new Date())).sort((a,b)=>a.d<b.d?-1:1).slice(0,80);
+    const b=$('pl-imp');b.hidden=false;
+    b.innerHTML=IMP.length?'<p class="sub">Eventos próximos encontrados. Marca los que son exámenes:</p>'+IMP.map((x,i)=>`<label class="chk"><input type="checkbox" data-i="${i}"${/exam|control|prueba|parcial|test/i.test(x.s)?' checked':''}>${esc(x.s)} · ${fmtD(x.d)}</label>`).join('')+'<button type="button" class="tog" id="pl-impok" style="margin-top:8px">Añadir seleccionados</button>':'<p class="sub">No se han encontrado eventos futuros en ese archivo. Comprueba que es un .ics exportado de tu calendario.</p>';
+    $('pl-imp').scrollIntoView({block:'nearest',behavior:'smooth'});
+  });
+}
+$('pl-ics').onchange=e=>{if(e.target.files[0])plLoad(e.target.files[0]);e.target.value=''};
+const drop=document.createElement('div');drop.id='pl-drop';drop.hidden=true;drop.textContent='Suelta aquí tu archivo .ics para importar tus exámenes';document.body.appendChild(drop);
+const plOn=()=>!$('vista-planificador').hidden,hasFiles=e=>e.dataTransfer&&[...e.dataTransfer.types].includes('Files');
+let dd=0;
+addEventListener('dragenter',e=>{if(plOn()&&hasFiles(e)){dd++;drop.hidden=false}});
+addEventListener('dragleave',e=>{if(plOn()&&hasFiles(e)){dd=Math.max(0,dd-1);if(!dd)drop.hidden=true}});
+addEventListener('dragover',e=>{if(plOn()&&hasFiles(e))e.preventDefault()});
+addEventListener('drop',e=>{if(!plOn()||!hasFiles(e))return;e.preventDefault();dd=0;drop.hidden=true;if(e.dataTransfer.files[0])plLoad(e.dataTransfer.files[0])});
+$('pl-imp').addEventListener('click',e=>{
+  if(e.target.id!=='pl-impok')return;
+  const sel=[...$('pl-imp').querySelectorAll('input:checked')].map(i=>IMP[+i.dataset.i]);
+  [...plRows.children].forEach(r=>{if(!r.querySelector('.s').value&&!r.querySelector('.d').value)r.remove()});
+  sel.slice(0,Math.max(0,20-plRows.children.length)).forEach(x=>addPlRow(cleanS(x.s),x.d));
+  if(!plRows.children.length)addPlRow();
+  $('pl-imp').hidden=true;plSave();plan();
+});
+/* exportar a .ics */
+$('pl-dl').onclick=()=>{
+  if(!PLAN)return;
+  const z=s=>String(s).replace(/([\\,;])/g,'\\$1').replace(/\n/g,'\\n'),dk=k=>k.replace(/-/g,''),stamp=new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z';
+  const L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Aulalia//Planificador de estudio//ES','CALSCALE:GREGORIAN','X-WR-CALNAME:Plan de estudio Aulalia'];
+  PLAN.E.forEach(e=>L.push('BEGIN:VEVENT','UID:ex-'+e.i+'-'+dk(e.d)+'@aulalia','DTSTAMP:'+stamp,'DTSTART;VALUE=DATE:'+dk(e.d),'SUMMARY:'+z('Examen de '+e.s),'END:VEVENT'));
+  PLAN.days.forEach(d=>d.blocks.forEach(b=>L.push('BEGIN:VEVENT','UID:st-'+dk(d.key)+'-'+b.e.i+'@aulalia','DTSTAMP:'+stamp,'DTSTART:'+dk(d.key)+'T'+hhmm(b.a),'DTEND:'+dk(d.key)+'T'+hhmm(b.b),'SUMMARY:'+z('Estudiar '+b.e.s),'DESCRIPTION:'+z(DESC),'END:VEVENT')));
+  L.push('END:VCALENDAR');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([L.map(l=>l.replace(/(.{60})(?=.)/g,'$1\r\n ')).join('\r\n')],{type:'text/calendar;charset=utf-8'}));a.download='plan-de-estudio.ics';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+};
+/* arranque del planificador */
+$('pl-dh').innerHTML=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].map((n,i)=>`<div class="fld"><label for="dh${i}">${n}</label><input id="dh${i}" type="number" min="0" max="10" step="0.5" value="${[2,2,2,2,2,3,0][i]}"></div>`).join('');
+$('pl-from').value=iso(new Date());
+try{const s=JSON.parse(localStorage.getItem('aulalia-plan'));if(s){s.ex.forEach(e=>addPlRow(e.s,e.d,e.g,e.p));s.h.forEach((v,i)=>{$('dh'+i).value=v});if(s.t)$('pl-st').value=s.t}}catch(e){}
+if(!plRows.children.length)addPlRow();
+$('pl-add').onclick=()=>{if(plRows.children.length<20){addPlRow();plRows.lastChild.querySelector('.s').focus()}};
+plRows.addEventListener('click',e=>{if(e.target.classList.contains('x')){e.target.parentElement.remove();if(!plRows.children.length)addPlRow();plSave();plan()}});
+$('vista-planificador').addEventListener('input',()=>{plSave();plan()});
+
+/* ---- Generador de rúbricas ---- */
+const RLV=['Insuficiente','Suficiente','Notable','Sobresaliente'];
+const RT={
+  blank:['Rúbrica de evaluación',[['',34,[]],['',33,[]],['',33,[]]]],
+  oral:['Rúbrica de exposición oral',[
+    ['Contenido',40,['Faltan ideas clave o hay errores importantes.','Recoge las ideas principales, con errores o vacíos.','Contenido correcto y completo, con ejemplos.','Contenido riguroso y completo, con ejemplos y relaciones propias.']],
+    ['Expresión y voz',30,['Se lee casi todo y se oye con dificultad.','Se entiende, pero con dudas, muletillas o poco ritmo.','Habla con claridad y buen ritmo, y mira al público.','Habla con soltura, capta la atención y responde con seguridad.']],
+    ['Apoyo visual y tiempo',30,['Sin apoyo visual o ilegible; no ajusta el tiempo.','Apoyo visual básico; se pasa o se queda corto.','Apoyo visual claro; ajusta el tiempo.','Apoyo visual cuidado que ayuda a entender; ajusta el tiempo con precisión.']]]],
+  escrito:['Rúbrica de trabajo escrito',[
+    ['Contenido y argumentación',40,['Ideas confusas o sin desarrollar.','Ideas básicas, poco desarrolladas.','Ideas claras y bien desarrolladas.','Ideas originales, bien argumentadas y apoyadas en fuentes.']],
+    ['Organización',30,['Sin estructura reconocible.','Estructura básica, con saltos entre ideas.','Introducción, desarrollo y conclusión claros.','Estructura sólida, con transiciones que guían la lectura.']],
+    ['Ortografía y presentación',30,['Muchos errores que dificultan la lectura.','Varios errores y presentación irregular.','Pocos errores y presentación cuidada.','Sin errores y presentación excelente.']]]],
+  grupo:['Rúbrica de trabajo en grupo',[
+    ['Reparto de tareas',30,['Una persona hace casi todo.','Reparto desigual.','Todos participan con tareas definidas.','Reparto equilibrado y se ayudan entre sí.']],
+    ['Colaboración y respeto',30,['Hay conflictos sin resolver.','Colabora solo cuando se le pide.','Escucha y colabora con respeto.','Escucha, motiva al grupo y resuelve los desacuerdos.']],
+    ['Resultado final',40,['Incompleto o fuera del enunciado.','Cumple lo básico, con errores.','Cumple lo pedido con calidad.','Supera lo pedido, con calidad y creatividad.']]]]
+};
+const rbFrom=k=>({title:RT[k][0],subj:'',lv:RLV.map((n,i)=>({n,p:i+1})),cr:RT[k][1].map(c=>({n:c[0],w:c[1],d:[...c[2]]})),stu:true,obs:true});
+let RU;
+try{RU=JSON.parse(localStorage.getItem('aulalia-rubrica'))}catch(e){}
+if(!RU||!Array.isArray(RU.lv)||!Array.isArray(RU.cr)||!RU.cr.length)RU=rbFrom('oral');
+const rbSave=()=>{try{localStorage.setItem('aulalia-rubrica',JSON.stringify(RU))}catch(e){}};
+function rbEd(){
+  $('rb-lv').innerHTML=RU.lv.map((l,j)=>`<div class="rl"><label class="fld"><span>Nivel ${j+1}: nombre</span><input data-l="n" data-j="${j}" value="${esc(l.n)}"></label><label class="fld"><span>Puntos</span><input type="number" min="0" step="0.5" data-l="p" data-j="${j}" value="${l.p}"></label></div>`).join('');
+  $('rb-cr').innerHTML=RU.cr.map((c,i)=>`<div class="qc" data-i="${i}"><div class="qh"><b>Criterio ${i+1}</b><span><button type="button" data-a="up" aria-label="Subir">↑</button><button type="button" data-a="dn" aria-label="Bajar">↓</button><button type="button" data-a="del" aria-label="Eliminar criterio">×</button></span></div><div class="qb"><div class="rc"><label class="fld"><span>Nombre del criterio</span><input data-c="n" value="${esc(c.n)}"></label><label class="fld"><span>Peso (%)</span><input type="number" min="0" step="1" data-c="w" value="${c.w}"></label></div><div class="fgrid">${RU.lv.map((l,j)=>`<label class="fld"><span data-lbl="${j}">Descriptor: ${esc(l.n||'Nivel '+(j+1))}</span><textarea data-c="d" data-j="${j}">${esc(c.d[j]||'')}</textarea></label>`).join('')}</div></div></div>`).join('');
+}
+function rbDraw(){
+  const L=RU.lv,tw=RU.cr.reduce((a,c)=>a+c.w,0),mx=Math.max(0,...L.map(l=>l.p));
+  const miss=RU.cr.reduce((a,c)=>a+(c.n.trim()?0:1)+L.filter((l,j)=>!(c.d[j]||'').trim()).length,0);
+  $('rb-hint').textContent=miss?`Te faltan ${miss} ${miss===1?'campo':'campos'} por rellenar (nombres de criterio o descriptores).`:'';
+  $('rb-warn').innerHTML=Math.abs(tw-100)>1e-6?`<p class="warn">Los pesos suman ${fmt(tw)} %; deberían sumar 100 %. <button type="button" class="link" id="rb-eq">Igualar pesos</button></p>`:'';
+  $('rb-sheet').innerHTML=`<h2>${esc(RU.title)}</h2>${RU.subj?`<div class="rb-m">${esc(RU.subj)}</div>`:''}${RU.stu?'<p class="rb-s">Alumno/a: ______________________________  Grupo: ________  Fecha: ____________</p>':''}`+
+    `<table><thead><tr><th class="c1">Criterio</th>${L.map(l=>`<th>${esc(l.n)}<small>${fmt(l.p)} ${l.p===1?'punto':'puntos'}</small></th>`).join('')}<th class="cp">Puntos</th></tr></thead><tbody>${RU.cr.map(c=>`<tr><th scope="row" class="c1">${esc(c.n)}<small>Peso: ${fmt(c.w)} %</small></th>${L.map((l,j)=>`<td>${esc(c.d[j]||'')}</td>`).join('')}<td></td></tr>`).join('')}</tbody></table>`+
+    (RU.obs?'<div class="rb-o">Observaciones:</div>':'')+'<div class="rb-f">Nota final: ________ / 10</div>'+(mx?`<p class="rb-n">Nota sobre 10 = suma de (puntos ÷ ${fmt(mx)} × peso %) ÷ 10.</p>`:'');
+}
+function rbFill(){
+  $('rb-title').value=RU.title;$('rb-subj').value=RU.subj;$('rb-n').value=RU.lv.length;$('rb-stu').checked=RU.stu;$('rb-obs').checked=RU.obs;
+  rbEd();rbDraw();
+}
+$('vista-rubricas').addEventListener('input',e=>{
+  const t=e.target,d=t.dataset;
+  if(t.id==='rb-title')RU.title=t.value;
+  else if(t.id==='rb-subj')RU.subj=t.value;
+  else if(t.id==='rb-stu')RU.stu=t.checked;
+  else if(t.id==='rb-obs')RU.obs=t.checked;
+  else if(t.id==='rb-n'){const n=+t.value;while(RU.lv.length<n)RU.lv.push({n:'Nivel '+(RU.lv.length+1),p:RU.lv.length+1});RU.lv.length=n;rbEd()}
+  else if(d.l){
+    RU.lv[+d.j][d.l]=d.l==='p'?Math.max(0,+t.value||0):t.value;
+    if(d.l==='n')document.querySelectorAll('[data-lbl="'+d.j+'"]').forEach(s=>{s.textContent='Descriptor: '+(t.value||'Nivel '+(+d.j+1))});
+  }
+  else if(d.c){const c=RU.cr[t.closest('.qc').dataset.i];if(d.c==='d')c.d[+d.j]=t.value;else c[d.c]=d.c==='w'?Math.max(0,+t.value||0):t.value}
+  else return;
+  rbSave();rbDraw();
+});
+function rbTpl(k){
+  if(RU.cr.some(c=>c.n||c.d.some(Boolean))&&!confirm('Esto sustituirá los criterios y los niveles actuales. ¿Continuar?'))return;
+  const s=RU.subj;RU=rbFrom(k);RU.subj=s;rbFill();rbSave();
+}
+const tplb=$('rb-tplb'),tplm=$('rb-tplm');
+const tplClose=()=>{tplm.hidden=true;tplb.setAttribute('aria-expanded','false')};
+tplb.onclick=e=>{e.stopPropagation();const o=tplm.hidden;tplm.hidden=!o;tplb.setAttribute('aria-expanded',o)};
+tplm.addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(b){tplClose();rbTpl(b.dataset.t)}});
+document.addEventListener('click',e=>{if(!tplm.contains(e.target))tplClose()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')tplClose()});
+$('rb-cr').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-a]');if(!b)return;
+  const i=+b.closest('.qc').dataset.i,a=b.dataset.a,c=RU.cr;
+  if(a==='del'&&c.length>1)c.splice(i,1);
+  else if(a==='up'&&i>0)[c[i-1],c[i]]=[c[i],c[i-1]];
+  else if(a==='dn'&&i<c.length-1)[c[i+1],c[i]]=[c[i],c[i+1]];
+  else return;
+  rbEd();rbSave();rbDraw();
+});
+$('vista-rubricas').addEventListener('click',e=>{
+  const id=(e.target.closest('button')||{}).id;
+  if(id==='rb-add'&&RU.cr.length<10){RU.cr.push({n:'',w:0,d:[]});rbEd();rbSave();rbDraw();const a=$('rb-cr').querySelectorAll('input[data-c="n"]');a[a.length-1].focus()}
+  else if(id==='rb-eq'){const n=RU.cr.length,b=Math.floor(100/n);RU.cr.forEach((c,i)=>{c.w=b+(i<100-b*n?1:0)});rbEd();rbSave();rbDraw()}
+  else if(id==='rb-eval')rbMode('eval',1);
+  else if(id==='rb-back')rbMode('edit',1);
+  else if(id==='rb-reset'){EV.cur={id:null,name:'',s:[]};evDraw()}
+  else if(id==='rb-print'){rbDraw();const t=document.title;document.title=RU.title||'Rúbrica';window.print();document.title=t}
+});
+rbFill();
+
+/* modo digital: elige un nivel por criterio y calcula la nota */
+const RB_INTRO='Crea una rúbrica con criterios, niveles y descriptores. Cuando la termines, expórtala a PDF o úsala en pantalla para obtener la nota.';
+/* varios alumnos: la lista se guarda en este navegador (localStorage) y no sale del dispositivo */
+const EK='aulalia-rubrica-alumnos';
+const EV={list:[],cur:{id:null,name:'',s:[]},txt:'',n:0,sig:'',t:''};
+const evBlank=()=>({id:null,name:'',s:[]});
+const evSig=()=>JSON.stringify([RU.lv.map(l=>[l.n,l.p]),RU.cr.map(c=>[c.n,c.w])]);
+const evNm=(x,i)=>String(x.name||'').trim()||'Alumno '+(i+1);
+function evLoad(){
+  try{
+    const d=JSON.parse(localStorage.getItem(EK));
+    if(d&&Array.isArray(d.list)){
+      EV.list=d.list.filter(x=>x&&Array.isArray(x.s)).map(x=>({id:+x.id||0,name:String(x.name||''),s:x.s}));
+      EV.sig=String(d.sig||'');EV.n=Math.max(+d.n||0,...EV.list.map(x=>x.id));
+    }
+  }catch(e){}
+}
+const evSave=()=>{try{localStorage.setItem(EK,JSON.stringify({sig:EV.sig,n:EV.n,list:EV.list}))}catch(e){}};
+/* nota de un alumno según la rúbrica actual; ok solo si todos los criterios tienen nivel */
+function evCalc(s){
+  const L=RU.lv,mx=Math.max(0,...L.map(l=>l.p)),tw=RU.cr.reduce((a,c)=>a+c.w,0);
+  const rows=RU.cr.map((c,i)=>{const l=L[s[i]];return l?{c,l,v:mx&&tw?l.p/mx*c.w/tw*10:0}:null});
+  const ok=mx>0&&tw>0&&rows.every(Boolean);
+  return{rows,ok,mx,tw,g:ok?rows.reduce((a,r)=>a+r.v,0):null};
+}
+function evCommit(){
+  const c=EV.cur;
+  if(c.id!=null||!evCalc(c.s).ok)return;
+  c.id=++EV.n;EV.sig=evSig();
+  EV.list.push({id:c.id,name:c.name,s:[...c.s]});evSave();
+}
+function evSync(){
+  const c=EV.cur,x=c.id==null?null:EV.list.find(x=>x.id===c.id);
+  if(x){x.name=c.name;x.s=[...c.s];evSave()}
+}
+function rbMode(m,sc){
+  const ev=m==='eval';
+  if(ev&&EV.list.length&&EV.sig!==evSig()){
+    if(!confirm('Has cambiado los criterios, los niveles o los pesos desde que evaluaste a los alumnos guardados, y sus notas ya no coinciden con la rúbrica. Si continúas, se borrarán esos alumnos. ¿Continuar?'))return;
+    EV.list=[];evSave();
+  }
+  $('rb-edit').hidden=ev;$('rb-evalv').hidden=!ev;
+  $('rb-intro').textContent=ev?'Elige el nivel de cada criterio. Cuando tengas la nota, pasa al siguiente alumno: los anteriores quedan guardados para editarlos, borrarlos o exportarlos a PDF.':RB_INTRO;
+  if(ev){EV.cur=evBlank();evDraw()}
+  if(sc)window.scrollTo(0,0);
+}
+function evNote(){
+  const c=EV.cur,i=c.id==null?-1:EV.list.findIndex(x=>x.id===c.id),n=$('rb-ev-note');
+  n.hidden=i<0;
+  if(i>=0)n.textContent='«'+evNm(c,i)+'» está guardado en la lista; los cambios se guardan solos.';
+  $('rb-ev-name').placeholder='Alumno '+((i<0?EV.list.length:i)+1);
+}
+function evDraw(){
+  $('rb-ev-name').value=EV.cur.name;
+  $('rb-ev-cr').innerHTML=RU.cr.map((c,i)=>`<fieldset class="evc"><legend>${esc(c.n||'Criterio '+(i+1))}<span class="sub">Peso ${fmt(c.w)} %</span></legend><div class="evg">${RU.lv.map((l,j)=>`<label class="ev"><input type="radio" name="ev${i}" value="${j}"${EV.cur.s[i]===j?' checked':''}><span><b>${esc(l.n)}</b><small>${fmt(l.p)} ${l.p===1?'punto':'puntos'}</small><i>${esc(c.d[j]||'')}</i></span></label>`).join('')}</div></fieldset>`).join('');
+  evNote();evRes();evList();
+}
+function evRes(){
+  const c=EV.cur,r=evCalc(c.s),n=RU.cr.length,done=r.rows.filter(Boolean).length,o=$('rb-ev-out');
+  EV.txt='';
+  if(!r.mx||!r.tw){o.innerHTML='<p class="err">Para calcular la nota, los niveles necesitan puntos y los criterios, peso.</p>';return}
+  if(!r.ok){o.innerHTML=`<p class="sub" style="margin:0">Faltan ${n-done} criterio${n-done>1?'s':''} por valorar.</p>`;return}
+  const cnt=EV.list.length+(c.id==null?1:0);
+  EV.txt=[RU.title+(RU.subj?' · '+RU.subj:''),c.name.trim()?'Alumno/a: '+c.name.trim():'','Nota: '+fmt(r.g)+' / 10',...r.rows.map(w=>'- '+(w.c.n||'Criterio')+': '+w.l.n+' ('+fmt(w.l.p)+' pts)')].filter(Boolean).join('\n');
+  o.innerHTML=`<p class="result"><b>${fmt(r.g)}</b>sobre 10</p>`+(Math.abs(r.tw-100)>1e-6?`<p class="sub">Los pesos suman ${fmt(r.tw)} %: la nota se calcula de forma proporcional.</p>`:'')+
+    `<details><summary>Ver el cálculo</summary><ol>${r.rows.map(w=>`<li>${esc(w.c.n)}: ${esc(w.l.n)} (${fmt(w.l.p)} de ${fmt(r.mx)} puntos) × peso ${fmt(w.c.w)} % = ${fmt(w.v)}</li>`).join('')}<li>Suma: ${fmt(r.g)} sobre 10</li></ol></details>`+
+    `<div class="evb"><button type="button" class="pri" data-ev="next">Evaluar otro alumno</button><button type="button" class="tog" data-ev="pdf">Exportar a PDF</button><button type="button" class="tog" data-ev="copy">Copiar resultado</button></div><p class="sub">El PDF incluirá ${cnt} alumno${cnt>1?'s':''}.</p>`;
+}
+function evList(){
+  const L=EV.list,b=$('rb-ev-list');
+  $('rb-ev-lt').textContent='Alumnos evaluados'+(L.length?' ('+L.length+')':'');
+  $('rb-ev-la').innerHTML=L.length?'<button type="button" class="tog" data-ev="pdf">Exportar a PDF</button><button type="button" class="tog" data-ev="delall">Borrar todos</button>':'';
+  if(!L.length){b.innerHTML='<p class="sub" style="margin:0">Aún no hay ningún alumno guardado. Cuando tengas la nota de uno, pulsa «Evaluar otro alumno» y quedará aquí.</p>';return}
+  b.innerHTML=`<div class="tscroll"><table class="evt"><thead><tr><th>Alumno</th>${RU.cr.map(c=>`<th>${esc(c.n||'Criterio')}</th>`).join('')}<th>Nota</th><th></th></tr></thead><tbody>`+
+    L.map((x,i)=>{const r=evCalc(x.s);return `<tr${x.id===EV.cur.id?' class="cur"':''}><td>${esc(evNm(x,i))}</td>${r.rows.map(w=>`<td>${w?esc(w.l.n):'—'}</td>`).join('')}<td><b>${r.ok?fmt(r.g):'—'}</b></td><td class="ta"><button type="button" class="link" data-ev="edit" data-id="${x.id}">Editar</button><button type="button" class="link" data-ev="del" data-id="${x.id}">Eliminar</button></td></tr>`}).join('')+
+    '</tbody></table></div>';
+}
+/* PDF: tabla alumno · criterios elegidos · nota total (A4 horizontal) */
+function evPrint(){
+  const L=EV.list;if(!L.length)return;
+  const mx=Math.max(0,...RU.lv.map(l=>l.p)),date=new Date().toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});
+  $('rb-rep').innerHTML=`<h2>${esc(RU.title)}</h2>${RU.subj?`<div class="rb-m">${esc(RU.subj)}</div>`:''}<p class="rb-s">Evaluación de alumnos · ${esc(date)}</p>`+
+    `<table><thead><tr><th class="c1">Alumno</th>${RU.cr.map(c=>`<th>${esc(c.n||'Criterio')}<small>Peso: ${fmt(c.w)} %</small></th>`).join('')}<th class="cp">Nota</th></tr></thead><tbody>`+
+    L.map((x,i)=>{const r=evCalc(x.s);return `<tr><th scope="row" class="c1">${esc(evNm(x,i))}</th>${r.rows.map(w=>`<td>${w?esc(w.l.n)+'\n'+fmt(w.l.p)+' '+(w.l.p===1?'punto':'puntos'):'—'}</td>`).join('')}<td><b>${r.ok?fmt(r.g):'—'}</b></td></tr>`}).join('')+
+    `</tbody></table>`+(mx?`<p class="rb-n">Nota sobre 10 = suma de (puntos ÷ ${fmt(mx)} × peso %) ÷ 10.</p>`:'');
+  EV.t=document.title;document.title=(RU.title||'Rúbrica')+' - alumnos';
+  document.body.classList.add('pr-rep');
+  window.print();
+}
+addEventListener('afterprint',()=>{document.body.classList.remove('pr-rep');if(EV.t){document.title=EV.t;EV.t=''}});
+$('rb-ev-cr').addEventListener('change',e=>{
+  if(e.target.type==='radio'){EV.cur.s[+e.target.name.slice(2)]=+e.target.value;evSync();evNote();evRes();evList()}
+});
+$('rb-ev-name').addEventListener('input',e=>{EV.cur.name=e.target.value;evSync();evNote();evRes();evList()});
+$('rb-evalv').addEventListener('click',e=>{
+  const b=e.target.closest('[data-ev]');if(!b)return;
+  const a=b.dataset.ev,id=+b.dataset.id;
+  if(a==='next'){evCommit();EV.cur=evBlank();evDraw();$('rb-ev-name').focus()}
+  else if(a==='pdf'){evCommit();evDraw();evPrint()}
+  else if(a==='copy'){navigator.clipboard.writeText(EV.txt).then(()=>{b.textContent='Copiado'}).catch(()=>{})}
+  else if(a==='edit'){
+    const c=EV.cur;
+    if(c.id==null){
+      if(evCalc(c.s).ok)evCommit();
+      else if((c.name.trim()||c.s.some(v=>v!=null))&&!confirm('El alumno que estás evaluando aún no está completo y se perderá. ¿Continuar?'))return;
+    }
+    const x=EV.list.find(x=>x.id===id);if(!x)return;
+    EV.cur={id:x.id,name:x.name,s:[...x.s]};evDraw();
+    $('rb-ev-name').scrollIntoView({block:'center',behavior:'smooth'});
+  }
+  else if(a==='del'){
+    const i=EV.list.findIndex(x=>x.id===id);if(i<0)return;
+    if(!confirm('¿Eliminar a «'+evNm(EV.list[i],i)+'» de la lista?'))return;
+    EV.list.splice(i,1);if(EV.cur.id===id)EV.cur=evBlank();
+    evSave();evDraw();
+  }
+  else if(a==='delall'){
+    if(!confirm('¿Eliminar a todos los alumnos guardados?'))return;
+    EV.list=[];EV.cur=evBlank();evSave();evDraw();
+  }
+});
+evLoad();
+rbMode('edit');
+
+/* ---- Noticias PAU ---- */
+const NW_CAT={fechas:tr('Fechas','Dates'),matricula:tr('Matrícula','Enrolment'),notas:tr('Notas y admisión','Grades and admission'),examenes:tr('Exámenes','Exams'),normativa:tr('Normativa','Regulations'),otros:tr('Otros','Other')};
+const NW=(typeof NEWS!=='undefined'&&Array.isArray(NEWS)?NEWS:[]).filter(n=>n&&n.titulo&&/^\d{4}-\d{2}-\d{2}$/.test(n.fecha)).sort((a,b)=>b.fecha.localeCompare(a.fecha));
+const nwNat=c=>!c||/^(todas|toda espa)/i.test(String(c).trim());
+let nwCat='',nwInit=false;
+function nwSetup(){
+  nwInit=true;
+  const used=Object.keys(NW_CAT).filter(k=>NW.some(n=>(n.categoria||'otros')===k));
+  $('nw-tags').innerHTML=used.length>1?[['',tr('Todas','All')],...used.map(k=>[k,NW_CAT[k]])].map(([k,l])=>`<button type="button" class="tog" data-c="${k}" aria-pressed="${k===nwCat}">${esc(l)}</button>`).join(''):'';
+  const cs=[...new Set(NW.map(n=>n.comunidad).filter(c=>!nwNat(c)))].sort((a,b)=>a.localeCompare(b,LOC));
+  const sel=$('nw-c');sel.hidden=!cs.length;
+  sel.innerHTML=`<option value="">${tr('Todas las comunidades','All regions')}</option>`+cs.map(c=>`<option>${esc(c)}</option>`).join('');
+}
+function nwDraw(){
+  if(!nwInit)nwSetup();
+  const words=norm($('nw-q').value).split(/\s+/).filter(Boolean),com=$('nw-c').value;
+  const hits=NW.filter(n=>(!nwCat||(n.categoria||'otros')===nwCat)&&(!com||nwNat(n.comunidad)||n.comunidad===com)&&words.every(w=>norm([n.titulo,n.resumen,n.fuente,n.comunidad].join(' ')).includes(w)));
+  const N=hits.length;
+  $('nw-n').textContent=!NW.length?tr('Todavía no hay noticias publicadas. Vuelve pronto.','No news published yet. Check back soon.'):N?tr(`${N} noticia${N>1?'s':''}`,`${N} item${N>1?'s':''}`):tr('No hay noticias con esos filtros.','No news match those filters.');
+  const html=hits.map(n=>{
+    const d=new Date(n.fecha+'T00:00:00'),age=(Date.now()-d)/864e5;
+    const fecha=d.toLocaleDateString(LOC,{day:'numeric',month:'long',year:'numeric'});
+    const link=/^https?:\/\//i.test(n.enlace||'')?`<a href="${esc(n.enlace)}" target="_blank" rel="noopener noreferrer">${tr('Ver la fuente','View the source')}<span class="sr-only"> ${tr('(se abre en otra pestaña)','(opens in a new tab)')}</span></a>`:'';
+    return `<article class="nw${n.importante?' imp':''}"><div class="nw-m"><time datetime="${esc(n.fecha)}">${esc(fecha)}</time>`+
+      (n.ejemplo?`<span class="badge ex">${tr('Ejemplo','Example')}</span>`:age>=-1&&age<=14?`<span class="badge new">${tr('Nueva','New')}</span>`:'')+
+      `<span class="badge">${esc(NW_CAT[n.categoria]||NW_CAT.otros)}</span><span>${esc(nwNat(n.comunidad)?tr('Toda España','All of Spain'):n.comunidad)}</span></div>`+
+      `<h2>${esc(n.titulo)}</h2>`+(n.resumen?`<p>${esc(n.resumen)}</p>`:'')+
+      (n.fuente||link?`<div class="nw-f">${n.fuente?`<span>${tr('Fuente','Source')}: ${esc(n.fuente)}</span>`:''}${link}</div>`:'')+`</article>`;
+  }).join('');
+  if(nwDraw.last!==html){nwDraw.last=html;$('nw-list').innerHTML=html}
+}
+$('nw-tags').addEventListener('click',e=>{
+  const b=e.target.closest('[data-c]');if(!b)return;
+  nwCat=b.dataset.c;$('nw-tags').querySelectorAll('[data-c]').forEach(x=>x.setAttribute('aria-pressed',x===b));nwDraw();
+});
+$('nw-q').addEventListener('input',nwDraw);
+$('nw-c').addEventListener('change',nwDraw);
+
+/* ---- Vistas: portada y calculadora (pantalla aparte) ---- */
+const home=document.getElementById('inicio'),calcView=document.getElementById('vista-calculadora');
+let homeY=0;
+document.getElementById('catalog').addEventListener('click',e=>{if(e.target.closest('a.go'))homeY=window.scrollY});
+function routeNow(){
+  const onCalc=location.hash==='#calculadora',onEx=location.hash==='#examenes',onPl=location.hash==='#planificador',onRb=location.hash==='#rubricas',onNw=location.hash==='#noticias';
+  home.hidden=onCalc||onEx||onPl||onRb||onNw;$('vista-noticias').hidden=!onNw;calcView.hidden=!onCalc;$('vista-examenes').hidden=!onEx;$('vista-planificador').hidden=!onPl;$('vista-rubricas').hidden=!onRb;
+  document.title=onCalc?'Calculadora de notas · Aulalia':onEx?'Generador de exámenes · Aulalia':onPl?'Planificador de estudio · Aulalia':onRb?'Generador de rúbricas · Aulalia':onNw?'Noticias y actualizaciones PAU · Aulalia':'Aulalia · Herramientas para estudiar mejor';
+  window.scrollTo({top:onCalc||onEx||onPl||onRb||onNw?0:homeY,left:0,behavior:'instant'});
+  if(onCalc)document.getElementById('calc-t').focus({preventScroll:true});
+  if(onEx){$('ex-t').focus({preventScroll:true});exRender()}
+  if(onPl){$('pl-t').focus({preventScroll:true});plan()}
+  if(onRb){$('rb-t').focus({preventScroll:true});rbMode('edit');rbDraw()}
+  if(onNw){$('nw-t').focus({preventScroll:true});nwDraw()}
+}
+const RM=matchMedia('(prefers-reduced-motion:reduce)');
+let firstRoute=true;
+function route(){
+  if(firstRoute||RM.matches||!document.startViewTransition){firstRoute=false;routeNow();return}
+  const d=document.documentElement;d.classList.add('vt');
+  const t=document.startViewTransition(routeNow);
+  t.finished.finally(()=>d.classList.remove('vt'));
+}
+window.addEventListener('hashchange',route);route();
+(function(){
+  const d=document.documentElement;
+  if(!location.hash||location.hash==='#inicio'){d.classList.add('intro');setTimeout(()=>d.classList.remove('intro'),1700)}
+  const hdr=document.querySelector('header');let on=false;
+  const sync=()=>{const s=window.scrollY>4;if(s!==on){on=s;hdr.classList.toggle('scrolled',s)}};
+  addEventListener('scroll',sync,{passive:true});sync();
+})();
+
+/* ---- Modo claro / oscuro (claro por defecto) ---- */
+const themeBtn=document.getElementById('theme');
+const SUN='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+const MOON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>';
+function applyTheme(t){
+  document.documentElement.dataset.theme=t;
+  themeBtn.innerHTML=t==='dark'?SUN:MOON;
+  const label=t==='dark'?'Activar modo claro':'Activar modo oscuro';
+  themeBtn.setAttribute('aria-label',label);themeBtn.title=label;
+  const tc=document.querySelector('meta[name=theme-color]');if(tc)tc.content=t==='dark'?'#101217':'#F5F6F8';
+}
+applyTheme(document.documentElement.dataset.theme==='dark'?'dark':'light');
+themeBtn.addEventListener('click',()=>{
+  const n=document.documentElement.dataset.theme==='dark'?'light':'dark';
+  if(document.startViewTransition&&!RM.matches)document.startViewTransition(()=>applyTheme(n));else applyTheme(n);
+  themeBtn.classList.remove('flip');void themeBtn.offsetWidth;themeBtn.classList.add('flip');
+  try{localStorage.setItem('theme',n)}catch(e){}
+});
+</script>
+</body>
+</html>
