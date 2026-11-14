@@ -3133,6 +3133,12 @@
       border-color: var(--bad);
       color: var(--accent-ink)
     }
+    .eo-list{display:grid;gap:10px;margin-top:12px}
+    .eo-it{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;gap:6px 16px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+    .eo-it h3{font-size:1.05rem;margin:0 0 4px}
+    .eo-it p{margin:0;color:var(--muted);font-size:.92rem;max-width:62ch}
+    .eo-it .eo-go{font-weight:600;color:var(--accent);white-space:nowrap}
+    .eo-it .eo-alt{flex-basis:100%;font-size:.88rem;color:var(--muted)}
   </style>
   <script>try { if (localStorage.getItem("theme") === "dark") document.documentElement.dataset.theme = "dark" } catch (e) { }
     window.LANG = (function () { try { var l = localStorage.getItem("lang"); if (l === "en" || l === "es") return l } catch (e) { } return "es" })(); document.documentElement.lang = window.LANG;</script>
@@ -3280,6 +3286,28 @@
             <div class="out" id="out-rec" aria-live="polite"></div>
           </section>
         </div>
+      </div>
+    </section>
+
+    <section id="vista-examenes-oficiales" class="view" hidden aria-labelledby="eo-t">
+      <div class="wrap">
+        <a class="back" href="#inicio"><svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15 5l-7 7 7 7" />
+          </svg>Volver a las herramientas</a>
+        <h1 id="eo-t" tabindex="-1">Buscador de exámenes oficiales</h1>
+        <p class="intro">Elige tu comunidad y ve directo a la página oficial donde se publican los exámenes y modelos de la PAU. Cada resultado enlaza a su fuente; Aulalia no guarda copias de los exámenes.</p>
+        <section class="calc">
+          <div class="two">
+            <div class="fld"><label for="eo-c">Comunidad autónoma</label><select id="eo-c"></select></div>
+            <div class="fld"><label for="eo-m">Materia (opcional)</label><input id="eo-m" type="search" autocomplete="off" placeholder="Matemáticas, Historia…"></div>
+          </div>
+          <div class="two">
+            <div class="fld"><label for="eo-y">Año</label><select id="eo-y"></select></div>
+            <div class="fld"><label for="eo-v">Convocatoria</label><select id="eo-v"></select></div>
+          </div>
+        </section>
+        <p class="sub" id="eo-n" role="status" aria-live="polite"></p>
+        <div class="eo-list" id="eo-list"></div>
       </div>
     </section>
 
@@ -3749,6 +3777,25 @@
     </div>
   </footer>
 
+  <script id="examenes-datos">
+    /* =====================================================================
+       BUSCADOR DE EXÁMENES OFICIALES · aquí es donde tú añades fuentes
+       ---------------------------------------------------------------------
+       EO_PORTALES: una página oficial por comunidad (siempre visible).
+         { c:"Comunidad", t:"Organismo · página", u:"https://...", n:"Qué hay", e:"English note" }
+       EO_EXAMENES: enlaces directos a un examen o modelo concreto.
+         { c:"Comunidad", materia:"Matemáticas II", anio:2025,
+           conv:"Ordinaria", tipo:"Examen", u:"https://..." }
+         conv: Ordinaria | Extraordinaria · tipo: Examen | Modelo
+       Solo enlaces que hayas abierto y comprobado en la web oficial.
+       ===================================================================== */
+    const EO_PORTALES = [
+      { c: "Andalucía", t: "Junta de Andalucía · Distrito Único Andaluz", u: "https://lajunta.es/portaldua", n: "En el portal: Grados › Desde Bachillerato › Exámenes y orientaciones.", e: "On the portal: Grados › Desde Bachillerato › Exámenes y orientaciones." },
+      { c: "Comunidad de Madrid", t: "Comunidad de Madrid · Exámenes PAU y estadísticas", u: "https://www.comunidad.madrid/servicios/educacion/examenes-evau-estadisticas", n: "Exámenes de la PAU y de la EvAU de convocatorias anteriores, ordinaria y extraordinaria.", e: "PAU and EvAU papers from previous sessions, ordinary and extraordinary." },
+      { c: "País Vasco", t: "UPV/EHU · Modelos de examen de la PAU", u: "https://www.ehu.eus/es/web/unibertsitaterako-sarbidea/vias-de-acceso/bachillerato-y-ciclos-formativos-de-grado-superior/pau/nuevos-modelos-examenes", n: "Modelos de examen por materia de la PAU 2025.", e: "Sample exams by subject for the 2025 PAU." }
+    ];
+    const EO_EXAMENES = [];
+  </script>
   <script id="noticias-datos">
     /* =====================================================================
        NOTICIAS Y ACTUALIZACIONES · aquí es donde tú escribes las noticias
@@ -3808,6 +3855,12 @@
     /* ---- Idioma / Language (ES · EN) ---- */
     const EN = window.LANG === 'en', tr = (es, en) => EN ? en : es, LOC = EN ? 'en-GB' : 'es-ES';
     const I18N = {
+      "Buscador de exámenes oficiales": "Official exam finder",
+      "Elige tu comunidad y ve directo a la página oficial donde se publican los exámenes y modelos de la PAU. Cada resultado enlaza a su fuente; Aulalia no guarda copias de los exámenes.": "Pick your region and go straight to the official page where PAU exams and sample papers are published. Every result links to its source; Aulalia keeps no copies of the exams.",
+      "Comunidad autónoma": "Region",
+      "Materia (opcional)": "Subject (optional)",
+      "Año": "Year",
+      "Convocatoria": "Session",
       "Aulalia · Herramientas para estudiar mejor": "Aulalia · Tools to study better",
       "Calculadoras, ejercicios, resúmenes y más para ESO, Bachillerato, PAU y profesores.": "Calculators, exercises, summaries and more for secondary school, sixth form, university entrance exams (PAU) and teachers.",
       "Herramientas para estudiar mejor.": "Tools to study better.",
@@ -4028,7 +4081,7 @@
       ["explicador-temas", "Explicador de temas con IA", "Explicaciones con ejemplos adaptadas a tu nivel.", "aprendizaje", "bulb", 0],
       ["simulador-pau", "Simulador y calculadora PAU", "Nota de acceso y de admisión con su desglose.", "pau", "cap", 0],
       ["noticias-pau", "Noticias y actualizaciones PAU", "Novedades de fuentes oficiales, con fecha y enlace.", "pau", "news", "noticias-pau"],
-      ["examenes-oficiales", "Buscador de exámenes oficiales", "Modelos y exámenes anteriores por comunidad, materia y año.", "pau", "find", 0],
+      ["examenes-oficiales", "Buscador de exámenes oficiales", "Modelos y exámenes anteriores por comunidad, materia y año.", "pau", "find", "examenes-oficiales"],
       ["ponderaciones-universitarias", "Buscador de ponderaciones", "Ponderaciones por grado y universidad, con su fuente.", "pau", "scale", 0],
       ["generador-rubricas", "Generador de rúbricas", "Rúbricas con descriptores por nivel, listas para imprimir.", "profesores", "rubric", "rubricas"]
     ];
@@ -5162,17 +5215,42 @@
       ccSv($('cc-name').value.trim() || tr('Control sin nombre', 'Untitled control'), `${S.length} ${tr('alumnos', 'students')} · ${Q.length} ${tr('preguntas', 'questions')}`, { st: $('cc-st').value, qs: Q, k: $('cc-k').value, res: CC.res })
     };
 
+    /* ---- Buscador de exámenes oficiales ---- */
+    const EO_ALL = tr('Todas las comunidades', 'All regions'), EO_ANY = tr('Todos', 'All');
+    (function () {
+      const opt = (v, t) => `<option value="${esc(v)}">${esc(t)}</option>`;
+      $('eo-c').innerHTML = opt('', EO_ALL) + [...new Set(EO_PORTALES.map(p => p.c).concat(EO_EXAMENES.map(x => x.c)))].sort((a, b) => a.localeCompare(b, LOC)).map(c => opt(c, c)).join('');
+      let ys = opt('', EO_ANY); for (let y = 2026; y >= 2016; y--) ys += opt(y, y); $('eo-y').innerHTML = ys;
+      $('eo-v').innerHTML = opt('', EO_ANY) + opt('Ordinaria', tr('Ordinaria', 'Ordinary')) + opt('Extraordinaria', tr('Extraordinaria', 'Extraordinary'));
+      ['eo-c', 'eo-y', 'eo-v'].forEach(i => $(i).addEventListener('change', eoRender)); $('eo-m').addEventListener('input', eoRender);
+    })();
+    function eoRender() {
+      const c = $('eo-c').value, mq = $('eo-m').value.trim(), m = norm(mq), y = $('eo-y').value, v = $('eo-v').value;
+      const P = EO_PORTALES.filter(p => !c || p.c === c);
+      const X = EO_EXAMENES.filter(x => (!c || x.c === c) && (!y || String(x.anio) === y) && (!v || x.conv === v) && (!m || norm(x.materia).includes(m)));
+      const link = (u, t) => `<a class="eo-go" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${t}</a>`;
+      const hd = u => { try { return new URL(u).hostname } catch (e) { return '' } };
+      let h = X.map(x => `<article class="eo-it"><div><h3>${esc(x.materia)} · ${esc(x.anio)}</h3><p>${esc(x.c)} · ${esc(x.conv)}${x.tipo ? ' · ' + esc(x.tipo) : ''}</p></div>${link(x.u, tr('Abrir en la fuente oficial', 'Open on the official site'))}</article>`).join('');
+      h += P.map(p => {
+        const q = [mq, y, 'examen'].filter(Boolean).join(' '), alt = (mq || y) ? `<span class="eo-alt"><a href="https://www.google.com/search?q=${encodeURIComponent('site:' + hd(p.u) + ' ' + q)}" target="_blank" rel="noopener noreferrer">${tr('Buscar «' + esc(q) + '» solo en esa web con Google', 'Search “' + esc(q) + '” on that site only, with Google')}</a></span>` : '';
+        return `<article class="eo-it"><div><h3>${esc(p.t)}</h3><p>${esc(tr(p.n, p.e || p.n))}</p></div>${link(p.u, tr('Ir al portal oficial', 'Go to the official portal'))}${alt}</article>`
+      }).join('');
+      $('eo-list').innerHTML = h;
+      const a = X.length, b = P.length;
+      $('eo-n').textContent = !a && !b ? tr('Aún no hay fuentes para esa comunidad. Se irán añadiendo.', 'No sources for that region yet. They will be added over time.') : tr(`${a} examen${a === 1 ? '' : 'es'} con enlace directo · ${b} portal${b === 1 ? '' : 'es'} oficial${b === 1 ? '' : 'es'}`, `${a} exam${a === 1 ? '' : 's'} with a direct link · ${b} official portal${b === 1 ? '' : 's'}`)
+    }
+
     /* ---- Vistas: portada y calculadora (pantalla aparte) ---- */
     const home = document.getElementById('inicio'), calcView = document.getElementById('vista-calculadora');
     let homeY = 0;
     document.getElementById('catalog').addEventListener('click', e => { if (e.target.closest('a.go')) homeY = window.scrollY });
     function routeNow() {
       const h = location.hash, nd = h.startsWith('#noticia-') ? h.slice(9) : null;
-      const VV = { '#calculadora': 'vista-calculadora', '#examenes': 'vista-examenes', '#planificador': 'vista-planificador', '#rubricas': 'vista-rubricas', '#noticias': 'vista-noticias', '#noticias-pau': 'vista-noticias', '#qr': 'vista-qr', '#flashcards': 'vista-flashcards', '#control': 'vista-control' };
-      const TT = { '#calculadora': ['Calculadora de notas', 'calc-t'], '#examenes': ['Generador de exámenes', 'ex-t'], '#planificador': ['Planificador de estudio', 'pl-t'], '#rubricas': ['Generador de rúbricas', 'rb-t'], '#noticias': ['Noticias y Actualizaciones', 'nw-t'], '#noticias-pau': ['Noticias y actualizaciones PAU', 'nw-t'], '#qr': ['Generador de códigos QR', 'qr-t'], '#flashcards': ['Generador de flashcards', 'fc-t'], '#control': ['Control de clase', 'cc-t'] };
+      const VV = { '#calculadora': 'vista-calculadora', '#examenes': 'vista-examenes', '#planificador': 'vista-planificador', '#rubricas': 'vista-rubricas', '#noticias': 'vista-noticias', '#noticias-pau': 'vista-noticias', '#qr': 'vista-qr', '#flashcards': 'vista-flashcards', '#control': 'vista-control', '#examenes-oficiales': 'vista-examenes-oficiales' };
+      const TT = { '#calculadora': ['Calculadora de notas', 'calc-t'], '#examenes': ['Generador de exámenes', 'ex-t'], '#planificador': ['Planificador de estudio', 'pl-t'], '#rubricas': ['Generador de rúbricas', 'rb-t'], '#noticias': ['Noticias y Actualizaciones', 'nw-t'], '#noticias-pau': ['Noticias y actualizaciones PAU', 'nw-t'], '#qr': ['Generador de códigos QR', 'qr-t'], '#flashcards': ['Generador de flashcards', 'fc-t'], '#control': ['Control de clase', 'cc-t'], '#examenes-oficiales': ['Buscador de exámenes oficiales', 'eo-t'] };
       const cur = nd !== null ? 'vista-noticia' : VV[h] || '';
       home.hidden = !!cur;
-      ['vista-calculadora', 'vista-examenes', 'vista-planificador', 'vista-rubricas', 'vista-noticias', 'vista-noticia', 'vista-qr', 'vista-flashcards', 'vista-control'].forEach(i => { $(i).hidden = i !== cur });
+      ['vista-calculadora', 'vista-examenes', 'vista-planificador', 'vista-rubricas', 'vista-noticias', 'vista-noticia', 'vista-qr', 'vista-flashcards', 'vista-control', 'vista-examenes-oficiales'].forEach(i => { $(i).hidden = i !== cur });
       document.title = TT[h] ? TT[h][0] + ' · Aulalia' : 'Aulalia · Herramientas para estudiar mejor';
       window.scrollTo({ top: cur ? 0 : homeY, left: 0, behavior: 'instant' });
       if (TT[h]) $(TT[h][1]).focus({ preventScroll: true });
@@ -5183,6 +5261,7 @@
       if (h === '#qr') qrDraw();
       if (h !== '#flashcards') fcExit();
       if (h === '#control') ccFd();
+      if (h === '#examenes-oficiales') eoRender();
       if (nd !== null) nwDetail(nd);
     }
     const RM = matchMedia('(prefers-reduced-motion:reduce)');
