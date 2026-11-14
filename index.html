@@ -3795,6 +3795,15 @@
       { c: "País Vasco", t: "UPV/EHU · Modelos de examen de la PAU", u: "https://www.ehu.eus/es/web/unibertsitaterako-sarbidea/vias-de-acceso/bachillerato-y-ciclos-formativos-de-grado-superior/pau/nuevos-modelos-examenes", n: "Modelos de examen por materia de la PAU 2025.", e: "Sample exams by subject for the 2025 PAU." }
     ];
     const EO_EXAMENES = [];
+    /* UC3M · Exámenes y modelos de la PAU (uc3m.es/pruebasacceso/modelos-examenes). Matemáticas II: un enlace por año y convocatoria; el resto de materias, la página oficial de la materia con todos los años. */
+    (function () {
+      const dr = id => 'https://drive.google.com/file/d/' + id + '/view', pg = id => 'https://www.uc3m.es/ss/Satellite/evau/es/TextoMixta/' + id + '/';
+      const add = (materia, anio, conv, tipo, u) => EO_EXAMENES.push({ c: 'Comunidad de Madrid', o: 'UC3M', materia, anio, conv, tipo, u });
+      add('Todas las materias', 2026, '', '', pg('1371381890886'));
+      '1NM1gOswmsko_2IXGCo8wg21UEhWeK7wx 1X65vGv44SezurpA990sjjWJT7L5ryHSr 1NNpEZMQLZq2TBmX5JhIZX66ryhMNQ-Q4 1crte0zTO2D36BhIdVqN2KQQeKjUv8It9 1N-NmTU8OnMJOmc9Au04wsw61Oep0TQJg 1F1zHKCQFbYvLEP_6v3O4YiA1dIH2kTYA 1wvyHJGtwmC-ZWK2J0raGIPpdPPdy1kOO 1DmNk-CkaaMJA2AyDPG92PovM794PMK4f 1WxJAHcCShk5-kbt81ZrtZktFFxlcnHKM'.split(' ').forEach((id, i) => add('Matemáticas II', 2026 - i, 'Ordinaria', 'Examen', dr(id)));
+      '1UWVjjaylAJAONJXLNKG2A-8yaw2U25LM 1cCGgsASoB6nGCUNzaMq6B6dWgj39W8uN 1Og5VVTfkkbnerHRRFNe2jjr4Ww5tsEYl 1QY-915QoWxoi1B8mUaxD542WcboZw0rd 1T7fca9BdXDqK-92jdGRZ9uxpe7bU4t9- 1Bc-8Fys25r7B4LwIjbAm7no3ok8gGc7o 13IVblyfBlDv8u4AMHfxxdariHvKl5882 1EhZTeYsr4ixxQbkVEm8JyDaIo3p8nQHV 1Jpd1Jm3t8wpmMfsP23JVE2PAARSEHS38'.split(' ').forEach((id, i) => add('Matemáticas II', 2026 - i, 'Extraordinaria', 'Examen', dr(id)));
+      [['Lengua Castellana y Literatura II', '1371318275798'], ['Historia de España', '1371301652679'], ['Historia de la Filosofía', '1371318332067'], ['Inglés', '1371318276778'], ['Francés', '1371318344997'], ['Alemán', '1371318337176'], ['Italiano', '1371318341409'], ['Portugués', '1371318342035'], ['Artes Escénicas II', '1371318276821'], ['Ciencias Generales', '1371377314231'], ['Dibujo Artístico II', '1371377311704'], ['Latín II', '1371318154964'], ['Matemáticas Aplicadas a las Ciencias Sociales II', '1371318154960'], ['Matemáticas II', '1371318154983'], ['Biología', '1371318297544'], ['Coro y Técnica Vocal II', '1371377314064'], ['Dibujo Técnico II', '1371318298407'], ['Dibujo Técnico Aplicado a las Artes Plásticas y al Diseño II', '1371377311679'], ['Diseño', '1371318298656'], ['Empresa y Diseño de Modelos de Negocio', '1371318298694'], ['Fundamentos Artísticos', '1371377317976'], ['Física', '1371318299061'], ['Geografía', '1371318297016'], ['Geología y Ciencias Ambientales', '1371318296967'], ['Griego II', '1371318296672'], ['Historia del Arte', '1371318294048'], ['Historia de la Música y de la Danza', '1371377314180'], ['Literatura Dramática', '1371377314181'], ['Movimientos Culturales y Artísticos', '1371377314207'], ['Química', '1371318182329'], ['Técnicas de Expresión Gráfico-plástica', '1371377314059'], ['Tecnología e Ingeniería II', '1371377314206'], ['Cultura Audiovisual II', '1371318298208'], ['Fundamentos del Arte II', '1371318154647']].forEach(([m, id]) => add(m, 0, '', '', pg(id)));
+    })();
   </script>
   <script id="noticias-datos">
     /* =====================================================================
@@ -5227,17 +5236,17 @@
     function eoRender() {
       const c = $('eo-c').value, mq = $('eo-m').value.trim(), m = norm(mq), y = $('eo-y').value, v = $('eo-v').value;
       const P = EO_PORTALES.filter(p => !c || p.c === c);
-      const X = EO_EXAMENES.filter(x => (!c || x.c === c) && (!y || String(x.anio) === y) && (!v || x.conv === v) && (!m || norm(x.materia).includes(m)));
+      const X = EO_EXAMENES.filter(x => (!c || x.c === c) && (!y || !x.anio || String(x.anio) === y) && (!v || !x.conv || x.conv === v) && (!m || norm(x.materia).includes(m))).sort((a, b) => (b.anio || 0) - (a.anio || 0));
       const link = (u, t) => `<a class="eo-go" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${t}</a>`;
       const hd = u => { try { return new URL(u).hostname } catch (e) { return '' } };
-      let h = X.map(x => `<article class="eo-it"><div><h3>${esc(x.materia)} · ${esc(x.anio)}</h3><p>${esc(x.c)} · ${esc(x.conv)}${x.tipo ? ' · ' + esc(x.tipo) : ''}</p></div>${link(x.u, tr('Abrir en la fuente oficial', 'Open on the official site'))}</article>`).join('');
+      let h = X.map(x => `<article class="eo-it"><div><h3>${esc(x.materia)}${x.anio ? ' · ' + esc(x.anio) : ''}</h3><p>${esc([x.c, x.o, x.conv, x.tipo].filter(Boolean).join(' · '))}</p></div>${link(x.u, x.anio && x.conv ? tr('Abrir examen', 'Open exam') : x.anio ? tr('Ver exámenes del año', 'See the year’s exams') : tr('Ver todos los años', 'See all years'))}</article>`).join('');
       h += P.map(p => {
         const q = [mq, y, 'examen'].filter(Boolean).join(' '), alt = (mq || y) ? `<span class="eo-alt"><a href="https://www.google.com/search?q=${encodeURIComponent('site:' + hd(p.u) + ' ' + q)}" target="_blank" rel="noopener noreferrer">${tr('Buscar «' + esc(q) + '» solo en esa web con Google', 'Search “' + esc(q) + '” on that site only, with Google')}</a></span>` : '';
         return `<article class="eo-it"><div><h3>${esc(p.t)}</h3><p>${esc(tr(p.n, p.e || p.n))}</p></div>${link(p.u, tr('Ir al portal oficial', 'Go to the official portal'))}${alt}</article>`
       }).join('');
       $('eo-list').innerHTML = h;
       const a = X.length, b = P.length;
-      $('eo-n').textContent = !a && !b ? tr('Aún no hay fuentes para esa comunidad. Se irán añadiendo.', 'No sources for that region yet. They will be added over time.') : tr(`${a} examen${a === 1 ? '' : 'es'} con enlace directo · ${b} portal${b === 1 ? '' : 'es'} oficial${b === 1 ? '' : 'es'}`, `${a} exam${a === 1 ? '' : 's'} with a direct link · ${b} official portal${b === 1 ? '' : 's'}`)
+      $('eo-n').textContent = !a && !b ? tr('Aún no hay fuentes para esa comunidad. Se irán añadiendo.', 'No sources for that region yet. They will be added over time.') : tr(`${a} enlace${a === 1 ? '' : 's'} a exámenes · ${b} portal${b === 1 ? '' : 'es'} oficial${b === 1 ? '' : 'es'}`, `${a} exam link${a === 1 ? '' : 's'} · ${b} official portal${b === 1 ? '' : 's'}`)
     }
 
     /* ---- Vistas: portada y calculadora (pantalla aparte) ---- */
