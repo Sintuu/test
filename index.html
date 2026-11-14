@@ -17,7 +17,9 @@
   <title>Aulalia · Herramientas para estudiar mejor</title>
   <meta name="description"
     content="Calculadoras, ejercicios, resúmenes y más para ESO, Bachillerato, PAU y profesores.">
-  <meta name="theme-color" content="#F5F6F8">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#F5F6F8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#101217" media="(prefers-color-scheme: dark)">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Aulalia · Herramientas para estudiar mejor">
   <meta property="og:description"
@@ -70,6 +72,10 @@
 
     * {
       box-sizing: border-box
+    }
+
+    html {
+      background: var(--bg)
     }
 
     html {
@@ -3139,8 +3145,30 @@
     .eo-it p{margin:0;color:var(--muted);font-size:.92rem;max-width:62ch}
     .eo-it .eo-go{font-weight:600;color:var(--accent);white-space:nowrap}
     .eo-it .eo-alt{flex-basis:100%;font-size:.88rem;color:var(--muted)}
+    /* test de rama */
+    .tb-opts{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:18px}
+    @media(max-width:620px){.tb-opts{grid-template-columns:1fr}}
+    .tb-opts button{padding:12px 8px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font:600 .95rem var(--body);cursor:pointer;transition:background-color .15s,border-color .15s,color .15s}
+    .tb-opts button:hover{border-color:var(--accent)}
+    .tb-opts button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+    .tb-it{padding:14px 0;border-top:1px solid var(--line)}
+    .tb-it:first-child{border-top:0;padding-top:4px}
+    .tb-hd{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap}
+    .tb-hd b{font:700 1.05rem var(--head)}
+    .tb-it.top .tb-hd b{font-size:1.3rem}
+    .tb-hd span.p{font-weight:600;color:var(--muted)}
+    .tb-it .fc-bar{margin:8px 0 6px}
+    .tb-it p{margin:0;color:var(--muted);font-size:.92rem}
+    .tb-it .badge{margin-right:8px;vertical-align:middle}
   </style>
-  <script>try { if (localStorage.getItem("theme") === "dark") document.documentElement.dataset.theme = "dark" } catch (e) { }
+  <script>/* tema: el guardado manda; si no hay, se sigue el del sistema. La barra del navegador (theme-color) se alinea con el tema real */
+    (function () {
+      var d = document.documentElement, s = null; try { s = localStorage.getItem("theme") } catch (e) { }
+      var dark = s === "dark" || (s !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
+      if (dark) d.dataset.theme = "dark";
+      var m = document.querySelectorAll("meta[name=theme-color]"); for (var i = m.length - 1; i > 0; i--) m[i].remove();
+      if (m[0]) { m[0].removeAttribute("media"); m[0].content = dark ? "#101217" : "#F5F6F8" }
+    })();
     window.LANG = (function () { try { var l = localStorage.getItem("lang"); if (l === "en" || l === "es") return l } catch (e) { } return "es" })(); document.documentElement.lang = window.LANG;</script>
 </head>
 
@@ -3208,7 +3236,7 @@
           <ul class="steps">
             <li>
               <h3>Utilidades</h3>
-              <p>La calculadora de notas, los códigos QR, las noticias y, próximamente, ejercicios y resúmenes de PDF.
+              <p>La calculadora de notas, el test de rama, los códigos QR, las noticias y, próximamente, ejercicios y resúmenes de PDF.
               </p>
             </li>
             <li>
@@ -3762,6 +3790,56 @@
         <div class="rb" id="rb-rep"></div>
       </div>
     </section>
+    <section id="vista-test-rama" class="view" hidden aria-labelledby="tb-t">
+      <div class="wrap">
+        <a class="back" href="#inicio"><svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15 5l-7 7 7 7" />
+          </svg>Volver a las herramientas</a>
+        <h1 id="tb-t" tabindex="-1">Test de rama</h1>
+        <p class="intro">Responde unas preguntas sobre lo que te gusta y descubre qué rama o carrera encaja mejor contigo.
+          Es una orientación, no un veredicto. Todo se hace en tu navegador.</p>
+        <div class="calc-grid" id="tb-setup">
+          <section class="calc">
+            <h2>¿Qué test quieres hacer?</h2>
+            <div class="seg" role="group" aria-label="Nivel" style="display:flex"><button type="button" id="tb-l1"
+                aria-pressed="true" style="flex:1">ESO</button><button type="button" id="tb-l2" aria-pressed="false"
+                style="flex:1">Bachillerato</button><button type="button" id="tb-l3" aria-pressed="false"
+                style="flex:1">Carrera universitaria</button></div>
+            <p class="sub" id="tb-ld"></p>
+          </section>
+          <section class="calc">
+            <h2>Longitud del test</h2>
+            <div class="seg" role="group" aria-label="Longitud" style="display:flex"><button type="button" id="tb-n1"
+                aria-pressed="true" style="flex:1">Test corto</button><button type="button" id="tb-n2"
+                aria-pressed="false" style="flex:1">Test largo</button></div>
+            <p class="sub" id="tb-nd"></p>
+            <div class="ex-bar" style="margin-top:14px"><button type="button" class="pri" id="tb-go"
+                style="margin-left:0">Empezar el test</button></div>
+          </section>
+        </div>
+        <div id="tb-play" hidden>
+          <div class="fc-top">
+            <p class="fc-st" id="tb-st" role="status" aria-live="polite"></p><span><button type="button" class="tog"
+                id="tb-back">Anterior</button> <button type="button" class="tog" id="tb-exit">Salir</button></span>
+          </div>
+          <div class="fc-bar" aria-hidden="true"><i id="tb-pb"></i></div>
+          <article class="fc-card" id="tb-card"><small id="tb-lab"></small>
+            <p class="fc-q" id="tb-q"></p>
+            <div class="tb-opts" id="tb-opts" role="group" aria-label="Respuesta"></div>
+          </article>
+        </div>
+        <section class="calc" id="tb-res" hidden>
+          <h2>Tu resultado</h2>
+          <p class="sub" id="tb-sum" role="status" aria-live="polite"></p>
+          <div id="tb-list" style="margin-top:12px"></div>
+          <div class="ex-bar" style="margin-top:12px"><button type="button" class="tog" id="tb-more" hidden>Ver más</button><button
+              type="button" class="pri" id="tb-again" style="margin-left:0">Repetir el test</button><button
+              type="button" class="tog" id="tb-change">Cambiar de test</button></div>
+          <p class="sub" id="tb-note"></p>
+        </section>
+      </div>
+    </section>
+
   </main>
 
   <footer>
@@ -3894,7 +3972,7 @@
       "Ves el resultado y cómo se ha obtenido. En las herramientas con IA podrás volver a generarlo y copiarlo.": "You see the result and how it was obtained. In the AI tools you will be able to regenerate and copy it.",
       "Qué encontrarás": "What you will find",
       "Utilidades": "Utilities",
-      "La calculadora de notas, los códigos QR, las noticias y, próximamente, ejercicios y resúmenes de PDF.": "The grade calculator, QR codes, news and, coming soon, exercises and PDF summaries.",
+      "La calculadora de notas, el test de rama, los códigos QR, las noticias y, próximamente, ejercicios y resúmenes de PDF.": "The grade calculator, the branch test, QR codes, news and, coming soon, exercises and PDF summaries.",
       "Aprendizaje": "Learning",
       "El planificador de estudio y, próximamente, corrector, flashcards y explicaciones por nivel con IA.": "The study planner and, coming soon, exercise checker, flashcards and AI explanations by level.",
       "PAU y Universidad": "PAU and University",
@@ -4038,6 +4116,13 @@
       "Guardar mazo": "Save deck",
       "Nombre del mazo (para guardarlo)": "Deck name (to save it)"
     };
+    Object.assign(I18N, {
+      "Test de rama": "Branch test",
+      "Responde unas preguntas sobre lo que te gusta y descubre qué rama o carrera encaja mejor contigo. Es una orientación, no un veredicto. Todo se hace en tu navegador.": "Answer a few questions about what you like and find out which track or degree suits you best. It is guidance, not a verdict. Everything happens in your browser.",
+      "¿Qué test quieres hacer?": "Which test do you want to take?", "Carrera universitaria": "University degree", "Nivel": "Level",
+      "Longitud del test": "Test length", "Longitud": "Length", "Test corto": "Short test", "Test largo": "Long test", "Empezar el test": "Start the test",
+      "Anterior": "Back", "Respuesta": "Answer", "Tu resultado": "Your result", "Ver más": "Show more", "Repetir el test": "Retake the test", "Cambiar de test": "Change test"
+    });
     function i18nStatic() {
       if (!EN) return;
       const T = s => { const k = s.trim(); return Object.prototype.hasOwnProperty.call(I18N, k) ? s.replace(k, I18N[k]) : null };
@@ -4073,6 +4158,7 @@
       rubric: '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 12h6M9 16h6"/>',
       qr: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h3M20 17v4"/>'
     };
+    ICONS.compass = '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>';
     const CATS = {
       utilidades: tr(["Utilidades", "Calcula, consulta y resume sin complicaciones."], ["Utilities", "Calculate, look things up and summarise with no fuss."]),
       aprendizaje: tr(["Aprendizaje", "Organiza tu estudio y repasa con ayuda de IA."], ["Learning", "Organise your studying and revise with the help of AI."]),
@@ -4088,6 +4174,7 @@
       ["planificador-estudio", "Planificador de estudio", "Crea una rutina de estudio según tus exámenes y tus notas, y expórtala a tu calendario.", "aprendizaje", "cal", "planificador"],
       ["noticias", "Noticias y Actualizaciones", "Novedades de educación en España y en el extranjero, con etiquetas para filtrarlas.", "utilidades", "news", "noticias"],
       ["generador-qr", "Generador de códigos QR", "Crea un código QR de un enlace o un texto y descárgalo en PNG o SVG.", "utilidades", "qr", "qr"],
+      ["test-rama", "Test de rama", "Descubre qué rama o carrera te encaja en ESO, Bachillerato o la universidad, con test corto o largo.", "utilidades", "compass", "test-rama"],
       ["corrector-ejercicios", "Corrector de ejercicios", "Corrección razonada con errores y resolución correcta.", "aprendizaje", "check", 0],
       ["resumidor-pdf", "Resumidor de apuntes PDF", "Resúmenes cortos, medios o detallados de tus PDF.", "utilidades", "pdf", 0],
       ["generador-flashcards", "Generador de flashcards", "Sube tus apuntes y repasa con tarjetas de desarrollo, de completar la oración o de pregunta.", "aprendizaje", "cards", "flashcards"],
@@ -4111,6 +4198,7 @@
         "simulador-pau": ["PAU simulator and calculator", "Access and admission grade with its breakdown."],
         "noticias-pau": ["PAU news and updates", "News from official sources, with date and link."],
         "noticias": ["News and updates", "Education news from Spain and abroad, with tags to filter them."],
+        "test-rama": ["Branch test", "Find which track or degree suits you in secondary school, sixth form or university, with a short or long test."],
         "generador-qr": ["QR code generator", "Create a QR code from a link or text and download it as PNG or SVG."],
         "examenes-oficiales": ["Official exam finder", "Past papers and sample exams by region, subject and year."],
         "ponderaciones-universitarias": ["Subject weighting finder", "Weightings by degree and university, with their source."],
@@ -5253,17 +5341,196 @@
       $('eo-n').textContent = !a && !b ? tr('Aún no hay fuentes para esa comunidad. Se irán añadiendo.', 'No sources for that region yet. They will be added over time.') : tr(`${a} enlace${a === 1 ? '' : 's'} a exámenes · ${b} portal${b === 1 ? '' : 'es'} oficial${b === 1 ? '' : 'es'}`, `${a} exam link${a === 1 ? '' : 's'} · ${b} official portal${b === 1 ? '' : 's'}`)
     }
 
+
+    /* ---- Test de rama ---- */
+    const TBD = { ci: ['Ciencia e investigación', 'Science and research'], sa: ['Salud y cuidado', 'Health and care'], te: ['Tecnología e informática', 'Technology and computing'], ma: ['Matemáticas y lógica', 'Maths and logic'], em: ['Economía y empresa', 'Economics and business'], ar: ['Arte y diseño', 'Art and design'], au: ['Comunicación y audiovisual', 'Communication and media'], hu: ['Humanidades y lenguas', 'Humanities and languages'], so: ['Ayuda y ciencias sociales', 'Helping and social sciences'], na: ['Naturaleza y medio ambiente', 'Nature and environment'], de: ['Deporte', 'Sport'], mu: ['Música y artes escénicas', 'Music and performing arts'] };
+    /* 3 vueltas de 12 preguntas (una por área): el test corto usa la primera; el largo, las tres */
+    const TBQ = [
+      ['ci', 'Me intriga cómo funcionan las cosas y me gusta hacer experimentos.', "I'm curious how things work and I like doing experiments."],
+      ['sa', 'Me gustaría trabajar cuidando de la salud de otras personas.', "I'd like to work looking after other people's health."],
+      ['te', 'Disfruto con ordenadores, programación o aparatos electrónicos.', 'I enjoy computers, programming or electronic gadgets.'],
+      ['ma', 'Se me dan bien los problemas de matemáticas y de lógica.', "I'm good at maths and logic problems."],
+      ['em', 'Me atrae montar un negocio o gestionar dinero.', 'I like the idea of starting a business or managing money.'],
+      ['ar', 'Me gusta dibujar, diseñar o crear cosas con las manos.', 'I like drawing, designing or making things by hand.'],
+      ['au', 'Me interesa hacer vídeos, fotos, podcasts o contar historias en medios.', "I'm interested in making videos, photos, podcasts or telling stories in the media."],
+      ['hu', 'Disfruto leyendo, escribiendo o aprendiendo historia y filosofía.', 'I enjoy reading, writing or learning history and philosophy.'],
+      ['so', 'Me gusta ayudar a otras personas con sus problemas y escucharlas.', 'I like helping people with their problems and listening to them.'],
+      ['na', 'Me siento bien en la naturaleza y me preocupa el medio ambiente.', 'I feel good in nature and I care about the environment.'],
+      ['de', 'El deporte y la actividad física son una parte importante de mi vida.', 'Sport and physical activity are an important part of my life.'],
+      ['mu', 'Me gusta la música, el teatro o actuar delante de otras personas.', 'I like music, theatre or performing in front of people.'],
+      ['ci', 'Prefiero entender el porqué de un fenómeno que memorizar datos.', "I'd rather understand why something happens than memorise facts."],
+      ['sa', 'Aguanto bien la sangre, las heridas o los hospitales.', 'I cope well with blood, wounds or hospitals.'],
+      ['te', 'Me gustaría crear una app, una web o un videojuego.', "I'd like to create an app, a website or a video game."],
+      ['ma', 'Me gusta calcular, ver patrones y razonar con números.', 'I like calculating, spotting patterns and reasoning with numbers.'],
+      ['em', 'Me interesa saber cómo funcionan las empresas, el mercado y la bolsa.', "I'm interested in how companies, markets and the stock exchange work."],
+      ['ar', 'Me fijo en el diseño, los colores y la estética de lo que me rodea.', 'I notice the design, colours and look of the things around me.'],
+      ['au', 'Me gusta hablar en público, presentar o entrevistar.', 'I like public speaking, presenting or interviewing.'],
+      ['hu', 'Me interesa conocer otras culturas, idiomas y épocas.', "I'm interested in other cultures, languages and periods."],
+      ['so', 'Me importa la justicia y me gustaría mejorar la sociedad.', 'I care about justice and would like to improve society.'],
+      ['na', 'Me gustaría trabajar al aire libre con animales o plantas.', "I'd like to work outdoors with animals or plants."],
+      ['de', 'Me motiva entrenar, competir o enseñar deporte a otros.', 'I enjoy training, competing or teaching sport to others.'],
+      ['mu', 'Podría pasar horas tocando un instrumento, cantando o ensayando.', 'I could spend hours playing an instrument, singing or rehearsing.'],
+      ['ci', 'Me veo en un laboratorio investigando algo nuevo.', 'I can see myself in a lab researching something new.'],
+      ['sa', 'Me motiva que mi trabajo pueda mejorar o salvar vidas.', 'I am motivated by work that can improve or save lives.'],
+      ['te', 'Me gusta construir o arreglar máquinas, robots o circuitos.', 'I like building or fixing machines, robots or circuits.'],
+      ['ma', 'Las asignaturas de ciencias y números me resultan fáciles.', 'Science and number subjects come easily to me.'],
+      ['em', 'Me veo liderando un equipo o tomando decisiones en una empresa.', 'I can see myself leading a team or making business decisions.'],
+      ['ar', 'Prefiero un trabajo creativo, aunque tenga menos rutina.', 'I prefer a creative job, even with less routine.'],
+      ['au', 'Me gustaría trabajar en cine, televisión, redes o publicidad.', "I'd like to work in film, television, social media or advertising."],
+      ['hu', 'Me gusta analizar textos, debatir ideas y argumentar.', 'I like analysing texts, debating ideas and arguing a case.'],
+      ['so', 'Me veo trabajando con niños, jóvenes o personas que necesitan apoyo.', 'I can see myself working with children, young people or people who need support.'],
+      ['na', 'Me interesan la geología, el mar, el clima o la agricultura.', "I'm interested in geology, the sea, the climate or farming."],
+      ['de', 'Prefiero un trabajo activo a pasar el día sentado.', 'I prefer an active job to sitting all day.'],
+      ['mu', 'Me siento cómodo sobre un escenario o expresándome con el cuerpo.', 'I feel comfortable on a stage or expressing myself with my body.']
+    ];
+    const TBR = {
+      eso: [
+        ['Orientación científica y sanitaria', 'Science and health track', 'ci3sa3na1', 'Biología, química, salud y ciencias experimentales.', 'Biology, chemistry, health and experimental science.'],
+        ['Orientación tecnológica e informática', 'Technology and computing track', 'te3ma3ci1', 'Programación, electrónica, robótica y tecnología.', 'Programming, electronics, robotics and technology.'],
+        ['Orientación económica y empresarial', 'Economics and business track', 'em3ma2so1', 'Empresa, economía, finanzas y emprendimiento.', 'Business, economics, finance and entrepreneurship.'],
+        ['Orientación artística y audiovisual', 'Arts and audiovisual track', 'ar3au3mu1', 'Dibujo, diseño, fotografía, cine y comunicación visual.', 'Drawing, design, photography, film and visual communication.'],
+        ['Orientación humanística y social', 'Humanities and social track', 'hu3so3au1', 'Lenguas, historia, filosofía, educación y sociedad.', 'Languages, history, philosophy, education and society.'],
+        ['Orientación deportiva y de actividad física', 'Sport and physical activity track', 'de3sa1', 'Deporte, entrenamiento, educación física y vida activa.', 'Sport, training, physical education and an active life.'],
+        ['Orientación musical y escénica', 'Music and performing arts track', 'mu3au1ar1', 'Música, teatro, danza y artes escénicas.', 'Music, theatre, dance and performing arts.'],
+        ['Orientación ambiental y agraria', 'Environmental and agricultural track', 'na3ci2', 'Naturaleza, campo, animales, mar y medio ambiente.', 'Nature, farming, animals, the sea and the environment.']
+      ],
+      bach: [
+        ['Ciencias y Tecnología', 'Science and Technology', 'ci3ma3te2sa2', 'Matemáticas, física, química, biología y tecnología: salud, ingeniería y ciencias.', 'Maths, physics, chemistry, biology and technology: health, engineering and sciences.'],
+        ['Humanidades y Ciencias Sociales', 'Humanities and Social Sciences', 'hu3so3em3ma1', 'Historia, lenguas, economía y sociedad: derecho, educación, empresa y letras.', 'History, languages, economics and society: law, education, business and arts degrees.'],
+        ['Artes: Artes Plásticas, Imagen y Diseño', 'Arts: Visual Arts, Image and Design', 'ar3au2', 'Dibujo, diseño, imagen y comunicación visual.', 'Drawing, design, image and visual communication.'],
+        ['Artes: Música y Artes Escénicas', 'Arts: Music and Performing Arts', 'mu3au1', 'Música, danza y teatro.', 'Music, dance and theatre.'],
+        ['Bachillerato General', 'General Baccalaureate', 'ci1sa1te1ma1em1ar1au1hu1so1na1de1mu1', 'Perfil equilibrado: combina materias de varias áreas sin especializarte pronto.', 'Balanced profile: mixes subjects from several areas without specialising early.']
+      ]
+    };
+    /* [área es, área en, pesos base, carreras] — pesos: código de área + dígito (ej. «sa3ci1») */
+    const TBA = [
+      ['Ciencias de la Salud', 'Health Sciences', 'sa3ci1', 'Medicina|Enfermería|Farmacia|Odontología|Veterinaria|Fisioterapia|Psicología|Nutrición Humana y Dietética|Óptica y Optometría|Logopedia|Terapia Ocupacional|Podología|Biomedicina|Biotecnología|Bioquímica|Biología Sanitaria|Ciencias Biomédicas|Genética|Neurociencia|Audiología General|Ciencias de la Actividad Física y del Deporte|Terapias Naturales|Salud Pública|Ciencia y Tecnología de los Alimentos'],
+      ['Ingeniería y Arquitectura', 'Engineering and Architecture', 'te2ma2', 'Ingeniería Informática|Ingeniería del Software|Ingeniería de Computadores|Ingeniería de Datos|Inteligencia Artificial|Ciencia de Datos|Ciberseguridad|Ingeniería Multimedia|Ingeniería de Telecomunicación|Ingeniería Electrónica|Ingeniería Eléctrica|Ingeniería Mecánica|Ingeniería Industrial|Ingeniería de Organización Industrial|Ingeniería de Diseño Industrial y Desarrollo del Producto|Ingeniería Aeroespacial|Ingeniería Aeronáutica|Ingeniería Naval|Ingeniería de Automoción|Ingeniería Robótica|Ingeniería Biomédica|Ingeniería Química|Ingeniería de Materiales|Ingeniería Civil|Ingeniería de Caminos, Canales y Puertos|Ingeniería de Minas|Ingeniería Geológica|Ingeniería de Energías Renovables|Ingeniería de la Energía|Ingeniería Forestal|Ingeniería Agrícola|Ingeniería Agroalimentaria|Ingeniería Ambiental|Ingeniería Geomática y Topografía|Arquitectura|Fundamentos de la Arquitectura|Arquitectura Técnica|Ingeniería de Edificación|Ingeniería de Sonido e Imagen|Ingeniería Física|Ingeniería Matemática'],
+      ['Ciencias', 'Sciences', 'ci3ma1', 'Matemáticas|Física|Química|Biología|Bioquímica|Biotecnología|Geología|Ciencias Ambientales|Ciencias del Mar|Geografía|Estadística|Astronomía|Astrofísica|Nanociencia y Nanotecnología|Ciencias Experimentales|Ciencias y Tecnología de los Alimentos|Microbiología|Biología Molecular|Ciencias de la Tierra'],
+      ['Ciencias Sociales y Jurídicas', 'Social and Legal Sciences', 'so1', 'Derecho|Administración y Dirección de Empresas (ADE)|Economía|Finanzas y Contabilidad|Marketing|Publicidad y Relaciones Públicas|Periodismo|Comunicación Audiovisual|Relaciones Internacionales|Ciencias Políticas|Sociología|Trabajo Social|Educación Social|Antropología Social y Cultural|Criminología|Relaciones Laborales y Recursos Humanos|Turismo|Comercio|Comercio Internacional|Estadística Aplicada|Gestión y Administración Pública|Ciencia Política y Gestión Pública|Comunicación Digital|Información y Documentación|Geografía y Ordenación del Territorio|Ciencias de la Seguridad|Economía Financiera y Actuarial|Gestión Deportiva|Protocolo y Organización de Eventos|Marketing e Investigación de Mercados|Inteligencia de Negocios'],
+      ['Educación', 'Education', 'so3', 'Educación Infantil|Educación Primaria|Educación Social|Pedagogía|Psicopedagogía|Educación Especial|Ciencias de la Educación|Educación Física|Educación Musical|Educación Artística'],
+      ['Artes y Diseño', 'Arts and Design', 'ar3', 'Bellas Artes|Diseño Gráfico|Diseño de Moda|Diseño de Interiores|Diseño de Producto|Diseño Digital|Diseño Industrial|Diseño y Desarrollo de Videojuegos|Animación|Ilustración|Conservación y Restauración de Bienes Culturales|Historia del Arte|Artes Digitales|Creación Artística|Fotografía|Gestión Cultural'],
+      ['Comunicación y Audiovisuales', 'Communication and Audiovisual', 'au3', 'Comunicación Audiovisual|Periodismo|Publicidad y Relaciones Públicas|Comunicación Digital|Comunicación Corporativa|Comunicación Estratégica|Cine y Medios Audiovisuales|Producción Audiovisual|Comunicación Transmedia|Protocolo y Organización de Eventos'],
+      ['Humanidades y Letras', 'Humanities and Arts', 'hu3', 'Historia|Historia del Arte|Filosofía|Filología Hispánica|Estudios Ingleses|Estudios Franceses|Estudios Alemanes|Estudios Clásicos|Filología Catalana|Filología Gallega|Filología Vasca|Filología Árabe|Filología Románica|Traducción e Interpretación|Lenguas Modernas|Lingüística|Literatura Comparada|Humanidades|Estudios Literarios|Estudios Internacionales|Arqueología|Musicología|Historia y Ciencias de la Música'],
+      ['Deporte', 'Sport', 'de3', 'Ciencias de la Actividad Física y del Deporte|Gestión Deportiva|Deporte y Recreación|Educación Física|Gestión del Deporte'],
+      ['Agricultura, Medio Ambiente y Alimentación', 'Agriculture, Environment and Food', 'na3', 'Ingeniería Agrícola|Ingeniería Agroalimentaria|Ingeniería Forestal|Ingeniería Ambiental|Ciencias Ambientales|Biología Ambiental|Enología|Gastronomía|Ciencia y Tecnología de los Alimentos|Ingeniería de Montes|Ingeniería del Medio Natural|Ciencias Agrarias|Producción Animal'],
+      ['Seguridad y otros ámbitos', 'Security and other fields', 'so1', 'Criminología|Seguridad|Ciencias de la Seguridad|Gestión de Emergencias|Estudios Militares|Náutica y Transporte Marítimo|Ingeniería Marítima|Logística y Transporte']
+    ];
+    /* matices por nombre de carrera (se suman al peso del área) */
+    const TBX = [
+      [/inform|software|computadores|de datos|ciberseg|artificial|multimedia|videojuegos|robotic|telecom|electronic|electric/, 'te3'],
+      [/medicin|enfermer|farmac|odont|veterin|fisioter|psicolog|nutric|optic|logoped|ocupacional|podolog|audiolog|sanitari|biomedic|salud/, 'sa3'],
+      [/biolog|bioquim|biotec|genetic|neuro|microbio|^quimica|^fisica|ingenieria (quimica|fisica)|astro|nano|geolog|del mar|de la tierra|experimentales/, 'ci3'],
+      [/matematic|estadist|actuarial|financ|contab|datos|artificial|aeroesp|aeronaut|naval|mecanic|civil|caminos|minas|materiales|energi/, 'ma2'],
+      [/econom|empres|\(ade\)|financ|contab|marketing|actuarial|negocio/, 'em4'],
+      [/comercio|turismo|recursos humanos|logistica|gestion y admin/, 'em2'],
+      [/\barte|dise|ilustr|animaci|fotograf|bellas|moda|interior|restauraci|artistic|arquitectura|edificacion/, 'ar3'],
+      [/periodis|audiovisual|comunicaci|publicidad|cine|medios|produccion|transmedia|protocolo|sonido/, 'au3'],
+      [/histor|filosof|filolog|estudios|lenguas|lingu|literatur|traduc|human|arqueolog|clasic|geografia|antropolog|derecho|politic|musicolog/, 'hu3'],
+      [/educaci|pedagog|social|sociolog|criminolog|psicolog|psicopedag|especial|terapia|seguridad|emergencias|relaciones laborales|relaciones internacionales/, 'so3'],
+      [/ambient|forestal|agric|agro|agrar|montes|medio natural|enolog|animal|veterin|\bmar\b|marit|naut|geolog|tierra|alimento|gastronom|topograf/, 'na3'],
+      [/deport|actividad fisica|recreacion|educacion fisica/, 'de3'],
+      [/music|musical|escenic|sonido/, 'mu3']
+    ];
+    const tbW = (...ss) => { const o = {}; ss.forEach(s => (s.match(/[a-z]{2}\d/g) || []).forEach(x => { o[x.slice(0, 2)] = (o[x.slice(0, 2)] || 0) + +x[2] })); return o };
+    /* las carreras repetidas en varias áreas se fusionan en una sola (suman los pesos de sus áreas) */
+    const TBU = (() => {
+      const m = new Map();
+      TBA.forEach((a, ai) => a[3].split('|').forEach(n => {
+        const k = norm(n); let u = m.get(k); if (!u) { u = { n, ai, base: [] }; m.set(k, u) } u.base.push(a[2]);
+      }));
+      return [...m.values()].map(u => { const k = norm(u.n); return { n: u.n, ai: u.ai, w: tbW(...u.base, ...TBX.filter(r => r[0].test(k)).map(r => r[1])) } });
+    })();
+    const TB = { lv: 'eso', len: 's', i: 0, ans: [], qs: [], more: false, lock: false };
+    const tbScore = (w, s) => { let a = 0, b = 0; for (const k in w) { a += w[k] * s[k]; b += w[k] } return b ? a / b + a * 0.0005 : 0 };
+    const tbSeg = (ids, on) => ids.forEach((id, i) => $(id).setAttribute('aria-pressed', i === on));
+    function tbSetup() {
+      const lv = ['eso', 'bach', 'uni'].indexOf(TB.lv);
+      tbSeg(['tb-l1', 'tb-l2', 'tb-l3'], lv); tbSeg(['tb-n1', 'tb-n2'], TB.len === 's' ? 0 : 1);
+      $('tb-ld').textContent = [
+        tr('Para orientarte sobre itinerarios, optativas y la modalidad de Bachillerato que te conviene.', 'To guide you on pathways, electives and the sixth-form track that suits you.'),
+        tr('Para decidir qué modalidad de Bachillerato encaja mejor contigo.', 'To decide which sixth-form track suits you best.'),
+        tr(`Ordena ${TBU.length} carreras universitarias según tu afinidad.`, `Ranks ${TBU.length} university degrees by how well they fit you.`)
+      ][lv];
+      $('tb-nd').textContent = TB.len === 's'
+        ? tr('12 preguntas, unos 2 minutos. Te da una idea general.', '12 questions, about 2 minutes. Gives you a general idea.')
+        : tr('36 preguntas, unos 6 minutos. Más preciso: cada área se mide con 3 preguntas.', '36 questions, about 6 minutes. More accurate: each area is measured with 3 questions.');
+    }
+    function tbExit() { TB.lock = false; $('tb-setup').hidden = false; $('tb-play').hidden = true; $('tb-res').hidden = true; tbSetup() }
+    function tbQ() {
+      const q = TB.qs[TB.i], n = TB.qs.length;
+      $('tb-st').innerHTML = tr(`Pregunta <b>${TB.i + 1}</b> de ${n}`, `Question <b>${TB.i + 1}</b> of ${n}`);
+      $('tb-pb').style.width = (TB.i / n * 100) + '%';
+      $('tb-lab').textContent = tr('¿Cuánto te identificas con esto?', 'How much does this sound like you?');
+      $('tb-q').textContent = tr(q[1], q[2]);
+      const c = $('tb-card'); c.style.animation = 'none'; void c.offsetWidth; c.style.animation = '';
+      [...$('tb-opts').children].forEach((b, k) => b.setAttribute('aria-pressed', TB.ans[TB.i] === k));
+      $('tb-back').disabled = TB.i === 0;
+    }
+    function tbAnswer(k) {
+      if (TB.lock) return; TB.ans[TB.i] = k; TB.lock = true;
+      [...$('tb-opts').children].forEach((b, j) => b.setAttribute('aria-pressed', j === k));
+      setTimeout(() => {
+        if (!TB.lock) return; TB.lock = false;
+        if (TB.i + 1 < TB.qs.length) { TB.i++; tbQ() } else tbRes();
+      }, RM.matches ? 0 : 180);
+    }
+    function tbStart() {
+      TB.qs = TBQ.slice(0, TB.len === 's' ? 12 : 36); TB.i = 0; TB.ans = []; TB.more = false; TB.lock = false;
+      $('tb-setup').hidden = true; $('tb-res').hidden = true; $('tb-play').hidden = false; tbQ();
+      window.scrollTo({ top: 0, behavior: RM.matches ? 'instant' : 'smooth' });
+    }
+    function tbRes() {
+      const s = {}, c = {};
+      TB.qs.forEach((q, i) => { s[q[0]] = (s[q[0]] || 0) + TB.ans[i] / 4; c[q[0]] = (c[q[0]] || 0) + 1 });
+      for (const k in s) s[k] /= c[k];
+      const L = (TB.lv === 'uni'
+        ? TBU.map(u => [u.n, TBA[u.ai][EN ? 1 : 0], tbScore(u.w, s)])
+        : TBR[TB.lv].map(b => [tr(b[0], b[1]), tr(b[3], b[4]), tbScore(tbW(b[2]), s)])).sort((a, b) => b[2] - a[2]);
+      const lim = TB.lv === 'uni' ? (TB.more ? 30 : 10) : L.length;
+      const top = Object.keys(s).sort((a, b) => s[b] - s[a]).filter(k => s[k] > 0.5).slice(0, 3).map(k => TBD[k][EN ? 1 : 0]);
+      $('tb-sum').textContent = top.length
+        ? tr('Tus intereses más marcados: ' + top.join(', ') + '.', 'Your strongest interests: ' + top.join(', ') + '.')
+        : tr('No has marcado intereses muy fuertes: tu perfil es equilibrado.', 'No interest stood out strongly: your profile is balanced.');
+      $('tb-list').innerHTML = L.slice(0, lim).map((r, i) => {
+        const p = Math.min(100, Math.round(r[2] * 100));
+        return `<div class="tb-it${i ? '' : ' top'}"><div class="tb-hd"><span>${i ? '' : '<span class="badge on">' + tr('Mejor opción', 'Best match') + '</span>'}<b>${r[0]}</b></span><span class="p">${p} %</span></div><div class="fc-bar" aria-hidden="true"><i style="width:${p}%"></i></div><p>${r[1]}</p></div>`;
+      }).join('');
+      const mb = $('tb-more'); mb.hidden = !(TB.lv === 'uni' && L.length > 10);
+      mb.textContent = TB.more ? tr('Ver solo las 10 mejores', 'Show only the top 10') : tr('Ver 30 carreras', 'Show 30 degrees');
+      $('tb-note').textContent = tr('Es una orientación a partir de tus respuestas. Cuéntaselo a tu orientador/a y comprueba los requisitos de acceso (notas de corte, ponderaciones) antes de decidir.', 'This is guidance based on your answers. Talk it over with your guidance counsellor and check the entry requirements (cut-off marks, weightings) before deciding.');
+      $('tb-play').hidden = true; $('tb-res').hidden = false;
+      window.scrollTo({ top: 0, behavior: RM.matches ? 'instant' : 'smooth' });
+    }
+    (function () {
+      $('tb-opts').innerHTML = [tr('Nada', 'Not at all'), tr('Poco', 'A little'), tr('Normal', 'Somewhat'), tr('Bastante', 'Quite a lot'), tr('Mucho', 'A lot')].map((t, k) => `<button type="button" aria-pressed="false" aria-keyshortcuts="${k + 1}">${t}</button>`).join('');
+      $('tb-opts').addEventListener('click', e => { const b = e.target.closest('button'); if (b) tbAnswer([...$('tb-opts').children].indexOf(b)) });
+      ['tb-l1', 'tb-l2', 'tb-l3'].forEach((id, i) => $(id).addEventListener('click', () => { TB.lv = ['eso', 'bach', 'uni'][i]; tbSetup() }));
+      ['tb-n1', 'tb-n2'].forEach((id, i) => $(id).addEventListener('click', () => { TB.len = i ? 'l' : 's'; tbSetup() }));
+      $('tb-go').addEventListener('click', tbStart);
+      $('tb-exit').addEventListener('click', tbExit);
+      $('tb-change').addEventListener('click', tbExit);
+      $('tb-again').addEventListener('click', tbStart);
+      $('tb-more').addEventListener('click', () => { TB.more = !TB.more; tbRes() });
+      $('tb-back').addEventListener('click', () => { if (TB.i > 0) { TB.lock = false; TB.i--; tbQ() } });
+      document.addEventListener('keydown', e => {
+        if ($('tb-play').hidden || e.ctrlKey || e.metaKey || e.altKey || /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) return;
+        if (/^[1-5]$/.test(e.key)) tbAnswer(+e.key - 1);
+      });
+      tbSetup();
+    })();
+
     /* ---- Vistas: portada y calculadora (pantalla aparte) ---- */
     const home = document.getElementById('inicio'), calcView = document.getElementById('vista-calculadora');
     let homeY = 0;
     document.getElementById('catalog').addEventListener('click', e => { if (e.target.closest('a.go')) homeY = window.scrollY });
     function routeNow() {
       const h = location.hash, nd = h.startsWith('#noticia-') ? h.slice(9) : null;
-      const VV = { '#calculadora': 'vista-calculadora', '#examenes': 'vista-examenes', '#planificador': 'vista-planificador', '#rubricas': 'vista-rubricas', '#noticias': 'vista-noticias', '#noticias-pau': 'vista-noticias', '#qr': 'vista-qr', '#flashcards': 'vista-flashcards', '#control': 'vista-control', '#examenes-oficiales': 'vista-examenes-oficiales' };
-      const TT = { '#calculadora': ['Calculadora de notas', 'calc-t'], '#examenes': ['Generador de exámenes', 'ex-t'], '#planificador': ['Planificador de estudio', 'pl-t'], '#rubricas': ['Generador de rúbricas', 'rb-t'], '#noticias': ['Noticias y Actualizaciones', 'nw-t'], '#noticias-pau': ['Noticias y actualizaciones PAU', 'nw-t'], '#qr': ['Generador de códigos QR', 'qr-t'], '#flashcards': ['Generador de flashcards', 'fc-t'], '#control': ['Control de clase', 'cc-t'], '#examenes-oficiales': ['Buscador de exámenes oficiales', 'eo-t'] };
+      const VV = { '#calculadora': 'vista-calculadora', '#examenes': 'vista-examenes', '#planificador': 'vista-planificador', '#rubricas': 'vista-rubricas', '#noticias': 'vista-noticias', '#noticias-pau': 'vista-noticias', '#qr': 'vista-qr', '#flashcards': 'vista-flashcards', '#control': 'vista-control', '#examenes-oficiales': 'vista-examenes-oficiales', '#test-rama': 'vista-test-rama' };
+      const TT = { '#calculadora': ['Calculadora de notas', 'calc-t'], '#examenes': ['Generador de exámenes', 'ex-t'], '#planificador': ['Planificador de estudio', 'pl-t'], '#rubricas': ['Generador de rúbricas', 'rb-t'], '#noticias': ['Noticias y Actualizaciones', 'nw-t'], '#noticias-pau': ['Noticias y actualizaciones PAU', 'nw-t'], '#qr': ['Generador de códigos QR', 'qr-t'], '#flashcards': ['Generador de flashcards', 'fc-t'], '#control': ['Control de clase', 'cc-t'], '#examenes-oficiales': ['Buscador de exámenes oficiales', 'eo-t'], '#test-rama': ['Test de rama', 'tb-t'] };
       const cur = nd !== null ? 'vista-noticia' : VV[h] || '';
       home.hidden = !!cur;
-      ['vista-calculadora', 'vista-examenes', 'vista-planificador', 'vista-rubricas', 'vista-noticias', 'vista-noticia', 'vista-qr', 'vista-flashcards', 'vista-control', 'vista-examenes-oficiales'].forEach(i => { $(i).hidden = i !== cur });
+      ['vista-calculadora', 'vista-examenes', 'vista-planificador', 'vista-rubricas', 'vista-noticias', 'vista-noticia', 'vista-qr', 'vista-flashcards', 'vista-control', 'vista-examenes-oficiales', 'vista-test-rama'].forEach(i => { $(i).hidden = i !== cur });
       document.title = TT[h] ? TT[h][0] + ' · Aulalia' : 'Aulalia · Herramientas para estudiar mejor';
       window.scrollTo({ top: cur ? 0 : homeY, left: 0, behavior: 'instant' });
       if (TT[h]) $(TT[h][1]).focus({ preventScroll: true });
@@ -5275,6 +5542,7 @@
       if (h !== '#flashcards') fcExit();
       if (h === '#control') ccFd();
       if (h === '#examenes-oficiales') eoRender();
+      if (h === '#test-rama') tbExit();
       if (nd !== null) nwDetail(nd);
     }
     const RM = matchMedia('(prefers-reduced-motion:reduce)');
@@ -5305,7 +5573,7 @@
       addEventListener('scroll', sync, { passive: true }); sync();
     })();
 
-    /* ---- Modo claro / oscuro (claro por defecto) ---- */
+    /* ---- Modo claro / oscuro (sigue al sistema hasta que se elige a mano) ---- */
     const themeBtn = document.getElementById('theme'); let themeN = 0;
     const SUN = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
     const MOON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>';
@@ -5326,6 +5594,10 @@
       } else applyTheme(n);
       themeBtn.classList.remove('flip'); void themeBtn.offsetWidth; themeBtn.classList.add('flip');
       try { localStorage.setItem('theme', n) } catch (e) { }
+    });
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      let st = null; try { st = localStorage.getItem('theme') } catch (x) { }
+      if (st !== 'dark' && st !== 'light') applyTheme(e.matches ? 'dark' : 'light');
     });
   </script>
 </body>
