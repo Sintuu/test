@@ -723,7 +723,7 @@ window.LANG=(function(){try{var l=localStorage.getItem("lang");if(l==="en"||l===
         <p class="sub" id="fc-msg" role="status" aria-live="polite"></p>
       </section>
       <section class="calc"><h2>Cómo repasar</h2>
-        <div class="seg" role="group" aria-label="Modo"><button type="button" id="fc-m1" aria-pressed="true">Modo desarrollo</button><button type="button" id="fc-m2" aria-pressed="false">Modo pregunta</button></div>
+        <div class="seg" role="group" aria-label="Modo" style="display:flex"><button type="button" id="fc-m1" aria-pressed="true" style="flex:1">Modo desarrollo</button><button type="button" id="fc-m2" aria-pressed="false" style="flex:1">Modo completa la oración</button><button type="button" id="fc-m3" aria-pressed="false" style="flex:1">Modo pregunta</button></div>
         <p class="sub" id="fc-md"></p>
         <label class="chk" style="margin-top:14px"><input type="checkbox" id="fc-timer"><span>Temporizador: tiempo según la longitud de la respuesta (mínimo 30 s)</span></label>
         <label class="chk"><input type="checkbox" id="fc-mad"><span>Manicomio: si fallas una, el mazo se reinicia</span></label>
@@ -1058,7 +1058,7 @@ const I18N={
 "Tamaño de la imagen":"Image size","Color del código":"Code colour","Color de fondo":"Background colour","Tu código QR":"Your QR code","Descargar PNG":"Download PNG","Descargar SVG":"Download SVG","Volver a las noticias":"Back to the news",
 "Generador de flashcards":"Flashcard generator","Sube tus apuntes en PDF o imagen, elige cómo repasar y estudia con tarjetas. Todo se procesa en tu navegador.":"Upload your notes as a PDF or image, choose how to revise and study with cards. Everything is processed in your browser.",
 "Tus apuntes":"Your notes","PDF o imagen":"PDF or image","Texto de los apuntes":"Notes text","Pega aquí tus apuntes o sube un archivo. Usa títulos para separar los temas.":"Paste your notes here or upload a file. Use headings to separate topics.",
-"Cómo repasar":"How to revise","Modo desarrollo":"Explain mode","Modo pregunta":"Question mode","Temporizador: tiempo según la longitud de la respuesta (mínimo 30 s)":"Timer: time based on the length of the answer (minimum 30 s)",
+"Cómo repasar":"How to revise","Modo desarrollo":"Explain mode","Modo completa la oración":"Fill-in-the-blank mode","Modo pregunta":"Question mode","Temporizador: tiempo según la longitud de la respuesta (mínimo 30 s)":"Timer: time based on the length of the answer (minimum 30 s)",
 "Manicomio: si fallas una, el mazo se reinicia":"Madhouse: if you miss one, the deck restarts","Crear flashcards":"Create flashcards","Salir":"Exit","Mostrar respuesta":"Show answer","✓ Bien":"✓ Right","✕ Mal":"✕ Wrong","Eliminar":"Delete",
 "¡Mazo completado!":"Deck complete!","Repasar de nuevo":"Revise again","Nuevos apuntes":"New notes"
 };
@@ -1113,7 +1113,7 @@ const TOOLS=[
 ["generador-qr","Generador de códigos QR","Crea un código QR de un enlace o un texto y descárgalo en PNG o SVG.","utilidades","qr","qr"],
 ["corrector-ejercicios","Corrector de ejercicios","Corrección razonada con errores y resolución correcta.","aprendizaje","check",0],
 ["resumidor-pdf","Resumidor de apuntes PDF","Resúmenes cortos, medios o detallados de tus PDF.","utilidades","pdf",0],
-["generador-flashcards","Generador de flashcards","Sube tus apuntes y repasa con tarjetas de desarrollo o de pregunta.","aprendizaje","cards","flashcards"],
+["generador-flashcards","Generador de flashcards","Sube tus apuntes y repasa con tarjetas de desarrollo, de completar la oración o de pregunta.","aprendizaje","cards","flashcards"],
 ["explicador-temas","Explicador de temas con IA","Explicaciones con ejemplos adaptadas a tu nivel.","aprendizaje","bulb",0],
 ["simulador-pau","Simulador y calculadora PAU","Nota de acceso y de admisión con su desglose.","pau","cap",0],
 ["noticias-pau","Noticias y actualizaciones PAU","Novedades de fuentes oficiales, con fecha y enlace.","pau","news","noticias-pau"],
@@ -1128,7 +1128,7 @@ if(EN){const T_EN={
 "planificador-estudio":["Study planner","Create a study routine based on your exams and grades, and export it to your calendar."],
 "corrector-ejercicios":["Exercise checker","Reasoned marking with mistakes and the correct solution."],
 "resumidor-pdf":["PDF notes summariser","Short, medium or detailed summaries of your PDFs."],
-"generador-flashcards":["Flashcard generator","Upload your notes and revise with explain or question cards."],
+"generador-flashcards":["Flashcard generator","Upload your notes and revise with explain, fill-in-the-blank or question cards."],
 "explicador-temas":["AI topic explainer","Explanations with examples adapted to your level."],
 "simulador-pau":["PAU simulator and calculator","Access and admission grade with its breakdown."],
 "noticias-pau":["PAU news and updates","News from official sources, with date and link."],
@@ -2013,23 +2013,38 @@ function fcBuild(raw,mode){
   if(mode==='dev'){
     S.forEach(s=>{const b=J(s.b);if(b.length>=30)add(s.t||b.split(/\s+/).slice(0,7).join(' ')+'…',b,tr('Desarrolla el tema','Explain the topic'))});
     return out}
-  const D=/^(?:[-•*·]\s*)?([^,.:;]{3,60}?)\s+(es|son|consiste en|sirve para|se define como)\s+(.{12,})$/i,
-    BAD=/^(esto|eso|ello|este|esta|ese|esa|lo|que|y|pero|además|también|aunque|si|cuando|donde|aquí|ahí)\b/i,rest=[];
-  S.forEach(s=>(J(s.b).match(/[^.!?\n]+[.!?]*/g)||[]).map(x=>x.trim()).filter(x=>x.length>=25).forEach(x=>{
-    const m=x.match(D);
-    if(m&&!BAD.test(m[1])&&m[1].split(' ').length<=8){const w=m[2].toLowerCase(),n=m[1].replace(/^(El|La|Los|Las|Un|Una)\b/,k=>k.toLowerCase());
-      add(w==='consiste en'?`¿En qué consiste ${n}?`:w==='sirve para'?`¿Para qué sirve ${n}?`:w==='se define como'?`¿Cómo se define ${n}?`:`¿Qué ${w} ${n}?`,x.replace(/^[-•*·]\s*/,''),tr('Pregunta','Question'))}
-    else rest.push(x)}));
-  rest.forEach(x=>{if(x.length>220)return;const w=x.split(' ');if(w.length<5)return;
+  const V='([^,.:;]{3,60}?)',BAD=/^(esto|eso|ello|este|esta|ese|esa|lo|que|y|pero|además|también|aunque|si|cuando|donde|aquí|ahí)\b/i;
+  const LC=/^(El|La|Los|Las|Un|Una|Fue|Fueron|Se|Ha|Han|Es|Son|Está|Están|Tiene|Tienen|Nació|Murió)\b/,lc=s=>s.replace(LC,k=>k.toLowerCase());
+  const Q=[/* [patrón de la frase, pregunta] */
+    [new RegExp('^'+V+'\\s+(es|son)\\s+(.{12,})$','i'),(n,v)=>`¿Qué ${v} ${n}?`],
+    [new RegExp('^'+V+'\\s+consiste en\\s+(.{8,})$','i'),n=>`¿En qué consiste ${n}?`],
+    [new RegExp('^'+V+'\\s+se define como\\s+(.{8,})$','i'),n=>`¿Cómo se define ${n}?`],
+    [new RegExp('^'+V+'\\s+(?:sirve para|se utiliza para|se usa para|se emplea para)\\s+(.{8,})$','i'),n=>`¿Para qué sirve ${n}?`],
+    [new RegExp('^'+V+'\\s+(se produce|ocurre|se realiza|tiene lugar|se encuentra|se localiza)\\s+(?:en|dentro de)\\s+(.{6,})$','i'),(n,v)=>`¿Dónde ${v} ${n}?`],
+    [new RegExp('^'+V+'\\s+(?:se compone de|está compuest[oa] por|está formad[oa] por)\\s+(.{6,})$','i'),n=>`¿De qué se compone ${n}?`],
+    [new RegExp('^'+V+'\\s+(?:se debe a|es causad[oa] por|se origina por)\\s+(.{6,})$','i'),n=>`¿A qué se debe ${n}?`],
+    [new RegExp('^'+V+'\\s+(produce|genera|provoca|causa|permite)\\s+(.{6,})$','i'),(n,v)=>`¿Qué ${v} ${n}?`]];
+  const cloze=(x,l)=>{if(x.length>220)return;const w=x.split(' ');if(w.length<5)return;
     const k=w.findIndex((t,i)=>i>1&&/^(\d{3,}|\p{Lu}\p{L}{3,})/u.test(t)),len=t=>t.replace(/[^\p{L}\d]/gu,'').length;
     const i=k>0?k:w.reduce((b,t,j)=>j>1&&len(t)>len(w[b])?j:b,2);
     const a=w[i].replace(/^[^\p{L}\d]+|[^\p{L}\d]+$/gu,'');if(a.length<4)return;
-    w[i]=w[i].replace(a,'_____');add(tr('Completa: ','Fill in: ')+w.join(' '),a+'\n'+x,tr('Completa','Fill in'))});
+    w[i]=w[i].replace(a,'_____');add(tr('Completa: ','Fill in: ')+w.join(' '),a+'\n'+x,l)};
+  const sents=[];S.forEach(s=>(J(s.b).match(/[^.!?\n]+[.!?]*/g)||[]).map(x=>x.trim()).filter(x=>x.length>=25).forEach(x=>sents.push([x.replace(/^[-•*·]\s*/,''),s.t])));
+  if(mode==='c'){sents.forEach(([x])=>cloze(x,tr('Completa la oración','Complete the sentence')));return out}
+  /* modo pregunta: una pregunta sobre el tema, con su respuesta */
+  sents.forEach(([x,t])=>{
+    const lab=t?tr('Tema: ','Topic: ')+t:tr('Pregunta','Question');
+    for(const [re,f] of Q){const m=x.match(re);
+      if(m&&!BAD.test(m[1])&&m[1].split(' ').length<=8){add(f(lc(m[1]),(m[2]||'').toLowerCase()),x,lab);return}}
+    const y=x.match(/\s+en\s+(1\d{3}|20\d{2})\b/);
+    if(y)add(`¿En qué año ${lc(x.replace(y[0],'').replace(/[.!?]+$/,''))}?`,y[1]+'\n'+x,lab)});
   return out}
 const fcShuf=a=>{for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
-const fcMD={dev:tr('Cada tarjeta muestra un tema y tú lo desarrollas con tus palabras.','Each card shows a topic and you explain it in your own words.'),q:tr('Cada tarjeta muestra una pregunta: definiciones y frases con un hueco por completar.','Each card shows a question: definitions and sentences with a blank to fill in.')};
-function fcMode(m){fcS.mode=m;$('fc-m1').setAttribute('aria-pressed',m==='dev');$('fc-m2').setAttribute('aria-pressed',m==='q');$('fc-md').textContent=fcMD[m]}
-$('fc-m1').onclick=()=>fcMode('dev');$('fc-m2').onclick=()=>fcMode('q');fcMode('dev');
+const fcMD={dev:tr('Cada tarjeta muestra un tema y tú lo desarrollas con tus palabras.','Each card shows a topic and you explain it in your own words.'),
+  c:tr('Cada tarjeta muestra una frase de tus apuntes con un hueco que debes completar.','Each card shows a sentence from your notes with a blank to fill in.'),
+  q:tr('Cada tarjeta muestra una pregunta sobre un tema de tus apuntes y tiene una respuesta.','Each card shows a question about a topic in your notes and has an answer.')};
+function fcMode(m){fcS.mode=m;[['fc-m1','dev'],['fc-m2','c'],['fc-m3','q']].forEach(([i,k])=>$(i).setAttribute('aria-pressed',m===k));$('fc-md').textContent=fcMD[m]}
+$('fc-m1').onclick=()=>fcMode('dev');$('fc-m2').onclick=()=>fcMode('c');$('fc-m3').onclick=()=>fcMode('q');fcMode('dev');
 function fcDraw(){
   clearInterval(fcS.t);
   const q=fcS.q,A=fcS.cards,n=A.filter(c=>c.st!==2).length,g=A.filter(c=>c.st===1).length,end=!q.length;
@@ -2077,7 +2092,7 @@ function fcBoom(){
 function fcExit(){clearInterval(fcS.t);$('fc-play').hidden=true;$('fc-setup').hidden=false}
 $('fc-go').onclick=()=>{
   const c=fcBuild($('fc-in').value,fcS.mode);
-  if(!c.length){fcMsg(tr('No he podido crear tarjetas. Añade más texto o separa los temas con títulos.','Could not create cards. Add more text or separate topics with headings.'));return}
+  if(!c.length){fcMsg(tr('No he podido crear tarjetas. Añade más texto, separa los temas con títulos o prueba otro modo.','Could not create cards. Add more text, separate topics with headings or try another mode.'));return}
   fcS.cards=c;fcS.ko=0;fcS.q=fcShuf(c.slice());$('fc-setup').hidden=true;$('fc-play').hidden=false;fcDraw();
 };
 $('fc-show').onclick=()=>fcReveal();$('fc-ok').onclick=()=>fcAct(1);$('fc-ko').onclick=()=>fcAct(2);$('fc-del').onclick=()=>fcAct(3);
