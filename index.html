@@ -140,7 +140,8 @@ footer p{margin:0 0 4px}
 @keyframes vin{from{opacity:0;transform:translateY(10px)}}
 @keyframes rin{from{opacity:0;transform:translateX(-6px)}}
 @keyframes fin{from{opacity:0}}
-#inicio:not([hidden]),.view:not([hidden]){animation:vin .4s cubic-bezier(.22,.8,.3,1)}
+/* entrada de pantalla: solo la dispara el JS (clase .enter) y la quita al terminar; nunca depende de un estado que luego cambie, así no se repite */
+.enter{animation:vin .4s cubic-bezier(.22,.8,.3,1)}
 body,.calc,.theme,.hero,footer,.badge{transition:background-color .35s ease,color .35s ease,border-color .35s ease}
 .card{transition:transform .25s cubic-bezier(.22,.8,.3,1),border-color .25s,box-shadow .25s,background-color .35s}
 .card.on:hover,.card:focus-within{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 10px 22px -14px rgba(21,23,28,.45)}.card.on{cursor:pointer}
@@ -151,7 +152,7 @@ button:active{transform:scale(.97)}
 .row{animation:rin .25s cubic-bezier(.22,.8,.3,1)}
 .row.bye{opacity:0;transform:translateX(8px);transition:opacity .18s,transform .18s}
 details[open]>:not(summary){animation:fin .3s ease}
-.warn{margin:0 0 10px;padding:9px 12px;border:1px solid var(--bad);border-radius:8px;color:var(--bad);font-size:.92rem;animation:fin .25s}
+.warn{margin:0 0 10px;padding:9px 12px;border:1px solid var(--bad);border-radius:8px;color:var(--bad);font-size:.92rem}
 .tog{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 14px;font:600 .88rem var(--body);cursor:pointer}
 .tog[aria-pressed=true]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 
@@ -431,7 +432,6 @@ details[open]>:not(summary){animation:fin .3s ease}
 .nw-f a{color:var(--accent);font-weight:600;text-underline-offset:3px}
 .badge.new{background:var(--hl);color:#15171C;border-color:transparent;font-weight:600}
 .badge.ex{border-style:dashed}
-#nw-list .nw{animation:fin .25s ease backwards}
 @media(hover:hover){.nw:hover{border-color:color-mix(in srgb,var(--muted) 55%,var(--line))}}
 
 /* ===== Pulido: movimiento, jerarquía y rendimiento ===== */
@@ -457,7 +457,6 @@ header.scrolled{border-bottom-color:var(--line)}
 .search svg{pointer-events:none;transition:stroke .2s}
 .search:has(input:focus) svg{stroke:var(--accent)}
 .search input{transition:border-color .2s,box-shadow .25s var(--ease),background-color .35s}
-#catalog .cat{animation:fin .25s ease backwards}
 
 /* tarjetas */
 .card{transition:transform .35s var(--ease),border-color .25s,box-shadow .35s var(--ease),background-color .35s}
@@ -466,6 +465,8 @@ header.scrolled{border-bottom-color:var(--line)}
 .card:not(.on) .ic{border-style:dashed}
 .card.on:hover,.card:focus-within{box-shadow:0 16px 30px -18px color-mix(in srgb,var(--accent) 55%,#000)}
 .card.on:active{transform:translateY(-1px) scale(.992)}
+/* zona de contacto bajo la tarjeta: al subir 3 px el cursor no sale del :hover y la tarjeta no vibra en el borde inferior */
+.card::before{content:"";position:absolute;left:0;right:0;top:100%;height:8px}
 .card:has(a.go:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
 .card a.go:focus-visible{outline:none}
 .card a.go{background:linear-gradient(currentColor,currentColor) 0 100%/0 1.5px no-repeat;transition:background-size .3s var(--ease),color .2s}
@@ -503,19 +504,21 @@ summary:hover{color:var(--accent)}
 
 /* una sola entrada orquestada al abrir la portada */
 @keyframes rise{from{opacity:0;transform:translateY(14px)}}
-.intro #inicio{animation:none}
 .intro .hero h1{animation:rise .8s var(--ease) backwards}
 .intro .hero .lead{animation:rise .8s .08s var(--ease) backwards}
 .intro .hero .search{animation:rise .8s .16s var(--ease) backwards}
 .intro .hero #only{animation:rise .8s .22s var(--ease) backwards}
 .intro .card{animation:rise .7s calc(.25s + var(--i,0)*45ms) var(--ease) backwards}
+/* si el catálogo se vuelve a pintar (buscar, filtrar), las tarjetas nuevas no repiten la entrada */
+.intro #catalog.no-rise .card{animation:none}
 
 /* transición entre pantallas (View Transitions, con alternativa sin ella) */
 @keyframes vt-out{to{opacity:0;transform:translateY(-6px)}}
 @keyframes vt-in{from{opacity:0;transform:translateY(10px)}}
-.vt #inicio:not([hidden]),.vt .view:not([hidden]){animation:none}
 .vt::view-transition-old(root){animation:vt-out .16s ease both}
 .vt::view-transition-new(root){animation:vt-in .34s var(--ease) both}
+/* cambio de tema: el fundido lo hace la transición de vista; sin transiciones CSS a la vez (si no, se ve doble y parpadea) */
+html.no-tr *,html.no-tr *::before,html.no-tr *::after{transition:none!important}
 
 /* rendimiento: no pintar lo que queda fuera de pantalla */
 #como-funciona{content-visibility:auto;contain-intrinsic-size:auto 900px}
@@ -584,10 +587,10 @@ window.LANG=(function(){try{var l=localStorage.getItem("lang");if(l==="en"||l===
 
     <h3 class="sec">Qué encontrarás</h3>
     <ul class="steps">
-      <li><h3>Estudio y aprendizaje</h3><p>La calculadora de notas, el generador de exámenes, el planificador de estudio y, próximamente, ejercicios.</p></li>
-      <li><h3>Inteligencia artificial</h3><p>Corrector, resumidor de PDF, flashcards y explicaciones por nivel. Aún no están disponibles.</p></li>
-      <li><h3>PAU y universidad</h3><p>Simulador de nota, noticias, exámenes oficiales y ponderaciones, siempre con su fuente.</p></li>
-      <li><h3>Profesores</h3><p>Generador de rúbricas con descriptores por nivel, listo para imprimir.</p></li>
+      <li><h3>Utilidades</h3><p>La calculadora de notas, los códigos QR, las noticias y, próximamente, ejercicios y resúmenes de PDF.</p></li>
+      <li><h3>Aprendizaje</h3><p>El planificador de estudio y, próximamente, corrector, flashcards y explicaciones por nivel con IA.</p></li>
+      <li><h3>Profesores</h3><p>Generadores de exámenes y de rúbricas listos para imprimir y, próximamente, control de clase.</p></li>
+      <li><h3>PAU y Universidad</h3><p>Simulador de nota, noticias, exámenes oficiales y ponderaciones, siempre con su fuente.</p></li>
     </ul>
 
     <h3 class="sec">Preguntas frecuentes</h3>
@@ -885,14 +888,14 @@ const I18N={
 "Revisa el resultado":"Check the result",
 "Ves el resultado y cómo se ha obtenido. En las herramientas con IA podrás volver a generarlo y copiarlo.":"You see the result and how it was obtained. In the AI tools you will be able to regenerate and copy it.",
 "Qué encontrarás":"What you will find",
-"Estudio y aprendizaje":"Study and learning",
-"La calculadora de notas, el generador de exámenes, el planificador de estudio y, próximamente, ejercicios.":"The grade calculator, the exam generator, the study planner and, coming soon, exercises.",
-"Inteligencia artificial":"Artificial intelligence",
-"Corrector, resumidor de PDF, flashcards y explicaciones por nivel. Aún no están disponibles.":"Exercise checker, PDF summariser, flashcards and level-based explanations. Not available yet.",
-"PAU y universidad":"PAU and university",
+"Utilidades":"Utilities",
+"La calculadora de notas, los códigos QR, las noticias y, próximamente, ejercicios y resúmenes de PDF.":"The grade calculator, QR codes, news and, coming soon, exercises and PDF summaries.",
+"Aprendizaje":"Learning",
+"El planificador de estudio y, próximamente, corrector, flashcards y explicaciones por nivel con IA.":"The study planner and, coming soon, exercise checker, flashcards and AI explanations by level.",
+"PAU y Universidad":"PAU and University",
 "Simulador de nota, noticias, exámenes oficiales y ponderaciones, siempre con su fuente.":"Grade simulator, news, official exams and subject weightings, always with their source.",
 "Profesores":"Teachers",
-"Generador de rúbricas con descriptores por nivel, listo para imprimir.":"Rubric generator with descriptors for each level, ready to print.",
+"Generadores de exámenes y de rúbricas listos para imprimir y, próximamente, control de clase.":"Exam and rubric generators ready to print and, coming soon, class control.",
 "Preguntas frecuentes":"Frequently asked questions",
 "¿Necesito crear una cuenta?":"Do I need to create an account?",
 "No para las herramientas disponibles, que funcionan directamente. Más adelante habrá cuentas opcionales para guardar favoritos e historial.":"Not for the available tools, which work straight away. Later there will be optional accounts to save favourites and history.",
@@ -1033,22 +1036,23 @@ rubric:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 
 qr:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h3M20 17v4"/>'
 };
 const CATS={
-estudio:tr(["Estudio y aprendizaje","Calcula, practica y organiza tu estudio."],["Study and learning","Calculate, practise and organise your studying."]),
-ia:tr(["Inteligencia artificial","Corrige, resume y explica con ayuda de IA."],["Artificial intelligence","Check, summarise and explain with the help of AI."]),
-pau:tr(["PAU y universidad","Notas de acceso, exámenes y ponderaciones."],["PAU and university","Entrance grades, exams and subject weightings."]),
-profesores:tr(["Profesores","Recursos para preparar la evaluación."],["Teachers","Resources to prepare assessment."])};
+utilidades:tr(["Utilidades","Calcula, consulta y resume sin complicaciones."],["Utilities","Calculate, look things up and summarise with no fuss."]),
+aprendizaje:tr(["Aprendizaje","Organiza tu estudio y repasa con ayuda de IA."],["Learning","Organise your studying and revise with the help of AI."]),
+profesores:tr(["Profesores","Recursos para preparar y gestionar la evaluación."],["Teachers","Resources to prepare and manage assessment."]),
+pau:tr(["PAU y Universidad","Notas de acceso, exámenes y ponderaciones."],["PAU and University","Entrance grades, exams and subject weightings."])};
 // [id, nombre, descripción, categoría, icono, disponible]
 const TOOLS=[
-["calculadora-notas","Calculadora de notas","Calcula tu media, simple o ponderada, y la nota que necesitas para llegar a tu objetivo.","estudio","calc","calculadora"],
-["generador-examenes","Generador de exámenes","Diseña exámenes en hojas A4, con varios tipos (A–F), y expórtalos a PDF.","estudio","exam","examenes"],
-["generador-ejercicios","Generador de ejercicios","Ejercicios a tu nivel, con soluciones explicadas.","estudio","pen",0],
-["planificador-estudio","Planificador de estudio","Crea una rutina de estudio según tus exámenes y tus notas, y expórtala a tu calendario.","estudio","cal","planificador"],
-["noticias","Noticias y Actualizaciones","Novedades de educación en España y en el extranjero, con etiquetas para filtrarlas.","estudio","news","noticias"],
-["generador-qr","Generador de códigos QR","Crea un código QR de un enlace o un texto y descárgalo en PNG o SVG.","estudio","qr","qr"],
-["corrector-ejercicios","Corrector de ejercicios","Corrección razonada con errores y resolución correcta.","ia","check",0],
-["resumidor-pdf","Resumidor de apuntes PDF","Resúmenes cortos, medios o detallados de tus PDF.","ia","pdf",0],
-["generador-flashcards","Generador de flashcards","Tarjetas de pregunta y respuesta para repasar.","ia","cards",0],
-["explicador-temas","Explicador de temas con IA","Explicaciones con ejemplos adaptadas a tu nivel.","ia","bulb",0],
+["calculadora-notas","Calculadora de notas","Calcula tu media, simple o ponderada, y la nota que necesitas para llegar a tu objetivo.","utilidades","calc","calculadora"],
+["generador-examenes","Generador de exámenes","Diseña exámenes en hojas A4, con varios tipos (A–F), y expórtalos a PDF.","profesores","exam","examenes"],
+["control-clase","Control de Clase","Herramientas para llevar el control de tu clase.","profesores","check",0],
+["generador-ejercicios","Generador de ejercicios","Ejercicios a tu nivel, con soluciones explicadas.","utilidades","pen",0],
+["planificador-estudio","Planificador de estudio","Crea una rutina de estudio según tus exámenes y tus notas, y expórtala a tu calendario.","aprendizaje","cal","planificador"],
+["noticias","Noticias y Actualizaciones","Novedades de educación en España y en el extranjero, con etiquetas para filtrarlas.","utilidades","news","noticias"],
+["generador-qr","Generador de códigos QR","Crea un código QR de un enlace o un texto y descárgalo en PNG o SVG.","utilidades","qr","qr"],
+["corrector-ejercicios","Corrector de ejercicios","Corrección razonada con errores y resolución correcta.","aprendizaje","check",0],
+["resumidor-pdf","Resumidor de apuntes PDF","Resúmenes cortos, medios o detallados de tus PDF.","utilidades","pdf",0],
+["generador-flashcards","Generador de flashcards","Tarjetas de pregunta y respuesta para repasar.","aprendizaje","cards",0],
+["explicador-temas","Explicador de temas con IA","Explicaciones con ejemplos adaptadas a tu nivel.","aprendizaje","bulb",0],
 ["simulador-pau","Simulador y calculadora PAU","Nota de acceso y de admisión con su desglose.","pau","cap",0],
 ["noticias-pau","Noticias y actualizaciones PAU","Novedades de fuentes oficiales, con fecha y enlace.","pau","news","noticias-pau"],
 ["examenes-oficiales","Buscador de exámenes oficiales","Modelos y exámenes anteriores por comunidad, materia y año.","pau","find",0],
@@ -1070,6 +1074,7 @@ if(EN){const T_EN={
 "generador-qr":["QR code generator","Create a QR code from a link or text and download it as PNG or SVG."],
 "examenes-oficiales":["Official exam finder","Past papers and sample exams by region, subject and year."],
 "ponderaciones-universitarias":["Subject weighting finder","Weightings by degree and university, with their source."],
+"control-clase":["Class Control","Tools to keep track of your class."],
 "generador-rubricas":["Rubric generator","Rubrics with descriptors for each level, ready to print."]};
 TOOLS.forEach(t=>{const e=T_EN[t[0]];if(e){t[1]=e[0];t[2]=e[1]}})}
 const norm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
@@ -1086,7 +1091,10 @@ function renderCatalog(query){
     list.map((t,i)=>`<article class="card${t[5]?' on':''}" id="t-${t[0]}" style="--i:${Math.min(i,8)}"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[t[4]]}</svg></div><h4>${t[1]}</h4><p>${t[2]}</p><div class="foot">${t[5]?'<span class="badge on">'+tr('Disponible','Available')+'</span><a class="go" href="#'+t[5]+'">'+tr('Probar ahora','Try it now')+'</a>':'<span class="badge">'+tr('Próximamente','Coming soon')+'</span>'}</div></article>`).join('')+
     `</div></div>`;
   }
-  if(renderCatalog.last!==html){renderCatalog.last=html;document.getElementById('catalog').innerHTML=html}
+  if(renderCatalog.last!==html){
+    if(renderCatalog.last!==undefined)document.getElementById('catalog').classList.add('no-rise');
+    renderCatalog.last=html;document.getElementById('catalog').innerHTML=html;
+  }
   const empty=document.getElementById('empty');
   empty.hidden=hits.length>0;
   if(!hits.length)empty.textContent=tr(`No hay herramientas que coincidan con “${query.trim()}”. Prueba con otra palabra.`,`No tools match “${query.trim()}”. Try another word.`);
@@ -1914,12 +1922,23 @@ function routeNow(){
   if(nd!==null)nwDetail(nd);
 }
 const RM=matchMedia('(prefers-reduced-motion:reduce)');
-let firstRoute=true;
+let firstRoute=true,vtN=0;
+/* alternativa sin View Transitions: la entrada se lanza una vez y la clase se quita al terminar la animación */
+function enter(){
+  const el=[home,...document.querySelectorAll('.view')].find(x=>!x.hidden);if(!el)return;
+  el.classList.remove('enter');void el.offsetWidth;el.classList.add('enter');
+  const end=e=>{if(e.target!==el)return;el.classList.remove('enter');el.removeEventListener('animationend',end)};
+  el.addEventListener('animationend',end);
+}
 function route(){
-  if(firstRoute||RM.matches||!document.startViewTransition){firstRoute=false;routeNow();return}
-  const d=document.documentElement;d.classList.add('vt');
-  const t=document.startViewTransition(routeNow);
-  t.finished.finally(()=>d.classList.remove('vt'));
+  const d=document.documentElement;
+  if(firstRoute){firstRoute=false;routeNow();return}
+  d.classList.remove('intro');
+  if(RM.matches){routeNow();return}
+  if(!document.startViewTransition){routeNow();enter();return}
+  /* solo el último cambio de pantalla puede quitar .vt; si no, un clic rápido reinicia el fundido */
+  const n=++vtN;d.classList.add('vt');
+  document.startViewTransition(routeNow).finished.finally(()=>{if(n===vtN)d.classList.remove('vt')});
 }
 window.addEventListener('hashchange',route);route();
 (function(){
@@ -1931,7 +1950,7 @@ window.addEventListener('hashchange',route);route();
 })();
 
 /* ---- Modo claro / oscuro (claro por defecto) ---- */
-const themeBtn=document.getElementById('theme');
+const themeBtn=document.getElementById('theme');let themeN=0;
 const SUN='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
 const MOON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>';
 function applyTheme(t){
@@ -1944,7 +1963,11 @@ function applyTheme(t){
 applyTheme(document.documentElement.dataset.theme==='dark'?'dark':'light');
 themeBtn.addEventListener('click',()=>{
   const n=document.documentElement.dataset.theme==='dark'?'light':'dark';
-  if(document.startViewTransition&&!RM.matches)document.startViewTransition(()=>applyTheme(n));else applyTheme(n);
+  const d=document.documentElement,k=++themeN;
+  if(document.startViewTransition&&!RM.matches){
+    d.classList.add('no-tr');
+    document.startViewTransition(()=>applyTheme(n)).finished.finally(()=>{if(k===themeN)d.classList.remove('no-tr')});
+  }else applyTheme(n);
   themeBtn.classList.remove('flip');void themeBtn.offsetWidth;themeBtn.classList.add('flip');
   try{localStorage.setItem('theme',n)}catch(e){}
 });
