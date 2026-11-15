@@ -4,16 +4,38 @@
 <head>
   <meta charset="utf-8">
   <script>
-    /* AdSense se carga cuando la página ya terminó de cargar, para que no deje la pestaña «cargando» */
+    /* PUBLICIDAD. AdSense solo se carga si la persona consiente (CMP de Google, TCF) o si el CMP indica que no aplica el RGPD.
+       Sin CMP publicado en AdSense no se carga ningún anuncio. ADSLOT = id del bloque de anuncios (vacío: no se muestra anuncio). */
+    var ADSLOT = '', ADCLIENT = 'ca-pub-3197760514490618', adsOn = false;
+    window.googlefc = window.googlefc || {}; googlefc.callbackQueue = googlefc.callbackQueue || [];
+    function loadAds() {
+      if (adsOn) return; adsOn = true;
+      var a = document.createElement('script'); a.async = true; a.crossOrigin = 'anonymous'; a.onerror = function () { };
+      a.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + ADCLIENT;
+      var box = document.getElementById('ad');
+      if (ADSLOT && box) {
+        box.innerHTML = '<ins class="adsbygoogle" style="display:block" data-ad-client="' + ADCLIENT + '" data-ad-slot="' + ADSLOT + '" data-ad-format="auto" data-full-width-responsive="true"></ins>'; box.hidden = false;
+        a.onload = function () { try { (window.adsbygoogle = window.adsbygoogle || []).push({}) } catch (e) { } };
+      }
+      document.head.appendChild(a);
+    }
+    function consentOk(t) { return !!t && (t.gdprApplies === false || !!(t.purpose && t.purpose.consents && t.purpose.consents[1])) }
     addEventListener('load', function () {
       setTimeout(function () {
-        var a = document.createElement('script'); a.async = true; a.crossOrigin = 'anonymous';
-        a.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3197760514490618';
-        a.onerror = function () { }; document.head.appendChild(a);
-      }, 1500)
+        var c = document.createElement('script'); c.async = true; c.src = 'https://fundingchoicesmessages.google.com/i/pub-3197760514490618?ers=1'; document.head.appendChild(c);
+        var i = document.createElement('iframe'); i.name = 'googlefcPresent'; i.style.display = 'none'; document.body.appendChild(i);
+        (function w(n) {
+          if (window.__tcfapi) __tcfapi('addEventListener', 2, function (t, ok) {
+            if (!ok || (t.eventStatus !== 'tcloaded' && t.eventStatus !== 'useractioncomplete')) return;
+            if (consentOk(t)) loadAds(); else if (adsOn) location.reload();
+          });
+          else if (n < 40) setTimeout(function () { w(n + 1) }, 250);
+        })(0);
+      }, 1500);
     });
   </script>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="index,follow,max-image-preview:large">
   <title>Aulalia · Herramientas para estudiar mejor</title>
   <meta name="description"
     content="Calculadoras, ejercicios, resúmenes y más para ESO, Bachillerato, PAU y profesores.">
@@ -3173,6 +3195,24 @@
     .skip{position:absolute;left:12px;top:-60px;z-index:100;padding:10px 14px;border-radius:8px;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none}
     .skip:focus{top:10px}
     main:focus{outline:none}
+  
+    .ad{margin:40px 0 0;text-align:center}
+    .ad:has(ins[data-ad-status="filled"])::before{content:"Publicidad";display:block;font-size:.75rem;color:var(--muted);margin-bottom:6px}
+    .pv h2{font-size:1.15rem;margin-top:28px}
+    .pv p{max-width:44em;margin:8px 0 0;color:var(--muted)}
+    html{-webkit-text-size-adjust:100%}
+    a,button,summary,select{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+    body{overflow-wrap:break-word}
+    footer{padding-bottom:calc(40px + env(safe-area-inset-bottom,0px))}
+    @media(max-width:600px){
+      .calc input:not([type=checkbox]):not([type=radio]),.calc select,.calc textarea{font-size:16px;min-height:44px}
+      .calc button,.tog,.pri,.link{min-height:44px}
+      summary{padding:8px 0}
+      .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+      .view h1{font-size:clamp(1.8rem,8vw,2.2rem)}
+      table{display:block;overflow-x:auto}
+    }
+      .ex-grid>*,.calc-grid>*{min-width:0}
   </style>
   <script>/* tema: el guardado manda; si no hay, se sigue el del sistema. La barra del navegador (theme-color) se alinea con el tema real */
     (function () {
@@ -3914,6 +3954,26 @@
       </div>
     </section>
 
+    <section id="vista-privacidad" class="view pv" hidden aria-labelledby="pv-t">
+      <div class="wrap">
+        <a class="back" href="#inicio"><svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15 5l-7 7 7 7" />
+          </svg>Volver a las herramientas</a>
+        <h1 id="pv-t" tabindex="-1">Aviso legal, privacidad y cookies</h1>
+        <!-- PLANTILLA: rellena los campos [RELLENAR] y revísala con un profesional antes de publicar. -->
+        <h2>Titular del sitio</h2>
+        <p>Titular: [RELLENAR: nombre o razón social]. NIF/CIF: [RELLENAR]. Domicilio: [RELLENAR]. Correo de contacto: [RELLENAR].</p>
+        <h2>Qué datos usa Aulalia</h2>
+        <p>Las herramientas funcionan en tu navegador: lo que escribes y guardas se queda en tu dispositivo y no se envía a ningún servidor de Aulalia.</p>
+        <h2>Cookies y almacenamiento</h2>
+        <p>Aulalia guarda en tu dispositivo, con el almacenamiento local del navegador, tus preferencias (idioma y modo claro u oscuro) y lo que decidas guardar en las herramientas. Son necesarios para que la web funcione y no requieren consentimiento.</p>
+        <p>Publicidad: solo si das tu consentimiento, Google AdSense puede usar cookies y datos de tu dispositivo para mostrar anuncios, incluidos anuncios personalizados. Si no lo das, no se carga ninguna publicidad. Google es el responsable de esos datos: consulta cómo los usa en policies.google.com/technologies/partner-sites.</p>
+        <p>Puedes cambiar o retirar tu consentimiento en cualquier momento desde el enlace «Configurar cookies» del pie de página.</p>
+        <h2>Tus derechos</h2>
+        <p>Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad escribiendo al correo de contacto. Si crees que tus datos no se han tratado bien, puedes reclamar ante la Agencia Española de Protección de Datos (aepd.es).</p>
+      </div>
+    </section>
+
     <section id="vista-ponderaciones" class="view" hidden aria-labelledby="pd-t">
       <div class="wrap">
         <a class="back" href="#inicio"><svg viewBox="0 0 24 24" aria-hidden="true">
@@ -3937,6 +3997,7 @@
 
   </main>
 
+  <div class="wrap"><div class="ad" id="ad" aria-label="Publicidad" hidden></div></div>
   <footer>
     <div class="wrap">
       <div>
@@ -3945,7 +4006,7 @@
       </div>
       <div>
         <p>Proyecto en desarrollo: las herramientas marcadas como «Próximamente» aún no están disponibles.</p>
-        <p>Aviso legal y política de privacidad: pendientes de redactar antes del lanzamiento.</p>
+        <p><a href="#privacidad">Aviso legal, privacidad y cookies</a> · <a href="#privacidad" id="ck-cfg">Configurar cookies</a></p>
       </div>
     </div>
   </footer>
@@ -4221,6 +4282,8 @@
     Object.assign(I18N, {
       "Simulador y calculadora PAU": "PAU simulator and calculator",
       "Saltar al contenido": "Skip to content",
+      "Aviso legal, privacidad y cookies": "Legal notice, privacy and cookies",
+      "Configurar cookies": "Cookie settings",
       "Calcula tu nota de acceso (sobre 10) y tu nota de admisión (sobre 14) y compárala con la nota de corte de tu grado. Solo necesitas tu media de Bachillerato y tus notas de la PAU.": "Work out your access grade (out of 10) and your admission grade (out of 14) and compare it with your degree's cut-off mark. All you need is your sixth-form average and your PAU marks.",
       "1. Fase de acceso (obligatoria)": "1. Access phase (compulsory)",
       "Es la base de tu nota: tu media de Bachillerato (sin Religión) cuenta un 60 % y los cuatro exámenes de la PAU, un 40 %.": "This is the base of your grade: your sixth-form average (excluding Religion) counts 60% and the four PAU exams count 40%.",
@@ -5984,12 +6047,14 @@ const TBN = {"Medicina": "Medicine", "Enfermería": "Nursing", "Farmacia": "Phar
     document.getElementById('catalog').addEventListener('click', e => { if (e.target.closest('a.go')) homeY = window.scrollY });
     function routeNow() {
       const h = location.hash, nd = h.startsWith('#noticia-') ? h.slice(9) : null;
-      const VV = { '#calculadora': 'vista-calculadora', '#examenes': 'vista-examenes', '#planificador': 'vista-planificador', '#rubricas': 'vista-rubricas', '#noticias': 'vista-noticias', '#noticias-pau': 'vista-noticias', '#qr': 'vista-qr', '#flashcards': 'vista-flashcards', '#control': 'vista-control', '#examenes-oficiales': 'vista-examenes-oficiales', '#test-rama': 'vista-test-rama', '#simulador-pau': 'vista-simulador-pau', '#ponderaciones': 'vista-ponderaciones' };
-      const TT = { '#calculadora': ['Calculadora de notas', 'calc-t'], '#examenes': ['Generador de exámenes', 'ex-t'], '#planificador': ['Planificador de estudio', 'pl-t'], '#rubricas': ['Generador de rúbricas', 'rb-t'], '#noticias': ['Noticias y Actualizaciones', 'nw-t'], '#noticias-pau': ['Noticias y actualizaciones PAU', 'nw-t'], '#qr': ['Generador de códigos QR', 'qr-t'], '#flashcards': ['Generador de flashcards', 'fc-t'], '#control': ['Control de clase', 'cc-t'], '#examenes-oficiales': ['Buscador de exámenes oficiales', 'eo-t'], '#test-rama': ['Test de rama', 'tb-t'], '#simulador-pau': ['Simulador y calculadora PAU', 'pau-t'], '#ponderaciones': ['Buscador de ponderaciones', 'pd-t'] };
+      const VV = { '#calculadora': 'vista-calculadora', '#examenes': 'vista-examenes', '#planificador': 'vista-planificador', '#rubricas': 'vista-rubricas', '#noticias': 'vista-noticias', '#noticias-pau': 'vista-noticias', '#qr': 'vista-qr', '#flashcards': 'vista-flashcards', '#control': 'vista-control', '#examenes-oficiales': 'vista-examenes-oficiales', '#test-rama': 'vista-test-rama', '#simulador-pau': 'vista-simulador-pau', '#ponderaciones': 'vista-ponderaciones', '#privacidad': 'vista-privacidad' };
+      const TT = { '#calculadora': ['Calculadora de notas', 'calc-t'], '#examenes': ['Generador de exámenes', 'ex-t'], '#planificador': ['Planificador de estudio', 'pl-t'], '#rubricas': ['Generador de rúbricas', 'rb-t'], '#noticias': ['Noticias y Actualizaciones', 'nw-t'], '#noticias-pau': ['Noticias y actualizaciones PAU', 'nw-t'], '#qr': ['Generador de códigos QR', 'qr-t'], '#flashcards': ['Generador de flashcards', 'fc-t'], '#control': ['Control de clase', 'cc-t'], '#examenes-oficiales': ['Buscador de exámenes oficiales', 'eo-t'], '#test-rama': ['Test de rama', 'tb-t'], '#simulador-pau': ['Simulador y calculadora PAU', 'pau-t'], '#ponderaciones': ['Buscador de ponderaciones', 'pd-t'], '#privacidad': ['Aviso legal, privacidad y cookies', 'pv-t'] };
       const cur = nd !== null ? 'vista-noticia' : VV[h] || '';
       home.hidden = !!cur;
-      ['vista-calculadora', 'vista-examenes', 'vista-planificador', 'vista-rubricas', 'vista-noticias', 'vista-noticia', 'vista-qr', 'vista-flashcards', 'vista-control', 'vista-examenes-oficiales', 'vista-test-rama', 'vista-simulador-pau', 'vista-ponderaciones'].forEach(i => { $(i).hidden = i !== cur });
+      ['vista-calculadora', 'vista-examenes', 'vista-planificador', 'vista-rubricas', 'vista-noticias', 'vista-noticia', 'vista-qr', 'vista-flashcards', 'vista-control', 'vista-examenes-oficiales', 'vista-test-rama', 'vista-simulador-pau', 'vista-ponderaciones', 'vista-privacidad'].forEach(i => { $(i).hidden = i !== cur });
       document.title = TT[h] ? TT[h][0] + ' · Aulalia' : 'Aulalia · Herramientas para estudiar mejor';
+      { const md = document.querySelector('meta[name="description"]'), pi = cur && document.querySelector('#' + cur + ' .intro'), og = n => document.querySelector('meta[property="og:' + n + '"]');
+        if (md) { if (!md.dataset.d) md.dataset.d = md.content; const t = pi ? pi.textContent.replace(/\s+/g, ' ').trim() : ''; md.content = t ? t.slice(0, 155) : md.dataset.d; if (og('description')) og('description').content = md.content; if (og('title')) og('title').content = document.title } }
       window.scrollTo({ top: cur ? 0 : homeY, left: 0, behavior: 'instant' });
       if (TT[h]) $(TT[h][1]).focus({ preventScroll: true });
       if (h === '#examenes') exRender();
@@ -6024,6 +6089,7 @@ const TBN = {"Medicina": "Medicine", "Enfermería": "Nursing", "Farmacia": "Phar
       const n = ++vtN; d.classList.add('vt');
       document.startViewTransition(routeNow).finished.finally(() => { if (n === vtN) d.classList.remove('vt') });
     }
+    document.getElementById('ck-cfg').addEventListener('click', e => { if (window.googlefc && googlefc.showRevocationMessage) { e.preventDefault(); googlefc.callbackQueue.push(googlefc.showRevocationMessage) } });
     window.addEventListener('hashchange', route); route();
     (function () {
       const d = document.documentElement;
