@@ -21,6 +21,10 @@
   <meta name="theme-color" content="#F5F6F8" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#101217" media="(prefers-color-scheme: dark)">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Aulalia">
+  <meta property="og:locale" content="es_ES">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Aulalia","description":"Calculadoras, ejercicios, resúmenes y más para ESO, Bachillerato, PAU y profesores.","inLanguage":"es"}</script>
   <meta property="og:title" content="Aulalia · Herramientas para estudiar mejor">
   <meta property="og:description"
     content="Calculadoras, ejercicios, resúmenes y más para ESO, Bachillerato, PAU y profesores.">
@@ -3165,6 +3169,10 @@
     .tb-it .fc-bar{margin:8px 0 6px}
     .tb-it p{margin:0;color:var(--muted);font-size:.92rem}
     .tb-it .badge{margin-right:8px;vertical-align:middle}
+  
+    .skip{position:absolute;left:12px;top:-60px;z-index:100;padding:10px 14px;border-radius:8px;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none}
+    .skip:focus{top:10px}
+    main:focus{outline:none}
   </style>
   <script>/* tema: el guardado manda; si no hay, se sigue el del sistema. La barra del navegador (theme-color) se alinea con el tema real */
     (function () {
@@ -3178,6 +3186,7 @@
 </head>
 
 <body>
+  <a class="skip" href="#contenido" onclick="event.preventDefault();document.getElementById('contenido').focus()">Saltar al contenido</a>
   <header>
     <div class="wrap">
       <a class="logo" href="#inicio">Aulalia</a>
@@ -3186,7 +3195,8 @@
     </div>
   </header>
 
-  <main>
+  <main id="contenido" tabindex="-1">
+    <noscript><p class="wrap" style="padding:24px 20px">Aulalia necesita JavaScript para funcionar. Actívalo en tu navegador para usar las herramientas.</p></noscript>
     <div id="inicio">
       <section class="hero">
         <div class="wrap">
@@ -3846,17 +3856,19 @@
             <path d="M15 5l-7 7 7 7" />
           </svg>Volver a las herramientas</a>
         <h1 id="pau-t" tabindex="-1">Simulador y calculadora PAU</h1>
-        <p class="intro">Calcula tu nota de acceso y tu nota de admisión con las ponderaciones de tu grado. Es una estimación: comprueba siempre las normas y la tabla oficial de tu comunidad y de tu universidad.</p>
+        <p class="intro">Calcula tu nota de acceso (sobre 10) y tu nota de admisión (sobre 14) y compárala con la nota de corte de tu grado. Solo necesitas tu media de Bachillerato y tus notas de la PAU.</p>
         <div class="calc-grid">
           <section class="calc">
-            <h2>Fase de acceso</h2>
+            <h2>1. Fase de acceso (obligatoria)</h2>
+            <p class="sub">Es la base de tu nota: tu media de Bachillerato (sin Religión) cuenta un 60 % y los cuatro exámenes de la PAU, un 40 %.</p>
             <div class="two"><div class="fld"><label for="pau-nmb">Nota media de Bachillerato</label><input id="pau-nmb" inputmode="decimal" placeholder="8,5"></div><div class="fld"><label for="pau-obj">Nota de acceso objetivo (opcional)</label><input id="pau-obj" inputmode="decimal" placeholder="8,5"></div></div>
-            <p class="sub">Notas de los cuatro ejercicios de la fase obligatoria (0–10). Los nombres pueden variar según tu comunidad.</p>
-            <div class="two"><div class="fld"><label for="pau-e1">Lengua Castellana</label><input id="pau-e1" inputmode="decimal" placeholder=""></div><div class="fld"><label for="pau-e2">Historia</label><input id="pau-e2" inputmode="decimal" placeholder=""></div></div>
+            <p class="sub">Notas de los cuatro exámenes (de 0 a 10). Se calcula su media y debe ser al menos un 4. Los nombres pueden variar según tu comunidad.</p>
+            <div class="two"><div class="fld"><label for="pau-e1">Lengua Castellana y Literatura</label><input id="pau-e1" inputmode="decimal" placeholder=""></div><div class="fld"><label for="pau-e2">Historia de España o de la Filosofía</label><input id="pau-e2" inputmode="decimal" placeholder=""></div></div>
             <div class="two"><div class="fld"><label for="pau-e3">Lengua extranjera</label><input id="pau-e3" inputmode="decimal" placeholder=""></div><div class="fld"><label for="pau-e4">Materia de modalidad</label><input id="pau-e4" inputmode="decimal" placeholder=""></div></div>
           </section>
           <section class="calc">
-            <h2>Fase voluntaria</h2>
+            <h2>2. Fase de admisión (voluntaria)</h2>
+            <p class="sub">Opcional: sirve para superar el 10, hasta un máximo de 14. Elige tu grado para rellenar las ponderaciones, o elígelas tú (0,1 o 0,2). Solo cuentan tus dos mejores materias, y solo si sacas un 5 o más.</p>
             <div class="fld"><label for="pau-g">Grado (opcional, rellena las ponderaciones)</label><input id="pau-g" list="pau-gl" autocomplete="off" placeholder="Medicina, Derecho…"><datalist id="pau-gl"></datalist></div>
             <div id="pau-rows"></div>
             <div class="fld"><label for="pau-cut">Nota de corte del grado (opcional)</label><input id="pau-cut" inputmode="decimal" placeholder="11,5"></div>
@@ -3865,8 +3877,40 @@
         <section class="calc" style="margin-top:16px">
           <h2>Resultado</h2>
           <div class="out" id="pau-out" aria-live="polite"></div>
-          <p class="sub">Nota de acceso = 60 % Bachillerato + 40 % fase obligatoria (hay que sacar al menos un 4 en la fase obligatoria y un 5 de nota de acceso). Nota de admisión = nota de acceso + las dos mejores materias voluntarias (aprobadas) × su ponderación; máximo 14.</p>
+          <p class="sub">Es una estimación: comprueba las normas de tu comunidad y la tabla de ponderaciones de tu universidad.</p>
         </section>
+
+        <h2 class="sec">Cómo se calcula</h2>
+        <div class="faq">
+          <details>
+            <summary>¿Cómo se calcula la nota de acceso?</summary>
+            <p>Es el 60 % de tu nota media de Bachillerato más el 40 % de la media de los cuatro exámenes de la fase de acceso. Se expresa sobre 10, con tres decimales. Ejemplo: con un 8,2 en Bachillerato y un 7,5 de media en los exámenes, 0,6 × 8,2 + 0,4 × 7,5 = 7,920.</p>
+          </details>
+          <details>
+            <summary>¿Cuándo apruebo la PAU?</summary>
+            <p>Cuando la media de los cuatro exámenes es de al menos un 4 y la nota de acceso es de al menos un 5. Si la media de los exámenes es menor que 4, no apruebas aunque la nota de acceso supere el 5.</p>
+          </details>
+          <details>
+            <summary>¿Para qué sirve la nota de acceso objetivo?</summary>
+            <p>Si escribes la nota de acceso que quieres sacar, el simulador calcula qué media necesitas en los cuatro exámenes para conseguirla, según tu nota de Bachillerato.</p>
+          </details>
+          <details>
+            <summary>¿Cómo se calcula la nota de admisión?</summary>
+            <p>Es tu nota de acceso más las notas de tus dos mejores materias de la fase de admisión, cada una multiplicada por su ponderación (0,1 o 0,2). Solo cuentan las materias aprobadas con un 5 o más. Cada materia aporta como máximo 2 puntos, por eso el máximo es 14. Ejemplo: con 7,920 de acceso y un 8 y un 9 en dos materias que ponderan 0,2, sumas 1,6 y 1,8: 7,920 + 1,6 + 1,8 = 11,320.</p>
+          </details>
+          <details>
+            <summary>¿Por qué mi nota de admisión cambia según el grado?</summary>
+            <p>Cada grado pondera unas materias distintas: una misma materia puede valer 0,2 para un grado, 0,1 para otro y 0 para un tercero. Si te presentas a más de dos materias, para cada grado cuentan las dos que más suman. Las ponderaciones que rellena el simulador son orientativas: confírmalas en la tabla de tu universidad.</p>
+          </details>
+          <details>
+            <summary>¿Qué es la nota de corte?</summary>
+            <p>Es la nota de admisión del último estudiante admitido en un grado el curso pasado. La publica cada universidad y cambia cada año: sirve de referencia, pero no garantiza plaza.</p>
+          </details>
+          <details>
+            <summary>¿Cuánto tiempo valen mis notas?</summary>
+            <p>La nota de acceso no caduca. Las notas de la fase de admisión valen, en general, durante los tres cursos siguientes al que las aprobaste; confírmalo en tu universidad.</p>
+          </details>
+        </div>
       </div>
     </section>
 
@@ -4176,21 +4220,42 @@
     });
     Object.assign(I18N, {
       "Simulador y calculadora PAU": "PAU simulator and calculator",
-      "Calcula tu nota de acceso y tu nota de admisión con las ponderaciones de tu grado. Es una estimación: comprueba siempre las normas y la tabla oficial de tu comunidad y de tu universidad.": "Work out your access grade and your admission grade with your degree's weightings. It is an estimate: always check the rules and the official table of your region and university.",
-      "Fase de acceso": "Access phase",
+      "Saltar al contenido": "Skip to content",
+      "Calcula tu nota de acceso (sobre 10) y tu nota de admisión (sobre 14) y compárala con la nota de corte de tu grado. Solo necesitas tu media de Bachillerato y tus notas de la PAU.": "Work out your access grade (out of 10) and your admission grade (out of 14) and compare it with your degree's cut-off mark. All you need is your sixth-form average and your PAU marks.",
+      "1. Fase de acceso (obligatoria)": "1. Access phase (compulsory)",
+      "Es la base de tu nota: tu media de Bachillerato (sin Religión) cuenta un 60 % y los cuatro exámenes de la PAU, un 40 %.": "This is the base of your grade: your sixth-form average (excluding Religion) counts 60% and the four PAU exams count 40%.",
       "Nota media de Bachillerato": "Sixth-form average grade",
       "Nota de acceso objetivo (opcional)": "Target access grade (optional)",
-      "Notas de los cuatro ejercicios de la fase obligatoria (0–10). Los nombres pueden variar según tu comunidad.": "Grades of the four compulsory-phase exams (0–10). Names may vary by region.",
+      "Notas de los cuatro exámenes (de 0 a 10). Se calcula su media y debe ser al menos un 4. Los nombres pueden variar según tu comunidad.": "Marks of the four exams (0–10). Their average is calculated and it must be at least 4. Names may vary by region.",
+      "Lengua Castellana y Literatura": "Spanish Language and Literature",
+      "Historia de España o de la Filosofía": "History of Spain or of Philosophy",
       "Lengua Castellana": "Spanish Language",
       "Historia": "History",
       "Lengua extranjera": "Foreign language",
       "Materia de modalidad": "Track subject",
-      "Fase voluntaria": "Voluntary phase",
+      "2. Fase de admisión (voluntaria)": "2. Admission phase (voluntary)",
+      "Opcional: sirve para superar el 10, hasta un máximo de 14. Elige tu grado para rellenar las ponderaciones, o elígelas tú (0,1 o 0,2). Solo cuentan tus dos mejores materias, y solo si sacas un 5 o más.": "Optional: lets you go above 10, up to a maximum of 14. Pick your degree to fill in the weightings, or choose them yourself (0.1 or 0.2). Only your two best subjects count, and only if you score 5 or more.",
       "Grado (opcional, rellena las ponderaciones)": "Degree (optional, fills in the weightings)",
       "Medicina, Derecho…": "Medicine, Law…",
       "Nota de corte del grado (opcional)": "Degree cut-off mark (optional)",
       "Resultado": "Result",
-      "Nota de acceso = 60 % Bachillerato + 40 % fase obligatoria (hay que sacar al menos un 4 en la fase obligatoria y un 5 de nota de acceso). Nota de admisión = nota de acceso + las dos mejores materias voluntarias (aprobadas) × su ponderación; máximo 14.": "Access grade = 60% sixth-form + 40% compulsory phase (you need at least 4 in the compulsory phase and 5 overall). Admission grade = access grade + your two best passed voluntary subjects × their weighting; maximum 14.",
+      "Es una estimación: comprueba las normas de tu comunidad y la tabla de ponderaciones de tu universidad.": "It is an estimate: check your region's rules and your university's weighting table.",
+      "Cómo se calcula": "How it is calculated",
+      "¿Cómo se calcula la nota de acceso?": "How is the access grade calculated?",
+      "Es el 60 % de tu nota media de Bachillerato más el 40 % de la media de los cuatro exámenes de la fase de acceso. Se expresa sobre 10, con tres decimales. Ejemplo: con un 8,2 en Bachillerato y un 7,5 de media en los exámenes, 0,6 × 8,2 + 0,4 × 7,5 = 7,920.": "It is 60% of your sixth-form average plus 40% of the average of the four access-phase exams. It is given out of 10, to three decimal places. Example: with 8.2 in sixth form and an exam average of 7.5, 0.6 × 8.2 + 0.4 × 7.5 = 7.920.",
+      "¿Cuándo apruebo la PAU?": "When do I pass the PAU?",
+      "Cuando la media de los cuatro exámenes es de al menos un 4 y la nota de acceso es de al menos un 5. Si la media de los exámenes es menor que 4, no apruebas aunque la nota de acceso supere el 5.": "When the average of the four exams is at least 4 and the access grade is at least 5. If the exam average is below 4, you do not pass even if the access grade is above 5.",
+      "¿Para qué sirve la nota de acceso objetivo?": "What is the target access grade for?",
+      "Si escribes la nota de acceso que quieres sacar, el simulador calcula qué media necesitas en los cuatro exámenes para conseguirla, según tu nota de Bachillerato.": "If you enter the access grade you want to get, the simulator works out the average you need in the four exams to reach it, based on your sixth-form grade.",
+      "¿Cómo se calcula la nota de admisión?": "How is the admission grade calculated?",
+      "Es tu nota de acceso más las notas de tus dos mejores materias de la fase de admisión, cada una multiplicada por su ponderación (0,1 o 0,2). Solo cuentan las materias aprobadas con un 5 o más. Cada materia aporta como máximo 2 puntos, por eso el máximo es 14. Ejemplo: con 7,920 de acceso y un 8 y un 9 en dos materias que ponderan 0,2, sumas 1,6 y 1,8: 7,920 + 1,6 + 1,8 = 11,320.": "It is your access grade plus the marks of your two best admission-phase subjects, each multiplied by its weighting (0.1 or 0.2). Only subjects passed with 5 or more count. Each subject adds at most 2 points, which is why the maximum is 14. Example: with an access grade of 7.920 and marks of 8 and 9 in two subjects weighted 0.2, you add 1.6 and 1.8: 7.920 + 1.6 + 1.8 = 11.320.",
+      "¿Por qué mi nota de admisión cambia según el grado?": "Why does my admission grade change depending on the degree?",
+      "Cada grado pondera unas materias distintas: una misma materia puede valer 0,2 para un grado, 0,1 para otro y 0 para un tercero. Si te presentas a más de dos materias, para cada grado cuentan las dos que más suman. Las ponderaciones que rellena el simulador son orientativas: confírmalas en la tabla de tu universidad.": "Each degree weights different subjects: the same subject can be worth 0.2 for one degree, 0.1 for another and 0 for a third. If you sit more than two subjects, the two that add the most count for each degree. The weightings the simulator fills in are a guide: confirm them in your university's table.",
+      "¿Qué es la nota de corte?": "What is the cut-off mark?",
+      "Es la nota de admisión del último estudiante admitido en un grado el curso pasado. La publica cada universidad y cambia cada año: sirve de referencia, pero no garantiza plaza.": "It is the admission grade of the last student admitted to a degree last year. Each university publishes it and it changes every year: it is a guide, but it does not guarantee a place.",
+      "¿Cuánto tiempo valen mis notas?": "How long are my grades valid?",
+      "La nota de acceso no caduca. Las notas de la fase de admisión valen, en general, durante los tres cursos siguientes al que las aprobaste; confírmalo en tu universidad.": "The access grade never expires. Admission-phase grades are generally valid for the three academic years after the one in which you passed them; confirm this with your university.",
+      "Escribe tu nota media de Bachillerato y las notas de los cuatro exámenes de la PAU: aquí verás tu nota de acceso y, si apruebas, tu nota de admisión.": "Enter your sixth-form average and your four PAU exam marks: your access grade will appear here and, if you pass, your admission grade.",
       "Buscador de ponderaciones": "Subject weighting finder",
       "Busca un grado y mira qué materias de la fase voluntaria suelen ponderar más. Es una referencia general por rama de conocimiento: la tabla oficial de cada universidad es la que manda y puede variar.": "Search for a degree and see which voluntary-phase subjects usually weigh most. It is a general reference by branch of knowledge: each university's official table rules and may differ.",
       "Busca tu grado": "Search for your degree",
@@ -4309,7 +4374,7 @@
       ["Resultados por nivel", "Results by level"],
       ["8,5", "8.5"],
       ["11,5", "11.5"],
-      ["Notas de los cuatro ejercicios de la fase obligatoria (0–10). Los nombres pueden variar según tu comunidad.", "Grades of the four compulsory-phase exams (0–10). Names may vary by region."],
+      ["Notas de los cuatro exámenes (de 0 a 10). Se calcula su media y debe ser al menos un 4. Los nombres pueden variar según tu comunidad.", "Marks of the four exams (0–10). Their average is calculated and it must be at least 4. Names may vary by region."],
       ["Alumno/a: ______________________________ Grupo: ________ Fecha: ____________", "Student: ______________________________ Group: ________ Date: ____________"],
       ["Nota final: ________ / 10", "Final grade: ________ / 10"],
       ["Nivel {}: nombre", "Level {}: name"],
@@ -4416,7 +4481,7 @@
       ["resumidor-pdf", "Resumidor de apuntes PDF", "Resúmenes cortos, medios o detallados de tus PDF.", "utilidades", "pdf", 0],
       ["generador-flashcards", "Generador de flashcards", "Sube tus apuntes y repasa con tarjetas de desarrollo, de completar la oración o de pregunta.", "aprendizaje", "cards", "flashcards"],
       ["explicador-temas", "Explicador de temas con IA", "Explicaciones con ejemplos adaptadas a tu nivel.", "aprendizaje", "bulb", 0],
-      ["simulador-pau", "Simulador y calculadora PAU", "Nota de acceso y de admisión con su desglose.", "pau", "cap", "simulador-pau"],
+      ["simulador-pau", "Simulador y calculadora PAU", "Calcula tu nota de acceso (sobre 10) y de admisión (sobre 14) y compárala con la nota de corte.", "pau", "cap", "simulador-pau"],
       ["noticias-pau", "Noticias y actualizaciones PAU", "Novedades de fuentes oficiales, con fecha y enlace.", "pau", "news", "noticias-pau"],
       ["examenes-oficiales", "Buscador de exámenes oficiales", "Modelos y exámenes anteriores por comunidad, materia y año.", "pau", "find", "examenes-oficiales"],
       ["ponderaciones-universitarias", "Buscador de ponderaciones", "Ponderaciones por grado y universidad, con su fuente.", "pau", "scale", "ponderaciones"],
@@ -4432,7 +4497,7 @@
         "resumidor-pdf": ["PDF notes summariser", "Short, medium or detailed summaries of your PDFs."],
         "generador-flashcards": ["Flashcard generator", "Upload your notes and revise with explain, fill-in-the-blank or question cards."],
         "explicador-temas": ["AI topic explainer", "Explanations with examples adapted to your level."],
-        "simulador-pau": ["PAU simulator and calculator", "Access and admission grade with its breakdown."],
+        "simulador-pau": ["PAU simulator and calculator", "Work out your access grade (out of 10) and admission grade (out of 14) and compare it with the cut-off mark."],
         "noticias-pau": ["PAU news and updates", "News from official sources, with date and link."],
         "noticias": ["News and updates", "Education news from Spain and abroad, with tags to filter them."],
         "test-rama": ["Branch test", "Find which track or degree suits you in secondary school, sixth form or university, with a short or long test."],
@@ -5889,7 +5954,10 @@ const TBN = {"Medicina": "Medicine", "Enfermería": "Nursing", "Farmacia": "Phar
     }
     function pauCalc() {
       const out = $('pau-out'), err = [], g = (id, lab, req, mx = 10) => { const v = num($(id).value); if (v === null) { if (req) err.push(tr(`Falta: ${lab}.`, `Missing: ${lab}.`)); return null } if (isNaN(v) || v < 0 || v > mx) { err.push(tr(`${lab}: pon un número entre 0 y ${mx}.`, `${lab}: enter a number between 0 and ${mx}.`)); return null } return v };
-      const nmb = g('pau-nmb', tr('nota media de Bachillerato', 'sixth-form average'), 1), ex = [1, 2, 3, 4].map(i => g('pau-e' + i, tr('ejercicio ', 'exam ') + i, 1));
+      const blank = ['pau-nmb', 'pau-e1', 'pau-e2', 'pau-e3', 'pau-e4'].every(id => num($(id).value) === null);
+      if (blank) { out.innerHTML = `<p class="sub" style="margin:0">${tr('Escribe tu nota media de Bachillerato y las notas de los cuatro exámenes de la PAU: aquí verás tu nota de acceso y, si apruebas, tu nota de admisión.', 'Enter your sixth-form average and your four PAU exam marks: your access grade will appear here and, if you pass, your admission grade.')}</p>`; return }
+      const EXN = [tr('nota de Lengua Castellana', 'Spanish Language mark'), tr('nota de Historia', 'History mark'), tr('nota de Lengua extranjera', 'Foreign language mark'), tr('nota de la materia de modalidad', 'Track subject mark')];
+      const nmb = g('pau-nmb', tr('nota media de Bachillerato', 'sixth-form average'), 1), ex = [1, 2, 3, 4].map(i => g('pau-e' + i, EXN[i - 1], 1));
       const cut = g('pau-cut', tr('nota de corte', 'cut-off mark'), 0, 14), obj = g('pau-obj', tr('nota de acceso objetivo', 'target access grade'));
       if (err.length) { fail(out, [...new Set(err)]); return }
       const nfo = ex.reduce((a, b) => a + b, 0) / 4, acc = Math.round((0.6 * nmb + 0.4 * nfo) * 1000) / 1000, f3 = n => (EN ? n.toFixed(3) : n.toFixed(3).replace('.', ','));
