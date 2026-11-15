@@ -4180,7 +4180,7 @@
       "Fase de acceso": "Access phase",
       "Nota media de Bachillerato": "Sixth-form average grade",
       "Nota de acceso objetivo (opcional)": "Target access grade (optional)",
-      "Notas de los cuatro ejercicios de la fase obligatoria (0–10). Los nombres pueden variar según tu comunidad.": "Marks of the four compulsory-phase exams (0–10). Names may vary by region.",
+      "Notas de los cuatro ejercicios de la fase obligatoria (0–10). Los nombres pueden variar según tu comunidad.": "Grades of the four compulsory-phase exams (0–10). Names may vary by region.",
       "Lengua Castellana": "Spanish Language",
       "Historia": "History",
       "Lengua extranjera": "Foreign language",
@@ -4208,6 +4208,169 @@
         if (el.matches('input[type="text"]')) { const v = T(el.value); if (v != null) el.value = v }
       });
       document.querySelectorAll('meta[name="description"],meta[property^="og:"]').forEach(m => { const v = T(m.content); if (v != null) m.content = v });
+    }
+    /* ---- Traducción de textos generados al vuelo (solo en inglés) ---- */
+    const DXL = [
+      ["Fecha del examen", "Exam date"],
+      ["Nota actual", "Current grade"],
+      ["Ej.: Matemáticas", "E.g. Maths"],
+      ["Quitar examen", "Remove exam"],
+      ["Cada examen necesita asignatura y fecha.", "Each exam needs a subject and a date."],
+      ["El examen de {} es anterior al día de inicio: no se planifica.", "The {} exam is before the start date: it is not scheduled."],
+      ["La nota de {} no es válida (0–10): se usa un 5.", "The grade for {} is not valid (0–10): 5 is used."],
+      ["Añade al menos un examen con su fecha para ver tu rutina.", "Add at least one exam with its date to see your routine."],
+      ["Con esos días y horas no queda ningún hueco antes de los exámenes. Añade horas o días disponibles.", "With those days and hours there is no free slot before the exams. Add more hours or days."],
+      ["Algún día termina después de medianoche: adelanta la hora de inicio o reduce las horas.", "Some days end after midnight: start earlier or reduce the hours."],
+      ["Sin tiempo para {}: no hay días disponibles antes de su examen.", "No time for {}: there are no available days before its exam."],
+      ["Ese archivo no es un .ics. Exporta tu calendario como .ics y súbelo o suéltalo aquí.", "That file is not an .ics. Export your calendar as .ics and upload or drop it here."],
+      ["Eventos próximos encontrados. Marca los que son exámenes:", "Upcoming events found. Tick the ones that are exams:"],
+      ["Añadir seleccionados", "Add selected"],
+      ["No se han encontrado eventos futuros en ese archivo. Comprueba que es un .ics exportado de tu calendario.", "No future events were found in that file. Check that it is an .ics exported from your calendar."],
+      ["Suelta aquí tu archivo .ics para importar tus exámenes", "Drop your .ics file here to import your exams"],
+      ["Lun", "Mon"],
+      ["Mar", "Tue"],
+      ["Mié", "Wed"],
+      ["Jue", "Thu"],
+      ["Vie", "Fri"],
+      ["Sáb", "Sat"],
+      ["Dom", "Sun"],
+      ["Prioridad", "Priority"],
+      ["Baja", "Low"],
+      ["Alta", "High"],
+      ["Examen", "Exam"],
+      ["Horas de estudio", "Study hours"],
+      ["Rúbrica de evaluación", "Assessment rubric"],
+      ["Rúbrica de exposición oral", "Oral presentation rubric"],
+      ["Faltan ideas clave o hay errores importantes.", "Key ideas are missing or there are major errors."],
+      ["Recoge las ideas principales, con errores o vacíos.", "Covers the main ideas, with errors or gaps."],
+      ["Contenido correcto y completo, con ejemplos.", "Correct and complete content, with examples."],
+      ["Contenido riguroso y completo, con ejemplos y relaciones propias.", "Rigorous and complete content, with examples and original connections."],
+      ["Expresión y voz", "Delivery and voice"],
+      ["Se lee casi todo y se oye con dificultad.", "Mostly read aloud and hard to hear."],
+      ["Se entiende, pero con dudas, muletillas o poco ritmo.", "Understandable, but with hesitation, filler words or poor pace."],
+      ["Habla con claridad y buen ritmo, y mira al público.", "Speaks clearly at a good pace and looks at the audience."],
+      ["Habla con soltura, capta la atención y responde con seguridad.", "Speaks fluently, holds attention and answers confidently."],
+      ["Apoyo visual y tiempo", "Visual aids and timing"],
+      ["Sin apoyo visual o ilegible; no ajusta el tiempo.", "No visual aids, or unreadable; does not keep to time."],
+      ["Apoyo visual básico; se pasa o se queda corto.", "Basic visual aids; runs over or falls short."],
+      ["Apoyo visual claro; ajusta el tiempo.", "Clear visual aids; keeps to time."],
+      ["Apoyo visual cuidado que ayuda a entender; ajusta el tiempo con precisión.", "Polished visual aids that aid understanding; keeps precisely to time."],
+      ["Rúbrica de trabajo escrito", "Written assignment rubric"],
+      ["Contenido y argumentación", "Content and argumentation"],
+      ["Ideas confusas o sin desarrollar.", "Confused or undeveloped ideas."],
+      ["Ideas básicas, poco desarrolladas.", "Basic ideas, little developed."],
+      ["Ideas claras y bien desarrolladas.", "Clear, well-developed ideas."],
+      ["Ideas originales, bien argumentadas y apoyadas en fuentes.", "Original ideas, well argued and backed by sources."],
+      ["Organización", "Organisation"],
+      ["Sin estructura reconocible.", "No recognisable structure."],
+      ["Estructura básica, con saltos entre ideas.", "Basic structure, with jumps between ideas."],
+      ["Introducción, desarrollo y conclusión claros.", "Clear introduction, body and conclusion."],
+      ["Estructura sólida, con transiciones que guían la lectura.", "Solid structure, with transitions that guide the reader."],
+      ["Ortografía y presentación", "Spelling and presentation"],
+      ["Muchos errores que dificultan la lectura.", "Many errors that make it hard to read."],
+      ["Varios errores y presentación irregular.", "Several errors and uneven presentation."],
+      ["Pocos errores y presentación cuidada.", "Few errors and neat presentation."],
+      ["Sin errores y presentación excelente.", "No errors and excellent presentation."],
+      ["Rúbrica de trabajo en grupo", "Group work rubric"],
+      ["Una persona hace casi todo.", "One person does almost everything."],
+      ["Todos participan con tareas definidas.", "Everyone takes part, with defined tasks."],
+      ["Reparto equilibrado y se ayudan entre sí.", "Balanced workload and members help each other."],
+      ["Colaboración y respeto", "Collaboration and respect"],
+      ["Hay conflictos sin resolver.", "There are unresolved conflicts."],
+      ["Colabora solo cuando se le pide.", "Collaborates only when asked."],
+      ["Escucha y colabora con respeto.", "Listens and collaborates respectfully."],
+      ["Escucha, motiva al grupo y resuelve los desacuerdos.", "Listens, motivates the group and resolves disagreements."],
+      ["Incompleto o fuera del enunciado.", "Incomplete or off-topic."],
+      ["Cumple lo básico, con errores.", "Meets the basics, with errors."],
+      ["Cumple lo pedido con calidad.", "Meets the brief with quality."],
+      ["Supera lo pedido, con calidad y creatividad.", "Exceeds the brief, with quality and creativity."],
+      ["Reparto de tareas", "Task sharing"],
+      ["Reparto desigual.", "Uneven workload."],
+      ["Resultado final", "Final result"],
+      ["Insuficiente", "Insufficient"],
+      ["Suficiente", "Satisfactory"],
+      ["Notable", "Good"],
+      ["Sobresaliente", "Excellent"],
+      ["Criterio", "Criterion"],
+      ["Alumno", "Student"],
+      ["Puntos", "Points"],
+      ["Observaciones:", "Comments:"],
+      ["Subir", "Move up"],
+      ["Bajar", "Move down"],
+      ["Editar", "Edit"],
+      ["Copiado", "Copied"],
+      ["sobre 10", "out of 10"],
+      ["Noticias y Actualizaciones", "News and updates"],
+      ["Manual", "Manual"],
+      ["Bachillerato", "Sixth form"],
+      ["Matemáticas, Historia…", "Maths, History…"],
+      ["Tema", "Topic"],
+      ["Código QR generado", "QR code generated"],
+      ["Resultados por nivel", "Results by level"],
+      ["8,5", "8.5"],
+      ["11,5", "11.5"],
+      ["Notas de los cuatro ejercicios de la fase obligatoria (0–10). Los nombres pueden variar según tu comunidad.", "Grades of the four compulsory-phase exams (0–10). Names may vary by region."],
+      ["Alumno/a: ______________________________ Grupo: ________ Fecha: ____________", "Student: ______________________________ Group: ________ Date: ____________"],
+      ["Nota final: ________ / 10", "Final grade: ________ / 10"],
+      ["Nivel {}: nombre", "Level {}: name"],
+      ["Criterio {}", "Criterion {}"],
+      ["Nombre del criterio", "Criterion name"],
+      ["Peso (%)", "Weight (%)"],
+      ["Eliminar criterio", "Delete criterion"],
+      ["Los pesos suman {} %; deberían sumar 100 %.", "The weights add up to {}%; they should add up to 100%."],
+      ["Igualar pesos", "Equalise weights"],
+      ["Nota sobre 10 = suma de (puntos ÷ {} × peso %) ÷ 10.", "Grade out of 10 = sum of (points ÷ {} × weight %) ÷ 10."],
+      ["Esto sustituirá los criterios y los niveles actuales. ¿Continuar?", "This will replace the current criteria and levels. Continue?"],
+      ["Rúbrica", "Rubric"],
+      ["Crea una rúbrica con criterios, niveles y descriptores. Cuando la termines, expórtala a PDF o úsala en pantalla para obtener la nota.", "Create a rubric with criteria, levels and descriptors. When you are done, export it to PDF or use it on screen to get the grade."],
+      ["Has cambiado los criterios, los niveles o los pesos desde que evaluaste a los alumnos guardados, y sus notas ya no coinciden con la rúbrica. Si continúas, se borrarán esos alumnos. ¿Continuar?", "You have changed the criteria, levels or weights since you assessed the saved students, and their grades no longer match the rubric. If you continue, those students will be deleted. Continue?"],
+      ["Elige el nivel de cada criterio. Cuando tengas la nota, pasa al siguiente alumno: los anteriores quedan guardados para editarlos, borrarlos o exportarlos a PDF.", "Pick the level for each criterion. When you have the grade, move on to the next student: the previous ones stay saved so you can edit, delete or export them to PDF."],
+      ["Peso {} %", "Weight {}%"],
+      ["Para calcular la nota, los niveles necesitan puntos y los criterios, peso.", "To calculate the grade, levels need points and criteria need a weight."],
+      ["Los pesos suman {} %: la nota se calcula de forma proporcional.", "The weights add up to {}%: the grade is calculated proportionally."],
+      ["Evaluar otro alumno", "Assess another student"],
+      ["Copiar resultado", "Copy result"],
+      ["Borrar todos", "Delete all"],
+      ["Aún no hay ningún alumno guardado. Cuando tengas la nota de uno, pulsa «Evaluar otro alumno» y quedará aquí.", "No students saved yet. When you have a student’s grade, press “Assess another student” and it will appear here."],
+      ["Evaluación de alumnos · {}", "Student assessment · {}"],
+      ["El alumno que estás evaluando aún no está completo y se perderá. ¿Continuar?", "The student you are assessing is not complete yet and will be lost. Continue?"],
+      ["¿Eliminar a todos los alumnos guardados?", "Delete all saved students?"],
+      ["Peso: {} %", "Weight: {}%"],
+      ["Suma: {} sobre 10", "Total: {} out of 10"],
+      ["{} punto", "{} point"],
+      ["{} puntos", "{} points"],
+      ["Alumno {}", "Student {}"],
+      ["«{}» está guardado en la lista; los cambios se guardan solos.", "“{}” is saved in the list; changes are saved automatically."],
+      ["¿Eliminar a «{}» de la lista?", "Remove “{}” from the list?"],
+      ["{}: {} ({} de {} puntos) × peso {} % = {}", "{}: {} ({} of {} points) × weight {}% = {}"],
+      ['Te faltan {} {} por rellenar (nombres de criterio o descriptores).', (n) => `You still need to fill in ${n} field${n == 1 ? '' : 's'} (criterion names or descriptors).`],
+      ['Faltan {} criterio{} por valorar.', (n, s) => `${n} criteri${n == 1 ? 'on' : 'a'} still to assess.`],
+      ['El PDF incluirá {} alumno{}.', (n, s) => `The PDF will include ${n} student${n == 1 ? '' : 's'}.`]
+    ];
+    const DXM = new Map(), DXR = [], dxn = s => s.replace(/\s+/g, ' ').trim();
+    DXL.forEach(([k, v]) => { k = dxn(k); if (k.includes('{}')) DXR.push([new RegExp('^' + k.replace(/[.*+?^$()|[\]\\]/g, '\\$&').replace(/\{\}/g, '(.*?)') + '$'), v]); else DXM.set(k, v) });
+    function dtx(s) {
+      if (!EN || typeof s !== 'string') return null;
+      const k = dxn(s); if (!k) return null;
+      let r = DXM.get(k); if (r == null && Object.prototype.hasOwnProperty.call(I18N, k)) r = I18N[k];
+      if (r == null) for (const [re, v] of DXR) { const m = k.match(re); if (m) { let i = 1; r = typeof v === 'function' ? v(...m.slice(1)) : v.replace(/\{\}/g, () => m[i++]); break } }
+      return r == null || r === k ? null : s.replace(s.trim(), () => r);
+    }
+    function dmap(o) { for (const k in o) { const v = o[k]; if (typeof v === 'string') { const t = dtx(v); if (t != null) o[k] = t } else if (v && typeof v === 'object') dmap(v) } return o }
+    const dxSkip = /^(SCRIPT|STYLE|TEXTAREA|INPUT|CODE|SVG)$/i;
+    function dxWalk(n) {
+      if (n.nodeType === 3) { const v = dtx(n.nodeValue); if (v != null) n.nodeValue = v }
+      else if (n.nodeType === 1 && !dxSkip.test(n.tagName)) { dxAttr(n); n.childNodes.forEach(dxWalk) }
+    }
+    function dxAttr(n, only) { (only ? [only] : ['placeholder', 'aria-label', 'title']).forEach(a => { if (n.hasAttribute(a)) { const v = dtx(n.getAttribute(a)); if (v != null) n.setAttribute(a, v) } }) }
+    const dxAll = () => dxWalk(document.body);
+    if (EN) {
+      ['confirm', 'alert', 'prompt'].forEach(f => { const o = window[f].bind(window); window[f] = (m, ...r) => o(dtx(String(m)) ?? m, ...r) });
+      new MutationObserver(ms => ms.forEach(m => {
+        if (m.type === 'characterData') dxWalk(m.target);
+        else if (m.type === 'attributes') dxAttr(m.target, m.attributeName);
+        else m.addedNodes.forEach(dxWalk);
+      })).observe(document.body, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['placeholder', 'aria-label', 'title'] });
     }
     i18nStatic();
     const langBtn = document.getElementById('lang');
@@ -4668,7 +4831,7 @@
     const col = e => `hsl(${(e.i * 67 + 220) % 360} 62% 48%)`;
     const plRows = $('pl-rows');
     let PLAN = null, IMP = [];
-    const DESC = '¡Mucha suerte y a darle caña!\n\nRutina automatizada con Aulalia';
+    const DESC = tr('¡Mucha suerte y a darle caña!\n\nRutina automatizada con Aulalia', 'Good luck, you’ve got this!\n\nRoutine automated with Aulalia');
     function addPlRow(s = '', d = '', g = '', p = '1') {
       const r = document.createElement('div'); r.className = 'pe';
       r.innerHTML = '<label class="fld f-s"><span>Asignatura</span><input class="s" placeholder="Ej.: Matemáticas"></label><label class="fld"><span>Fecha del examen</span><input class="d" type="date"></label><label class="fld"><span>Nota actual</span><input class="g" inputmode="decimal" placeholder="0–10"></label><label class="fld"><span>Prioridad</span><select class="p"><option value="1">Normal</option><option value="1.5">Alta</option><option value=".6">Baja</option></select></label><button type="button" class="x" aria-label="Quitar examen">×</button>';
@@ -4754,9 +4917,9 @@
     $('pl-dl').onclick = () => {
       if (!PLAN) return;
       const z = s => String(s).replace(/([\\,;])/g, '\\$1').replace(/\n/g, '\\n'), dk = k => k.replace(/-/g, ''), stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z';
-      const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Aulalia//Planificador de estudio//ES', 'CALSCALE:GREGORIAN', 'X-WR-CALNAME:Plan de estudio Aulalia'];
-      PLAN.E.forEach(e => L.push('BEGIN:VEVENT', 'UID:ex-' + e.i + '-' + dk(e.d) + '@aulalia', 'DTSTAMP:' + stamp, 'DTSTART;VALUE=DATE:' + dk(e.d), 'SUMMARY:' + z('Examen de ' + e.s), 'END:VEVENT'));
-      PLAN.days.forEach(d => d.blocks.forEach(b => L.push('BEGIN:VEVENT', 'UID:st-' + dk(d.key) + '-' + b.e.i + '@aulalia', 'DTSTAMP:' + stamp, 'DTSTART:' + dk(d.key) + 'T' + hhmm(b.a), 'DTEND:' + dk(d.key) + 'T' + hhmm(b.b), 'SUMMARY:' + z('Estudiar ' + b.e.s), 'DESCRIPTION:' + z(DESC), 'END:VEVENT')));
+      const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Aulalia//Planificador de estudio//ES', 'CALSCALE:GREGORIAN', tr('X-WR-CALNAME:Plan de estudio Aulalia', 'X-WR-CALNAME:Aulalia study plan')];
+      PLAN.E.forEach(e => L.push('BEGIN:VEVENT', 'UID:ex-' + e.i + '-' + dk(e.d) + '@aulalia', 'DTSTAMP:' + stamp, 'DTSTART;VALUE=DATE:' + dk(e.d), 'SUMMARY:' + z(tr('Examen de ', 'Exam: ') + e.s), 'END:VEVENT'));
+      PLAN.days.forEach(d => d.blocks.forEach(b => L.push('BEGIN:VEVENT', 'UID:st-' + dk(d.key) + '-' + b.e.i + '@aulalia', 'DTSTAMP:' + stamp, 'DTSTART:' + dk(d.key) + 'T' + hhmm(b.a), 'DTEND:' + dk(d.key) + 'T' + hhmm(b.b), 'SUMMARY:' + z(tr('Estudiar ', 'Study: ') + b.e.s), 'DESCRIPTION:' + z(DESC), 'END:VEVENT')));
       L.push('END:VCALENDAR');
       const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([L.map(l => l.replace(/(.{60})(?=.)/g, '$1\r\n ')).join('\r\n')], { type: 'text/calendar;charset=utf-8' })); a.download = 'plan-de-estudio.ics'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
     };
@@ -4770,7 +4933,7 @@
     $('vista-planificador').addEventListener('input', () => { plSave(); plan() });
 
     /* ---- Generador de rúbricas ---- */
-    const RLV = ['Insuficiente', 'Suficiente', 'Notable', 'Sobresaliente'];
+    const RLV = tr(['Insuficiente', 'Suficiente', 'Notable', 'Sobresaliente'], ['Insufficient', 'Satisfactory', 'Good', 'Excellent']);
     const RT = {
       blank: ['Rúbrica de evaluación', [['', 34, []], ['', 33, []], ['', 33, []]]],
       oral: ['Rúbrica de exposición oral', [
@@ -4786,6 +4949,7 @@
         ['Colaboración y respeto', 30, ['Hay conflictos sin resolver.', 'Colabora solo cuando se le pide.', 'Escucha y colabora con respeto.', 'Escucha, motiva al grupo y resuelve los desacuerdos.']],
         ['Resultado final', 40, ['Incompleto o fuera del enunciado.', 'Cumple lo básico, con errores.', 'Cumple lo pedido con calidad.', 'Supera lo pedido, con calidad y creatividad.']]]]
     };
+    if (EN) dmap(RT);
     const rbFrom = k => ({ title: RT[k][0], subj: '', lv: RLV.map((n, i) => ({ n, p: i + 1 })), cr: RT[k][1].map(c => ({ n: c[0], w: c[1], d: [...c[2]] })), stu: true, obs: true });
     let RU;
     try { RU = JSON.parse(localStorage.getItem('aulalia-rubrica')) } catch (e) { }
@@ -4849,7 +5013,7 @@
       else if (id === 'rb-eval') rbMode('eval', 1);
       else if (id === 'rb-back') rbMode('edit', 1);
       else if (id === 'rb-reset') { EV.cur = { id: null, name: '', s: [] }; evDraw() }
-      else if (id === 'rb-print') { rbDraw(); const t = document.title; document.title = RU.title || 'Rúbrica'; window.print(); document.title = t }
+      else if (id === 'rb-print') { rbDraw(); const t = document.title; document.title = RU.title || tr('Rúbrica', 'Rubric'); window.print(); document.title = t }
     });
     rbFill();
 
@@ -4916,7 +5080,7 @@
       if (!r.mx || !r.tw) { o.innerHTML = '<p class="err">Para calcular la nota, los niveles necesitan puntos y los criterios, peso.</p>'; return }
       if (!r.ok) { o.innerHTML = `<p class="sub" style="margin:0">Faltan ${n - done} criterio${n - done > 1 ? 's' : ''} por valorar.</p>`; return }
       const cnt = EV.list.length + (c.id == null ? 1 : 0);
-      EV.txt = [RU.title + (RU.subj ? ' · ' + RU.subj : ''), c.name.trim() ? 'Alumno/a: ' + c.name.trim() : '', 'Nota: ' + fmt(r.g) + ' / 10', ...r.rows.map(w => '- ' + (w.c.n || 'Criterio') + ': ' + w.l.n + ' (' + fmt(w.l.p) + ' pts)')].filter(Boolean).join('\n');
+      EV.txt = [RU.title + (RU.subj ? ' · ' + RU.subj : ''), c.name.trim() ? tr('Alumno/a: ', 'Student: ') + c.name.trim() : '', tr('Nota: ', 'Grade: ') + fmt(r.g) + ' / 10', ...r.rows.map(w => '- ' + (w.c.n || tr('Criterio', 'Criterion')) + ': ' + w.l.n + ' (' + fmt(w.l.p) + ' pts)')].filter(Boolean).join('\n');
       o.innerHTML = `<p class="result"><b>${fmt(r.g)}</b>sobre 10</p>` + (Math.abs(r.tw - 100) > 1e-6 ? `<p class="sub">Los pesos suman ${fmt(r.tw)} %: la nota se calcula de forma proporcional.</p>` : '') +
         `<details><summary>Ver el cálculo</summary><ol>${r.rows.map(w => `<li>${esc(w.c.n)}: ${esc(w.l.n)} (${fmt(w.l.p)} de ${fmt(r.mx)} puntos) × peso ${fmt(w.c.w)} % = ${fmt(w.v)}</li>`).join('')}<li>Suma: ${fmt(r.g)} sobre 10</li></ol></details>` +
         `<div class="evb"><button type="button" class="pri" data-ev="next">Evaluar otro alumno</button><button type="button" class="tog" data-ev="pdf">Exportar a PDF</button><button type="button" class="tog" data-ev="copy">Copiar resultado</button></div><p class="sub">El PDF incluirá ${cnt} alumno${cnt > 1 ? 's' : ''}.</p>`;
@@ -4938,7 +5102,7 @@
         `<table><thead><tr><th class="c1">Alumno</th>${RU.cr.map(c => `<th>${esc(c.n || 'Criterio')}<small>Peso: ${fmt(c.w)} %</small></th>`).join('')}<th class="cp">Nota</th></tr></thead><tbody>` +
         L.map((x, i) => { const r = evCalc(x.s); return `<tr><th scope="row" class="c1">${esc(evNm(x, i))}</th>${r.rows.map(w => `<td>${w ? esc(w.l.n) + '\n' + fmt(w.l.p) + ' ' + (w.l.p === 1 ? 'punto' : 'puntos') : '—'}</td>`).join('')}<td><b>${r.ok ? fmt(r.g) : '—'}</b></td></tr>` }).join('') +
         `</tbody></table>` + (mx ? `<p class="rb-n">Nota sobre 10 = suma de (puntos ÷ ${fmt(mx)} × peso %) ÷ 10.</p>` : '');
-      EV.t = document.title; document.title = (RU.title || 'Rúbrica') + ' - alumnos';
+      EV.t = document.title; document.title = (RU.title || tr('Rúbrica', 'Rubric')) + tr(' - alumnos', ' - students');
       document.body.classList.add('pr-rep');
       window.print();
     }
@@ -4988,6 +5152,57 @@
     const nwNat = c => !c || /^(todas|toda espa)/i.test(String(c).trim());
     let nwTag = '', nwMode = '', nwFrom = '#noticias';
     const nwPool = () => nwMode === 'pau' ? NW.filter(n => n.tags.includes('PAU')) : NW;
+    /* traducción automática de noticias: Translator del navegador (en el dispositivo) o MyMemory; se guarda en caché */
+    const NT = { c: (() => { try { return JSON.parse(localStorage.getItem('aulalia-nt') || '{}') } catch (e) { return {} } })(), busy: new Set(), chain: Promise.resolve(), eng: null, fail: false, orig: false };
+    const ntK = s => { let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36) + '.' + s.length };
+    NT.get = s => { if (!s) return ''; const v = NT.c[ntK(s)]; return v == null ? null : v };
+    NT.put = (s, v) => { NT.c[ntK(s)] = v; const ks = Object.keys(NT.c); if (ks.length > 400) delete NT.c[ks[0]]; try { localStorage.setItem('aulalia-nt', JSON.stringify(NT.c)) } catch (e) { } };
+    function ntEngine() {
+      return NT.eng || (NT.eng = (async () => {
+        try {
+          if ('Translator' in window) {
+            const o = { sourceLanguage: 'es', targetLanguage: 'en' };
+            if (await Translator.availability(o) !== 'unavailable') { const t = await Translator.create(o); return async s => t.translate(s) }
+          }
+        } catch (e) { }
+        return async s => {
+          const r = await fetch('https://api.mymemory.translated.net/get?langpair=es|en&q=' + encodeURIComponent(s)), j = await r.json(), o = j && j.responseData && j.responseData.translatedText;
+          if (!r.ok || !o || +j.responseStatus !== 200 || /MYMEMORY WARNING|PLEASE SELECT/i.test(o)) throw new Error('mm');
+          const d = document.createElement('textarea'); d.innerHTML = o; return d.value;
+        };
+      })());
+    }
+    const ntChunks = p => {
+      const out = []; let cur = '';
+      (p.match(/[^.!?]+(?:[.!?]+["»”)]*|$)\s*/g) || [p]).forEach(sn => { if (cur && (cur + sn).length > 420) { out.push(cur); cur = '' } cur += sn; while (cur.length > 480) { out.push(cur.slice(0, 450)); cur = cur.slice(450) } });
+      if (cur.trim()) out.push(cur); return out;
+    };
+    async function ntRun(s) {
+      const f = await ntEngine(), res = [];
+      for (const p of s.split(/\n+/)) { if (!p.trim()) continue; const parts = []; for (const c of ntChunks(p)) parts.push((await f(c)).trim()); res.push(parts.join(' ')) }
+      return res.join('\n');
+    }
+    function ntLoad(n) {
+      [n.titulo, n.txt].forEach(s => {
+        if (!s || NT.get(s) != null || NT.busy.has(s) || NT.fail) return;
+        NT.busy.add(s);
+        NT.chain = NT.chain.then(async () => {
+          try { NT.put(s, await ntRun(s)) } catch (e) { NT.fail = true; NT.eng = null; setTimeout(() => { NT.fail = false }, 120000) }
+          NT.busy.delete(s); nwRefresh();
+        });
+      });
+    }
+    function nwX(n) {
+      if (!EN || NT.orig) return { t: n.titulo, x: n.txt, st: '' };
+      const t = NT.get(n.titulo), x = NT.get(n.txt), ok = t != null && x != null;
+      if (!ok) ntLoad(n);
+      return { t: t ?? n.titulo, x: x ?? n.txt, st: ok ? 'done' : NT.fail ? 'fail' : 'wait' };
+    }
+    const nwB = st => !EN ? '' : st === 'done' ? '<span class="badge">Auto-translated</span>' : st === 'wait' ? '<span class="badge">Translating…</span>' : st === 'fail' ? '<span class="badge">Original (Spanish)</span>' : '';
+    const nwNote = st => !EN ? '' : `<p class="sub" style="margin-top:14px">${NT.orig ? 'Showing the original Spanish. <button type="button" class="link" data-nt>Show translation</button>' : st === 'done' ? 'Automatically translated from Spanish; it may contain errors. <button type="button" class="link" data-nt>Show original</button>' : st === 'wait' ? 'Translating from Spanish…' : 'Automatic translation is not available right now; showing the original Spanish.'}</p>`;
+    let nwCur = '';
+    function nwRefresh() { if ($('nw-list').offsetParent) nwDraw(); if (nwCur && $('nd-box').offsetParent) nwDetail(nwCur, true) }
+    $('nd-box').addEventListener('click', e => { if (e.target.closest('[data-nt]')) { NT.orig = !NT.orig; nwDetail(nwCur, true); nwDraw() } });
     function nwShow(mode) {
       if (mode !== nwMode) {
         nwMode = mode; nwTag = ''; $('nw-q').value = '';
@@ -5003,17 +5218,17 @@
     }
     function nwDraw() {
       const words = norm($('nw-q').value).split(/\s+/).filter(Boolean), com = $('nw-c').value, pool = nwPool();
-      const hits = pool.filter(n => (!nwTag || n.tags.includes(nwTag)) && (!com || nwNat(n.comunidad) || n.comunidad === com) && words.every(w => norm([n.titulo, n.txt, n.fuente, n.comunidad, n.tags.join(' ')].join(' ')).includes(w)));
+      const hits = pool.filter(n => (!nwTag || n.tags.includes(nwTag)) && (!com || nwNat(n.comunidad) || n.comunidad === com) && words.every(w => norm([n.titulo, n.txt, nwX(n).t, nwX(n).x, n.fuente, n.comunidad, n.tags.join(' ')].join(' ')).includes(w)));
       const N = hits.length;
       $('nw-n').textContent = !pool.length ? tr('Todavía no hay noticias publicadas. Vuelve pronto.', 'No news published yet. Check back soon.') : N ? tr(`${N} noticia${N > 1 ? 's' : ''}`, `${N} item${N > 1 ? 's' : ''}`) : tr('No hay noticias con esos filtros.', 'No news match those filters.');
       const html = hits.map(n => {
-        const d = new Date(n.fecha + 'T00:00:00'), age = (Date.now() - d) / 864e5;
+        const X = nwX(n), d = new Date(n.fecha + 'T00:00:00'), age = (Date.now() - d) / 864e5;
         const fecha = d.toLocaleDateString(LOC, { day: 'numeric', month: 'long', year: 'numeric' });
         const link = /^https?:\/\//i.test(n.enlace || '') ? `<a href="${esc(n.enlace)}" target="_blank" rel="noopener noreferrer">${tr('Ver la fuente', 'View the source')}<span class="sr-only"> ${tr('(se abre en otra pestaña)', '(opens in a new tab)')}</span></a>` : '';
         return `<article class="nw${n.importante ? ' imp' : ''}" data-id="${esc(n.id)}"><div class="nw-m"><time datetime="${esc(n.fecha)}">${esc(fecha)}</time>` +
           (n.ejemplo ? `<span class="badge ex">${tr('Ejemplo', 'Example')}</span>` : age >= -1 && age <= 14 ? `<span class="badge new">${tr('Nueva', 'New')}</span>` : '') +
-          n.tags.map(t => `<span class="badge">${esc(nwL(t))}</span>`).join('') + (nwNat(n.comunidad) ? '' : `<span>${esc(n.comunidad)}</span>`) + `</div>` +
-          `<h2>${esc(n.titulo)}</h2>` + (n.txt ? `<p class="nw-t">${esc(n.txt.replace(/\s+/g, ' '))}</p>` : '') +
+          n.tags.map(t => `<span class="badge">${esc(nwL(t))}</span>`).join('') + nwB(X.st) + (nwNat(n.comunidad) ? '' : `<span>${esc(n.comunidad)}</span>`) + `</div>` +
+          `<h2>${esc(X.t)}</h2>` + (X.x ? `<p class="nw-t">${esc(X.x.replace(/\s+/g, ' '))}</p>` : '') +
           `<div class="nw-f">${n.fuente ? `<span>${tr('Fuente', 'Source')}: ${esc(n.fuente)}</span>` : ''}${link}<a class="nw-more" href="#noticia-${esc(n.id)}" hidden>${tr('Leer noticia completa', 'Read full story')}</a></div></article>`;
       }).join('');
       if (nwDraw.last !== html) { nwDraw.last = html; $('nw-list').innerHTML = html }
@@ -5025,17 +5240,17 @@
         a.classList.toggle('more', m); a.querySelector('.nw-more').hidden = !m;
       });
     }
-    function nwDetail(id) {
+    function nwDetail(id, quiet) {
       const n = NW.find(x => x.id === id), box = $('nd-box');
       $('nd-back').href = nwFrom;
       $('nd-bt').textContent = tr('Volver a las noticias', 'Back to the news');
       if (!n) { box.innerHTML = `<h1 id="nd-t" tabindex="-1">${tr('Noticia no encontrada', 'News item not found')}</h1>`; document.title = tr('Noticia no encontrada', 'News item not found') + ' · Aulalia'; return $('nd-t').focus({ preventScroll: true }) }
-      const d = new Date(n.fecha + 'T00:00:00'), fecha = d.toLocaleDateString(LOC, { day: 'numeric', month: 'long', year: 'numeric' });
+      const X = nwX(n); nwCur = id; const d = new Date(n.fecha + 'T00:00:00'), fecha = d.toLocaleDateString(LOC, { day: 'numeric', month: 'long', year: 'numeric' });
       const link = /^https?:\/\//i.test(n.enlace || '') ? `<a href="${esc(n.enlace)}" target="_blank" rel="noopener noreferrer">${tr('Ver la fuente', 'View the source')}<span class="sr-only"> ${tr('(se abre en otra pestaña)', '(opens in a new tab)')}</span></a>` : '';
-      box.innerHTML = `<div class="nw-m"><time datetime="${esc(n.fecha)}">${esc(fecha)}</time>${n.ejemplo ? `<span class="badge ex">${tr('Ejemplo', 'Example')}</span>` : ''}${n.tags.map(t => `<span class="badge">${esc(nwL(t))}</span>`).join('')}${nwNat(n.comunidad) ? '' : `<span>${esc(n.comunidad)}</span>`}</div>` +
-        `<h1 id="nd-t" tabindex="-1">${esc(n.titulo)}</h1>` + n.txt.split(/\n+/).filter(p => p.trim()).map(p => `<p>${esc(p)}</p>`).join('') +
-        (n.fuente || link ? `<div class="nw-f">${n.fuente ? `<span>${tr('Fuente', 'Source')}: ${esc(n.fuente)}</span>` : ''}${link}</div>` : '');
-      document.title = n.titulo + ' · Aulalia'; $('nd-t').focus({ preventScroll: true });
+      box.innerHTML = `<div class="nw-m"><time datetime="${esc(n.fecha)}">${esc(fecha)}</time>${n.ejemplo ? `<span class="badge ex">${tr('Ejemplo', 'Example')}</span>` : ''}${n.tags.map(t => `<span class="badge">${esc(nwL(t))}</span>`).join('')}${nwB(X.st)}${nwNat(n.comunidad) ? '' : `<span>${esc(n.comunidad)}</span>`}</div>` +
+        `<h1 id="nd-t" tabindex="-1">${esc(X.t)}</h1>` + X.x.split(/\n+/).filter(p => p.trim()).map(p => `<p>${esc(p)}</p>`).join('') +
+        (n.fuente || link ? `<div class="nw-f">${n.fuente ? `<span>${tr('Fuente', 'Source')}: ${esc(n.fuente)}</span>` : ''}${link}</div>` : '') + nwNote(X.st);
+      document.title = X.t + ' · Aulalia'; if (!quiet) $('nd-t').focus({ preventScroll: true });
     }
     $('nw-tags').addEventListener('click', e => {
       const b = e.target.closest('[data-c]'); if (!b) return;
@@ -5515,6 +5730,8 @@
       }));
       return [...m.values()].map(u => { const k = norm(u.n); return { n: u.n, ai: u.ai, w: tbW(...u.base, ...TBX.filter(r => r[0].test(k)).map(r => r[1])) } });
     })();
+const TBN = {"Medicina": "Medicine", "Enfermería": "Nursing", "Farmacia": "Pharmacy", "Odontología": "Dentistry", "Veterinaria": "Veterinary Medicine", "Fisioterapia": "Physiotherapy", "Psicología": "Psychology", "Nutrición Humana y Dietética": "Human Nutrition and Dietetics", "Óptica y Optometría": "Optics and Optometry", "Logopedia": "Speech Therapy", "Terapia Ocupacional": "Occupational Therapy", "Podología": "Podiatry", "Biomedicina": "Biomedicine", "Biotecnología": "Biotechnology", "Bioquímica": "Biochemistry", "Biología Sanitaria": "Health Biology", "Ciencias Biomédicas": "Biomedical Sciences", "Genética": "Genetics", "Neurociencia": "Neuroscience", "Audiología General": "General Audiology", "Ciencias de la Actividad Física y del Deporte": "Physical Activity and Sport Sciences", "Terapias Naturales": "Natural Therapies", "Salud Pública": "Public Health", "Ciencia y Tecnología de los Alimentos": "Food Science and Technology", "Ingeniería Informática": "Computer Engineering", "Ingeniería del Software": "Software Engineering", "Ingeniería de Computadores": "Computer Systems Engineering", "Ingeniería de Datos": "Data Engineering", "Inteligencia Artificial": "Artificial Intelligence", "Ciencia de Datos": "Data Science", "Ciberseguridad": "Cybersecurity", "Ingeniería Multimedia": "Multimedia Engineering", "Ingeniería de Telecomunicación": "Telecommunications Engineering", "Ingeniería Electrónica": "Electronic Engineering", "Ingeniería Eléctrica": "Electrical Engineering", "Ingeniería Mecánica": "Mechanical Engineering", "Ingeniería Industrial": "Industrial Engineering", "Ingeniería de Organización Industrial": "Industrial Organisation Engineering", "Ingeniería de Diseño Industrial y Desarrollo del Producto": "Industrial Design and Product Development Engineering", "Ingeniería Aeroespacial": "Aerospace Engineering", "Ingeniería Aeronáutica": "Aeronautical Engineering", "Ingeniería Naval": "Naval Engineering", "Ingeniería de Automoción": "Automotive Engineering", "Ingeniería Robótica": "Robotics Engineering", "Ingeniería Biomédica": "Biomedical Engineering", "Ingeniería Química": "Chemical Engineering", "Ingeniería de Materiales": "Materials Engineering", "Ingeniería Civil": "Civil Engineering", "Ingeniería de Caminos, Canales y Puertos": "Civil Engineering (Roads, Canals and Ports)", "Ingeniería de Minas": "Mining Engineering", "Ingeniería Geológica": "Geological Engineering", "Ingeniería de Energías Renovables": "Renewable Energy Engineering", "Ingeniería de la Energía": "Energy Engineering", "Ingeniería Forestal": "Forestry Engineering", "Ingeniería Agrícola": "Agricultural Engineering", "Ingeniería Agroalimentaria": "Agri-food Engineering", "Ingeniería Ambiental": "Environmental Engineering", "Ingeniería Geomática y Topografía": "Geomatics and Surveying Engineering", "Arquitectura": "Architecture", "Fundamentos de la Arquitectura": "Foundations of Architecture", "Arquitectura Técnica": "Technical Architecture", "Ingeniería de Edificación": "Building Engineering", "Ingeniería de Sonido e Imagen": "Sound and Image Engineering", "Ingeniería Física": "Engineering Physics", "Ingeniería Matemática": "Mathematical Engineering", "Matemáticas": "Mathematics", "Física": "Physics", "Química": "Chemistry", "Biología": "Biology", "Geología": "Geology", "Ciencias Ambientales": "Environmental Sciences", "Ciencias del Mar": "Marine Sciences", "Geografía": "Geography", "Estadística": "Statistics", "Astronomía": "Astronomy", "Astrofísica": "Astrophysics", "Nanociencia y Nanotecnología": "Nanoscience and Nanotechnology", "Ciencias Experimentales": "Experimental Sciences", "Ciencias y Tecnología de los Alimentos": "Food Sciences and Technology", "Microbiología": "Microbiology", "Biología Molecular": "Molecular Biology", "Ciencias de la Tierra": "Earth Sciences", "Derecho": "Law", "Administración y Dirección de Empresas (ADE)": "Business Administration and Management (ADE)", "Economía": "Economics", "Finanzas y Contabilidad": "Finance and Accounting", "Marketing": "Marketing", "Publicidad y Relaciones Públicas": "Advertising and Public Relations", "Periodismo": "Journalism", "Comunicación Audiovisual": "Audiovisual Communication", "Relaciones Internacionales": "International Relations", "Ciencias Políticas": "Political Science", "Sociología": "Sociology", "Trabajo Social": "Social Work", "Educación Social": "Social Education", "Antropología Social y Cultural": "Social and Cultural Anthropology", "Criminología": "Criminology", "Relaciones Laborales y Recursos Humanos": "Labour Relations and Human Resources", "Turismo": "Tourism", "Comercio": "Commerce", "Comercio Internacional": "International Trade", "Estadística Aplicada": "Applied Statistics", "Gestión y Administración Pública": "Public Management and Administration", "Ciencia Política y Gestión Pública": "Political Science and Public Management", "Comunicación Digital": "Digital Communication", "Información y Documentación": "Information and Documentation", "Geografía y Ordenación del Territorio": "Geography and Spatial Planning", "Ciencias de la Seguridad": "Security Sciences", "Economía Financiera y Actuarial": "Financial and Actuarial Economics", "Gestión Deportiva": "Sports Management", "Protocolo y Organización de Eventos": "Protocol and Event Organisation", "Marketing e Investigación de Mercados": "Marketing and Market Research", "Inteligencia de Negocios": "Business Intelligence", "Educación Infantil": "Early Childhood Education", "Educación Primaria": "Primary Education", "Pedagogía": "Pedagogy", "Psicopedagogía": "Educational Psychology", "Educación Especial": "Special Education", "Ciencias de la Educación": "Education Sciences", "Educación Física": "Physical Education", "Educación Musical": "Music Education", "Educación Artística": "Arts Education", "Bellas Artes": "Fine Arts", "Diseño Gráfico": "Graphic Design", "Diseño de Moda": "Fashion Design", "Diseño de Interiores": "Interior Design", "Diseño de Producto": "Product Design", "Diseño Digital": "Digital Design", "Diseño Industrial": "Industrial Design", "Diseño y Desarrollo de Videojuegos": "Video Game Design and Development", "Animación": "Animation", "Ilustración": "Illustration", "Conservación y Restauración de Bienes Culturales": "Conservation and Restoration of Cultural Heritage", "Historia del Arte": "Art History", "Artes Digitales": "Digital Arts", "Creación Artística": "Artistic Creation", "Fotografía": "Photography", "Gestión Cultural": "Cultural Management", "Comunicación Corporativa": "Corporate Communication", "Comunicación Estratégica": "Strategic Communication", "Cine y Medios Audiovisuales": "Film and Audiovisual Media", "Producción Audiovisual": "Audiovisual Production", "Comunicación Transmedia": "Transmedia Communication", "Historia": "History", "Filosofía": "Philosophy", "Filología Hispánica": "Hispanic Philology", "Estudios Ingleses": "English Studies", "Estudios Franceses": "French Studies", "Estudios Alemanes": "German Studies", "Estudios Clásicos": "Classical Studies", "Filología Catalana": "Catalan Philology", "Filología Gallega": "Galician Philology", "Filología Vasca": "Basque Philology", "Filología Árabe": "Arabic Philology", "Filología Románica": "Romance Philology", "Traducción e Interpretación": "Translation and Interpreting", "Lenguas Modernas": "Modern Languages", "Lingüística": "Linguistics", "Literatura Comparada": "Comparative Literature", "Humanidades": "Humanities", "Estudios Literarios": "Literary Studies", "Estudios Internacionales": "International Studies", "Arqueología": "Archaeology", "Musicología": "Musicology", "Historia y Ciencias de la Música": "History and Music Sciences", "Deporte y Recreación": "Sport and Recreation", "Gestión del Deporte": "Sport Management", "Biología Ambiental": "Environmental Biology", "Enología": "Oenology", "Gastronomía": "Gastronomy", "Ingeniería de Montes": "Forest Engineering", "Ingeniería del Medio Natural": "Natural Environment Engineering", "Ciencias Agrarias": "Agricultural Sciences", "Producción Animal": "Animal Production", "Seguridad": "Security", "Gestión de Emergencias": "Emergency Management", "Estudios Militares": "Military Studies", "Náutica y Transporte Marítimo": "Nautical Science and Maritime Transport", "Ingeniería Marítima": "Maritime Engineering", "Logística y Transporte": "Logistics and Transport"};
+    const tbN = n => (EN && TBN[n]) || n;
     const TB = { lv: 'eso', len: 's', i: 0, ans: [], qs: [], more: false, lock: false };
     const tbScore = (w, s) => { let a = 0, b = 0; for (const k in w) { a += w[k] * s[k]; b += w[k] } return b ? a / b + a * 0.0005 : 0 };
     const tbSeg = (ids, on) => ids.forEach((id, i) => $(id).setAttribute('aria-pressed', i === on));
@@ -5555,7 +5772,7 @@
       const by = b => [tr(b[0], b[1]), tr(b[3], b[4]), tbScore(tbW(b[2]), s)];
       const A = {
         eso: TBR.eso.map(by), bach: TBR.bach.map(by),
-        uni: TBU.map(u => [u.n, TBA[u.ai][EN ? 1 : 0], tbScore(u.w, s)])
+        uni: TBU.map(u => [tbN(u.n), TBA[u.ai][EN ? 1 : 0], tbScore(u.w, s)])
       };
       for (const k in A) A[k].sort((a, b) => b[2] - a[2]);
       const L = A[TB.lv], lim = TB.lv === 'uni' ? (TB.more ? 30 : 10) : L.length;
@@ -5637,12 +5854,12 @@
     function pdFind() {
       const ws = norm($('pd-q').value).split(/\s+/).filter(Boolean), box = $('pd-res');
       if (!ws.length) { box.innerHTML = '<span class="sub" style="margin:0">' + tr('Escribe el nombre de un grado.', 'Type the name of a degree.') + '</span>'; return }
-      const hits = TBU.map((u, i) => [u, i]).filter(x => ws.every(w => norm(x[0].n).includes(w))).slice(0, 14);
-      box.innerHTML = hits.length ? hits.map(x => `<button type="button" data-i="${x[1]}">${x[0].n}</button>`).join('') : tr('No hay grados con ese nombre.', 'No degrees match that name.');
+      const hits = TBU.map((u, i) => [u, i]).filter(x => ws.every(w => norm(x[0].n + ' ' + tbN(x[0].n)).includes(w))).slice(0, 14);
+      box.innerHTML = hits.length ? hits.map(x => `<button type="button" data-i="${x[1]}">${tbN(x[0].n)}</button>`).join('') : tr('No hay grados con ese nombre.', 'No degrees match that name.');
     }
     function pdShow(i) {
       const u = TBU[i], w = pdW(u), r = pdRama(u); PD.sel = i;
-      $('pd-h').textContent = u.n; $('pd-r').textContent = tr('Rama: ', 'Branch: ') + PRAMA[r][EN ? 1 : 0];
+      $('pd-h').textContent = tbN(u.n); $('pd-r').textContent = tr('Rama: ', 'Branch: ') + PRAMA[r][EN ? 1 : 0];
       const rows = Object.keys(w).sort((a, b) => w[b] - w[a]);
       $('pd-tb').innerHTML = `<table><tr><th>${tr('Materia', 'Subject')}</th><th>${tr('Ponderación', 'Weighting')}</th></tr>${rows.map(k => `<tr><td>${PSN(k)}</td><td><b>${pf(w[k])}</b></td></tr>`).join('')}</table>`;
       $('pd-n').textContent = tr('Referencia orientativa por rama y nombre del grado. Cada universidad publica su propia tabla (puede ponderar otras materias o con otros valores): consúltala antes de elegir materias. Las no listadas suelen ponderar 0.', 'Indicative reference by branch and degree name. Each university publishes its own table (it may weight other subjects or use other values): check it before choosing subjects. Unlisted subjects usually weigh 0.');
@@ -5655,7 +5872,7 @@
     function pauInit() {
       const rs = $('pau-rows');
       if (!rs.children.length) {
-        $('pau-gl').innerHTML = TBU.map(u => `<option value="${u.n}">`).join('');
+        $('pau-gl').innerHTML = TBU.map(u => `<option value="${tbN(u.n)}">`).join('');
         for (let i = 0; i < 4; i++) {
           const d = document.createElement('div'); d.className = 'pau-r';
           d.innerHTML = `<select class="ps" aria-label="${tr('Materia', 'Subject')} ${i + 1}"><option value="">${tr('Materia ' + (i + 1) + ' (ninguna)', 'Subject ' + (i + 1) + ' (none)')}</option>${PSUB.map(p => `<option value="${p[0]}">${p[EN ? 2 : 1]}</option>`).join('')}</select><input class="pn" inputmode="decimal" placeholder="${tr('Nota', 'Mark')}" aria-label="${tr('Nota', 'Mark')} ${i + 1}"><select class="pw" aria-label="${tr('Ponderación', 'Weighting')} ${i + 1}"><option value="0">0</option><option value="0.1">${pf(0.1)}</option><option value="0.2">${pf(0.2)}</option></select>`;
@@ -5664,10 +5881,10 @@
         rs.addEventListener('change', e => { if (e.target.classList.contains('ps')) pauAuto(e.target.parentNode); pauCalc() });
         document.getElementById('vista-simulador-pau').addEventListener('input', e => { if (e.target.id === 'pau-g') pauDeg(); pauCalc() });
       }
-      $('pau-g').value = PD.sel != null ? TBU[PD.sel].n : ''; [...rs.children].forEach(pauAuto); pauCalc();
+      $('pau-g').value = PD.sel != null ? tbN(TBU[PD.sel].n) : ''; [...rs.children].forEach(pauAuto); pauCalc();
     }
     function pauDeg() {
-      const k = norm($('pau-g').value.trim()), i = TBU.findIndex(u => norm(u.n) === k);
+      const k = norm($('pau-g').value.trim()), i = TBU.findIndex(u => norm(u.n) === k || norm(tbN(u.n)) === k);
       PD.sel = i < 0 ? null : i; [...$('pau-rows').children].forEach(pauAuto);
     }
     function pauCalc() {
@@ -5747,6 +5964,8 @@
       const sync = () => { const s = window.scrollY > 4; if (s !== on) { on = s; hdr.classList.toggle('scrolled', s) } };
       addEventListener('scroll', sync, { passive: true }); sync();
     })();
+
+    if (EN) dxAll();
 
     /* ---- Modo claro / oscuro (sigue al sistema hasta que se elige a mano) ---- */
     const themeBtn = document.getElementById('theme'); let themeN = 0;
