@@ -524,23 +524,17 @@
       font-size: .95rem
     }
 
-    /* corrector de ejercicios */
-    .co-ok { --c: #1A7F37 }
-    .co-bad { --c: var(--bad) }
-    .co-carry, .co-mid { --c: #B7791F }
-    .co-unk, .co-info { --c: var(--muted) }
-    :root[data-theme="dark"] .co-ok { --c: #5BD08A }
-    :root[data-theme="dark"] .co-carry, :root[data-theme="dark"] .co-mid { --c: #E8B04A }
-    #co-out h3 { font: 600 1rem var(--head); margin: 18px 0 8px }
-    .co-v, .co-ln li { border: 1px solid var(--line); border-left: 4px solid var(--c, var(--line)); border-radius: 8px }
-    .co-v { padding: 12px 14px; font-weight: 600; background: var(--bg) }
-    .co-ln, .co-sol { margin: 0; padding-left: 1.5em; display: grid; gap: 8px }
-    .co-ln li { padding: 8px 10px }
-    .co-ln code { display: block; font: 600 .95rem ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere }
-    .co-ln span { display: block; margin-top: 2px; color: var(--muted); font-size: .92rem }
-    .co-sol li { overflow-wrap: anywhere; line-height: 1.5 }
-    #co-out>* { animation: coIn .35s cubic-bezier(.22, .8, .3, 1) both }
-    @keyframes coIn { from { opacity: 0; transform: translateY(6px) } }
+    /* generador de ejercicios */
+    .ej-l { margin: 0; padding-left: 1.5em; display: grid; gap: 12px }
+    .ej-l>li { padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface) }
+    .ej-k { display: inline-block; font: 600 .78rem var(--body); text-transform: uppercase; letter-spacing: .04em; color: var(--muted) }
+    .ej-l p { margin: 4px 0 0; overflow-wrap: anywhere }
+    .ej-o { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 3px }
+    .ej-l details { margin-top: 8px }
+    .ej-l summary { cursor: pointer; color: var(--accent); font-weight: 600 }
+    .ej-note { margin: 0 0 12px; padding: 10px 12px; border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 8px }
+    #ej-out>* { animation: ejIn .35s cubic-bezier(.22, .8, .3, 1) both }
+    @keyframes ejIn { from { opacity: 0; transform: translateY(6px) } }
 
     table {
       border-collapse: collapse;
@@ -3309,12 +3303,12 @@
           <ul class="steps">
             <li>
               <h3>Utilidades</h3>
-              <p>La calculadora de notas, el test de rama, los códigos QR, las noticias y, próximamente, ejercicios.
+              <p>La calculadora de notas, el generador de ejercicios, el test de rama, los códigos QR y las noticias.
               </p>
             </li>
             <li>
               <h3>Aprendizaje</h3>
-              <p>El planificador de estudio, las flashcards, el corrector de ejercicios y, próximamente, resúmenes de PDF y explicaciones por nivel con IA.</p>
+              <p>El planificador de estudio, las flashcards y, próximamente, resúmenes de PDF.</p>
             </li>
             <li>
               <h3>Profesores</h3>
@@ -3578,14 +3572,14 @@
       </div>
     </section>
 
-    <section id="vista-corrector" class="view" hidden aria-labelledby="co-t">
+    <section id="vista-ejercicios" class="view" hidden aria-labelledby="ej-t">
       <div class="wrap">
         <a class="back" href="#inicio"><svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M15 5l-7 7 7 7" />
           </svg>Volver a las herramientas</a>
-        <h1 id="co-t" tabindex="-1">Corrector de ejercicios</h1>
-        <p class="intro">Escribe una ecuación (de 1.er o 2.º grado) o una operación combinada y tu resolución paso a paso: marco cada línea, te explico los errores y te muestro la resolución correcta. Se calcula en tu navegador: no se envía nada.</p>
-        <div id="co-app"></div>
+        <h1 id="ej-t" tabindex="-1">Generador de ejercicios</h1>
+        <p class="intro">Sube tu temario en PDF o imagen, o pega el texto, y genera ejercicios con sus soluciones. Todo se procesa en tu navegador: no se envía nada.</p>
+        <div id="ej-app"></div>
       </div>
     </section>
 
@@ -4157,9 +4151,9 @@
       "Ves el resultado y cómo se ha obtenido. En las herramientas con IA podrás volver a generarlo y copiarlo.": "You see the result and how it was obtained. In the AI tools you will be able to regenerate and copy it.",
       "Qué encontrarás": "What you will find",
       "Utilidades": "Utilities",
-      "La calculadora de notas, el test de rama, los códigos QR, las noticias y, próximamente, ejercicios.": "The grade calculator, the branch test, QR codes, news and, coming soon, exercises.",
+      "La calculadora de notas, el generador de ejercicios, el test de rama, los códigos QR y las noticias.": "The grade calculator, the exercise generator, the branch test, QR codes and news.",
       "Aprendizaje": "Learning",
-      "El planificador de estudio, las flashcards, el corrector de ejercicios y, próximamente, resúmenes de PDF y explicaciones por nivel con IA.": "The study planner, flashcards, the exercise checker and, coming soon, PDF summaries and AI explanations by level.",
+      "El planificador de estudio, las flashcards y, próximamente, resúmenes de PDF.": "The study planner, flashcards and, coming soon, PDF summaries.",
       "PAU y Universidad": "PAU and University",
       "Simulador de nota, noticias, exámenes oficiales y ponderaciones, siempre con su fuente.": "Grade simulator, news, official exams and subject weightings, always with their source.",
       "Profesores": "Teachers",
@@ -4355,8 +4349,8 @@
       "Usar en el simulador PAU": "Use in the PAU simulator"
     });
     Object.assign(I18N, {
-      "Corrector de ejercicios": "Exercise checker",
-      "Escribe una ecuación (de 1.er o 2.º grado) o una operación combinada y tu resolución paso a paso: marco cada línea, te explico los errores y te muestro la resolución correcta. Se calcula en tu navegador: no se envía nada.": "Type an equation (degree 1 or 2) or an arithmetic operation and your step-by-step working: I mark each line, explain the mistakes and show you the correct solution. It is calculated in your browser: nothing is sent."
+      "Generador de ejercicios": "Exercise generator",
+      "Sube tu temario en PDF o imagen, o pega el texto, y genera ejercicios con sus soluciones. Todo se procesa en tu navegador: no se envía nada.": "Upload your syllabus as a PDF or image, or paste the text, and generate exercises with their solutions. Everything is processed in your browser: nothing is sent."
     });
     function i18nStatic() {
       if (!EN) return;
@@ -4568,15 +4562,13 @@
       ["calculadora-notas", "Calculadora de notas", "Calcula tu media, simple o ponderada, y la nota que necesitas para llegar a tu objetivo.", "utilidades", "calc", "calculadora"],
       ["generador-examenes", "Generador de exámenes", "Diseña exámenes en hojas A4, con varios tipos (A–F), y expórtalos a PDF.", "profesores", "exam", "examenes"],
       ["control-clase", "Control de Clase", "Haz un control oral en clase: preguntas cortas por alumno, resultados y guardado.", "profesores", "check", "control"],
-      ["generador-ejercicios", "Generador de ejercicios", "Ejercicios a tu nivel, con soluciones explicadas.", "utilidades", "pen", 0],
+      ["generador-ejercicios", "Generador de ejercicios", "Importa tu temario en PDF, imagen o texto y genera ejercicios con sus soluciones.", "utilidades", "pen", "ejercicios"],
       ["planificador-estudio", "Planificador de estudio", "Crea una rutina de estudio según tus exámenes y tus notas, y expórtala a tu calendario.", "aprendizaje", "cal", "planificador"],
       ["noticias", "Noticias y Actualizaciones", "Novedades de educación en España y en el extranjero, con etiquetas para filtrarlas.", "utilidades", "news", "noticias"],
       ["generador-qr", "Generador de códigos QR", "Crea un código QR de un enlace o un texto y descárgalo en PNG o SVG.", "utilidades", "qr", "qr"],
       ["test-rama", "Test de rama", "Descubre qué rama o carrera te encaja en ESO, Bachillerato o la universidad, con test corto o largo.", "utilidades", "compass", "test-rama"],
-      ["corrector-ejercicios", "Corrector de ejercicios", "Corrige tu resolución paso a paso de ecuaciones y operaciones: marca los errores y muestra la resolución correcta.", "aprendizaje", "check", "corrector"],
       ["resumidor-pdf", "Resumidor de apuntes PDF", "Resúmenes cortos, medios o detallados de tus PDF.", "aprendizaje", "pdf", 0],
       ["generador-flashcards", "Generador de flashcards", "Sube tus apuntes y repasa con tarjetas de desarrollo, de completar la oración o de pregunta.", "aprendizaje", "cards", "flashcards"],
-      ["explicador-temas", "Explicador de temas con IA", "Explicaciones con ejemplos adaptadas a tu nivel.", "aprendizaje", "bulb", 0],
       ["simulador-pau", "Simulador y calculadora PAU", "Calcula tu nota de acceso (sobre 10) y de admisión (sobre 14) y compárala con la nota de corte.", "pau", "cap", "simulador-pau"],
       ["noticias-pau", "Noticias y actualizaciones PAU", "Novedades de fuentes oficiales, con fecha y enlace.", "pau", "news", "noticias-pau"],
       ["examenes-oficiales", "Buscador de exámenes oficiales", "Modelos y exámenes anteriores por comunidad, materia y año.", "pau", "find", "examenes-oficiales"],
@@ -4587,12 +4579,10 @@
       const T_EN = {
         "calculadora-notas": ["Grade calculator", "Work out your average, simple or weighted, and the grade you need to reach your target."],
         "generador-examenes": ["Exam generator", "Design exams on A4 sheets, with several versions (A–F), and export them to PDF."],
-        "generador-ejercicios": ["Exercise generator", "Exercises at your level, with explained solutions."],
+        "generador-ejercicios": ["Exercise generator", "Import your syllabus as a PDF, image or text and generate exercises with their solutions."],
         "planificador-estudio": ["Study planner", "Create a study routine based on your exams and grades, and export it to your calendar."],
-        "corrector-ejercicios": ["Exercise checker", "Check your step-by-step working on equations and arithmetic: it flags the mistakes and shows the correct solution."],
         "resumidor-pdf": ["PDF notes summariser", "Short, medium or detailed summaries of your PDFs."],
         "generador-flashcards": ["Flashcard generator", "Upload your notes and revise with explain, fill-in-the-blank or question cards."],
-        "explicador-temas": ["AI topic explainer", "Explanations with examples adapted to your level."],
         "simulador-pau": ["PAU simulator and calculator", "Work out your access grade (out of 10) and admission grade (out of 14) and compare it with the cut-off mark."],
         "noticias-pau": ["PAU news and updates", "News from official sources, with date and link."],
         "noticias": ["News and updates", "Education news from Spain and abroad, with tags to filter them."],
@@ -6074,217 +6064,121 @@ const TBN = {"Medicina": "Medicine", "Enfermería": "Nursing", "Farmacia": "Phar
       $('pd-use').addEventListener('click', () => { location.hash = '#simulador-pau' });
     })();
 
-    /* ---- Corrector de ejercicios: motor propio (ecuaciones de 1.er y 2.º grado y operaciones combinadas), sin servidor ---- */
+    /* ---- Generador de ejercicios: a partir de un temario, sin enviar nada a ningún servidor ---- */
     (function () {
-      const EPS = 1e-7, Er = m => new Error(m);
-      const trim = a => { a = a.slice(); while (a.length > 1 && Math.abs(a[a.length - 1]) < 1e-12) a.pop(); return a };
-      const padd = (a, b) => trim(Array.from({ length: Math.max(a.length, b.length) }, (_, i) => (a[i] || 0) + (b[i] || 0)));
-      const pneg = a => a.map(v => -v);
-      const pmul = (a, b) => { const r = Array(a.length + b.length - 1).fill(0); a.forEach((x, i) => b.forEach((y, j) => { r[i + j] += x * y })); return trim(r) };
-      const pdiv = (a, b) => {
-        if (b.length > 1) throw Er(tr('no sé dividir entre algo con x', 'I cannot divide by something with x'));
-        if (Math.abs(b[0]) < 1e-12) throw Er(tr('hay una división entre 0', 'there is a division by 0'));
-        return a.map(v => v / b[0]);
+      const V = '[A-Za-zα-ωΑ-Ω](?:_[A-Za-z0-9])?', TK = new RegExp('\\d+(?:\\.\\d+)?|\\.\\d+|' + V + '|[-+*/^()]', 'g'), ISV = /^[A-Za-zα-ωΑ-Ω]/;
+      const rnd = (a, b) => a + Math.random() * (b - a + 1) | 0, pick = a => a[Math.random() * a.length | 0];
+      const fmn = n => { const s = String(Math.round(n * 100) / 100); return EN ? s : s.replace('.', ',') };
+      const eqn = n => Math.abs(n * 100 - Math.round(n * 100)) < 1e-9 ? '=' : '≈';
+      const toks = s => {
+        const n = s.replace(/[−–]/g, '-').replace(/[·×]/g, '*').replace(/÷/g, '/').replace(/²/g, '^2').replace(/³/g, '^3').replace(/½/g, '(1/2)').replace(/(\d),(\d)/g, '$1.$2'), t = n.match(TK) || [];
+        if (!t.length || t.join('') !== n.replace(/\s/g, '')) throw 0;
+        return t;
       };
-      const ppow = (a, b) => {
-        if (b.length > 1) throw Er(tr('el exponente debe ser un número', 'the exponent must be a number'));
-        const e = b[0];
-        if (a.length === 1) { const v = Math.pow(a[0], e); if (!isFinite(v)) throw Er(tr('potencia no válida', 'invalid power')); return [v] }
-        if (!Number.isInteger(e) || e < 0 || e > 4) throw Er(tr('solo admito potencias enteras de 0 a 4', 'I only accept whole powers from 0 to 4'));
-        let r = [1]; for (let i = 0; i < e; i++) r = pmul(r, a); return r;
-      };
-      const fm = n => { const s = String(Math.round(n * 1e6) / 1e6).replace('-', '−'); return EN ? s : s.replace('.', ',') };
-      const fr = n => { if (Number.isInteger(Math.round(n * 1e6) / 1e6)) return ''; for (let d = 2; d <= 60; d++) { const p = n * d; if (Math.abs(p - Math.round(p)) < 1e-9) return Math.round(p) + '/' + d } return '' };
-      const fv = n => fm(n) + (fr(n) ? ' (' + fr(n).replace('-', '−') + ')' : '');
-      const ps = p => {
-        let s = '';
-        for (let i = p.length - 1; i >= 0; i--) {
-          const c = p[i]; if (Math.abs(c) < 1e-12) continue;
-          const a = Math.abs(c), x = i === 0 ? '' : i === 1 ? 'x' : 'x' + (i === 2 ? '²' : '^' + i), n = i > 0 && Math.abs(a - 1) < 1e-12 ? '' : fm(a);
-          s += (s ? (c < 0 ? ' − ' : ' + ') : (c < 0 ? '−' : '')) + n + x;
-        }
-        return s || '0';
-      };
-      const clean = s => String(s).toLowerCase().replace(/[−–—]/g, '-').replace(/[·×]/g, '*').replace(/[÷:]/g, '/').replace(/²/g, '^2').replace(/³/g, '^3').replace(/(\d),(\d)/g, '$1.$2').replace(/\s+/g, ' ').trim();
-
-      /* analizador: devuelve un polinomio [c0, c1, c2…] */
-      function parse(src) {
-        const t = src.match(/\d+(?:\.\d+)?|\.\d+|[a-z]|[-+*/^()]/g) || [];
-        if (!t.length) throw Er(tr('está vacía', 'it is empty'));
-        if (t.join('') !== src.replace(/\s/g, '')) throw Er(tr('hay un carácter que no entiendo', 'there is a character I do not understand'));
-        let i = 0;
-        const pk = () => t[i], nx = () => t[i++];
-        const prim = () => {
-          const k = nx();
-          if (k === undefined) throw Er(tr('la expresión está incompleta', 'the expression is incomplete'));
-          if (/^[\d.]/.test(k)) return [parseFloat(k)];
-          if (k === 'x') return [0, 1];
-          if (k === '(') { const v = sum(); if (nx() !== ')') throw Er(tr('falta cerrar un paréntesis', 'a bracket is not closed')); return v }
-          throw Er(/^[a-z]$/.test(k) ? tr('solo uso la incógnita x', 'I only use the unknown x') : tr('la expresión no tiene sentido ahí', 'the expression makes no sense there'));
+      const vs = t => [...new Set(t.filter(k => ISV.test(k) && k !== 'π'))];
+      function ev(t, env) {
+        let i = 0; const pk = () => t[i], nx = () => t[i++], isOp = k => /^[-+*/^)]$/.test(k);
+        const pri = () => {
+          const k = nx(); if (k === undefined) throw 0;
+          if (/^[\d.]/.test(k)) return +k;
+          if (k === '(') { const v = sum(); if (nx() !== ')') throw 0; return v }
+          if (k === 'π') return Math.PI;
+          if (ISV.test(k) && k in env) return env[k];
+          throw 0;
         };
-        const pw = () => { const b = prim(); if (pk() === '^') { nx(); return ppow(b, un()) } return b };
-        const un = () => { const k = pk(); if (k === '-') { nx(); return pneg(un()) } if (k === '+') { nx(); return un() } return pw() };
-        const prod = () => {
-          let v = un();
-          for (; ;) { const k = pk(); if (k === '*') { nx(); v = pmul(v, un()) } else if (k === '/') { nx(); v = pdiv(v, un()) } else if (k === 'x' || k === '(') v = pmul(v, un()); else return v }
-        };
-        const sum = () => {
-          let v = prod();
-          for (; ;) { const k = pk(); if (k === '+') { nx(); v = padd(v, prod()) } else if (k === '-') { nx(); v = padd(v, pneg(prod())) } else return v }
-        };
-        const r = sum(); if (i < t.length) throw Er(tr('sobra algo al final', 'there is something left at the end')); return r;
+        const pw = () => { const b = pri(); if (pk() === '^') { nx(); return Math.pow(b, un()) } return b };
+        const un = () => { if (pk() === '-') { nx(); return -un() } return pw() };
+        const prod = () => { let v = un(); for (; ;) { const k = pk(); if (k === '*') { nx(); v *= un() } else if (k === '/') { nx(); v /= un() } else if (k !== undefined && !isOp(k)) v *= un(); else return v } };
+        const sum = () => { let v = prod(); for (; ;) { const k = pk(); if (k === '+') { nx(); v += prod() } else if (k === '-') { nx(); v -= prod() } else return v } };
+        const r = sum(); if (i < t.length || !isFinite(r)) throw 0; return r;
       }
-      const eq = s => {
-        const q = s.split('='); if (q.length !== 2) throw Er(tr('una ecuación lleva un solo signo =', 'an equation has a single = sign'));
-        const L = parse(q[0]), R = parse(q[1]); return { L, R, P: padd(L, pneg(R)) };
+      /* texto de una fórmula; con env, cada letra se sustituye por su valor */
+      const disp = (t, env) => {
+        const o = [];
+        t.forEach((k, i) => {
+          if (i && /^[\d.A-Za-zα-ωΑ-Ω)]/.test(t[i - 1]) && /^[\d.A-Za-zα-ωΑ-Ω(]/.test(k)) o.push('·');
+          o.push(env && ISV.test(k) && k !== 'π' && k in env ? String(env[k]) : k === '*' ? '·' : k === '/' ? '÷' : k === '-' ? '−' : k);
+        });
+        return o.join(' ').replace(/\( /g, '(').replace(/ \)/g, ')').replace(/ \^ /g, '^');
       };
-      const solve = p => {
-        p = trim(p);
-        if (p.length === 1) return Math.abs(p[0]) < EPS ? { all: 1 } : { r: [] };
-        if (p.length === 2) return { r: [-p[0] / p[1]] };
-        if (p.length === 3) {
-          const [c, b, a] = p, d = b * b - 4 * a * c;
-          if (d < -EPS) return { r: [] };
-          if (Math.abs(d) <= EPS) return { r: [-b / (2 * a)] };
-          const s = Math.sqrt(d); return { r: [(-b - s) / (2 * a), (-b + s) / (2 * a)].sort((u, v) => u - v) };
-        }
-        throw Er(tr('solo resuelvo ecuaciones de 1.er y 2.º grado', 'I only solve equations of degree 1 and 2'));
-      };
-      const same = (a, b) => !!a.all === !!b.all && (!!a.all || (a.r.length === b.r.length && a.r.every((v, i) => Math.abs(v - b.r[i]) <= 1e-6 * Math.max(1, Math.abs(v)))));
-      const fs = s => s.all ? tr('cualquier número (identidad)', 'any number (identity)') : !s.r.length ? tr('ninguna (sin solución)', 'none (no solution)') : s.r.map(v => 'x = ' + fv(v)).join(tr(' y ', ' and '));
-
-      /* una línea de la resolución del alumno */
-      const NO = /sin soluci|no tiene|imposible|ninguna|∅|no hay|no solution/, ALL = /infinit|identidad|cualquier|todos|ℝ|any number|identity/;
-      function line(raw, ex) {
-        let c = clean(raw);
-        if (ex) {
-          c = c.split('=').pop().trim(); const p = parse(c);
-          if (p.length > 1) throw Er(tr('aquí no debe haber x', 'there should be no x here'));
-          return { s: { r: [p[0]] }, a: /^-?\d+(\.\d+)?(\/\d+(\.\d+)?)?$/.test(c) };
-        }
-        if (NO.test(c)) return { s: { r: [] }, a: 1 };
-        if (ALL.test(c)) return { s: { all: 1 }, a: 1 };
-        const parts = c.split(/;|,\s|\s+(?:o|y|ó)\s+/);
-        if (parts.length > 1 || !c.includes('=')) {
-          const r = parts.map(v => { const p = parse(v.replace(/^x\d?\s*=\s*/, '')); if (p.length > 1) throw Er(tr('aquí no debe haber x', 'there should be no x here')); return Math.round(p[0] * 1e9) / 1e9 });
-          return { s: { r: [...new Set(r)].sort((u, v) => u - v) }, a: 1 };
-        }
-        const e = eq(c); return { s: solve(e.P), P: e.P, a: /^x\d?\s*=\s*[^x=]+$/.test(c) };
-      }
-      /* pista: ¿es un error de signo en un solo término respecto al último paso correcto? */
-      const hint = (p, q) => {
-        const n = Math.max(p.length, q.length), a = Array.from({ length: n }, (_, i) => p[i] || 0), j = a.reduce((m, v, i) => Math.abs(v) > Math.abs(a[m]) ? i : m, 0);
-        if (Math.abs(a[j]) < EPS) return -1;
-        for (let i = 0; i < n; i++) {
-          const r = Array.from({ length: n }, (_, m) => (m === i ? -1 : 1) * (q[m] || 0)), k = r[j] / a[j];
-          if (Math.abs(k) > EPS && q[i] && a.every((v, m) => Math.abs(r[m] - k * v) < 1e-6 * Math.max(1, Math.abs(r[m])))) return i;
-        }
-        return -1;
-      };
-
-      /* resolución correcta de una ecuación */
-      function solEq(e) {
-        const { L, R, P } = e, o = [], s = solve(P), and = tr(' y ', ' and ');
-        o.push(tr('Simplifica cada miembro (quita paréntesis y reduce términos): ', 'Simplify each side (expand brackets and combine terms): ') + ps(L) + ' = ' + ps(R));
-        if (P.length <= 2) {
-          const a = P[1] || 0, b = -P[0];
-          o.push(tr('Pasa los términos con x a un miembro y los números al otro: ', 'Move the x terms to one side and the numbers to the other: ') + (a ? fm(a) + 'x' : '0') + ' = ' + fm(b));
-          if (a) o.push(tr('Despeja x dividiendo entre ', 'Solve for x by dividing by ') + fm(a) + ': x = ' + fm(b) + ' ÷ ' + (a < 0 ? '(' + fm(a) + ')' : fm(a)) + ' = ' + fv(b / a));
-          else o.push(b ? tr('Queda 0 = ' + fm(b) + ', que es imposible: no hay solución.', 'It becomes 0 = ' + fm(b) + ', which is impossible: there is no solution.') : tr('Queda 0 = 0, que siempre se cumple: hay infinitas soluciones.', 'It becomes 0 = 0, which is always true: there are infinitely many solutions.'));
-        } else {
-          const [c, b, a] = P, d = b * b - 4 * a * c;
-          o.push(tr('Pasa todo a un miembro: ', 'Move everything to one side: ') + ps(P) + ' = 0 → a = ' + fm(a) + ', b = ' + fm(b) + ', c = ' + fm(c));
-          o.push(tr('Discriminante: ', 'Discriminant: ') + 'Δ = b² − 4ac = ' + fm(d));
-          if (d < -EPS) o.push(tr('Δ < 0: no hay soluciones reales.', 'Δ < 0: there are no real solutions.'));
-          else if (Math.abs(d) <= EPS) o.push(tr('Δ = 0: una única solución, x = −b ÷ 2a = ', 'Δ = 0: a single solution, x = −b ÷ 2a = ') + fv(s.r[0]));
-          else o.push('x = (−b ± √Δ) ÷ 2a → ' + s.r.map(v => 'x = ' + fv(v)).join(and));
-        }
-        return o;
-      }
-
-      /* resolución correcta de una operación combinada, operación a operación */
-      function red(c) {
-        const t0 = c.match(/\d+(?:\.\d+)?|\.\d+|[-+*/^()]/g) || [], isN = k => !/^[-+*/^()]$/.test(k), isOp = k => /^[-+*/^]$/.test(k), t = [];
-        for (let i = 0; i < t0.length; i++) {
-          const k = t0[i], p = t[t.length - 1], first = p === undefined || isOp(p) || p === '(';
-          if (k === '+' && first) continue;
-          if (k === '-' && first) { const n = t0[i + 1]; if (n !== undefined && isN(n) && t0[i + 2] !== '^') { t.push('-' + n); i++ } else t.push('-1', '*'); continue }
-          if (k === '(' && p !== undefined && (isN(p) || p === ')')) t.push('*');
-          t.push(k);
-        }
-        const show = a => a.map((k, i) => isN(k) ? (k[0] === '-' && i > 0 && a[i - 1] !== '(' ? '(' + fm(+k) + ')' : fm(+k)) : k === '*' ? '·' : k === '/' ? '÷' : k === '-' ? '−' : k).join(' ').replace(/\( /g, '(').replace(/ \)/g, ')');
-        const out = [show(t)];
-        for (let n = 0; n < 40 && t.length > 1; n++) {
-          const a = t.lastIndexOf('('), b = a < 0 ? -1 : t.indexOf(')', a), lo = a + 1, hi = a < 0 ? t.length : b;
-          if (a >= 0 && b < 0) break;
-          let ix = -1;
-          for (let i = hi - 1; i >= lo && ix < 0; i--) if (t[i] === '^') ix = i;
-          for (let i = lo; i < hi && ix < 0; i++) if (t[i] === '*' || t[i] === '/') ix = i;
-          for (let i = lo; i < hi && ix < 0; i++) if (t[i] === '+' || t[i] === '-') ix = i;
-          if (ix < 0) { if (a >= 0) { t.splice(a, 3, t[a + 1]); out.push('= ' + show(t)); continue } break }
-          const x = +t[ix - 1], y = +t[ix + 1], o = t[ix];
-          if (o === '/' && !y) throw Er(tr('hay una división entre 0', 'there is a division by 0'));
-          const v = o === '^' ? Math.pow(x, y) : o === '*' ? x * y : o === '/' ? x / y : o === '+' ? x + y : x - y;
-          if (!isFinite(v)) throw Er(tr('el resultado no es un número real', 'the result is not a real number'));
-          t.splice(ix - 1, 3, String(+v.toFixed(9)));
-          if (a >= 0 && t[a + 2] === ')') t.splice(a, 3, t[a + 1]);
-          out.push('= ' + show(t));
-        }
+      /* fórmulas del tipo «F = m·a» que aparecen en el temario */
+      function formulas(raw) {
+        const out = [], seen = new Set();
+        raw.split('\n').forEach(l => {
+          const m = l.replace(/[−–]/g, '-').replace(/^\s*[-•*·]\s+/, '').trim().match(new RegExp('^(' + V + ')\\s*=\\s*(.+)$'));
+          if (!m || l.length > 70) return;
+          const rhs = m[2].replace(/[.;,]$/, '');
+          if (!/^[A-Za-zα-ωΑ-Ω0-9_\s+\-*/^·×÷().,²³½]+$/.test(rhs) || /\p{L}{3,}/u.test(rhs.replace(/_/g, ' ')) || !/[+\-*/^·×÷²³½]|[\p{L}\d)]\s+[\p{L}\d(]/u.test(rhs)) return;
+          let t; try { t = toks(rhs) } catch (e) { return }
+          const lhs = m[1], v = vs(t); if (!v.length || v.length > 4 || v.includes(lhs)) return;
+          try { const env = {}; v.forEach(k => env[k] = 2); ev(t, env) } catch (e) { return }
+          const key = lhs + '=' + t.join(''); if (seen.has(key)) return; seen.add(key);
+          out.push({ lhs, t, vs: v });
+        });
         return out;
       }
-
-      function check() {
-        const src = clean($('co-q').value), raw = $('co-w').value.split('\n').map(s => s.trim()).filter(Boolean), out = $('co-out');
-        const bad = m => { out.innerHTML = '<p class="err">' + esc(m) + '</p>' };
-        if (!src) return bad(tr('Escribe el enunciado: una ecuación o una operación.', 'Type the exercise: an equation or an operation.'));
-        const isEq = src.includes('=');
-        let E, V, sol;
-        try {
-          if (isEq) { if (!src.includes('x')) throw Er(tr('la ecuación necesita la incógnita x', 'the equation needs the unknown x')); E = eq(src); V = solve(E.P); sol = solEq(E) }
-          else { const p = parse(src); if (p.length > 1 || src.includes('x')) throw Er(tr('sin = no puede haber x: escribe una ecuación o una operación sin x', 'without = there can be no x: write an equation or an operation without x')); V = { r: [p[0]] }; sol = red(src) }
-        } catch (e) { return bad(tr('No entiendo el enunciado: ', 'I do not understand the exercise: ') + e.message + '.') }
-        const rows = [], names = [tr('el término independiente', 'the constant term'), tr('el término con x', 'the x term'), tr('el término con x²', 'the x² term')];
-        let prevOk = true, prevS = V, base = isEq ? E.P : null, errs = 0, first = 0;
-        raw.forEach((r, i) => {
-          let L;
-          try { L = line(r, !isEq) } catch (e) { rows.push({ r, k: 'unk', m: tr('No la entiendo: ', 'I do not understand it: ') + e.message + '.' }); return }
-          const ok = same(L.s, V), k = ok ? 'ok' : !prevOk && same(L.s, prevS) ? 'carry' : 'bad';
-          let m;
-          if (ok) m = isEq ? tr('Correcto: mantiene la misma solución.', 'Correct: it keeps the same solution.') : tr('Correcto: vale lo mismo que el enunciado.', 'Correct: it has the same value as the exercise.');
-          else if (k === 'carry') m = tr('Arrastra el error anterior: es coherente con la línea previa, pero el resultado ya no es el del enunciado.', 'It carries the earlier mistake: it is consistent with the previous line, but the result is no longer the exercise’s.');
-          else {
-            errs++; first = first || i + 1;
-            m = isEq ? tr('Error: la solución de esta línea es ', 'Mistake: the solution of this line is ') + fs(L.s) + tr(', pero la del enunciado es ', ', but the exercise’s is ') + fs(V) + '.'
-              : tr('Error: esta línea vale ', 'Mistake: this line is worth ') + fm(L.s.r[0]) + tr(' y el enunciado vale ', ' and the exercise is worth ') + fm(V.r[0]) + '.';
-            if (isEq && L.P && base) { const h = hint(base, L.P); if (h >= 0) m += ' ' + tr('Pista: parece un error de signo en ', 'Hint: it looks like a sign mistake in ') + names[h] + tr(' (al pasarlo de miembro o al quitar un paréntesis).', ' (when moving it across or removing a bracket).') }
-          }
-          if (ok && L.P) base = L.P;
-          rows.push({ r, k, m, a: L.a, ok }); prevOk = ok; prevS = L.s;
-        });
-        const ev = rows.filter(x => x.k !== 'unk'), la = ev[ev.length - 1], fin = la && la.ok && la.a;
-        let vk, vm;
-        if (!raw.length) { vk = 'info'; vm = tr('Aquí tienes cómo se resuelve. Escribe tu resolución y la corrijo.', 'Here is how it is solved. Write your working and I will check it.') }
-        else if (!ev.length) { vk = 'bad'; vm = tr('No he podido leer ninguna de tus líneas.', 'I could not read any of your lines.') }
-        else if (fin && !errs) { vk = 'ok'; vm = tr('✓ Correcto: tus pasos y tu resultado son válidos.', '✓ Correct: your steps and your result are valid.') }
-        else if (fin) { vk = 'mid'; vm = tr('El resultado final es correcto, pero algún paso no se sostiene: revisa las líneas marcadas.', 'The final result is correct, but a step does not hold: check the marked lines.') }
-        else if (!errs && la.ok) { vk = 'mid'; vm = tr('Tus pasos son correctos, pero no has llegado al resultado final.', 'Your steps are correct, but you have not reached the final result.') }
-        else { vk = 'bad'; vm = tr('✗ El resultado no es correcto. El primer error está en la línea ', '✗ The result is not correct. The first mistake is on line ') + first + '.' }
-        out.innerHTML = `<div class="co-v co-${vk}" role="status">${esc(vm)}</div>` +
-          (rows.length ? `<h3>${tr('Tu resolución, línea a línea', 'Your working, line by line')}</h3><ol class="co-ln">` + rows.map(x => `<li class="co-${x.k}"><code>${esc(x.r)}</code><span>${esc(x.m)}</span></li>`).join('') + '</ol>' : '') +
-          `<h3>${tr('Resolución correcta', 'Correct solution')}</h3>` +
-          (isEq ? '' : `<p class="sub">${tr('Orden: paréntesis, potencias, × y ÷, y por último + y −.', 'Order: brackets, powers, × and ÷, and finally + and −.')}</p>`) +
-          '<ol class="co-sol">' + sol.map(s => `<li>${esc(s)}</li>`).join('') + '</ol>';
+      /* ejercicio de cálculo: sustituir valores o despejar una letra */
+      function calc(f, inv) {
+        const src = disp(f.t), u = inv && !f.t.includes('^') && f.vs.length > 1 ? pick(f.vs.filter(v => f.t.filter(k => k === v).length === 1)) : null;
+        if (inv && !u) return null;
+        for (let n = 0; n < 40; n++) {
+          const env = {}; f.vs.forEach(v => env[v] = rnd(2, 10));
+          let r; try { r = ev(f.t, env) } catch (e) { continue }
+          if (!isFinite(r) || Math.abs(r) > 1e5) continue;
+          if (!u) return {
+            t: tr('Cálculo', 'Calculation'),
+            q: tr(`Aplica la fórmula ${f.lhs} = ${src}. Si ${f.vs.map(v => v + ' = ' + env[v]).join(', ')}, calcula ${f.lhs}.`, `Use the formula ${f.lhs} = ${src}. If ${f.vs.map(v => v + ' = ' + env[v]).join(', ')}, work out ${f.lhs}.`),
+            a: `${f.lhs} = ${src} = ${disp(f.t, env)} ${eqn(r)} ${fmn(r)}`
+          };
+          if (r <= 0 || eqn(r) !== '=') continue;
+          const rest = { ...env }; delete rest[u]; const o = f.vs.filter(v => v !== u).map(v => v + ' = ' + env[v]).join(', ');
+          return {
+            t: tr('Despejar', 'Solve for a letter'),
+            q: tr(`Con la fórmula ${f.lhs} = ${src}: si ${f.lhs} = ${fmn(r)} y ${o}, calcula ${u}.`, `With the formula ${f.lhs} = ${src}: if ${f.lhs} = ${fmn(r)} and ${o}, work out ${u}.`),
+            a: `${fmn(r)} = ${disp(f.t, rest)}\n${u} = ${env[u]}`
+          };
+        }
+        return null;
       }
-
-      $('co-app').innerHTML = `<div class="calc-grid"><section class="calc"><h2>${tr('Tu ejercicio', 'Your exercise')}</h2>` +
-        `<div class="fld"><label for="co-q">${tr('Enunciado', 'Exercise')}</label><input id="co-q" type="text" maxlength="200" autocomplete="off" placeholder="3x + 5 = 2x − 7"></div>` +
-        `<div class="fld"><label for="co-w">${tr('Tu resolución (un paso por línea)', 'Your working (one step per line)')}</label><textarea id="co-w" style="min-height:170px" placeholder="${tr('3x − 2x = −7 − 5\nx = −12', '3x − 2x = −7 − 5\nx = −12')}"></textarea></div>` +
-        `<p class="sub">${tr('Vale cualquier ecuación de 1.er o 2.º grado con x (x² o x^2), o una operación combinada con paréntesis, potencias, · y ÷. Separa varias soluciones con «;» o «o». Déjalo vacío para ver solo la resolución correcta.', 'Any equation of degree 1 or 2 in x (x² or x^2) works, or an arithmetic operation with brackets, powers, · and ÷. Separate several solutions with “;” or “or”. Leave it empty to see only the correct solution.')}</p>` +
-        `<div class="ex-bar" style="margin-top:14px"><button type="button" class="pri" id="co-go" style="margin-left:0">${tr('Corregir', 'Check')}</button><button type="button" class="tog" id="co-ex">${tr('Ver un ejemplo', 'See an example')}</button></div></section>` +
-        `<section class="calc"><h2>${tr('Corrección', 'Marking')}</h2><div id="co-out" aria-live="polite"><p class="sub">${tr('Escribe un ejercicio y tu resolución, y pulsa «Corregir».', 'Type an exercise and your working, then press “Check”.')}</p></div></section></div>`;
-      $('co-go').addEventListener('click', check);
-      $('co-w').addEventListener('keydown', e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); check() } });
-      $('co-ex').addEventListener('click', () => { $('co-q').value = '3x + 5 = 2x − 7'; $('co-w').value = '3x − 2x = −7 − 5\nx = 12'; check() });
+      let cur = [];
+      function gen() {
+        const raw = $('ej-in').value.trim(), n = +$('ej-n').value, msg = $('ej-msg');
+        if (raw.length < 40) { msg.textContent = tr('Pega o sube un temario algo más largo para poder crear ejercicios.', 'Paste or upload a slightly longer syllabus so I can create exercises.'); return }
+        msg.textContent = '';
+        const F = formulas(raw), P = [], seen = new Set();
+        for (let i = 0; F.length && i < n * 4 && P.length < n; i++) { const e = calc(F[i % F.length], i % 2 === 1) || calc(F[i % F.length], false); if (e && !seen.has(e.q)) { seen.add(e.q); P.push(e) } }
+        const cc = fcBuild(raw, 'c').map(c => { const [a, ...r] = c.b.split('\n'); return { a, full: r.join(' '), f: c.f.replace(/^[^:]*:\s*/, '') } }), A = [...new Set(cc.map(c => c.a))];
+        const T = [], Q = [], C = [], VF = [], ab = 'ABCD';
+        cc.forEach(c => {
+          C.push({ t: tr('Completa la frase', 'Complete the sentence'), q: c.f, a: c.a + '\n' + c.full });
+          if (A.length >= 4) { const o = fcShuf([c.a, ...fcShuf(A.filter(x => x !== c.a)).slice(0, 3)]); T.push({ t: tr('Test', 'Multiple choice'), q: c.f, o, a: ab[o.indexOf(c.a)] + ') ' + c.a + '\n' + c.full }) }
+          if (A.length > 1 && c.full.includes(c.a)) { const ok = Math.random() < .5; VF.push({ t: tr('Verdadero o falso', 'True or false'), q: ok ? c.full : c.full.replace(c.a, pick(A.filter(x => x !== c.a))), a: ok ? tr('Verdadero. ', 'True. ') + c.full : tr('Falso. La frase correcta es: ', 'False. The correct sentence is: ') + c.full }) }
+        });
+        fcBuild(raw, 'q').forEach(c => Q.push({ t: c.l, q: c.f, a: c.b }));
+        const h = Math.ceil(P.length / 2), L = [P.slice(0, h), P.slice(h), fcShuf(T), fcShuf(Q), fcShuf(C), fcShuf(VF)], ex = [], at = L.map(() => 0);
+        for (let g = true; g && ex.length < n;) { g = false; L.forEach((l, j) => { if (ex.length < n && l[at[j]]) { ex.push(l[at[j]]); at[j]++; g = true } }) }
+        cur = ex; $('ej-cp').disabled = !ex.length;
+        const np = ex.filter(e => P.includes(e)).length;
+        $('ej-out').innerHTML = !ex.length ? '<p class="err">' + tr('No he podido sacar ejercicios de este texto. Prueba con frases completas del tipo «X es…» o con fórmulas como F = m·a.', 'I could not get exercises out of this text. Try complete sentences like “X is…” or formulas like F = m·a.') + '</p>'
+          : (np < ex.length / 2 ? `<p class="ej-note">${tr('Tu temario parece teoría. Si buscas memorizar, prueba el <a href="#flashcards">generador de flashcards</a>.', 'Your syllabus looks like theory. If you want to memorise it, try the <a href="#flashcards">flashcard generator</a>.')}</p>` : '') +
+          '<ol class="ej-l">' + ex.map(e => `<li><span class="ej-k">${esc(e.t)}</span><p>${esc(e.q)}</p>${e.o ? '<ul class="ej-o">' + e.o.map((o, j) => `<li>${ab[j]}) ${esc(o)}</li>`).join('') + '</ul>' : ''}<details><summary>${tr('Ver solución', 'Show solution')}</summary><p>${esc(e.a).replace(/\n/g, '<br>')}</p></details></li>`).join('') + '</ol>';
+      }
+      $('ej-app').innerHTML = `<div class="calc-grid"><section class="calc"><h2>${tr('Tu temario', 'Your syllabus')}</h2>` +
+        `<div class="fld"><label for="ej-file">${tr('PDF o imagen', 'PDF or image')}</label><input id="ej-file" type="file" accept="application/pdf,image/*"></div>` +
+        `<div class="fld"><label for="ej-in">${tr('Texto del temario', 'Syllabus text')}</label><textarea id="ej-in" style="min-height:200px" placeholder="${tr('Pega aquí tu temario o sube un archivo. Las fórmulas del tipo F = m·a se convierten en ejercicios de cálculo.', 'Paste your syllabus here or upload a file. Formulas like F = m·a become calculation exercises.')}"></textarea></div>` +
+        `<div class="fld"><label for="ej-n">${tr('Número de ejercicios', 'Number of exercises')}</label><select id="ej-n"><option>5</option><option selected>10</option><option>15</option><option>20</option></select></div>` +
+        `<p class="sub" id="ej-msg" role="status" aria-live="polite"></p>` +
+        `<p class="sub">${tr('Con las fórmulas que encuentre crea ejercicios de cálculo; con el texto, preguntas, huecos, test y verdadero o falso. Cada ejercicio trae su solución.', 'It builds calculation exercises from the formulas it finds, and questions, blanks, multiple choice and true or false from the text. Every exercise comes with its solution.')}</p>` +
+        `<div class="ex-bar" style="margin-top:14px"><button type="button" class="pri" id="ej-go" style="margin-left:0">${tr('Generar ejercicios', 'Generate exercises')}</button></div></section>` +
+        `<section class="calc"><h2>${tr('Ejercicios', 'Exercises')}</h2><div id="ej-out" aria-live="polite"><p class="sub">${tr('Aquí aparecerán tus ejercicios.', 'Your exercises will appear here.')}</p></div>` +
+        `<div class="ex-bar"><button type="button" class="tog" id="ej-cp" disabled>${tr('Copiar ejercicios y soluciones', 'Copy exercises and solutions')}</button></div></section></div>`;
+      $('ej-file').addEventListener('change', e => fcRead(e.target.files[0], 'ej-in', 'ej-msg'));
+      $('ej-go').addEventListener('click', gen);
+      $('ej-cp').addEventListener('click', () => {
+        if (!cur.length) return;
+        const tx = cur.map((e, i) => (i + 1) + '. ' + e.q + (e.o ? '\n' + e.o.map((o, j) => '   ' + 'ABCD'[j] + ') ' + o).join('\n') : '')).join('\n\n') + '\n\n' + tr('Soluciones', 'Solutions') + '\n' + cur.map((e, i) => (i + 1) + '. ' + e.a.replace(/\n/g, ' · ')).join('\n');
+        navigator.clipboard.writeText(tx).then(() => { $('ej-msg').textContent = tr('Copiado.', 'Copied.') }).catch(() => { });
+      });
     })();
 
     /* ---- Vistas: portada y calculadora (pantalla aparte) ---- */
@@ -6293,11 +6187,11 @@ const TBN = {"Medicina": "Medicine", "Enfermería": "Nursing", "Farmacia": "Phar
     document.getElementById('catalog').addEventListener('click', e => { if (e.target.closest('a.go')) homeY = window.scrollY });
     function routeNow() {
       const h = location.hash, nd = h.startsWith('#noticia-') ? h.slice(9) : null;
-      const VV = { '#calculadora': 'vista-calculadora', '#examenes': 'vista-examenes', '#planificador': 'vista-planificador', '#rubricas': 'vista-rubricas', '#noticias': 'vista-noticias', '#noticias-pau': 'vista-noticias', '#qr': 'vista-qr', '#flashcards': 'vista-flashcards', '#corrector': 'vista-corrector', '#control': 'vista-control', '#examenes-oficiales': 'vista-examenes-oficiales', '#test-rama': 'vista-test-rama', '#simulador-pau': 'vista-simulador-pau', '#ponderaciones': 'vista-ponderaciones', '#privacidad': 'vista-privacidad' };
-      const TT = { '#calculadora': ['Calculadora de notas', 'calc-t'], '#examenes': ['Generador de exámenes', 'ex-t'], '#planificador': ['Planificador de estudio', 'pl-t'], '#rubricas': ['Generador de rúbricas', 'rb-t'], '#noticias': ['Noticias y Actualizaciones', 'nw-t'], '#noticias-pau': ['Noticias y actualizaciones PAU', 'nw-t'], '#qr': ['Generador de códigos QR', 'qr-t'], '#flashcards': ['Generador de flashcards', 'fc-t'], '#corrector': ['Corrector de ejercicios', 'co-t'], '#control': ['Control de clase', 'cc-t'], '#examenes-oficiales': ['Buscador de exámenes oficiales', 'eo-t'], '#test-rama': ['Test de rama', 'tb-t'], '#simulador-pau': ['Simulador y calculadora PAU', 'pau-t'], '#ponderaciones': ['Buscador de ponderaciones', 'pd-t'], '#privacidad': ['Aviso legal, privacidad y cookies', 'pv-t'] };
+      const VV = { '#calculadora': 'vista-calculadora', '#examenes': 'vista-examenes', '#planificador': 'vista-planificador', '#rubricas': 'vista-rubricas', '#noticias': 'vista-noticias', '#noticias-pau': 'vista-noticias', '#qr': 'vista-qr', '#flashcards': 'vista-flashcards', '#ejercicios': 'vista-ejercicios', '#control': 'vista-control', '#examenes-oficiales': 'vista-examenes-oficiales', '#test-rama': 'vista-test-rama', '#simulador-pau': 'vista-simulador-pau', '#ponderaciones': 'vista-ponderaciones', '#privacidad': 'vista-privacidad' };
+      const TT = { '#calculadora': ['Calculadora de notas', 'calc-t'], '#examenes': ['Generador de exámenes', 'ex-t'], '#planificador': ['Planificador de estudio', 'pl-t'], '#rubricas': ['Generador de rúbricas', 'rb-t'], '#noticias': ['Noticias y Actualizaciones', 'nw-t'], '#noticias-pau': ['Noticias y actualizaciones PAU', 'nw-t'], '#qr': ['Generador de códigos QR', 'qr-t'], '#flashcards': ['Generador de flashcards', 'fc-t'], '#ejercicios': ['Generador de ejercicios', 'ej-t'], '#control': ['Control de clase', 'cc-t'], '#examenes-oficiales': ['Buscador de exámenes oficiales', 'eo-t'], '#test-rama': ['Test de rama', 'tb-t'], '#simulador-pau': ['Simulador y calculadora PAU', 'pau-t'], '#ponderaciones': ['Buscador de ponderaciones', 'pd-t'], '#privacidad': ['Aviso legal, privacidad y cookies', 'pv-t'] };
       const cur = nd !== null ? 'vista-noticia' : VV[h] || '';
       home.hidden = !!cur;
-      ['vista-calculadora', 'vista-examenes', 'vista-planificador', 'vista-rubricas', 'vista-noticias', 'vista-noticia', 'vista-qr', 'vista-flashcards', 'vista-corrector', 'vista-control', 'vista-examenes-oficiales', 'vista-test-rama', 'vista-simulador-pau', 'vista-ponderaciones', 'vista-privacidad'].forEach(i => { $(i).hidden = i !== cur });
+      ['vista-calculadora', 'vista-examenes', 'vista-planificador', 'vista-rubricas', 'vista-noticias', 'vista-noticia', 'vista-qr', 'vista-flashcards', 'vista-ejercicios', 'vista-control', 'vista-examenes-oficiales', 'vista-test-rama', 'vista-simulador-pau', 'vista-ponderaciones', 'vista-privacidad'].forEach(i => { $(i).hidden = i !== cur });
       document.title = TT[h] ? TT[h][0] + ' · Aulalia' : 'Aulalia · Herramientas para estudiar mejor';
       { const md = document.querySelector('meta[name="description"]'), pi = cur && document.querySelector('#' + cur + ' .intro'), og = n => document.querySelector('meta[property="og:' + n + '"]');
         if (md) { if (!md.dataset.d) md.dataset.d = md.content; const t = pi ? pi.textContent.replace(/\s+/g, ' ').trim() : ''; md.content = t ? t.slice(0, 155) : md.dataset.d; if (og('description')) og('description').content = md.content; if (og('title')) og('title').content = document.title } }
