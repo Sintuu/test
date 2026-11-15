@@ -243,6 +243,35 @@
       stroke-linejoin: round
     }
 
+    /* resumidor de apuntes */
+    .rs-drop{display:block;border:2px dashed var(--line);border-radius:14px;padding:22px 16px;text-align:center;color:var(--muted);cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s}
+    .rs-drop:hover,.rs-drop.on,.rs-drop:focus-within{border-color:var(--accent);color:var(--ink)}
+    .rs-drop b{color:var(--ink)}
+    .rs-file{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:8px;background:var(--surface)}
+    .rs-file .nm{flex:1 1 220px;min-width:0;overflow-wrap:anywhere}
+    .rs-file select,.rs-file input[type=number]{width:auto;min-width:0}
+    .rs-file input[type=number]{width:78px}
+    .rs-chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 0}
+    .rs-chips .tog{font-size:.82rem}
+    .rs-row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:600px){.rs-row2{grid-template-columns:1fr}}
+    .rs-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+    .rs-bar .sp{flex:1}
+    .rs-sec{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:12px 14px;margin-top:10px}
+    .rs-sec.l3{margin-left:22px}
+    .rs-sh{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+    .rs-sh .rs-t{flex:1 1 240px;font:600 1.05rem var(--head)}
+    .rs-tb{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+    .rs-tb .tog,.rs-sh .tog{font-size:.8rem;padding:5px 9px}
+    .rs-b{width:100%;resize:vertical;min-height:90px;line-height:1.55}
+    .rs-md h2,.rs-rd h2{font-size:1.5rem;margin:6px 0 10px}
+    .rs-rd h3{font-size:1.2rem;margin:0 0 6px}.rs-rd .l3 h3{font-size:1.05rem}
+    .rs-md p{margin:.5em 0}.rs-md ul,.rs-md ol{margin:.4em 0;padding-left:1.3em}
+    .rs-src{font-size:.68em;color:var(--accent);cursor:help;margin-left:3px;white-space:nowrap}
+    .rs-hide .rs-src{display:none}
+    .rs-rv{border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-top:10px;background:var(--surface)}
+    .rs-rv li{margin:3px 0}.rs-rv .ko{color:var(--bad)}
+    .rs-loading{opacity:.6;pointer-events:none}
     .view {
       padding: 20px 0 0
     }
@@ -3291,12 +3320,12 @@
           <ul class="steps">
             <li>
               <h3>Utilidades</h3>
-              <p>La calculadora de notas, el test de rama, los códigos QR, las noticias y, próximamente, ejercicios y resúmenes de PDF.
+              <p>La calculadora de notas, el test de rama, los códigos QR, las noticias y, próximamente, ejercicios.
               </p>
             </li>
             <li>
               <h3>Aprendizaje</h3>
-              <p>El planificador de estudio y, próximamente, corrector, flashcards y explicaciones por nivel con IA.</p>
+              <p>El planificador de estudio, el resumidor de apuntes, las flashcards y, próximamente, corrector y explicaciones por nivel con IA.</p>
             </li>
             <li>
               <h3>Profesores</h3>
@@ -3626,6 +3655,17 @@
           <div id="fc-svl"></div>
         </section>
         <canvas id="fc-cf" hidden style="position:fixed;inset:0;pointer-events:none;z-index:60"></canvas>
+      </div>
+    </section>
+
+    <section id="vista-resumidor" class="view" hidden aria-labelledby="rs-t">
+      <div class="wrap wide">
+        <a class="back" href="#inicio"><svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15 5l-7 7 7 7" />
+          </svg>Volver a las herramientas</a>
+        <h1 id="rs-t" tabindex="-1">Resumidor de apuntes PDF</h1>
+        <p class="intro">Sube tu PowerPoint, el libro y tus apuntes anteriores, elige qué parte del tema resumir y obtén unos apuntes completos, organizados y editables, con la página de origen de cada dato.</p>
+        <div id="rs-root"></div>
       </div>
     </section>
 
@@ -4128,9 +4168,11 @@
       "Ves el resultado y cómo se ha obtenido. En las herramientas con IA podrás volver a generarlo y copiarlo.": "You see the result and how it was obtained. In the AI tools you will be able to regenerate and copy it.",
       "Qué encontrarás": "What you will find",
       "Utilidades": "Utilities",
-      "La calculadora de notas, el test de rama, los códigos QR, las noticias y, próximamente, ejercicios y resúmenes de PDF.": "The grade calculator, the branch test, QR codes, news and, coming soon, exercises and PDF summaries.",
+      "La calculadora de notas, el test de rama, los códigos QR, las noticias y, próximamente, ejercicios.": "The grade calculator, the branch test, QR codes, news and, coming soon, exercises.",
+      "Resumidor de apuntes PDF": "PDF notes summariser",
+      "Sube tu PowerPoint, el libro y tus apuntes anteriores, elige qué parte del tema resumir y obtén unos apuntes completos, organizados y editables, con la página de origen de cada dato.": "Upload your PowerPoint, the textbook and your earlier notes, choose which part of the topic to summarise and get complete, organised, editable notes with the source page of each fact.",
       "Aprendizaje": "Learning",
-      "El planificador de estudio y, próximamente, corrector, flashcards y explicaciones por nivel con IA.": "The study planner and, coming soon, exercise checker, flashcards and AI explanations by level.",
+      "El planificador de estudio, el resumidor de apuntes, las flashcards y, próximamente, corrector y explicaciones por nivel con IA.": "The study planner, the notes summariser, flashcards and, coming soon, exercise checker and AI explanations by level.",
       "PAU y Universidad": "PAU and University",
       "Simulador de nota, noticias, exámenes oficiales y ponderaciones, siempre con su fuente.": "Grade simulator, news, official exams and subject weightings, always with their source.",
       "Profesores": "Teachers",
@@ -4541,7 +4583,7 @@
       ["generador-qr", "Generador de códigos QR", "Crea un código QR de un enlace o un texto y descárgalo en PNG o SVG.", "utilidades", "qr", "qr"],
       ["test-rama", "Test de rama", "Descubre qué rama o carrera te encaja en ESO, Bachillerato o la universidad, con test corto o largo.", "utilidades", "compass", "test-rama"],
       ["corrector-ejercicios", "Corrector de ejercicios", "Corrección razonada con errores y resolución correcta.", "aprendizaje", "check", 0],
-      ["resumidor-pdf", "Resumidor de apuntes PDF", "Resúmenes cortos, medios o detallados de tus PDF.", "utilidades", "pdf", 0],
+      ["resumidor-pdf", "Resumidor de apuntes PDF", "Apuntes completos y editables a partir de tus PDF, PowerPoint, Word o imágenes, con la página de origen de cada dato.", "aprendizaje", "pdf", "resumidor"],
       ["generador-flashcards", "Generador de flashcards", "Sube tus apuntes y repasa con tarjetas de desarrollo, de completar la oración o de pregunta.", "aprendizaje", "cards", "flashcards"],
       ["explicador-temas", "Explicador de temas con IA", "Explicaciones con ejemplos adaptadas a tu nivel.", "aprendizaje", "bulb", 0],
       ["simulador-pau", "Simulador y calculadora PAU", "Calcula tu nota de acceso (sobre 10) y de admisión (sobre 14) y compárala con la nota de corte.", "pau", "cap", "simulador-pau"],
@@ -4557,7 +4599,7 @@
         "generador-ejercicios": ["Exercise generator", "Exercises at your level, with explained solutions."],
         "planificador-estudio": ["Study planner", "Create a study routine based on your exams and grades, and export it to your calendar."],
         "corrector-ejercicios": ["Exercise checker", "Reasoned marking with mistakes and the correct solution."],
-        "resumidor-pdf": ["PDF notes summariser", "Short, medium or detailed summaries of your PDFs."],
+        "resumidor-pdf": ["PDF notes summariser", "Complete, editable notes from your PDFs, PowerPoints, Word files or images, with the source page of each fact."],
         "generador-flashcards": ["Flashcard generator", "Upload your notes and revise with explain, fill-in-the-blank or question cards."],
         "explicador-temas": ["AI topic explainer", "Explanations with examples adapted to your level."],
         "simulador-pau": ["PAU simulator and calculator", "Work out your access grade (out of 10) and admission grade (out of 14) and compare it with the cut-off mark."],
@@ -6041,17 +6083,342 @@ const TBN = {"Medicina": "Medicine", "Enfermería": "Nursing", "Farmacia": "Phar
       $('pd-use').addEventListener('click', () => { location.hash = '#simulador-pau' });
     })();
 
+    /* ---- Resumidor de apuntes: lectura de documentos, IA por servidor (api/resumir.js), editor y exportación ---- */
+    (function () {
+      const API = window.RESUMIDOR_API || '/api/resumir', PK = 'aulalia-resumidor-prefs', SK = 'aulalia-resumidor', LIM = 450000, MAXMB = 30;
+      const S = { docs: [], notes: null, mode: 'read', busy: false, trunc: false, rv: null, prev: null, nid: 1, did: 1 };
+      const ROLES = { prof: tr('Material del profesor', 'Teacher material'), libro: tr('Libro o ampliación', 'Book or extra material'), estilo: tr('Mis apuntes anteriores (solo estilo)', 'My earlier notes (style only)') };
+      const CHIPS = [[tr('Resumir únicamente la primera mitad.', 'Summarise only the first half.')], [tr('Respetar la estructura del PowerPoint.', 'Keep the structure of the PowerPoint.')], [tr('Utilizar el libro para ampliar las explicaciones.', 'Use the book to expand the explanations.')], [tr('No incluir información externa.', 'Do not include outside information.')], [tr('Mantener todos los datos importantes para el examen.', 'Keep every important fact for the exam.')]];
+      const prefs = () => { try { return JSON.parse(localStorage.getItem(PK)) || {} } catch (e) { return {} } };
+      const byId = id => S.notes && S.notes.secs.find(s => s.id == id);
+      const root = $('rs-root');
+      root.innerHTML = `
+      <section class="calc" style="margin-bottom:16px">
+        <h2>${tr('0. Tu IA', '0. Your AI')}</h2>
+        <p class="sub" style="margin-top:0">${tr('Elige el proveedor y pega tu propia clave de API. La herramienta no incluye ninguna.', 'Choose the provider and paste your own API key. The tool includes none.')}</p>
+        <div class="rs-row2">
+          <div class="fld"><label for="rs-pv">${tr('Proveedor', 'Provider')}</label><select id="rs-pv">${[['anthropic', 'Anthropic (Claude)'], ['openai', 'OpenAI (GPT)'], ['google', 'Google (Gemini)'], ['deepseek', 'DeepSeek'], ['grok', 'xAI (Grok)']].map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></div>
+          <div class="fld"><label for="rs-md">${tr('Modelo (opcional)', 'Model (optional)')}</label><input id="rs-md" type="text" maxlength="80" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <div class="fld"><label for="rs-ky">${tr('Clave de API', 'API key')}</label><input id="rs-ky" type="password" autocomplete="off" spellcheck="false" maxlength="400"></div>
+        <label class="chk"><input type="checkbox" id="rs-rk"><span>${tr('Recordar la clave en este navegador (no lo uses en un ordenador compartido)', 'Remember the key in this browser (do not use on a shared computer)')}</span></label>
+        <p class="sub" id="rs-kh">${tr('La clave se envía por HTTPS al servidor de Aulalia solo para reenviarla al proveedor en esa petición; no se guarda allí. Los costes los cobra tu proveedor.', 'The key is sent over HTTPS to the Aulalia server only to forward it to the provider for that request; it is not stored there. Your provider bills the costs.')}</p>
+      </section>
+      <div class="calc-grid">
+        <section class="calc">
+          <h2>${tr('1. Materiales', '1. Materials')}</h2>
+          <label class="rs-drop" id="rs-dz" for="rs-in"><b>${tr('Arrastra tus archivos aquí', 'Drag your files here')}</b><br>${tr('o pulsa para elegirlos · PDF, PowerPoint, Word, texto e imágenes · varios a la vez', 'or click to choose them · PDF, PowerPoint, Word, text and images · several at once')}</label>
+          <input id="rs-in" class="sr-only" type="file" multiple accept=".pdf,.pptx,.docx,.txt,.md,image/*">
+          <div id="rs-files"></div>
+          <p class="sub" id="rs-sz"></p>
+          <p class="sub" id="rs-msg" role="status" aria-live="polite"></p>
+        </section>
+        <section class="calc">
+          <h2>${tr('2. Configurar el resumen', '2. Set up the summary')}</h2>
+          <div class="rs-row2">
+            <div class="fld"><label for="rs-as">${tr('Asignatura', 'Subject')}</label><input id="rs-as" type="text" maxlength="60"></div>
+            <div class="fld"><label for="rs-ti">${tr('Título del tema', 'Topic title')}</label><input id="rs-ti" type="text" maxlength="100"></div>
+          </div>
+          <div class="fld"><label id="rs-dl">${tr('Nivel de detalle', 'Level of detail')}</label>
+            <div class="seg" role="group" aria-labelledby="rs-dl" style="display:flex" id="rs-det">${[['breve', tr('Breve', 'Short')], ['medio', tr('Medio', 'Medium')], ['detallado', tr('Detallado', 'Detailed')]].map(([k, l]) => `<button type="button" data-d="${k}" aria-pressed="${k === 'detallado'}" style="flex:1">${l}</button>`).join('')}</div></div>
+          <div class="rs-row2">
+            <div class="fld"><label for="rs-np">${tr('Dividir el tema en', 'Split the topic into')}</label><select id="rs-np">${[1, 2, 3, 4, 5, 6].map(n => `<option value="${n}">${n} ${n > 1 ? tr('partes', 'parts') : tr('parte (tema completo)', 'part (whole topic)')}</option>`).join('')}</select></div>
+            <div class="fld"><label for="rs-pi">${tr('Parte que quiero ahora', 'Part I want now')}</label><select id="rs-pi"></select></div>
+          </div>
+          <div class="rs-row2">
+            <div class="fld"><label for="rs-de">${tr('El contenido empieza en', 'Content starts at')}</label><input id="rs-de" type="text" maxlength="200" placeholder="${tr('p. ej. «2. La crisis del siglo XVII»', 'e.g. “2. The crisis of the 17th century”')}"></div>
+            <div class="fld"><label for="rs-ha">${tr('y termina en', 'and ends at')}</label><input id="rs-ha" type="text" maxlength="200" placeholder="${tr('p. ej. «hasta antes de 4. La Ilustración»', 'e.g. “up to before 4. The Enlightenment”')}"></div>
+          </div>
+          <div class="fld"><label for="rs-in2">${tr('Instrucciones adicionales', 'Extra instructions')}</label><textarea id="rs-in2" maxlength="800" style="min-height:70px"></textarea>
+            <div class="rs-chips">${CHIPS.map((c, i) => `<button type="button" class="tog" data-c="${i}">+ ${c[0]}</button>`).join('')}</div></div>
+          <details><summary>${tr('Mis preferencias de resumen (se recuerdan en este navegador)', 'My summary preferences (remembered in this browser)')}</summary>
+            <div class="fld"><label for="rs-pe">${tr('Cómo me gusta resumir', 'How I like to summarise')}</label><textarea id="rs-pe" maxlength="1000" style="min-height:70px" placeholder="${tr('p. ej. frases cortas, siempre con un cuadro de fechas al final…', 'e.g. short sentences, always a dates table at the end…')}"></textarea></div>
+            <div class="fld"><label for="rs-ej">${tr('Ejemplo de mis apuntes (se imita el estilo, no el contenido)', 'Sample of my notes (the style is imitated, not the content)')}</label><textarea id="rs-ej" maxlength="8000" style="min-height:90px"></textarea></div>
+            <div class="ex-bar"><button type="button" class="tog" id="rs-ps">${tr('Guardar preferencias', 'Save preferences')}</button> <button type="button" class="tog" id="rs-pd">${tr('Borrar preferencias', 'Clear preferences')}</button></div>
+          </details>
+          <div class="ex-bar" style="margin-top:14px"><button type="button" class="pri" id="rs-go" style="margin-left:0">${tr('3. Generar apuntes', '3. Generate notes')}</button></div>
+        </section>
+      </div>
+      <div id="rs-out" hidden>
+        <div class="rs-bar">
+          <div class="seg" role="group" aria-label="${tr('Modo', 'Mode')}"><button type="button" id="rs-mr" aria-pressed="true">${tr('Leer', 'Read')}</button><button type="button" id="rs-me" aria-pressed="false">${tr('Editar', 'Edit')}</button></div>
+          <label class="chk" style="margin:0"><input type="checkbox" id="rs-so" checked><span>${tr('Mostrar fuentes', 'Show sources')}</span></label>
+          <span class="sp"></span>
+          <button type="button" class="tog" id="rs-un" hidden>${tr('Deshacer último cambio grande', 'Undo last big change')}</button>
+          <button type="button" class="tog" id="rs-rvb">${tr('Revisar', 'Review')}</button>
+          <button type="button" class="tog" id="rs-st2">${tr('Guardar como mi estilo', 'Save as my style')}</button>
+        </div>
+        <div class="rs-bar">
+          <button type="button" class="pri" id="rs-xp" style="margin:0">PDF</button><button type="button" class="tog" id="rs-xd">Word (.docx)</button><button type="button" class="tog" id="rs-xt">${tr('Texto', 'Text')}</button><button type="button" class="tog" id="rs-xm">Markdown</button><button type="button" class="tog" id="rs-xc">${tr('Copiar todo', 'Copy all')}</button>
+        </div>
+        <p class="sub" id="rs-st" role="status" aria-live="polite"></p>
+        <div id="rs-trunc" class="rs-rv" hidden><b>${tr('Los apuntes se han cortado por la longitud.', 'The notes were cut off because of length.')}</b> <button type="button" class="tog" id="rs-ct">${tr('Continuar', 'Continue')}</button></div>
+        <div id="rs-rv"></div>
+        <div id="rs-nt"></div>
+        <div id="rs-secs"></div>
+        <div class="ex-bar" id="rs-addw" hidden><button type="button" class="tog" id="rs-add" style="margin-left:0">+ ${tr('Añadir apartado', 'Add section')}</button></div>
+      </div>
+      <section class="calc" style="margin-top:16px"><h2>${tr('Mis apuntes guardados', 'My saved notes')}</h2>
+        <p class="sub" id="rs-svm" role="status" style="margin:0 0 6px">${tr('El editor se guarda solo en este navegador. Los documentos originales no se guardan: vuelve a subirlos si quieres ampliar o regenerar.', 'The editor saves itself in this browser. Original documents are not stored: upload them again if you want to expand or regenerate.')}</p>
+        <div id="rs-svl"></div></section>`;
+
+      /* ---------- proveedor de IA y clave del usuario ---------- */
+      const IK = 'aulalia-resumidor-ia', DM = { anthropic: 'claude-sonnet-5-5', openai: 'gpt-4.1', google: 'gemini-2.5-flash', deepseek: 'deepseek-chat', grok: 'grok-4' };
+      const ai = { prov: 'anthropic', model: '', key: '', rem: false };
+      try { Object.assign(ai, JSON.parse(localStorage.getItem(IK)) || {}) } catch (e) { }
+      if (!DM[ai.prov]) ai.prov = 'anthropic';
+      $('rs-pv').value = ai.prov; $('rs-md').value = ai.model || ''; $('rs-ky').value = ai.key || ''; $('rs-rk').checked = !!ai.rem;
+      const aiHint = () => { $('rs-md').placeholder = tr('por defecto: ', 'default: ') + DM[ai.prov] };
+      function aiSave() { ai.prov = $('rs-pv').value; ai.model = $('rs-md').value.trim(); ai.key = $('rs-ky').value.trim(); ai.rem = $('rs-rk').checked; aiHint(); try { localStorage.setItem(IK, JSON.stringify(ai.rem ? ai : { prov: ai.prov, model: ai.model, rem: false })) } catch (e) { } }
+      ['rs-pv', 'rs-md', 'rs-ky', 'rs-rk'].forEach(i => $(i).addEventListener('input', aiSave)); aiHint();
+      /* ---------- estado del formulario ---------- */
+      let det = 'detallado';
+      const cfg = () => ({ asignatura: $('rs-as').value.trim(), titulo: $('rs-ti').value.trim(), detalle: det, partes: +$('rs-np').value, parte: +$('rs-pi').value || 1, desde: $('rs-de').value.trim(), hasta: $('rs-ha').value.trim(), instr: $('rs-in2').value.trim() });
+      const effPrefs = () => { const p = prefs(), ej = S.docs.filter(d => d.use && d.role === 'estilo' && d.pages).map(d => d.pages.map(x => x.t).join('\n')).join('\n---\n').slice(0, 8000); return { estilo: $('rs-pe').value.trim(), ejemplo: ej || $('rs-ej').value.trim() || p.ejemplo || '' } };
+      const say = s => { $('rs-st').textContent = s; $('rs-msg').textContent = s };
+      function parts() { const n = +$('rs-np').value, cur = +$('rs-pi').value || 1; $('rs-pi').innerHTML = Array.from({ length: n }, (_, i) => `<option value="${i + 1}">${tr('Parte', 'Part')} ${i + 1} ${tr('de', 'of')} ${n}</option>`).join(''); $('rs-pi').value = Math.min(cur, n) }
+      function setDet(d) { det = d; $('rs-det').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.d === d)) }
+      $('rs-det').addEventListener('click', e => { const b = e.target.closest('button'); if (b) setDet(b.dataset.d) });
+      $('rs-np').addEventListener('input', parts); parts();
+      root.querySelector('.rs-chips').addEventListener('click', e => { const b = e.target.closest('[data-c]'); if (!b) return; const t = $('rs-in2'); t.value = (t.value.trim() ? t.value.trim() + ' ' : '') + CHIPS[b.dataset.c][0] });
+      { const p = prefs(); $('rs-pe').value = p.estilo || ''; $('rs-ej').value = p.ejemplo || ''; if (p.detalle) setDet(p.detalle) }
+      $('rs-ps').onclick = () => { try { localStorage.setItem(PK, JSON.stringify({ estilo: $('rs-pe').value.trim(), ejemplo: $('rs-ej').value.trim(), detalle: det })); say(tr('Preferencias guardadas.', 'Preferences saved.')) } catch (e) { say(tr('No se han podido guardar.', 'Could not save.')) } };
+      $('rs-pd').onclick = () => { if (!confirm(tr('¿Borrar tus preferencias de resumen?', 'Clear your summary preferences?'))) return; try { localStorage.removeItem(PK) } catch (e) { } $('rs-pe').value = ''; $('rs-ej').value = ''; say(tr('Preferencias borradas.', 'Preferences cleared.')) };
+
+      /* ---------- lectura de documentos ---------- */
+      const needLib = async (g, u) => { if (!window[g]) await fcLoad(u) };
+      const unxml = s => s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, '&');
+      async function rdPdf(f) {
+        const V = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/';
+        if (!window.pdfjsLib) { await fcLoad(V + 'pdf.min.js'); pdfjsLib.GlobalWorkerOptions.workerSrc = V + 'pdf.worker.min.js' }
+        const d = await pdfjsLib.getDocument({ data: await f.arrayBuffer() }).promise, out = []; let ocr = 0;
+        for (let p = 1; p <= d.numPages; p++) {
+          const pg = await d.getPage(p), tc = await pg.getTextContent(); let t = '', ly = null;
+          for (const it of tc.items) { const y = it.transform[5]; if (ly !== null && Math.abs(y - ly) > 2) t += ly - y > it.height * 1.9 ? '\n\n' : '\n'; t += it.str; ly = y }
+          if (t.trim().length < 30 && ocr < 40) { ocr++; const vp = pg.getViewport({ scale: 2 }), cv = document.createElement('canvas'); cv.width = vp.width; cv.height = vp.height; await pg.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise; t = await fcOcr(cv) }
+          out.push({ n: p, t: t.trim() }); if (!ocr) say(`${f.name}: ${p}/${d.numPages}`)
+        }
+        return out;
+      }
+      async function rdPptx(f) {
+        await needLib('JSZip', 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js');
+        const z = await JSZip.loadAsync(await f.arrayBuffer()), ns = Object.keys(z.files).filter(n => /^ppt\/slides\/slide\d+\.xml$/.test(n)).sort((a, b) => a.match(/\d+/)[0] - b.match(/\d+/)[0]), out = [];
+        for (const n of ns) { const x = await z.file(n).async('string'); out.push({ n: +n.match(/\d+/)[0], t: x.split('</a:p>').map(p => [...p.matchAll(/<a:t[^>]*>([^<]*)<\/a:t>/g)].map(m => unxml(m[1])).join('')).filter(Boolean).join('\n') }) }
+        return out;
+      }
+      async function rdDocx(f) { await needLib('mammoth', 'https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js'); return [{ n: 1, t: (await mammoth.extractRawText({ arrayBuffer: await f.arrayBuffer() })).value.trim() }] }
+      async function read(f) {
+        const x = (f.name.split('.').pop() || '').toLowerCase();
+        if (x === 'pdf') return rdPdf(f); if (x === 'pptx') return rdPptx(f); if (x === 'docx') return rdDocx(f);
+        if (x === 'txt' || x === 'md') return [{ n: 1, t: (await f.text()).trim() }];
+        if (/^image\//.test(f.type)) return [{ n: 1, t: (await fcOcr(f)).trim() }];
+        throw new Error(/^(doc|ppt)$/.test(x) ? tr('Formato antiguo: guárdalo como .docx o .pptx.', 'Old format: save it as .docx or .pptx.') : tr('Formato no admitido.', 'Unsupported format.'));
+      }
+      async function add(list) {
+        fcT = 'rs-msg';
+        for (const f of [...list]) {
+          if (f.size > MAXMB * 1048576) { say(tr(`«${f.name}» supera ${MAXMB} MB.`, `“${f.name}” is over ${MAXMB} MB.`)); continue }
+          const d = { id: S.did++, name: f.name, role: S.docs.some(x => x.role === 'prof') || /\.(pdf|docx|txt|md)$/i.test(f.name) && S.docs.length ? 'libro' : 'prof', use: true, pages: null, err: '' };
+          if (/\.pptx$/i.test(f.name)) d.role = 'prof';
+          S.docs.push(d); drawFiles();
+          try { d.pages = await read(f); if (!d.pages.some(p => p.t)) d.err = tr('No he encontrado texto en el archivo.', 'No text found in the file.') } catch (e) { d.err = e && e.message && !/script|load/i.test(e.message) ? e.message : tr('No se pudo leer el archivo.', 'Could not read the file.') }
+          drawFiles();
+        }
+        say('');
+      }
+      const dz = $('rs-dz');
+      $('rs-in').addEventListener('change', e => { add(e.target.files); e.target.value = '' });
+      ['dragenter', 'dragover'].forEach(t => dz.addEventListener(t, e => { e.preventDefault(); dz.classList.add('on') }));
+      ['dragleave', 'drop'].forEach(t => dz.addEventListener(t, e => { e.preventDefault(); dz.classList.remove('on') }));
+      dz.addEventListener('drop', e => add(e.dataTransfer.files));
+      function drawFiles() {
+        $('rs-files').innerHTML = S.docs.map((d, i) => `<div class="rs-file" data-id="${d.id}"><span class="nm"><b>D${i + 1}</b> ${esc(d.name)}${d.err ? ` <span class="err">${esc(d.err)}</span>` : d.pages ? ` <span class="sub">· ${d.pages.length} ${tr('pág./diap.', 'pp./slides')}</span>` : ` <span class="sub">· ${tr('leyendo…', 'reading…')}</span>`}</span>
+          <select data-k="role" aria-label="${tr('Función del documento', 'Document role')}">${Object.entries(ROLES).map(([k, v]) => `<option value="${k}"${d.role === k ? ' selected' : ''}>${v}</option>`).join('')}</select>
+          ${d.pages && d.pages.length > 1 && d.role !== 'estilo' ? `<input type="number" min="1" max="${d.pages.length}" data-k="from" value="${d.from || ''}" placeholder="${tr('desde', 'from')}" aria-label="${tr('Desde la página', 'From page')}"><input type="number" min="1" max="${d.pages.length}" data-k="to" value="${d.to || ''}" placeholder="${tr('hasta', 'to')}" aria-label="${tr('Hasta la página', 'To page')}">` : ''}
+          <label class="chk" style="margin:0"><input type="checkbox" data-k="use"${d.use ? ' checked' : ''}><span>${tr('Usar', 'Use')}</span></label>
+          <button type="button" class="tog" data-k="rm" aria-label="${tr('Eliminar', 'Delete')} ${esc(d.name)}">${tr('Eliminar', 'Delete')}</button></div>`).join('');
+        size();
+      }
+      $('rs-files').addEventListener('change', e => { const r = e.target.closest('.rs-file'), k = e.target.dataset.k, d = r && S.docs.find(x => x.id == r.dataset.id); if (!d) return; if (k === 'role') { d.role = e.target.value; drawFiles() } else if (k === 'use') { d.use = e.target.checked; size() } else if (k === 'from' || k === 'to') { d[k] = +e.target.value || ''; size() } });
+      $('rs-files').addEventListener('click', e => { const b = e.target.closest('[data-k=rm]'); if (!b) return; S.docs = S.docs.filter(x => x.id != b.closest('.rs-file').dataset.id); drawFiles() });
+      function pick(d) { const a = Math.max(1, +d.from || 1), b = +d.to || 1e9; return d.pages.filter(p => p.n >= a && p.n <= b && p.t) }
+      function sources(quiet) {
+        const used = S.docs.filter(d => d.use && d.pages && d.role !== 'estilo'); if (!used.length) { if (!quiet) say(tr('Sube al menos un documento con texto para resumir.', 'Upload at least one document with text to summarise.')); return null }
+        const s = used.map(d => `[D${S.docs.indexOf(d) + 1}] «${d.name}» — ${d.role === 'prof' ? tr('material del profesor (prioridad absoluta)', 'teacher material (absolute priority)') : tr('libro o ampliación', 'book or extra material')}\n` + pick(d).map(p => `[[D${S.docs.indexOf(d) + 1}·p.${p.n}]]\n${p.t}`).join('\n\n')).join('\n\n=====\n\n');
+        if (s.length > LIM) { if (!quiet) say(tr(`Hay demasiado texto (${Math.round(s.length / 1000)} mil caracteres; el máximo son ${LIM / 1000}). Reduce el rango de páginas o desmarca algún documento.`, `There is too much text (${Math.round(s.length / 1000)}k characters; the maximum is ${LIM / 1000}k). Narrow the page range or untick a document.`)); return null }
+        return s;
+      }
+      function size() { const u = S.docs.filter(d => d.use && d.pages && d.role !== 'estilo'), n = u.reduce((a, d) => a + pick(d).reduce((b, p) => b + p.t.length, 0), 0); $('rs-sz').textContent = u.length ? tr(`≈ ${Math.round(n / 5.5).toLocaleString(LOC)} palabras seleccionadas.`, `≈ ${Math.round(n / 5.5).toLocaleString(LOC)} words selected.`) + (n > LIM ? ' ' + tr('Demasiadas: acota el rango.', 'Too many: narrow the range.') : '') : '' }
+
+      /* ---------- llamada al servidor ---------- */
+      async function api(b) {
+        let r, j = {};
+        if (!ai.key) { $('rs-ky').focus(); throw new Error(tr('Primero pega tu clave de API en «0. Tu IA».', 'First paste your API key in “0. Your AI”.')) }
+        try { r = await fetch(API, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ ...b, config: cfg(), prefs: effPrefs(), ai: { provider: ai.prov, key: ai.key, model: ai.model || undefined } }) }); j = await r.json().catch(() => ({})) } catch (e) { throw new Error(tr('No se pudo conectar con el servidor de IA.', 'Could not reach the AI server.')) }
+        if (!r.ok) throw new Error(r.status === 404 || r.status === 405 ? tr('Aquí no hay un servidor de IA conectado. Despliega api/resumir.js (mira el README).', 'No AI server is connected here. Deploy api/resumir.js (see the README).') : j.error || tr('Error del servidor (' + r.status + ').', 'Server error (' + r.status + ').'));
+        return j;
+      }
+      async function run(msg, fn) { if (S.busy) return; S.busy = true; root.classList.add('rs-loading'); say(msg); try { await fn() } catch (e) { say(e.message) } finally { S.busy = false; root.classList.remove('rs-loading') } }
+
+      /* ---------- apuntes: modelo y conversión ---------- */
+      function parse(md) {
+        const secs = []; let title = '', cur = null;
+        for (const l of md.replace(/\r/g, '').trim().split('\n')) {
+          const m = l.match(/^(#{1,3})\s+(.*)$/);
+          if (m) { if (m[1].length === 1 && !title && !secs.length) { title = m[2].trim(); continue } cur = { id: S.nid++, lvl: m[1].length === 3 ? 3 : 2, t: m[2].trim(), b: '' }; secs.push(cur) }
+          else { if (!cur) { if (!l.trim()) continue; cur = { id: S.nid++, lvl: 2, t: '', b: '' }; secs.push(cur) } cur.b += l + '\n' }
+        }
+        secs.forEach(s => s.b = s.b.trim()); return { title, secs };
+      }
+      const toMd = src => { const n = S.notes, m = (n.title ? '# ' + n.title + '\n\n' : '') + n.secs.map(s => (s.t ? '#'.repeat(s.lvl) + ' ' + s.t + '\n\n' : '') + s.b).join('\n\n'); return src ? m : m.replace(/[ \t]*⟦[^⟧]*⟧/g, '') };
+      const chip = x => x.split(';').map(r => { const m = r.trim().match(/^D(\d+)·p\.(.+)$/), d = m && S.docs[m[1] - 1]; return d ? `${d.name}, ${tr('pág.', 'p.')} ${m[2]}` : r }).join(' · ');
+      function mdHtml(md, src) {
+        let h = '', list = null, par = [];
+        const inl = t => { t = esc(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/(^|[\s(])\*(?!\s)(.+?)\*(?=[\s).,;:]|$)/g, '$1<i>$2</i>'); return src ? t.replace(/⟦([^⟧]*)⟧/g, (m, x) => `<sup class="rs-src" title="${esc(chip(x))}">[${esc(x)}]</sup>`) : t.replace(/\s*⟦[^⟧]*⟧/g, '') };
+        const fl = () => { if (par.length) { h += '<p>' + inl(par.join(' ')) + '</p>'; par = [] } }, cl = () => { if (list) { h += '</' + list + '>'; list = null } };
+        for (const l of md.replace(/\r/g, '').split('\n')) {
+          let m; if (!l.trim()) { fl(); cl(); continue }
+          if (m = l.match(/^\s*[-*•]\s+(.*)/)) { fl(); if (list !== 'ul') { cl(); h += '<ul>'; list = 'ul' } h += '<li>' + inl(m[1]) + '</li>' }
+          else if (m = l.match(/^\s*\d+[.)]\s+(.*)/)) { fl(); if (list !== 'ol') { cl(); h += '<ol>'; list = 'ol' } h += '<li>' + inl(m[1]) + '</li>' }
+          else { cl(); par.push(l.trim()) }
+        }
+        fl(); cl(); return h;
+      }
+
+      /* ---------- editor ---------- */
+      const fit = t => { t.style.height = 'auto'; t.style.height = Math.max(90, t.scrollHeight + 2) + 'px' };
+      const AI = [['ampliar', tr('Ampliar', 'Expand')], ['simplificar', tr('Simplificar', 'Simplify')], ['resumir', tr('Resumir', 'Shorten')], ['corregir', tr('Corregir', 'Fix')], ['explicar', tr('Explicar', 'Explain')], ['añadir', tr('Añadir información', 'Add information')], ['regenerar', tr('Regenerar', 'Regenerate')]];
+      function draw() {
+        const n = S.notes; $('rs-out').hidden = !n; if (!n) return; const ed = S.mode === 'edit';
+        $('rs-mr').setAttribute('aria-pressed', !ed); $('rs-me').setAttribute('aria-pressed', ed); $('rs-addw').hidden = !ed; $('rs-un').hidden = !S.prev; $('rs-trunc').hidden = !S.trunc;
+        $('rs-out').classList.toggle('rs-hide', !$('rs-so').checked);
+        $('rs-nt').innerHTML = ed ? `<div class="fld"><label for="rs-ntt">${tr('Título del tema', 'Topic title')}</label><input id="rs-ntt" type="text" value="${esc(n.title)}"></div>` : `<div class="rs-rd"><h2>${esc(n.title)}</h2></div>`;
+        $('rs-secs').innerHTML = ed ? n.secs.map(s => `<div class="rs-sec l${s.lvl}" data-id="${s.id}">
+          <div class="rs-sh"><input class="rs-t" type="text" value="${esc(s.t)}" aria-label="${tr('Título del apartado', 'Section title')}">
+            <button type="button" class="tog" data-a="up" aria-label="${tr('Subir', 'Move up')}">↑</button><button type="button" class="tog" data-a="dn" aria-label="${tr('Bajar', 'Move down')}">↓</button><button type="button" class="tog" data-a="lv">${tr('Cambiar nivel', 'Change level')}</button><button type="button" class="tog" data-a="add">+ ${tr('Debajo', 'Below')}</button><button type="button" class="tog" data-a="rm">${tr('Eliminar', 'Delete')}</button></div>
+          <div class="rs-tb"><button type="button" class="tog" data-a="b"><b>B</b></button><button type="button" class="tog" data-a="li">• ${tr('Lista', 'List')}</button>${AI.map(([k, l]) => `<button type="button" class="tog" data-ai="${k}">${l}</button>`).join('')}</div>
+          <textarea class="rs-b" aria-label="${tr('Texto del apartado', 'Section text')}">${esc(s.b)}</textarea></div>`).join('')
+          : `<div class="rs-rd">${n.secs.map(s => `<div class="rs-sec l${s.lvl}">${s.t ? `<h3>${esc(s.t)}</h3>` : ''}<div class="rs-md">${mdHtml(s.b, true)}</div></div>`).join('')}</div>`;
+        $('rs-secs').querySelectorAll('.rs-b').forEach(fit);
+      }
+      $('rs-mr').onclick = () => { S.mode = 'read'; draw() }; $('rs-me').onclick = () => { S.mode = 'edit'; draw() };
+      $('rs-so').onchange = () => $('rs-out').classList.toggle('rs-hide', !$('rs-so').checked);
+      let tm = 0; const dirty = () => { clearTimeout(tm); say(tr('Guardando…', 'Saving…')); tm = setTimeout(save, 1200) };
+      $('rs-nt').addEventListener('input', e => { if (e.target.id === 'rs-ntt') { S.notes.title = e.target.value; dirty() } });
+      $('rs-secs').addEventListener('input', e => { const r = e.target.closest('.rs-sec'), s = r && byId(r.dataset.id); if (!s) return; if (e.target.classList.contains('rs-t')) s.t = e.target.value; else if (e.target.classList.contains('rs-b')) { s.b = e.target.value; fit(e.target) } dirty() });
+      $('rs-secs').addEventListener('click', e => {
+        const b = e.target.closest('button'), r = e.target.closest('.rs-sec'); if (!b || !r) return; const a = S.notes.secs, i = a.findIndex(s => s.id == r.dataset.id), s = a[i], ta = r.querySelector('.rs-b');
+        if (b.dataset.ai) return aiSec(s, ta, b.dataset.ai);
+        const k = b.dataset.a;
+        if (k === 'up' && i > 0) [a[i - 1], a[i]] = [a[i], a[i - 1]]; else if (k === 'dn' && i < a.length - 1) [a[i + 1], a[i]] = [a[i], a[i + 1]];
+        else if (k === 'lv') s.lvl = s.lvl === 2 ? 3 : 2; else if (k === 'add') a.splice(i + 1, 0, { id: S.nid++, lvl: s.lvl, t: tr('Nuevo apartado', 'New section'), b: '' });
+        else if (k === 'rm') { if (!confirm(tr('¿Eliminar este apartado?', 'Delete this section?'))) return; a.splice(i, 1) }
+        else if (k === 'b' || k === 'li') {
+          let x = ta.selectionStart, y = ta.selectionEnd, v = ta.value;
+          if (k === 'b') v = v.slice(0, x) + '**' + (x === y ? tr('texto', 'text') : v.slice(x, y)) + '**' + v.slice(y);
+          else { x = v.lastIndexOf('\n', x - 1) + 1; const e2 = v.indexOf('\n', y); y = e2 < 0 ? v.length : e2; v = v.slice(0, x) + v.slice(x, y).split('\n').map(l => /^\s*[-*•]\s/.test(l) ? l : '- ' + l).join('\n') + v.slice(y) }
+          s.b = v; ta.value = v; fit(ta); dirty(); return;
+        }
+        draw(); dirty();
+      });
+      $('rs-add').onclick = () => { S.notes.secs.push({ id: S.nid++, lvl: 2, t: tr('Nuevo apartado', 'New section'), b: '' }); draw(); dirty() };
+      function aiSec(s, ta, act) {
+        const x = ta.selectionStart, y = ta.selectionEnd, part = x !== y, text = part ? ta.value.slice(x, y) : ta.value;
+        const need = ['ampliar', 'añadir', 'regenerar', 'explicar'].includes(act), src = need ? sources(true) : '';
+        if (need && !src) return say(tr('Para esta acción hace falta que los documentos originales estén subidos y marcados como «Usar».', 'This action needs the original documents to be uploaded and ticked as “Use”.'));
+        if (!text.trim() && act !== 'regenerar') return say(tr('Este apartado está vacío.', 'This section is empty.'));
+        run(tr('Trabajando en el apartado…', 'Working on the section…'), async () => {
+          ta.disabled = true;
+          try { const j = await api({ op: 'section', action: act, titulo: s.t, text, sources: src || undefined }), o = (j.text || '').trim(); if (!o) throw new Error(tr('La IA no ha devuelto texto.', 'The AI returned no text.')); s.b = part ? s.b.slice(0, x) + o + s.b.slice(y) : o; draw(); save(); say(tr('Hecho. Revisa el resultado.', 'Done. Check the result.')) }
+          finally { ta.disabled = false }
+        });
+      }
+
+      /* ---------- generar, continuar, revisar ---------- */
+      $('rs-go').onclick = () => {
+        const src = sources(); if (!src) return;
+        if (S.notes && !confirm(tr('Se sustituirán los apuntes que tienes abiertos (puedes deshacerlo). ¿Continuar?', 'The notes you have open will be replaced (you can undo it). Continue?'))) return;
+        run(tr('Generando los apuntes… puede tardar un par de minutos.', 'Generating the notes… this can take a couple of minutes.'), async () => {
+          const j = await api({ op: 'generate', sources: src });
+          if (!(j.text || '').trim()) throw new Error(tr('La IA no ha devuelto texto.', 'The AI returned no text.'));
+          S.prev = S.notes ? JSON.stringify(S.notes) : null; S.notes = parse(j.text); if (!S.notes.title) S.notes.title = cfg().titulo; S.trunc = !!j.truncated; S.rv = null; S.mode = 'read'; draw(); save(); $('rs-out').scrollIntoView({ behavior: 'smooth' });
+          say(tr('Apuntes listos. Revisándolos contra los documentos…', 'Notes ready. Checking them against the documents…')); await review(src);
+        });
+      };
+      async function review(src) {
+        try { const j = await api({ op: 'review', sources: src, notes: toMd(true) }); let r; try { r = JSON.parse((j.text || '').replace(/```json|```/g, '').trim()) } catch (e) { r = null } S.rv = r || { raw: j.text }; drawRv(); say(tr('Revisión terminada.', 'Review finished.')) }
+        catch (e) { say(tr('Apuntes listos, pero la revisión automática ha fallado: ', 'Notes ready, but the automatic review failed: ') + e.message) }
+      }
+      const CK = ['', tr('Se cubre todo el contenido pedido', 'All requested content is covered'), tr('No faltan datos importantes', 'No important facts are missing'), tr('Fechas y nombres correctos', 'Dates and names are correct'), tr('Sin contradicciones', 'No contradictions'), tr('Apartados ordenados', 'Sections are in order'), tr('Extensión equilibrada', 'Balanced length'), tr('Estilo solicitado', 'Requested style'), tr('Sin información externa', 'No outside information')];
+      function drawRv() {
+        const r = S.rv; if (!r) { $('rs-rv').innerHTML = ''; return }
+        if (r.raw) { $('rs-rv').innerHTML = `<div class="rs-rv"><b>${tr('Revisión', 'Review')}</b><p>${esc(r.raw)}</p></div>`; return }
+        const pr = r.problemas || [];
+        $('rs-rv').innerHTML = `<div class="rs-rv"><b>${tr('Revisión automática', 'Automatic review')}</b><ul style="list-style:none;padding:0;margin:8px 0">${(r.checks || []).map(c => `<li class="${c.ok ? '' : 'ko'}">${c.ok ? '✓' : '✕'} ${esc(CK[c.n] || '')}${c.nota ? ` <span class="sub">— ${esc(c.nota)}</span>` : ''}</li>`).join('')}</ul>${pr.length ? `<b>${tr('A corregir', 'To fix')}</b><ul>${pr.map(p => `<li><b>${esc(p.seccion || '')}</b>: ${esc(p.detalle || '')}</li>`).join('')}</ul><button type="button" class="tog" id="rs-fx">${tr('Corregir con estas observaciones', 'Fix using these notes')}</button>` : `<p class="sub">${tr('Sin problemas detectados. Aun así, contrasta los datos clave con las fuentes (marcas [D1·p.4]).', 'No problems found. Still, check key facts against the sources ([D1·p.4] marks).')}</p>`}</div>`;
+      }
+      $('rs-rv').addEventListener('click', e => { if (e.target.id !== 'rs-fx') return; const src = sources(); if (!src) return; run(tr('Corrigiendo…', 'Fixing…'), async () => { const iss = (S.rv.problemas || []).map(p => `- ${p.seccion}: ${p.detalle}`).join('\n'), j = await api({ op: 'fix', sources: src, notes: toMd(true), issues: iss }); if (!(j.text || '').trim()) throw new Error(tr('La IA no ha devuelto texto.', 'The AI returned no text.')); S.prev = JSON.stringify(S.notes); S.notes = parse(j.text); S.trunc = !!j.truncated; S.rv = null; draw(); drawRv(); save(); say(tr('Apuntes corregidos. Puedes deshacerlo si no te convence.', 'Notes fixed. You can undo it if you do not like it.')) }) });
+      $('rs-rvb').onclick = () => { const src = sources(); if (!src) return; run(tr('Revisando…', 'Reviewing…'), () => review(src)) };
+      $('rs-ct').onclick = () => { const src = sources(); if (!src) return; run(tr('Continuando los apuntes…', 'Continuing the notes…'), async () => { const j = await api({ op: 'continue', sources: src, notes: toMd(true) }), c = parse(j.text || ''); if (!c.secs.length) throw new Error(tr('La IA no ha devuelto texto.', 'The AI returned no text.')); const a = S.notes.secs; if (!c.secs[0].t && a.length) { a[a.length - 1].b += '\n\n' + c.secs.shift().b } a.push(...c.secs); S.trunc = !!j.truncated; draw(); save(); say(tr('Continuación añadida.', 'Continuation added.')) }) };
+      $('rs-un').onclick = () => { if (!S.prev) return; S.notes = JSON.parse(S.prev); S.prev = null; S.rv = null; draw(); drawRv(); save() };
+      $('rs-st2').onclick = () => { try { localStorage.setItem(PK, JSON.stringify({ ...prefs(), ejemplo: toMd(false).slice(0, 8000), detalle: det })); $('rs-ej').value = toMd(false).slice(0, 8000); say(tr('Estos apuntes se usarán como ejemplo de tu estilo.', 'These notes will be used as a sample of your style.')) } catch (e) { say(tr('No se han podido guardar.', 'Could not save.')) } };
+
+      /* ---------- guardado ---------- */
+      const sv = stBox(SK, $('rs-svl'), $('rs-svm'), {
+        empty: tr('Aún no has guardado apuntes. Se guardan solos al generarlos o editarlos.', 'No saved notes yet. They save themselves when generated or edited.'),
+        del: tr('¿Eliminar estos apuntes guardados?', 'Delete these saved notes?'), gone: tr('Apuntes eliminados.', 'Notes deleted.'),
+        saved: tr('Guardado automáticamente en este navegador.', 'Saved automatically in this browser.'), upd: tr('Guardado automáticamente.', 'Saved automatically.'), fail: tr('No se ha podido guardar: no queda espacio en el navegador. Exporta tus apuntes.', 'Could not save: no space left in the browser. Export your notes.'),
+        open: x => { const c = x.d.cfg || {}; S.notes = x.d.notes; S.notes.secs.forEach(s => s.id = S.nid++); S.rv = null; S.prev = null; S.trunc = false; S.mode = 'read'; $('rs-as').value = c.asignatura || ''; $('rs-ti').value = c.titulo || ''; setDet(c.detalle || 'detallado'); $('rs-np').value = c.partes || 1; parts(); $('rs-pi').value = c.parte || 1; $('rs-de').value = c.desde || ''; $('rs-ha').value = c.hasta || ''; $('rs-in2').value = c.instr || ''; draw(); drawRv(); $('rs-out').scrollIntoView({ behavior: 'smooth' }) }
+      });
+      function save() { clearTimeout(tm); if (!S.notes) return; const c = cfg(), nm = [c.asignatura, S.notes.title || c.titulo].filter(Boolean).join(' · ') || tr('Apuntes sin título', 'Untitled notes'), pt = c.partes > 1 ? ` · ${tr('parte', 'part')} ${c.parte}/${c.partes}` : ''; sv(nm + pt, `${S.notes.secs.length} ${tr('apartados', 'sections')}`, { cfg: c, notes: S.notes }) }
+
+      /* ---------- exportar ---------- */
+      const fname = () => ((S.notes.title || cfg().titulo || 'apuntes').replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-|-$/g, '').slice(0, 60) || 'apuntes');
+      const dl = (b, n) => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = n; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 5000) };
+      const plain = () => toMd(false).replace(/^#{1,3}\s+/gm, '').replace(/\*\*(.+?)\*\*/g, '$1').replace(/^\s*[-*]\s+/gm, '• ');
+      $('rs-xm').onclick = () => dl(new Blob([toMd(false)], { type: 'text/markdown;charset=utf-8' }), fname() + '.md');
+      $('rs-xt').onclick = () => dl(new Blob([plain()], { type: 'text/plain;charset=utf-8' }), fname() + '.txt');
+      $('rs-xc').onclick = async () => { try { await navigator.clipboard.writeText(plain()); say(tr('Apuntes copiados al portapapeles.', 'Notes copied to the clipboard.')) } catch (e) { say(tr('No se ha podido copiar. Usa Texto o Markdown.', 'Could not copy. Use Text or Markdown.')) } };
+      $('rs-xp').onclick = () => {
+        const n = S.notes, css = `@page{size:A4;margin:22mm 20mm 24mm;@bottom-center{content:counter(page);font:9pt system-ui,sans-serif;color:#666}}*{box-sizing:border-box}body{font:11pt/1.55 Georgia,'Times New Roman',serif;color:#111;margin:0}h1{font:700 22pt/1.2 system-ui,sans-serif;margin:0 0 10mm;padding-bottom:4mm;border-bottom:2px solid #222}h2{font:700 14pt/1.3 system-ui,sans-serif;margin:9mm 0 3mm;break-after:avoid}h3{font:700 12pt/1.3 system-ui,sans-serif;margin:6mm 0 2mm;break-after:avoid}p{margin:0 0 3mm;text-align:justify;orphans:3;widows:3}ul,ol{margin:0 0 3mm;padding-left:6mm}li{margin-bottom:1mm}`,
+          html = `<!doctype html><html lang="${EN ? 'en' : 'es'}"><head><meta charset="utf-8"><title>${esc(n.title || 'Apuntes')}</title><style>${css}</style></head><body><h1>${esc(n.title)}</h1>${n.secs.map(s => (s.t ? `<h${s.lvl}>${esc(s.t)}</h${s.lvl}>` : '') + mdHtml(s.b, false)).join('')}</body></html>`,
+          f = document.createElement('iframe'); f.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0'; document.body.appendChild(f);
+        const w = f.contentWindow; w.document.open(); w.document.write(html); w.document.close(); w.onafterprint = () => f.remove(); setTimeout(() => { w.focus(); w.print() }, 350); setTimeout(() => f.remove(), 120000);
+        say(tr('En el cuadro de impresión elige «Guardar como PDF». Si no ves los números de página, activa «Encabezados y pies de página».', 'In the print dialog choose “Save as PDF”. If page numbers are missing, enable “Headers and footers”.'));
+      };
+      $('rs-xd').onclick = async () => {
+        try {
+          await needLib('JSZip', 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js');
+          const X = s => s.replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c])), W = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"';
+          const runs = (t, sz, all) => t.split('**').map((p, i) => p ? `<w:r><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri"/>${all || i % 2 ? '<w:b/>' : ''}<w:sz w:val="${sz}"/></w:rPr><w:t xml:space="preserve">${X(p)}</w:t></w:r>` : '').join('');
+          const P = (t, o = {}) => `<w:p><w:pPr>${o.keep ? '<w:keepNext/>' : ''}<w:spacing w:before="${o.b || 0}" w:after="${o.a == null ? 120 : o.a}"/>${o.ind ? `<w:ind w:left="${o.ind}" w:hanging="260"/>` : ''}${o.jc ? `<w:jc w:val="${o.jc}"/>` : ''}</w:pPr>${runs(t, o.sz || 22, o.bold)}</w:p>`;
+          let body = P(S.notes.title, { sz: 40, bold: 1, a: 240, keep: 1 });
+          for (const s of S.notes.secs) {
+            if (s.t) body += P(s.t, { sz: s.lvl === 2 ? 30 : 25, bold: 1, b: s.lvl === 2 ? 280 : 180, a: 80, keep: 1 });
+            for (const l of s.b.replace(/[ \t]*⟦[^⟧]*⟧/g, '').split('\n')) { const m = l.match(/^\s*[-*•]\s+(.*)/), q = l.match(/^\s*(\d+[.)])\s+(.*)/); if (!l.trim()) continue; body += m ? P('• ' + m[1], { ind: 400, a: 60 }) : q ? P(q[1] + ' ' + q[2], { ind: 400, a: 60 }) : P(l.trim(), { jc: 'both' }) }
+          }
+          const z = new JSZip(), H = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+          z.file('[Content_Types].xml', H + '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/footer1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/></Types>');
+          z.file('_rels/.rels', H + '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>');
+          z.file('word/_rels/document.xml.rels', H + '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer" Target="footer1.xml"/></Relationships>');
+          z.file('word/footer1.xml', H + `<w:ftr ${W}><w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:fldChar w:fldCharType="begin"/></w:r><w:r><w:instrText xml:space="preserve"> PAGE </w:instrText></w:r><w:r><w:fldChar w:fldCharType="separate"/></w:r><w:r><w:t>1</w:t></w:r><w:r><w:fldChar w:fldCharType="end"/></w:r></w:p></w:ftr>`);
+          z.file('word/document.xml', H + `<w:document ${W}><w:body>${body}<w:sectPr><w:footerReference w:type="default" r:id="rId1"/><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1418" w:right="1418" w:bottom="1418" w:left="1418" w:header="709" w:footer="709" w:gutter="0"/></w:sectPr></w:body></w:document>`);
+          dl(await z.generateAsync({ type: 'blob', mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }), fname() + '.docx');
+        } catch (e) { say(tr('No se ha podido crear el Word. Prueba con PDF o Markdown.', 'Could not create the Word file. Try PDF or Markdown.')) }
+      };
+      window.addEventListener('beforeunload', e => { if (S.busy) { e.preventDefault(); e.returnValue = '' } });
+    })();
+
     /* ---- Vistas: portada y calculadora (pantalla aparte) ---- */
     const home = document.getElementById('inicio'), calcView = document.getElementById('vista-calculadora');
     let homeY = 0;
     document.getElementById('catalog').addEventListener('click', e => { if (e.target.closest('a.go')) homeY = window.scrollY });
     function routeNow() {
       const h = location.hash, nd = h.startsWith('#noticia-') ? h.slice(9) : null;
-      const VV = { '#calculadora': 'vista-calculadora', '#examenes': 'vista-examenes', '#planificador': 'vista-planificador', '#rubricas': 'vista-rubricas', '#noticias': 'vista-noticias', '#noticias-pau': 'vista-noticias', '#qr': 'vista-qr', '#flashcards': 'vista-flashcards', '#control': 'vista-control', '#examenes-oficiales': 'vista-examenes-oficiales', '#test-rama': 'vista-test-rama', '#simulador-pau': 'vista-simulador-pau', '#ponderaciones': 'vista-ponderaciones', '#privacidad': 'vista-privacidad' };
-      const TT = { '#calculadora': ['Calculadora de notas', 'calc-t'], '#examenes': ['Generador de exámenes', 'ex-t'], '#planificador': ['Planificador de estudio', 'pl-t'], '#rubricas': ['Generador de rúbricas', 'rb-t'], '#noticias': ['Noticias y Actualizaciones', 'nw-t'], '#noticias-pau': ['Noticias y actualizaciones PAU', 'nw-t'], '#qr': ['Generador de códigos QR', 'qr-t'], '#flashcards': ['Generador de flashcards', 'fc-t'], '#control': ['Control de clase', 'cc-t'], '#examenes-oficiales': ['Buscador de exámenes oficiales', 'eo-t'], '#test-rama': ['Test de rama', 'tb-t'], '#simulador-pau': ['Simulador y calculadora PAU', 'pau-t'], '#ponderaciones': ['Buscador de ponderaciones', 'pd-t'], '#privacidad': ['Aviso legal, privacidad y cookies', 'pv-t'] };
+      const VV = { '#calculadora': 'vista-calculadora', '#examenes': 'vista-examenes', '#planificador': 'vista-planificador', '#rubricas': 'vista-rubricas', '#noticias': 'vista-noticias', '#noticias-pau': 'vista-noticias', '#qr': 'vista-qr', '#flashcards': 'vista-flashcards', '#resumidor': 'vista-resumidor', '#control': 'vista-control', '#examenes-oficiales': 'vista-examenes-oficiales', '#test-rama': 'vista-test-rama', '#simulador-pau': 'vista-simulador-pau', '#ponderaciones': 'vista-ponderaciones', '#privacidad': 'vista-privacidad' };
+      const TT = { '#calculadora': ['Calculadora de notas', 'calc-t'], '#examenes': ['Generador de exámenes', 'ex-t'], '#planificador': ['Planificador de estudio', 'pl-t'], '#rubricas': ['Generador de rúbricas', 'rb-t'], '#noticias': ['Noticias y Actualizaciones', 'nw-t'], '#noticias-pau': ['Noticias y actualizaciones PAU', 'nw-t'], '#qr': ['Generador de códigos QR', 'qr-t'], '#flashcards': ['Generador de flashcards', 'fc-t'], '#resumidor': ['Resumidor de apuntes PDF', 'rs-t'], '#control': ['Control de clase', 'cc-t'], '#examenes-oficiales': ['Buscador de exámenes oficiales', 'eo-t'], '#test-rama': ['Test de rama', 'tb-t'], '#simulador-pau': ['Simulador y calculadora PAU', 'pau-t'], '#ponderaciones': ['Buscador de ponderaciones', 'pd-t'], '#privacidad': ['Aviso legal, privacidad y cookies', 'pv-t'] };
       const cur = nd !== null ? 'vista-noticia' : VV[h] || '';
       home.hidden = !!cur;
-      ['vista-calculadora', 'vista-examenes', 'vista-planificador', 'vista-rubricas', 'vista-noticias', 'vista-noticia', 'vista-qr', 'vista-flashcards', 'vista-control', 'vista-examenes-oficiales', 'vista-test-rama', 'vista-simulador-pau', 'vista-ponderaciones', 'vista-privacidad'].forEach(i => { $(i).hidden = i !== cur });
+      ['vista-calculadora', 'vista-examenes', 'vista-planificador', 'vista-rubricas', 'vista-noticias', 'vista-noticia', 'vista-qr', 'vista-flashcards', 'vista-resumidor', 'vista-control', 'vista-examenes-oficiales', 'vista-test-rama', 'vista-simulador-pau', 'vista-ponderaciones', 'vista-privacidad'].forEach(i => { $(i).hidden = i !== cur });
       document.title = TT[h] ? TT[h][0] + ' · Aulalia' : 'Aulalia · Herramientas para estudiar mejor';
       { const md = document.querySelector('meta[name="description"]'), pi = cur && document.querySelector('#' + cur + ' .intro'), og = n => document.querySelector('meta[property="og:' + n + '"]');
         if (md) { if (!md.dataset.d) md.dataset.d = md.content; const t = pi ? pi.textContent.replace(/\s+/g, ' ').trim() : ''; md.content = t ? t.slice(0, 155) : md.dataset.d; if (og('description')) og('description').content = md.content; if (og('title')) og('title').content = document.title } }
