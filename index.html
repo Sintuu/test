@@ -851,8 +851,14 @@
     }
 
     /* entrada de pantalla: solo la dispara el JS (clase .enter) y la quita al terminar; nunca depende de un estado que luego cambie, así no se repite */
-    .enter {
-      animation: vin .4s cubic-bezier(.22, .8, .3, 1)
+    .enter,
+    .enter-fwd {
+      transform-origin: 0% 50%;
+      animation: page-turn-fwd-in 0.46s cubic-bezier(0.25, 1, 0.35, 1) both;
+    }
+    .enter-back {
+      transform-origin: 0% 50%;
+      animation: page-turn-back-in 0.46s cubic-bezier(0.25, 1, 0.35, 1) both;
     }
 
     body,
@@ -2960,27 +2966,106 @@
       }
     }
 
-    /* transición entre pantallas (View Transitions, con alternativa sin ella) */
-    @keyframes vt-out {
-      to {
+    /* transición entre pantallas: pasar hoja de cuaderno (adelante y atrás) */
+    ::view-transition-group(root) {
+      perspective: 1600px;
+      perspective-origin: 50% 50%;
+    }
+
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+      transform-origin: 0% 50%;
+    }
+
+    /* Pasar hoja hacia adelante (abrir herramienta / avanzar) */
+    @keyframes page-turn-fwd-out {
+      0% {
+        transform: rotateY(0deg);
+        filter: brightness(1);
+        opacity: 1;
+      }
+      45% {
+        filter: brightness(0.8);
+      }
+      100% {
+        transform: rotateY(-82deg) scale(0.97);
+        filter: brightness(0.6);
         opacity: 0;
-        transform: translateY(-6px)
       }
     }
 
-    @keyframes vt-in {
-      from {
+    @keyframes page-turn-fwd-in {
+      0% {
+        transform: rotateY(75deg) scale(0.97);
+        box-shadow: -25px 0 50px rgba(0, 0, 0, 0.28);
         opacity: 0;
-        transform: translateY(10px)
+      }
+      35% {
+        opacity: 1;
+      }
+      100% {
+        transform: rotateY(0deg) scale(1);
+        box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+        opacity: 1;
       }
     }
 
-    .vt::view-transition-old(root) {
-      animation: vt-out .16s ease both
+    /* Pasar hoja hacia atrás (volver al inicio / retroceder) */
+    @keyframes page-turn-back-out {
+      0% {
+        transform: rotateY(0deg);
+        box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+        opacity: 1;
+      }
+      100% {
+        transform: rotateY(80deg) scale(0.97);
+        box-shadow: -25px 0 50px rgba(0, 0, 0, 0.28);
+        opacity: 0;
+      }
     }
 
-    .vt::view-transition-new(root) {
-      animation: vt-in .34s var(--ease) both
+    @keyframes page-turn-back-in {
+      0% {
+        transform: rotateY(-75deg) scale(0.97);
+        filter: brightness(0.65);
+        opacity: 0;
+      }
+      35% {
+        opacity: 1;
+        filter: brightness(0.85);
+      }
+      100% {
+        transform: rotateY(0deg) scale(1);
+        filter: brightness(1);
+        opacity: 1;
+      }
+    }
+
+    /* Aplicación en View Transitions según dirección */
+    html[data-page-dir="fwd"]::view-transition-old(root) {
+      animation: page-turn-fwd-out 0.46s cubic-bezier(0.25, 1, 0.35, 1) both;
+    }
+    html[data-page-dir="fwd"]::view-transition-new(root) {
+      animation: page-turn-fwd-in 0.46s cubic-bezier(0.25, 1, 0.35, 1) both;
+    }
+
+    html[data-page-dir="back"]::view-transition-old(root) {
+      animation: page-turn-back-out 0.46s cubic-bezier(0.25, 1, 0.35, 1) both;
+    }
+    html[data-page-dir="back"]::view-transition-new(root) {
+      animation: page-turn-back-in 0.46s cubic-bezier(0.25, 1, 0.35, 1) both;
+    }
+
+    /* Alternativa sin View Transitions */
+    .enter-fwd {
+      transform-origin: 0% 50%;
+      animation: page-turn-fwd-in 0.46s cubic-bezier(0.25, 1, 0.35, 1) both;
+    }
+    .enter-back {
+      transform-origin: 0% 50%;
+      animation: page-turn-back-in 0.46s cubic-bezier(0.25, 1, 0.35, 1) both;
     }
 
     /* cambio de tema: el fundido lo hace la transición de vista; sin transiciones CSS a la vez (si no, se ve doble y parpadea) */
@@ -3520,6 +3605,16 @@
     .calc-grid>* {
       min-width: 0
     }
+  
+    /* intro de 1,5 s: se escribe «Aulalia», aparece el eslogan y la cámara entra por la primera A */
+    #splash { display: none }
+    html.sp { overflow: hidden }
+    html.sp #splash { display: block; position: fixed; inset: 0; z-index: 1000; background: var(--bg); will-change: opacity }
+    #splash svg { display: block; position: absolute; inset: 0; width: 100%; height: 100%; text-rendering: geometricPrecision; shape-rendering: geometricPrecision }
+    #splash #spc { will-change: transform }
+    #splash #spt { font-family: var(--head); font-weight: 700; letter-spacing: -.02em; fill: var(--ink) }
+    #splash #spt .a, #splash #spk { fill: var(--accent) }
+    #splash #sps { font-family: var(--body); font-weight: 500; fill: var(--muted) }
   </style>
   <script>/* tema: el guardado manda; si no hay, se sigue el del sistema. La barra del navegador (theme-color) se alinea con el tema real */
     (function () {
@@ -3530,9 +3625,11 @@
       if (m[0]) { m[0].removeAttribute("media"); m[0].content = dark ? "#101217" : "#F5F6F8" }
     })();
     window.LANG = (function () { try { var l = localStorage.getItem("lang"); if (l === "en" || l === "es") return l } catch (e) { } return "es" })(); document.documentElement.lang = window.LANG;</script>
+<script>(function () { var d = document.documentElement, h = location.hash; if ((!h || h === '#inicio') && !matchMedia('(prefers-reduced-motion:reduce)').matches) { d.classList.add('sp'); setTimeout(function () { d.classList.remove('sp') }, 4000) } })()</script>
 </head>
 
 <body>
+  <div id="splash" aria-hidden="true"></div>
   <a class="skip" href="#contenido" onclick="event.preventDefault();document.getElementById('contenido').focus()">Saltar
     al contenido</a>
   <header>
@@ -5568,11 +5665,21 @@
       qr: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h3M20 17v4"/>'
     };
     ICONS.compass = '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>';
+    ICONS.solve = '<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4z"/><path d="M17 14v7M14 17.5h7"/>';
+    ICONS.schema = '<circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M12 7v4M8 15l3-4M16 15l-3-4"/>';
+    ICONS.scan = '<path d="M4 7V4h3M17 4h3v3M4 17v3h3M17 20h3v-3"/><path d="M7 9h10M7 12h10M7 15h6"/>';
+    ICONS.spellcheck = '<path d="M4 19l4-12h1l4 12M5.5 15h5"/><path d="M15 14l2 2 4-4"/>';
+    ICONS.timer = '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M10 2h4"/>';
+    ICONS.brain = '<path d="M12 2a5 5 0 0 0-4.5 7.1A4 4 0 0 0 5 13a4 4 0 0 0 3 3.87V22h8v-5.13A4 4 0 0 0 19 13a4 4 0 0 0-2.5-3.9A5 5 0 0 0 12 2z"/>';
+    ICONS.atom = '<circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="9" ry="4"/><ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(120 12 12)"/>';
+    ICONS.flask = '<path d="M9 3h6M10 3v7l-5 8a1.5 1.5 0 0 0 1.3 2.2h11.4A1.5 1.5 0 0 0 19 18l-5-8V3"/>';
+    ICONS.ruler = '<path d="M3 5h18v14H3z"/><path d="M7 5v4M11 5v6M15 5v4M19 5v4"/>';
     const CATS = {
       utilidades: tr(["Utilidades", "Calcula, consulta y resume sin complicaciones."], ["Utilities", "Calculate, look things up and summarise with no fuss."]),
       aprendizaje: tr(["Aprendizaje", "Organiza tu estudio y repasa con ayuda de IA."], ["Learning", "Organise your studying and revise with the help of AI."]),
       profesores: tr(["Profesores", "Recursos para preparar y gestionar la evaluación."], ["Teachers", "Resources to prepare and manage assessment."]),
-      pau: tr(["PAU y Universidad", "Notas de acceso, exámenes y ponderaciones."], ["PAU and University", "Entrance grades, exams and subject weightings."])
+      pau: tr(["PAU y Universidad", "Notas de acceso, exámenes y ponderaciones."], ["PAU and University", "Entrance grades, exams and subject weightings."]),
+      extra: tr(["Extra", "Herramientas de consulta y práctica para ciencias."], ["Extra", "Reference and practice tools for science."])
     };
     // [id, nombre, descripción, categoría, icono, disponible]
     const TOOLS = [
@@ -5590,7 +5697,16 @@
       ["noticias-pau", "Noticias y actualizaciones PAU", "Novedades de fuentes oficiales, con fecha y enlace.", "pau", "news", "noticias-pau"],
       ["examenes-oficiales", "Buscador de exámenes oficiales", "Modelos y exámenes anteriores por comunidad, materia y año.", "pau", "find", "examenes-oficiales"],
       ["ponderaciones-universitarias", "Buscador de ponderaciones", "Ponderaciones por grado y universidad, con su fuente.", "pau", "scale", "ponderaciones"],
-      ["generador-rubricas", "Generador de rúbricas", "Rúbricas con descriptores por nivel, listas para imprimir.", "profesores", "rubric", "rubricas"]
+      ["generador-rubricas", "Generador de rúbricas", "Rúbricas con descriptores por nivel, listas para imprimir.", "profesores", "rubric", "rubricas"],
+      ["solucionador-problemas", "Solucionador de problemas", "Resuelve problemas de matemáticas, física y química explicando cada paso, las fórmulas utilizadas y el razonamiento.", "utilidades", "solve", ""],
+      ["creador-esquemas", "Creador de esquemas", "Introduce un tema o sube apuntes y genera un mapa visual con conceptos, relaciones y conexiones totalmente personalizable.", "utilidades", "schema", ""],
+      ["digitalizador-apuntes", "Digitalizador de apuntes", "Sube una fotografía de tus apuntes escritos a mano y los convierte en texto editable y organizado.", "utilidades", "scan", ""],
+      ["corrector-redacciones", "Corrector de redacciones", "Corrige ortografía, gramática, expresión, coherencia y estructura. Evalúa el texto con criterios académicos, a partir de una foto o de texto pegado.", "utilidades", "spellcheck", ""],
+      ["temporizador-pomodoro", "Temporizador Pomodoro", "Sesiones de estudio y descanso configurables, estadísticas de concentración y objetivos diarios.", "utilidades", "timer", ""],
+      ["examen-adaptativo", "Examen adaptativo", "Las preguntas se vuelven más difíciles o fáciles según tus respuestas, detectando tu nivel real.", "aprendizaje", "brain", ""],
+      ["tabla-periodica", "Tabla periódica interactiva", "Explora los elementos químicos con información detallada y pon a prueba tus conocimientos con un quiz.", "extra", "atom", ""],
+      ["formulacion-quimica", "Formulación química", "Practica la formulación y nomenclatura de compuestos químicos inorgánicos y orgánicos.", "extra", "flask", ""],
+      ["conversor-unidades", "Conversor de unidades", "Convierte entre unidades de longitud, masa, volumen, temperatura, energía y más.", "extra", "ruler", ""]
     ];
     if (EN) {
       const T_EN = {
@@ -5608,7 +5724,16 @@
         "examenes-oficiales": ["Official exam finder", "Past papers and sample exams by region, subject and year."],
         "ponderaciones-universitarias": ["Subject weighting finder", "Weightings by degree and university, with their source."],
         "control-clase": ["Class Control", "Run an oral quiz in class: short questions per student, results and saving."],
-        "generador-rubricas": ["Rubric generator", "Rubrics with descriptors for each level, ready to print."]
+        "generador-rubricas": ["Rubric generator", "Rubrics with descriptors for each level, ready to print."],
+        "solucionador-problemas": ["Problem solver", "Solve maths, physics and chemistry problems, explaining every step, formula and reasoning."],
+        "creador-esquemas": ["Diagram creator", "Enter a topic or upload notes and generate a fully customisable visual map with concepts, links and connections."],
+        "digitalizador-apuntes": ["Notes digitiser", "Upload a photo of your handwritten notes and turn them into editable, organised text."],
+        "corrector-redacciones": ["Essay corrector", "Check spelling, grammar, expression, coherence and structure. Can assess the text against academic criteria, from a photo or pasted text."],
+        "temporizador-pomodoro": ["Pomodoro timer", "Configurable study and break sessions, focus statistics and daily goals."],
+        "examen-adaptativo": ["Adaptive test", "Questions get harder or easier based on your answers, pinpointing your real level."],
+        "tabla-periodica": ["Interactive periodic table", "Explore the chemical elements with detailed information and test your knowledge with a quiz."],
+        "formulacion-quimica": ["Chemical naming", "Practise naming and formulating inorganic and organic chemical compounds."],
+        "conversor-unidades": ["Unit converter", "Convert between units of length, mass, volume, temperature, energy and more."]
       };
       TOOLS.forEach(t => { const e = T_EN[t[0]]; if (e) { t[1] = e[0]; t[2] = e[1] } })
     }
@@ -7427,19 +7552,33 @@
     }
     const RM = matchMedia('(prefers-reduced-motion:reduce)');
     let firstRoute = true, vtN = 0;
+    let prevRouteHash = location.hash || '#inicio';
+    function getPageDir(fromH, toH) {
+      const from = fromH || '#inicio', to = toH || '#inicio';
+      if (to === '#inicio') return 'back';
+      if (from.startsWith('#noticia-') && !to.startsWith('#noticia-')) return 'back';
+      if (to.startsWith('#noticia-') && !from.startsWith('#noticia-')) return 'fwd';
+      if (from === '#inicio' && to !== '#inicio') return 'fwd';
+      return 'fwd';
+    }
     /* alternativa sin View Transitions: la entrada se lanza una vez y la clase se quita al terminar la animación */
-    function enter() {
+    function enter(dir) {
       const el = [home, ...document.querySelectorAll('.view')].find(x => !x.hidden); if (!el) return;
-      el.classList.remove('enter'); void el.offsetWidth; el.classList.add('enter');
-      const end = e => { if (e.target !== el) return; el.classList.remove('enter'); el.removeEventListener('animationend', end) };
+      el.classList.remove('enter', 'enter-fwd', 'enter-back'); void el.offsetWidth;
+      el.classList.add(dir === 'back' ? 'enter-back' : 'enter-fwd');
+      const end = e => { if (e.target !== el) return; el.classList.remove('enter', 'enter-fwd', 'enter-back'); el.removeEventListener('animationend', end) };
       el.addEventListener('animationend', end);
     }
     function route() {
       const d = document.documentElement;
       if (firstRoute) { firstRoute = false; routeNow(); return }
       d.classList.remove('intro');
+      const curHash = location.hash || '#inicio';
+      const dir = getPageDir(prevRouteHash, curHash);
+      prevRouteHash = curHash;
+      d.dataset.pageDir = dir;
       if (RM.matches) { routeNow(); return }
-      if (!document.startViewTransition) { routeNow(); enter(); return }
+      if (!document.startViewTransition) { routeNow(); enter(dir); return }
       /* solo el último cambio de pantalla puede quitar .vt; si no, un clic rápido reinicia el fundido */
       const n = ++vtN; d.classList.add('vt');
       document.startViewTransition(routeNow).finished.finally(() => { if (n === vtN) d.classList.remove('vt') });
@@ -7448,10 +7587,107 @@
     window.addEventListener('hashchange', route); route();
     (function () {
       const d = document.documentElement;
-      if (!location.hash || location.hash === '#inicio') { d.classList.add('intro'); setTimeout(() => d.classList.remove('intro'), 1700) }
+      if (!d.classList.contains('sp') && (!location.hash || location.hash === '#inicio')) { d.classList.add('intro'); setTimeout(() => d.classList.remove('intro'), 1700) }
       const hdr = document.querySelector('header'); let on = false;
       const sync = () => { const s = window.scrollY > 4; if (s !== on) { on = s; hdr.classList.toggle('scrolled', s) } };
       addEventListener('scroll', sync, { passive: true }); sync();
+    })();
+
+    /* ---- Intro 1,5 s: 0-1 s se escribe el título y aparece el eslogan; 1-1,5 s la cámara entra suavemente en la A ---- */
+    (function () {
+      const d = document.documentElement, box = document.getElementById('splash');
+      let ended = false;
+      const end = () => { if (ended) return; ended = true; d.classList.remove('sp'); if (box) box.remove() };
+      if (!box || !d.classList.contains('sp')) return end();
+      box.addEventListener('click', end);
+      window.addEventListener('keydown', e => { if (e.key === 'Escape') end() }, { once: true });
+      const lk = document.querySelector('link[href*="Bricolage"]');
+      const sheet = new Promise(r => { if (!lk || lk.media === 'all') r(); else lk.addEventListener('load', () => r()) });
+      Promise.race([
+        sheet.then(() => Promise.all([document.fonts.load('700 100px "Bricolage Grotesque"'), document.fonts.load('500 20px "Hanken Grotesk"')])),
+        new Promise(r => setTimeout(r, 900))
+      ]).catch(() => { }).then(() => { try { start() } catch (e) { end() } });
+      function start() {
+        const W = innerWidth, H = innerHeight, T = 'Aulalia', S = window.LANG === 'en' ? 'Tools to study better.' : 'Herramientas para estudiar mejor.';
+        const fs = Math.min(W * .2, H * .3), by = H / 2 + fs * .2, sy = by + fs * .34, big = `x="${-2 * W}" y="${-2 * H}" width="${5 * W}" height="${5 * H}"`;
+        box.classList.add('on');
+        box.innerHTML = `<svg width="${W}" height="${H}">` +
+          `<g id="spc"><rect ${big} style="fill:var(--bg)"/>` +
+          `<text id="spt" x="${W / 2}" y="${by}" text-anchor="middle" font-size="${fs}">${[...T].map((c, i) => `<tspan${i ? '' : ' class="a"'} style="fill-opacity:0">${c}</tspan>`).join('')}</text>` +
+          `<rect id="spk" width="${fs * .05}" height="${fs * .72}" y="${by - fs * .72}" opacity="0"/>` +
+          `<text id="sps" x="${W / 2}" y="${sy}" text-anchor="middle" font-size="${fs * .19}" opacity="0">${S}</text></g></svg>`;
+        const svg = box.firstChild, cam = svg.getElementById('spc');
+        const t = svg.getElementById('spt'), tsp = t.querySelectorAll('tspan'), sl = svg.getElementById('sps'), kr = svg.getElementById('spk');
+        
+        /* Localizar el centro del travesaño (línea horizontal morada) de la primera A directamente en SVG */
+        let P = null;
+        function getP() {
+          try {
+            const ex = t.getExtentOfChar(0);
+            if (ex && ex.width > 0 && ex.height > 0) {
+              return {
+                x: ex.x + ex.width * 0.5,
+                y: ex.y + ex.height * 0.61
+              };
+            }
+          } catch (e) { }
+          return { x: W / 2 - fs * 1.15, y: by - fs * 0.28 };
+        }
+        P = getP();
+        
+        // Escala Z para que el travesaño morado inunde limpiamente la pantalla
+        const Z = Math.max(45, Math.min(65, Math.round(W / 20)));
+        const ease = u => u < .5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2, clamp = v => Math.min(1, Math.max(0, v));
+        let t0;
+        
+        function f(now) {
+          if (t0 == null) t0 = now;
+          const ms = now - t0;
+          
+          if (ms <= 1000) {
+            // 0s-1s: se escribe «Aulalia» y aparece el eslogan
+            const n = Math.min(T.length - 1, Math.floor(ms / 85));
+            tsp.forEach((s, i) => { s.style.fillOpacity = i <= n ? '1' : '0' });
+            try {
+              const ex = t.getExtentOfChar(n);
+              if (ex) kr.setAttribute('x', (ex.x + ex.width + fs * .02).toFixed(2));
+            } catch (e) { }
+            kr.setAttribute('opacity', ms < 85 * T.length + 120 ? '1' : '0');
+            const k = ease(clamp((ms - 450) / 450));
+            sl.setAttribute('opacity', k.toFixed(3));
+            sl.setAttribute('y', (sy + (1 - k) * fs * .06).toFixed(2));
+          } else {
+            // 1s-1.5s: la cámara avanza adentrándose con total suavidad en la A morada
+            tsp.forEach(s => { s.style.fillOpacity = '1' });
+            kr.setAttribute('opacity', '0');
+            const u = clamp((ms - 1000) / 500);
+            
+            // Zoom centrado directamente en P: sin desplazamientos laterales erráticos ni temblor
+            const scale = Math.pow(Z, Math.pow(u, 1.6));
+            const px = P.x.toFixed(2), py = P.y.toFixed(2);
+            const sc = scale.toFixed(3);
+            cam.setAttribute('transform', `translate(${px} ${py}) scale(${sc}) translate(-${px} -${py})`);
+            
+            // Desvanecer el resto del texto y eslogan para centrar el foco puramente en la A
+            const fadeOther = Math.max(0, 1 - u * 2.6).toFixed(3);
+            for (let i = 1; i < tsp.length; i++) {
+              tsp[i].style.fillOpacity = fadeOther;
+            }
+            sl.setAttribute('opacity', fadeOther);
+            
+            // A partir de u >= 0.5 (1250 ms), la A sólida inunda la visión: desvanecemos suavemente el splash hacia la web
+            if (u >= 0.5) {
+              const p = (u - 0.5) / 0.5;
+              const fade = p * p;
+              box.style.opacity = (1 - fade).toFixed(3);
+            }
+          }
+          
+          if (ms < 1500) requestAnimationFrame(f);
+          else end();
+        }
+        requestAnimationFrame(f);
+      }
     })();
 
     if (EN) dxAll();
