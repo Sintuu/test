@@ -48,7 +48,8 @@
   <meta property="og:site_name" content="Aulalia">
   <meta property="og:locale" content="es_ES">
   <meta name="twitter:card" content="summary">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Aulalia","description":"Calculadoras, ejercicios, resúmenes y más para ESO, Bachillerato, PAU y profesores.","inLanguage":"es"}</script>
+  <script
+    type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Aulalia","description":"Calculadoras, ejercicios, resúmenes y más para ESO, Bachillerato, PAU y profesores.","inLanguage":"es"}</script>
   <meta property="og:title" content="Aulalia · Herramientas para estudiar mejor">
   <meta property="og:description"
     content="Calculadoras, ejercicios, resúmenes y más para ESO, Bachillerato, PAU y profesores.">
@@ -527,23 +528,102 @@
     }
 
     /* generador de ejercicios */
-    .ej-note { margin: 12px 0 0; padding: 10px 12px; border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 8px; background: var(--surface) }
-    .ej-ans { width: 100%; margin-top: 16px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); font: 500 1rem var(--body) }
-    .ej-ans:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px }
-    .ej-ans[data-r="ok"] { border-color: #1E7A46 }
-    .ej-ans[data-r="ko"] { border-color: var(--bad) }
-    .ej-opts { margin-top: 16px }
-    .ej-mc button { flex: 1 1 100%; text-align: left }
-    .ej-opts button:disabled:not(.ok):not(.ko) { opacity: .55; cursor: default }
+    .ej-note {
+      margin: 12px 0 0;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--accent);
+      border-radius: 8px;
+      background: var(--surface)
+    }
+
+    .ej-ans {
+      width: 100%;
+      margin-top: 16px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--bg);
+      color: var(--ink);
+      font: 500 1rem var(--body)
+    }
+
+    .ej-ans:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px
+    }
+
+    .ej-ans[data-r="ok"] {
+      border-color: #1E7A46
+    }
+
+    .ej-ans[data-r="ko"] {
+      border-color: var(--bad)
+    }
+
+    .ej-opts {
+      margin-top: 16px
+    }
+
+    .ej-mc button {
+      flex: 1 1 100%;
+      text-align: left
+    }
+
+    .ej-opts button:disabled:not(.ok):not(.ko) {
+      opacity: .55;
+      cursor: default
+    }
+
     /* resumidor de apuntes */
-    .rs-st { margin: 0 0 10px; color: var(--muted); font-size: .92rem }
-    .rs-kw { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px }
-    .rs-kw span { padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font-size: .85rem }
-    #rs-out h3 { margin: 16px 0 6px; font: 600 1rem var(--head) }
-    #rs-out ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; line-height: 1.5 }
-    #rs-out li b { font-weight: 700 }
-    #rs-out>* { animation: rsIn .35s cubic-bezier(.22, .8, .3, 1) both }
-    @keyframes rsIn { from { opacity: 0; transform: translateY(6px) } }
+    .rs-st {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: .92rem
+    }
+
+    .rs-kw {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 0 0 12px
+    }
+
+    .rs-kw span {
+      padding: 4px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      font-size: .85rem
+    }
+
+    #rs-out h3 {
+      margin: 16px 0 6px;
+      font: 600 1rem var(--head)
+    }
+
+    #rs-out ul {
+      margin: 0;
+      padding-left: 1.2em;
+      display: grid;
+      gap: 6px;
+      line-height: 1.5
+    }
+
+    #rs-out li b {
+      font-weight: 700
+    }
+
+    #rs-out>* {
+      animation: rsIn .35s cubic-bezier(.22, .8, .3, 1) both
+    }
+
+    @keyframes rsIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px)
+      }
+    }
 
     table {
       border-collapse: collapse;
@@ -3185,54 +3265,261 @@
       border-color: var(--bad);
       color: var(--accent-ink)
     }
-    .eo-list{display:grid;gap:10px;margin-top:12px}
-    .eo-it{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;gap:6px 16px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
-    .eo-it h3{font-size:1.05rem;margin:0 0 4px}
-    .eo-it p{margin:0;color:var(--muted);font-size:.92rem;max-width:62ch}
-    .eo-it .eo-go{font-weight:600;color:var(--accent);white-space:nowrap}
-    .eo-it .eo-alt{flex-basis:100%;font-size:.88rem;color:var(--muted)}
-    /* pau y ponderaciones */
-    .pau-r{display:grid;grid-template-columns:minmax(0,1fr) 84px 92px;gap:8px;margin-bottom:8px}
-    @media(max-width:520px){.pau-r{grid-template-columns:1fr 1fr}.pau-r select:first-child{grid-column:1/-1}}
-    .pau-r select{min-width:0}
-    .pau-big{font:700 2rem var(--head);margin:0}
-    /* test de rama */
-    .tb-opts{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:18px}
-    @media(max-width:620px){.tb-opts{grid-template-columns:1fr}}
-    .tb-opts button{padding:12px 8px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font:600 .95rem var(--body);cursor:pointer;transition:background-color .15s,border-color .15s,color .15s}
-    .tb-opts button:hover{border-color:var(--accent)}
-    .tb-opts button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-    .tb-it{padding:14px 0;border-top:1px solid var(--line)}
-    .tb-it:first-child{border-top:0;padding-top:4px}
-    .tb-hd{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap}
-    .tb-hd b{font:700 1.05rem var(--head)}
-    .tb-it.top .tb-hd b{font-size:1.3rem}
-    .tb-hd span.p{font-weight:600;color:var(--muted)}
-    .tb-it .fc-bar{margin:8px 0 6px}
-    .tb-it p{margin:0;color:var(--muted);font-size:.92rem}
-    .tb-it .badge{margin-right:8px;vertical-align:middle}
-  
-    .skip{position:absolute;left:12px;top:-60px;z-index:100;padding:10px 14px;border-radius:8px;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none}
-    .skip:focus{top:10px}
-    main:focus{outline:none}
-  
-    .ad{margin:40px 0 0;text-align:center}
-    .ad:has(ins[data-ad-status="filled"])::before{content:"Publicidad";display:block;font-size:.75rem;color:var(--muted);margin-bottom:6px}
-    .pv h2{font-size:1.15rem;margin-top:28px}
-    .pv p{max-width:44em;margin:8px 0 0;color:var(--muted)}
-    html{-webkit-text-size-adjust:100%}
-    a,button,summary,select{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-    body{overflow-wrap:break-word}
-    footer{padding-bottom:calc(40px + env(safe-area-inset-bottom,0px))}
-    @media(max-width:600px){
-      .calc input:not([type=checkbox]):not([type=radio]),.calc select,.calc textarea{font-size:16px;min-height:44px}
-      .calc button,.tog,.pri,.link{min-height:44px}
-      summary{padding:8px 0}
-      .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-      .view h1{font-size:clamp(1.8rem,8vw,2.2rem)}
-      table{display:block;overflow-x:auto}
+
+    .eo-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px
     }
-      .ex-grid>*,.calc-grid>*{min-width:0}
+
+    .eo-it {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      gap: 6px 16px;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap
+    }
+
+    .eo-it h3 {
+      font-size: 1.05rem;
+      margin: 0 0 4px
+    }
+
+    .eo-it p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .92rem;
+      max-width: 62ch
+    }
+
+    .eo-it .eo-go {
+      font-weight: 600;
+      color: var(--accent);
+      white-space: nowrap
+    }
+
+    .eo-it .eo-alt {
+      flex-basis: 100%;
+      font-size: .88rem;
+      color: var(--muted)
+    }
+
+    /* pau y ponderaciones */
+    .pau-r {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 84px 92px;
+      gap: 8px;
+      margin-bottom: 8px
+    }
+
+    @media(max-width:520px) {
+      .pau-r {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .pau-r select:first-child {
+        grid-column: 1/-1
+      }
+    }
+
+    .pau-r select {
+      min-width: 0
+    }
+
+    .pau-big {
+      font: 700 2rem var(--head);
+      margin: 0
+    }
+
+    /* test de rama */
+    .tb-opts {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-top: 18px
+    }
+
+    @media(max-width:620px) {
+      .tb-opts {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .tb-opts button {
+      padding: 12px 8px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--ink);
+      font: 600 .95rem var(--body);
+      cursor: pointer;
+      transition: background-color .15s, border-color .15s, color .15s
+    }
+
+    .tb-opts button:hover {
+      border-color: var(--accent)
+    }
+
+    .tb-opts button[aria-pressed=true] {
+      background: var(--accent);
+      color: var(--accent-ink);
+      border-color: var(--accent)
+    }
+
+    .tb-it {
+      padding: 14px 0;
+      border-top: 1px solid var(--line)
+    }
+
+    .tb-it:first-child {
+      border-top: 0;
+      padding-top: 4px
+    }
+
+    .tb-hd {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+      flex-wrap: wrap
+    }
+
+    .tb-hd b {
+      font: 700 1.05rem var(--head)
+    }
+
+    .tb-it.top .tb-hd b {
+      font-size: 1.3rem
+    }
+
+    .tb-hd span.p {
+      font-weight: 600;
+      color: var(--muted)
+    }
+
+    .tb-it .fc-bar {
+      margin: 8px 0 6px
+    }
+
+    .tb-it p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .92rem
+    }
+
+    .tb-it .badge {
+      margin-right: 8px;
+      vertical-align: middle
+    }
+
+    .skip {
+      position: absolute;
+      left: 12px;
+      top: -60px;
+      z-index: 100;
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: var(--accent);
+      color: var(--accent-ink);
+      font-weight: 600;
+      text-decoration: none
+    }
+
+    .skip:focus {
+      top: 10px
+    }
+
+    main:focus {
+      outline: none
+    }
+
+    .ad {
+      margin: 40px 0 0;
+      text-align: center
+    }
+
+    .ad:has(ins[data-ad-status="filled"])::before {
+      content: "Publicidad";
+      display: block;
+      font-size: .75rem;
+      color: var(--muted);
+      margin-bottom: 6px
+    }
+
+    .pv h2 {
+      font-size: 1.15rem;
+      margin-top: 28px
+    }
+
+    .pv p {
+      max-width: 44em;
+      margin: 8px 0 0;
+      color: var(--muted)
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%
+    }
+
+    a,
+    button,
+    summary,
+    select {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation
+    }
+
+    body {
+      overflow-wrap: break-word
+    }
+
+    footer {
+      padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px))
+    }
+
+    @media(max-width:600px) {
+
+      .calc input:not([type=checkbox]):not([type=radio]),
+      .calc select,
+      .calc textarea {
+        font-size: 16px;
+        min-height: 44px
+      }
+
+      .calc button,
+      .tog,
+      .pri,
+      .link {
+        min-height: 44px
+      }
+
+      summary {
+        padding: 8px 0
+      }
+
+      .wrap {
+        padding-left: max(16px, env(safe-area-inset-left, 0px));
+        padding-right: max(16px, env(safe-area-inset-right, 0px))
+      }
+
+      .view h1 {
+        font-size: clamp(1.8rem, 8vw, 2.2rem)
+      }
+
+      table {
+        display: block;
+        overflow-x: auto
+      }
+    }
+
+    .ex-grid>*,
+    .calc-grid>* {
+      min-width: 0
+    }
   </style>
   <script>/* tema: el guardado manda; si no hay, se sigue el del sistema. La barra del navegador (theme-color) se alinea con el tema real */
     (function () {
@@ -3246,7 +3533,8 @@
 </head>
 
 <body>
-  <a class="skip" href="#contenido" onclick="event.preventDefault();document.getElementById('contenido').focus()">Saltar al contenido</a>
+  <a class="skip" href="#contenido" onclick="event.preventDefault();document.getElementById('contenido').focus()">Saltar
+    al contenido</a>
   <header>
     <div class="wrap">
       <a class="logo" href="#inicio">Aulalia</a>
@@ -3256,7 +3544,10 @@
   </header>
 
   <main id="contenido" tabindex="-1">
-    <noscript><p class="wrap" style="padding:24px 20px">Aulalia necesita JavaScript para funcionar. Actívalo en tu navegador para usar las herramientas.</p></noscript>
+    <noscript>
+      <p class="wrap" style="padding:24px 20px">Aulalia necesita JavaScript para funcionar. Actívalo en tu navegador
+        para usar las herramientas.</p>
+    </noscript>
     <div id="inicio">
       <section class="hero">
         <div class="wrap">
@@ -3398,11 +3689,13 @@
             <path d="M15 5l-7 7 7 7" />
           </svg>Volver a las herramientas</a>
         <h1 id="eo-t" tabindex="-1">Buscador de exámenes oficiales</h1>
-        <p class="intro">Elige tu comunidad y ve directo a la página oficial donde se publican los exámenes y modelos de la PAU. Cada resultado enlaza a su fuente; Aulalia no guarda copias de los exámenes.</p>
+        <p class="intro">Elige tu comunidad y ve directo a la página oficial donde se publican los exámenes y modelos de
+          la PAU. Cada resultado enlaza a su fuente; Aulalia no guarda copias de los exámenes.</p>
         <section class="calc">
           <div class="two">
             <div class="fld"><label for="eo-c">Comunidad autónoma</label><select id="eo-c"></select></div>
-            <div class="fld"><label for="eo-m">Materia (opcional)</label><input id="eo-m" type="search" autocomplete="off" placeholder="Matemáticas, Historia…"></div>
+            <div class="fld"><label for="eo-m">Materia (opcional)</label><input id="eo-m" type="search"
+                autocomplete="off" placeholder="Matemáticas, Historia…"></div>
           </div>
           <div class="two">
             <div class="fld"><label for="eo-y">Año</label><select id="eo-y"></select></div>
@@ -3454,7 +3747,8 @@
             <path d="M15 5l-7 7 7 7" />
           </svg>Volver a las herramientas</a>
         <h1 id="qr-t" tabindex="-1">Generador de códigos QR</h1>
-        <p class="intro">Crea códigos QR de enlaces, texto, Wi-Fi, correo, teléfono, SMS o contactos, personaliza su estilo y descárgalos en PNG o SVG. Se genera en tu navegador: no se envía nada.</p>
+        <p class="intro">Crea códigos QR de enlaces, texto, Wi-Fi, correo, teléfono, SMS o contactos, personaliza su
+          estilo y descárgalos en PNG o SVG. Se genera en tu navegador: no se envía nada.</p>
         <div class="calc-grid">
           <section class="calc" id="qr-form">
             <h2>Contenido</h2>
@@ -3564,7 +3858,8 @@
             <path d="M15 5l-7 7 7 7" />
           </svg>Volver a las herramientas</a>
         <h1 id="ej-t" tabindex="-1">Generador de ejercicios</h1>
-        <p class="intro">Sube tu temario en PDF o imagen, o pega el texto, y practica con ejercicios que se corrigen al momento. Todo se procesa en tu navegador: no se envía nada.</p>
+        <p class="intro">Sube tu temario en PDF o imagen, o pega el texto, y practica con ejercicios que se corrigen al
+          momento. Todo se procesa en tu navegador: no se envía nada.</p>
         <div id="ej-app"></div>
       </div>
     </section>
@@ -3575,7 +3870,8 @@
             <path d="M15 5l-7 7 7 7" />
           </svg>Volver a las herramientas</a>
         <h1 id="rs-t" tabindex="-1">Resumidor de apuntes PDF</h1>
-        <p class="intro">Sube tus apuntes en PDF o imagen, o pega el texto, y elige un resumen corto, medio o detallado, organizado por temas. Todo se procesa en tu navegador: no se envía nada.</p>
+        <p class="intro">Sube tus apuntes en PDF o imagen, o pega el texto, y elige un resumen corto, medio o detallado,
+          organizado por temas. Todo se procesa en tu navegador: no se envía nada.</p>
         <div id="rs-app"></div>
       </div>
     </section>
@@ -3871,7 +4167,8 @@
             <path d="M15 5l-7 7 7 7" />
           </svg>Volver a las herramientas</a>
         <h1 id="tb-t" tabindex="-1">Test de rama</h1>
-        <p class="intro">Responde unas preguntas sobre lo que te gusta y descubre qué rama de ESO, qué modalidad de Bachillerato y qué carrera encajan mejor contigo.
+        <p class="intro">Responde unas preguntas sobre lo que te gusta y descubre qué rama de ESO, qué modalidad de
+          Bachillerato y qué carrera encajan mejor contigo.
           Es una orientación, no un veredicto. Todo se hace en tu navegador.</p>
         <section class="calc" id="tb-setup">
           <h2>Longitud del test</h2>
@@ -3897,14 +4194,14 @@
           <h2>Tu resultado</h2>
           <p class="sub" id="tb-sum" role="status" aria-live="polite"></p>
           <p class="sub" id="tb-top"></p>
-          <div class="seg" role="group" aria-label="Resultados por nivel" style="display:flex;margin-top:14px"><button type="button" id="tb-t1"
-              aria-pressed="true" style="flex:1">ESO</button><button type="button" id="tb-t2" aria-pressed="false"
-              style="flex:1">Bachillerato</button><button type="button" id="tb-t3" aria-pressed="false"
-              style="flex:1">Carrera universitaria</button></div>
+          <div class="seg" role="group" aria-label="Resultados por nivel" style="display:flex;margin-top:14px"><button
+              type="button" id="tb-t1" aria-pressed="true" style="flex:1">ESO</button><button type="button" id="tb-t2"
+              aria-pressed="false" style="flex:1">Bachillerato</button><button type="button" id="tb-t3"
+              aria-pressed="false" style="flex:1">Carrera universitaria</button></div>
           <div id="tb-list" style="margin-top:12px"></div>
-          <div class="ex-bar" style="margin-top:12px"><button type="button" class="tog" id="tb-more" hidden>Ver más</button><button
-              type="button" class="pri" id="tb-again" style="margin-left:0">Repetir el test</button><button
-              type="button" class="tog" id="tb-change">Cambiar de test</button></div>
+          <div class="ex-bar" style="margin-top:12px"><button type="button" class="tog" id="tb-more" hidden>Ver
+              más</button><button type="button" class="pri" id="tb-again" style="margin-left:0">Repetir el
+              test</button><button type="button" class="tog" id="tb-change">Cambiar de test</button></div>
           <p class="sub" id="tb-note"></p>
         </section>
       </div>
@@ -3916,59 +4213,95 @@
             <path d="M15 5l-7 7 7 7" />
           </svg>Volver a las herramientas</a>
         <h1 id="pau-t" tabindex="-1">Simulador y calculadora PAU</h1>
-        <p class="intro">Calcula tu nota de acceso (sobre 10) y tu nota de admisión (sobre 14) y compárala con la nota de corte de tu grado. Solo necesitas tu media de Bachillerato y tus notas de la PAU.</p>
+        <p class="intro">Calcula tu nota de acceso (sobre 10) y tu nota de admisión (sobre 14) y compárala con la nota
+          de corte de tu grado. Solo necesitas tu media de Bachillerato y tus notas de la PAU.</p>
         <div class="calc-grid">
           <section class="calc">
             <h2>1. Fase de acceso (obligatoria)</h2>
-            <p class="sub">Es la base de tu nota: tu media de Bachillerato (sin Religión) cuenta un 60 % y los cuatro exámenes de la PAU, un 40 %.</p>
-            <div class="two"><div class="fld"><label for="pau-nmb">Nota media de Bachillerato</label><input id="pau-nmb" inputmode="decimal" placeholder="8,5"></div><div class="fld"><label for="pau-obj">Nota de acceso objetivo (opcional)</label><input id="pau-obj" inputmode="decimal" placeholder="8,5"></div></div>
-            <p class="sub">Notas de los cuatro exámenes (de 0 a 10). Se calcula su media y debe ser al menos un 4. Los nombres pueden variar según tu comunidad.</p>
-            <div class="two"><div class="fld"><label for="pau-e1">Lengua Castellana y Literatura</label><input id="pau-e1" inputmode="decimal" placeholder=""></div><div class="fld"><label for="pau-e2">Historia de España o de la Filosofía</label><input id="pau-e2" inputmode="decimal" placeholder=""></div></div>
-            <div class="two"><div class="fld"><label for="pau-e3">Lengua extranjera</label><input id="pau-e3" inputmode="decimal" placeholder=""></div><div class="fld"><label for="pau-e4">Materia de modalidad</label><input id="pau-e4" inputmode="decimal" placeholder=""></div></div>
+            <p class="sub">Es la base de tu nota: tu media de Bachillerato (sin Religión) cuenta un 60 % y los cuatro
+              exámenes de la PAU, un 40 %.</p>
+            <div class="two">
+              <div class="fld"><label for="pau-nmb">Nota media de Bachillerato</label><input id="pau-nmb"
+                  inputmode="decimal" placeholder="8,5"></div>
+              <div class="fld"><label for="pau-obj">Nota de acceso objetivo (opcional)</label><input id="pau-obj"
+                  inputmode="decimal" placeholder="8,5"></div>
+            </div>
+            <p class="sub">Notas de los cuatro exámenes (de 0 a 10). Se calcula su media y debe ser al menos un 4. Los
+              nombres pueden variar según tu comunidad.</p>
+            <div class="two">
+              <div class="fld"><label for="pau-e1">Lengua Castellana y Literatura</label><input id="pau-e1"
+                  inputmode="decimal" placeholder=""></div>
+              <div class="fld"><label for="pau-e2">Historia de España o de la Filosofía</label><input id="pau-e2"
+                  inputmode="decimal" placeholder=""></div>
+            </div>
+            <div class="two">
+              <div class="fld"><label for="pau-e3">Lengua extranjera</label><input id="pau-e3" inputmode="decimal"
+                  placeholder=""></div>
+              <div class="fld"><label for="pau-e4">Materia de modalidad</label><input id="pau-e4" inputmode="decimal"
+                  placeholder=""></div>
+            </div>
           </section>
           <section class="calc">
             <h2>2. Fase de admisión (voluntaria)</h2>
-            <p class="sub">Opcional: sirve para superar el 10, hasta un máximo de 14. Elige tu grado para rellenar las ponderaciones, o elígelas tú (0,1 o 0,2). Solo cuentan tus dos mejores materias, y solo si sacas un 5 o más.</p>
-            <div class="fld"><label for="pau-g">Grado (opcional, rellena las ponderaciones)</label><input id="pau-g" list="pau-gl" autocomplete="off" placeholder="Medicina, Derecho…"><datalist id="pau-gl"></datalist></div>
+            <p class="sub">Opcional: sirve para superar el 10, hasta un máximo de 14. Elige tu grado para rellenar las
+              ponderaciones, o elígelas tú (0,1 o 0,2). Solo cuentan tus dos mejores materias, y solo si sacas un 5 o
+              más.</p>
+            <div class="fld"><label for="pau-g">Grado (opcional, rellena las ponderaciones)</label><input id="pau-g"
+                list="pau-gl" autocomplete="off" placeholder="Medicina, Derecho…"><datalist id="pau-gl"></datalist>
+            </div>
             <div id="pau-rows"></div>
-            <div class="fld"><label for="pau-cut">Nota de corte del grado (opcional)</label><input id="pau-cut" inputmode="decimal" placeholder="11,5"></div>
+            <div class="fld"><label for="pau-cut">Nota de corte del grado (opcional)</label><input id="pau-cut"
+                inputmode="decimal" placeholder="11,5"></div>
           </section>
         </div>
         <section class="calc" style="margin-top:16px">
           <h2>Resultado</h2>
           <div class="out" id="pau-out" aria-live="polite"></div>
-          <p class="sub">Es una estimación: comprueba las normas de tu comunidad y la tabla de ponderaciones de tu universidad.</p>
+          <p class="sub">Es una estimación: comprueba las normas de tu comunidad y la tabla de ponderaciones de tu
+            universidad.</p>
         </section>
 
         <h2 class="sec">Cómo se calcula</h2>
         <div class="faq">
           <details>
             <summary>¿Cómo se calcula la nota de acceso?</summary>
-            <p>Es el 60 % de tu nota media de Bachillerato más el 40 % de la media de los cuatro exámenes de la fase de acceso. Se expresa sobre 10, con tres decimales. Ejemplo: con un 8,2 en Bachillerato y un 7,5 de media en los exámenes, 0,6 × 8,2 + 0,4 × 7,5 = 7,920.</p>
+            <p>Es el 60 % de tu nota media de Bachillerato más el 40 % de la media de los cuatro exámenes de la fase de
+              acceso. Se expresa sobre 10, con tres decimales. Ejemplo: con un 8,2 en Bachillerato y un 7,5 de media en
+              los exámenes, 0,6 × 8,2 + 0,4 × 7,5 = 7,920.</p>
           </details>
           <details>
             <summary>¿Cuándo apruebo la PAU?</summary>
-            <p>Cuando la media de los cuatro exámenes es de al menos un 4 y la nota de acceso es de al menos un 5. Si la media de los exámenes es menor que 4, no apruebas aunque la nota de acceso supere el 5.</p>
+            <p>Cuando la media de los cuatro exámenes es de al menos un 4 y la nota de acceso es de al menos un 5. Si la
+              media de los exámenes es menor que 4, no apruebas aunque la nota de acceso supere el 5.</p>
           </details>
           <details>
             <summary>¿Para qué sirve la nota de acceso objetivo?</summary>
-            <p>Si escribes la nota de acceso que quieres sacar, el simulador calcula qué media necesitas en los cuatro exámenes para conseguirla, según tu nota de Bachillerato.</p>
+            <p>Si escribes la nota de acceso que quieres sacar, el simulador calcula qué media necesitas en los cuatro
+              exámenes para conseguirla, según tu nota de Bachillerato.</p>
           </details>
           <details>
             <summary>¿Cómo se calcula la nota de admisión?</summary>
-            <p>Es tu nota de acceso más las notas de tus dos mejores materias de la fase de admisión, cada una multiplicada por su ponderación (0,1 o 0,2). Solo cuentan las materias aprobadas con un 5 o más. Cada materia aporta como máximo 2 puntos, por eso el máximo es 14. Ejemplo: con 7,920 de acceso y un 8 y un 9 en dos materias que ponderan 0,2, sumas 1,6 y 1,8: 7,920 + 1,6 + 1,8 = 11,320.</p>
+            <p>Es tu nota de acceso más las notas de tus dos mejores materias de la fase de admisión, cada una
+              multiplicada por su ponderación (0,1 o 0,2). Solo cuentan las materias aprobadas con un 5 o más. Cada
+              materia aporta como máximo 2 puntos, por eso el máximo es 14. Ejemplo: con 7,920 de acceso y un 8 y un 9
+              en dos materias que ponderan 0,2, sumas 1,6 y 1,8: 7,920 + 1,6 + 1,8 = 11,320.</p>
           </details>
           <details>
             <summary>¿Por qué mi nota de admisión cambia según el grado?</summary>
-            <p>Cada grado pondera unas materias distintas: una misma materia puede valer 0,2 para un grado, 0,1 para otro y 0 para un tercero. Si te presentas a más de dos materias, para cada grado cuentan las dos que más suman. Las ponderaciones que rellena el simulador son orientativas: confírmalas en la tabla de tu universidad.</p>
+            <p>Cada grado pondera unas materias distintas: una misma materia puede valer 0,2 para un grado, 0,1 para
+              otro y 0 para un tercero. Si te presentas a más de dos materias, para cada grado cuentan las dos que más
+              suman. Las ponderaciones que rellena el simulador son orientativas: confírmalas en la tabla de tu
+              universidad.</p>
           </details>
           <details>
             <summary>¿Qué es la nota de corte?</summary>
-            <p>Es la nota de admisión del último estudiante admitido en un grado el curso pasado. La publica cada universidad y cambia cada año: sirve de referencia, pero no garantiza plaza.</p>
+            <p>Es la nota de admisión del último estudiante admitido en un grado el curso pasado. La publica cada
+              universidad y cambia cada año: sirve de referencia, pero no garantiza plaza.</p>
           </details>
           <details>
             <summary>¿Cuánto tiempo valen mis notas?</summary>
-            <p>La nota de acceso no caduca. Las notas de la fase de admisión valen, en general, durante los tres cursos siguientes al que las aprobaste; confírmalo en tu universidad.</p>
+            <p>La nota de acceso no caduca. Las notas de la fase de admisión valen, en general, durante los tres cursos
+              siguientes al que las aprobaste; confírmalo en tu universidad.</p>
           </details>
         </div>
       </div>
@@ -3982,15 +4315,24 @@
         <h1 id="pv-t" tabindex="-1">Aviso legal, privacidad y cookies</h1>
         <!-- PLANTILLA: rellena los campos [RELLENAR] y revísala con un profesional antes de publicar. -->
         <h2>Titular del sitio</h2>
-        <p>Titular: [RELLENAR: nombre o razón social]. NIF/CIF: [RELLENAR]. Domicilio: [RELLENAR]. Correo de contacto: [RELLENAR].</p>
+        <p>Titular: [RELLENAR: nombre o razón social]. NIF/CIF: [RELLENAR]. Domicilio: [RELLENAR]. Correo de contacto:
+          [RELLENAR].</p>
         <h2>Qué datos usa Aulalia</h2>
-        <p>Las herramientas funcionan en tu navegador: lo que escribes y guardas se queda en tu dispositivo y no se envía a ningún servidor de Aulalia.</p>
+        <p>Las herramientas funcionan en tu navegador: lo que escribes y guardas se queda en tu dispositivo y no se
+          envía a ningún servidor de Aulalia.</p>
         <h2>Cookies y almacenamiento</h2>
-        <p>Aulalia guarda en tu dispositivo, con el almacenamiento local del navegador, tus preferencias (idioma y modo claro u oscuro) y lo que decidas guardar en las herramientas. Son necesarios para que la web funcione y no requieren consentimiento.</p>
-        <p>Publicidad: solo si das tu consentimiento, Google AdSense puede usar cookies y datos de tu dispositivo para mostrar anuncios, incluidos anuncios personalizados. Si no lo das, no se carga ninguna publicidad. Google es el responsable de esos datos: consulta cómo los usa en policies.google.com/technologies/partner-sites.</p>
-        <p>Puedes cambiar o retirar tu consentimiento en cualquier momento desde el enlace «Configurar cookies» del pie de página.</p>
+        <p>Aulalia guarda en tu dispositivo, con el almacenamiento local del navegador, tus preferencias (idioma y modo
+          claro u oscuro) y lo que decidas guardar en las herramientas. Son necesarios para que la web funcione y no
+          requieren consentimiento.</p>
+        <p>Publicidad: solo si das tu consentimiento, Google AdSense puede usar cookies y datos de tu dispositivo para
+          mostrar anuncios, incluidos anuncios personalizados. Si no lo das, no se carga ninguna publicidad. Google es
+          el responsable de esos datos: consulta cómo los usa en policies.google.com/technologies/partner-sites.</p>
+        <p>Puedes cambiar o retirar tu consentimiento en cualquier momento desde el enlace «Configurar cookies» del pie
+          de página.</p>
         <h2>Tus derechos</h2>
-        <p>Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad escribiendo al correo de contacto. Si crees que tus datos no se han tratado bien, puedes reclamar ante la Agencia Española de Protección de Datos (aepd.es).</p>
+        <p>Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad
+          escribiendo al correo de contacto. Si crees que tus datos no se han tratado bien, puedes reclamar ante la
+          Agencia Española de Protección de Datos (aepd.es).</p>
       </div>
     </section>
 
@@ -4000,16 +4342,19 @@
             <path d="M15 5l-7 7 7 7" />
           </svg>Volver a las herramientas</a>
         <h1 id="pd-t" tabindex="-1">Buscador de ponderaciones</h1>
-        <p class="intro">Busca un grado y mira qué materias de la fase voluntaria suelen ponderar más. Es una referencia general por rama de conocimiento: la tabla oficial de cada universidad es la que manda y puede variar.</p>
+        <p class="intro">Busca un grado y mira qué materias de la fase voluntaria suelen ponderar más. Es una referencia
+          general por rama de conocimiento: la tabla oficial de cada universidad es la que manda y puede variar.</p>
         <section class="calc">
-          <div class="fld"><label for="pd-q">Busca tu grado</label><input id="pd-q" type="search" autocomplete="off" placeholder="Medicina, Derecho, Ingeniería Informática…"></div>
+          <div class="fld"><label for="pd-q">Busca tu grado</label><input id="pd-q" type="search" autocomplete="off"
+              placeholder="Medicina, Derecho, Ingeniería Informática…"></div>
           <div class="adds" id="pd-res" role="status" aria-live="polite"></div>
         </section>
         <section class="calc" id="pd-det" hidden style="margin-top:16px">
           <h2 id="pd-h"></h2>
           <p class="sub" id="pd-r"></p>
           <div id="pd-tb"></div>
-          <div class="ex-bar" style="margin-top:12px"><button type="button" class="pri" id="pd-use" style="margin-left:0">Usar en el simulador PAU</button></div>
+          <div class="ex-bar" style="margin-top:12px"><button type="button" class="pri" id="pd-use"
+              style="margin-left:0">Usar en el simulador PAU</button></div>
           <p class="sub" id="pd-n"></p>
         </section>
       </div>
@@ -4017,7 +4362,9 @@
 
   </main>
 
-  <div class="wrap"><div class="ad" id="ad" aria-label="Publicidad" hidden></div></div>
+  <div class="wrap">
+    <div class="ad" id="ad" aria-label="Publicidad" hidden></div>
+  </div>
   <footer>
     <div class="wrap">
       <div>
@@ -4026,7 +4373,8 @@
       </div>
       <div>
         <p>Proyecto en desarrollo: las herramientas marcadas como «Próximamente» aún no están disponibles.</p>
-        <p><a href="#privacidad">Aviso legal, privacidad y cookies</a> · <a href="#privacidad" id="ck-cfg">Configurar cookies</a></p>
+        <p><a href="#privacidad">Aviso legal, privacidad y cookies</a> · <a href="#privacidad" id="ck-cfg">Configurar
+            cookies</a></p>
       </div>
     </div>
   </footer>
@@ -4116,7 +4464,168 @@
         importante: false,
         ejemplo: true
       },
-    ];
+      [
+        {
+          fecha: "2026-11-16",
+          titulo: "La COP31 entra en una fase decisiva: los países negocian cómo acelerar la lucha contra el cambio climático",
+          texto: "La 31.ª Conferencia de las Naciones Unidas sobre el Cambio Climático (COP31), celebrada en Antalya (Turquía), ha entrado en una fase decisiva de negociaciones. El 16 de noviembre se publicó un borrador de acuerdo de 18 páginas que recoge las principales propuestas y desacuerdos entre los países participantes.\n\nUno de los asuntos más polémicos es cómo reducir la dependencia mundial de los combustibles fósiles, como el petróleo, el carbón y el gas natural. También existen diferencias sobre la financiación que los países más ricos deben proporcionar a los más vulnerables para afrontar los efectos del calentamiento global.\n\nLas negociaciones se desarrollan en un contexto de aumento de las temperaturas, fenómenos meteorológicos extremos y preocupación por superar el límite de 1,5 °C de calentamiento establecido como objetivo internacional.\n\nEsta conferencia permite estudiar la cooperación internacional, el cambio climático y la transición energética. También demuestra que las decisiones ambientales tienen consecuencias económicas y sociales, especialmente en los países con menos recursos.",
+          etiquetas: ["Internacional", "ESO", "Bach", "PAU", "Universidad"],
+          fuente: "Reuters",
+          enlace: "https://www.reuters.com/sustainability/cop/first-draft-cop31-deal-signals-tough-negotiations-come-2026-11-16/",
+          importante: true,
+          ejemplo: false
+        },
+        {
+          fecha: "2026-11-13",
+          titulo: "España aprueba nuevas medidas para facilitar el acceso a la vivienda y proteger a los inquilinos",
+          texto: "El Gobierno de España ha anunciado nuevas medidas para afrontar los problemas de acceso a la vivienda. Entre las iniciativas destacan la posibilidad de solicitar prórrogas extraordinarias de hasta dos años para determinados contratos de alquiler, nuevas limitaciones a las subidas de rentas y medidas de protección frente a los desahucios de personas vulnerables.\n\nLa normativa también introduce cambios en los alquileres de temporada y de habitaciones para evitar que se utilicen estas modalidades para eludir las garantías de los contratos de vivienda habitual. Además, contempla incentivos para aumentar la oferta de alquiler asequible y medidas fiscales relacionadas con el mercado inmobiliario.\n\nLa vivienda es uno de los principales problemas económicos y sociales de España, especialmente para los jóvenes y las familias con ingresos reducidos. El encarecimiento de los alquileres dificulta la emancipación y puede aumentar las desigualdades sociales.\n\nDesde el punto de vista educativo, esta noticia permite estudiar conceptos económicos como la oferta, la demanda, la intervención del Estado, los impuestos y el derecho a una vivienda digna.",
+          etiquetas: ["España", "ESO", "Bach", "PAU", "Universidad"],
+          fuente: "La Moncloa",
+          enlace: "https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/vivienda-agenda-urbana/Paginas/2026/decreto-vivienda-medidas.aspx",
+          importante: true,
+          ejemplo: false
+        },
+        {
+          fecha: "2026-11-12",
+          titulo: "Un estudio revela las consecuencias psicológicas de la DANA de Valencia dos años después de las inundaciones",
+          texto: "El Ministerio de Sanidad ha publicado los primeros resultados de un estudio sobre las consecuencias psicológicas de las inundaciones provocadas por la DANA del 29 de octubre de 2024 en la Comunidad Valenciana.\n\nLa investigación, realizada entre febrero y abril de 2026 mediante 7.496 entrevistas, revela que casi la mitad de la población adulta estudiada presentaba malestar psicológico moderado o elevado entre 15 y 18 meses después de las inundaciones. También detectó síntomas compatibles con un probable trastorno de estrés postraumático en una parte de los participantes.\n\nEl impacto fue especialmente importante entre las personas que sufrieron mayores daños materiales y personales. Además, el estudio detectó dificultades emocionales y de conducta en menores y problemas para acudir a los centros educativos después de la catástrofe.\n\nLos resultados muestran que las consecuencias de un desastre natural no desaparecen cuando termina la emergencia. La recuperación también requiere atención psicológica, apoyo social y reconstrucción económica. La noticia permite relacionar la geografía, la salud pública y la psicología.",
+          etiquetas: ["España", "ESO", "Bach", "PAU", "Universidad"],
+          fuente: "Ministerio de Sanidad",
+          enlace: "https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/sanidad14/paginas/2026/121126-salud-mental-dana.aspx",
+          importante: true,
+          ejemplo: false
+        },
+        {
+          fecha: "2026-11-12",
+          titulo: "La inteligencia artificial y los deepfakes sexuales centran una nueva campaña contra la violencia digital",
+          texto: "El Ministerio de Igualdad ha presentado la campaña El papel que no eliges, centrada en denunciar los deepfakes sexuales y otras formas de violencia digital contra las mujeres.\n\nLos deepfakes son contenidos audiovisuales creados o modificados mediante inteligencia artificial para imitar la apariencia, la voz o los movimientos de una persona. Esta tecnología puede utilizarse para fabricar imágenes o vídeos sexuales falsos sin el consentimiento de las personas representadas.\n\nLa difusión de estos materiales puede provocar graves daños personales, sociales y psicológicos. Además, la rapidez con la que circulan los contenidos por las redes sociales dificulta su retirada y amplía sus consecuencias.\n\nLa noticia plantea un importante debate sobre los límites éticos de la inteligencia artificial, la privacidad, el consentimiento y la responsabilidad de las plataformas digitales. También permite estudiar cómo una innovación tecnológica puede generar nuevos problemas jurídicos y sociales.",
+          etiquetas: ["España", "ESO", "Bach", "PAU", "Universidad"],
+          fuente: "Ministerio de Igualdad / La Moncloa",
+          enlace: "https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/paginas/index.aspx?mode=Light",
+          importante: true,
+          ejemplo: false
+        },
+        {
+          fecha: "2026-10-27",
+          titulo: "El empleo en España crece durante el tercer trimestre, pero también aumenta el número de personas desempleadas",
+          texto: "El Instituto Nacional de Estadística publicó el 27 de octubre los resultados de la Encuesta de Población Activa (EPA) correspondientes al tercer trimestre de 2026. El número de personas ocupadas aumentó en 73.600 respecto al trimestre anterior y alcanzó los 22.852.600 trabajadores.\n\nSin embargo, el desempleo también aumentó en 95.900 personas, hasta situarse en 2.591.200. La tasa de paro alcanzó el 10,18 %. En comparación con el mismo periodo del año anterior, el empleo creció en 465.500 personas.\n\nLos resultados muestran que la evolución del mercado laboral no es uniforme. Aunque aumenta el número total de trabajadores, también crece la población activa, es decir, las personas que trabajan o buscan empleo. Por eso pueden aumentar simultáneamente el empleo y el desempleo.\n\nLa EPA es una de las principales herramientas estadísticas para analizar la economía española. Permite estudiar conceptos como población activa, tasa de paro, ocupación, sectores productivos y evolución del mercado de trabajo.",
+          etiquetas: ["España", "ESO", "Bach", "PAU", "Universidad"],
+          fuente: "Instituto Nacional de Estadística (INE)",
+          enlace: "https://www.ine.es/dyngs/Prensa/EPA3T26.htm",
+          importante: true,
+          ejemplo: false
+        },
+        {
+          fecha: "2026-07-19",
+          titulo: "España conquista su segundo Mundial de fútbol tras derrotar a Argentina en la final",
+          texto: "La selección española masculina de fútbol se proclamó campeona del mundo el 19 de julio de 2026 después de vencer a Argentina por 1-0 en la final de la Copa Mundial de la FIFA, disputada en el estadio Nueva York-Nueva Jersey, en Estados Unidos.\n\nEl encuentro terminó sin goles durante los 90 minutos reglamentarios. Ferran Torres marcó el tanto decisivo en el minuto 106 de la prórroga, después de una jugada que permitió a España superar a la selección argentina. Con esta victoria, España consiguió su segundo campeonato mundial masculino, después del conquistado en Sudáfrica en 2010.\n\nEl torneo de 2026 fue el primero de la historia con 48 selecciones participantes y 104 partidos. Se celebró en Canadá, México y Estados Unidos, convirtiéndose en una de las mayores ediciones de la competición.\n\nAdemás de su dimensión deportiva, el Mundial tiene importantes repercusiones económicas, culturales y sociales. Permite estudiar la influencia del deporte en la identidad colectiva, el turismo, la publicidad y la economía de los países organizadores.",
+          etiquetas: ["España", "ESO", "Bach", "PAU"],
+          fuente: "FIFA",
+          enlace: "https://www.fifa.com/es/tournaments/mens/worldcup/canadamexicousa2026/articles/videos-goles-espana-argentina-copa-mundial-resumen-highlights",
+          importante: true,
+          ejemplo: false
+        },
+        {
+          fecha: "2026-05-17",
+          titulo: "La OMS declara una emergencia sanitaria internacional por un brote de ébola en África central",
+          texto: "La Organización Mundial de la Salud declaró el 17 de mayo de 2026 una emergencia de salud pública de importancia internacional por un brote de enfermedad del Ébola causado por el virus de Bundibugyo en la República Democrática del Congo y Uganda.\n\nLa decisión se tomó después de confirmarse casos en ambos países y detectarse un riesgo de propagación internacional. La OMS pidió reforzar la vigilancia epidemiológica, la detección de casos, la asistencia sanitaria y la coordinación entre los gobiernos afectados.\n\nLa organización aclaró que la situación constituía una emergencia internacional, pero no cumplía los criterios para ser declarada una emergencia pandémica. Esta distinción es importante porque las emergencias sanitarias internacionales requieren cooperación y medidas de preparación, pero no implican necesariamente una pandemia.\n\nEl acontecimiento permite estudiar cómo se transmiten las enfermedades infecciosas, cómo funcionan los sistemas de vigilancia sanitaria y por qué la cooperación entre países es fundamental para controlar epidemias.",
+          etiquetas: ["Internacional", "ESO", "Bach", "PAU", "Universidad"],
+          fuente: "Organización Mundial de la Salud (OMS)",
+          enlace: "https://www.who.int/es/news/item/17-05-2026-epidemic-of-ebola-disease-in-the-democratic-republic-of-the-congo-and-uganda-determined-a-public-health-emergency-of-international-concern",
+          importante: true,
+          ejemplo: false
+        },
+        {
+          fecha: "2026-05-15",
+          titulo: "Un brote de hantavirus en un crucero internacional pone a prueba los sistemas mundiales de vigilancia sanitaria",
+          texto: "La Organización Mundial de la Salud informó el 15 de mayo de 2026 sobre un complejo episodio de transmisión y detección de hantavirus relacionado con un crucero que navegaba por el océano Atlántico. El barco, con pasajeros de 23 nacionalidades, había registrado varios casos de enfermedad respiratoria grave.\n\nLos primeros avisos internacionales se produjeron a comienzos de mayo, cuando Reino Unido comunicó a la OMS un grupo de casos sospechosos. Posteriormente se confirmaron infecciones por hantavirus de la variante Andes en distintos países, entre ellos Países Bajos, Sudáfrica y Suiza.\n\nEl episodio exigió la colaboración de diferentes gobiernos y organismos sanitarios para localizar contactos, investigar posibles vías de transmisión y coordinar la atención de los afectados. La OMS destacó la importancia del Reglamento Sanitario Internacional para gestionar amenazas que atraviesan fronteras.\n\nEl hantavirus es un grupo de virus que puede provocar enfermedades graves. La variante Andes tiene características de transmisión diferentes de las de otros hantavirus, por lo que su investigación resulta especialmente importante para la salud pública.",
+          etiquetas: ["Internacional", "ESO", "Bach", "PAU", "Universidad"],
+          fuente: "Organización Mundial de la Salud (OMS)",
+          enlace: "https://www.who.int/spain/news/item/15-05-2026-how-a-little-known-virus-on-a-cruise-ship-put-the-world-s-health-security-framework-to-the-test",
+          importante: true,
+          ejemplo: false
+        },
+        {
+          fecha: "2026-04-10",
+          titulo: "Los astronautas de Artemis II regresan a la Tierra tras completar un histórico viaje alrededor de la Luna",
+          texto: "La misión Artemis II de la NASA concluyó el 10 de abril de 2026 con el regreso de sus cuatro astronautas a la Tierra. La nave Orion amerizó en el océano Pacífico, frente a las costas de California, después de aproximadamente diez días de viaje.\n\nLa misión había despegado el 1 de abril desde el Centro Espacial Kennedy, en Florida. La tripulación estaba formada por los astronautas estadounidenses Reid Wiseman, Victor Glover y Christina Koch, además del canadiense Jeremy Hansen.\n\nArtemis II fue el primer vuelo tripulado del programa Artemis y permitió probar los sistemas de navegación, comunicación y seguridad de la nave Orion durante un viaje alrededor de la Luna. La misión también supuso el regreso de seres humanos al entorno lunar por primera vez en más de medio siglo.\n\nEl programa Artemis pretende preparar futuras misiones de exploración lunar y desarrollar tecnologías que puedan utilizarse en viajes espaciales más largos, incluidos los destinados a Marte. Este acontecimiento tiene especial relevancia para la física, la ingeniería, la astronomía y la investigación científica.",
+          etiquetas: ["Internacional", "ESO", "Bach", "PAU", "Universidad"],
+          fuente: "NASA",
+          enlace: "https://www.nasa.gov/news-release/nasa-welcomes-record-setting-artemis-ii-moonfarers-back-to-earth/",
+          importante: true,
+          ejemplo: false
+        },
+        {
+          fecha: "2026-04-01",
+          titulo: "La NASA lanza Artemis II, la primera misión tripulada alrededor de la Luna en más de cincuenta años",
+          texto: "La NASA lanzó el 1 de abril de 2026 la misión Artemis II desde el Centro Espacial Kennedy, en Florida. El cohete Space Launch System (SLS) puso en órbita la nave Orion con cuatro astronautas a bordo, iniciando un viaje de exploración alrededor de la Luna.\n\nLa misión fue diseñada para comprobar el funcionamiento de los sistemas de la nave en condiciones reales de vuelo tripulado. La tripulación estuvo formada por Reid Wiseman, Victor Glover, Christina Koch y Jeremy Hansen, astronauta de la Agencia Espacial Canadiense.\n\nArtemis II constituyó un paso fundamental para el regreso de astronautas a la superficie lunar en futuras misiones. A diferencia de las misiones Apolo, el programa Artemis busca desarrollar una presencia humana más sostenible en el entorno lunar.\n\nEl proyecto representa un avance en ingeniería aeroespacial y cooperación científica internacional. También permite estudiar la gravedad, la radiación espacial, los sistemas de propulsión y los desafíos tecnológicos de la exploración humana del espacio.",
+          etiquetas: ["Internacional", "ESO", "Bach", "PAU", "Universidad"],
+          fuente: "NASA",
+          enlace: "https://www.nasa.gov/news-release/liftoff-nasa-launches-astronauts-on-historic-artemis-moon-mission/",
+          importante: true,
+          ejemplo: false
+        },
+        {
+          fecha: "2026-01-18",
+          titulo: "Un grave accidente ferroviario en Adamuz provoca la colisión de dos trenes de alta velocidad",
+          texto: "El 18 de enero de 2026 se produjo un grave accidente ferroviario cerca de Adamuz, en la provincia de Córdoba. Dos trenes de alta velocidad descarrilaron y colisionaron, provocando una importante operación de rescate y dejando numerosos pasajeros heridos y fallecidos.\n\nUno de los trenes realizaba el trayecto entre Málaga y Madrid y el otro circulaba en dirección a Huelva. Tras el descarrilamiento del primer convoy, varios de sus vagones invadieron la vía contigua y chocaron con el segundo tren. Los servicios de emergencia trabajaron durante horas para evacuar a los viajeros y atender a los heridos.\n\nLas autoridades iniciaron una investigación para determinar las causas exactas del siniestro. El accidente también obligó a interrumpir temporalmente los servicios ferroviarios entre Madrid y Andalucía.\n\nEl suceso puso de manifiesto la importancia de la seguridad en las infraestructuras de transporte, los sistemas de señalización y los protocolos de emergencia. También abrió un debate sobre el mantenimiento ferroviario y la investigación de accidentes.",
+          etiquetas: ["España", "ESO", "Bach", "PAU", "Universidad"],
+          fuente: "Reuters",
+          enlace: "https://www.reuters.com/world/europe/two-high-speed-trains-derail-spain-police-said-2026-01-18/",
+          importante: true,
+          ejemplo: false
+        },
+        {
+          fecha: "2026-01-17",
+          titulo: "Entra en vigor el Tratado de Alta Mar para proteger la biodiversidad de los océanos",
+          texto: "El 17 de enero de 2026 entró en vigor el Acuerdo sobre la Biodiversidad Marina de las Zonas Fuera de la Jurisdicción Nacional, conocido como Tratado de Alta Mar. Se trata de un acuerdo internacional impulsado por Naciones Unidas para proteger la vida marina en aguas internacionales.\n\nEl tratado establece un marco jurídico para conservar y utilizar de manera sostenible la biodiversidad de las zonas oceánicas que no pertenecen a ningún país. Estas aguas representan más de dos tercios de la superficie del océano y contienen ecosistemas fundamentales para el equilibrio ambiental del planeta.\n\nEntre sus principales herramientas se encuentran la creación de áreas marinas protegidas, la evaluación del impacto ambiental de determinadas actividades y el reparto de los beneficios derivados de los recursos genéticos marinos.\n\nLa entrada en vigor del acuerdo supone un avance en la gobernanza internacional de los océanos. Permite estudiar la biodiversidad, la contaminación marina, la sobrepesca y la importancia de los acuerdos internacionales para proteger bienes comunes de la humanidad.",
+          etiquetas: ["Internacional", "ESO", "Bach", "PAU", "Universidad"],
+          fuente: "Organización de las Naciones Unidas",
+          enlace: "https://www.un.org/en/node/238880",
+          importante: true,
+          ejemplo: false
+        },
+        {
+          fecha: "2026-01-17",
+          titulo: "La Unión Europea y Mercosur firman un acuerdo histórico de asociación y cooperación comercial",
+          texto: "La Unión Europea y los países integrantes de Mercosur firmaron el 17 de enero de 2026 un acuerdo de asociación y un acuerdo comercial interino. La firma representa un importante paso en las relaciones económicas y diplomáticas entre Europa y América del Sur.\n\nEl acuerdo pretende facilitar los intercambios comerciales, reducir determinadas barreras económicas y fortalecer la cooperación entre ambas regiones. También establece un marco para ampliar las relaciones en ámbitos como la inversión, la sostenibilidad y el diálogo político.\n\nLa relación entre la Unión Europea y Mercosur tiene especial importancia por el tamaño de sus mercados y por la relevancia de sectores como la agricultura, la industria, la automoción y los servicios. Sin embargo, los acuerdos comerciales también generan debates sobre la competencia, la protección ambiental y los efectos que pueden tener sobre determinados productores.\n\nDesde el punto de vista educativo, esta noticia permite comprender qué es un bloque comercial, cómo funciona el comercio internacional y qué papel desempeñan los acuerdos económicos en la globalización.",
+          etiquetas: ["Internacional", "ESO", "Bach", "PAU", "Universidad"],
+          fuente: "Comisión Europea",
+          enlace: "https://policy.trade.ec.europa.eu/news_en?f=&page=8",
+          importante: true,
+          ejemplo: false
+        },
+        {
+          fecha: "2026-01-01",
+          titulo: "Bulgaria adopta el euro y se convierte en el vigésimo primer país de la eurozona",
+          texto: "El 1 de enero de 2026 Bulgaria adoptó oficialmente el euro como moneda, convirtiéndose en el vigésimo primer país de la zona euro. Los billetes y monedas de la divisa europea comenzaron a circular en el país y sustituyeron progresivamente al lev búlgaro.\n\nEl tipo de conversión se estableció en 1 euro por cada 1,95583 lev. Durante el periodo inicial de transición, ambas monedas pudieron utilizarse para realizar pagos, hasta que el euro pasó a ser la única moneda de curso legal el 1 de febrero.\n\nLa incorporación de Bulgaria supone un paso más en la integración económica europea. La utilización de una moneda común facilita los intercambios comerciales, reduce los costes de cambio de divisas y permite participar directamente en las decisiones de política monetaria del Banco Central Europeo.\n\nNo obstante, la transición también exige adaptar los sistemas bancarios, los precios y la contabilidad de las empresas. Este acontecimiento permite estudiar la Unión Europea, la política monetaria y las ventajas y dificultades de una unión económica y monetaria.",
+          etiquetas: ["Bulgaria", "ESO", "Bach", "PAU", "Universidad"],
+          fuente: "Banco Central Europeo",
+          enlace: "https://www.ecb.europa.eu/press/pr/date/2026/html/ecb.pr260101~c830245e42.en.html",
+          importante: true,
+          ejemplo: false
+        },
+        {
+          fecha: "2026-11-02",
+          titulo: "Francia registra el primer caso humano documentado de infección por el virus Shamonda",
+          texto: "La Organización Mundial de la Salud informó el 2 de noviembre de 2026 de la primera infección humana documentada por el virus Shamonda, detectada en un hombre de edad avanzada en el este de Francia.\n\nEl paciente, que presentaba un sistema inmunitario debilitado y no había viajado fuera de Francia durante el año anterior, desarrolló una enfermedad neurológica grave. Los análisis confirmaron una encefalitis, es decir, una inflamación del cerebro, asociada a la presencia del virus. El paciente falleció el 8 de octubre.\n\nEl virus Shamonda se conocía principalmente por su relación con enfermedades en animales y pertenece a un grupo de virus relacionados con otros patógenos que circulan entre animales. La OMS indicó que se había identificado circulación del virus en animales en distintas zonas de Europa.\n\nEl descubrimiento demuestra la importancia de la vigilancia epidemiológica y de las técnicas modernas de secuenciación genética para identificar agentes infecciosos. También permite estudiar las enfermedades zoonóticas, que son aquellas que pueden transmitirse de animales a seres humanos.",
+          etiquetas: ["Francia", "Bach", "PAU", "Universidad"],
+          fuente: "Organización Mundial de la Salud (OMS)",
+          enlace: "https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON623",
+          importante: true,
+          ejemplo: false
+        },
+        {
+          fecha: "2026-11-13",
+          titulo: "Madrid acoge la XXX Cumbre Iberoamericana con representantes de 22 países",
+          texto: "Madrid acogió los días 4 y 5 de noviembre de 2026 la XXX Cumbre Iberoamericana de Jefas y Jefes de Estado y de Gobierno. En el encuentro participaron representantes de 22 países de habla española y portuguesa, que debatieron sobre los principales retos compartidos por sus sociedades.\n\nEntre los asuntos abordados destacaron la sostenibilidad, la inclusión social y la transformación digital. La cumbre permitió intercambiar propuestas y reforzar los mecanismos de cooperación entre los países iberoamericanos.\n\nLa comunidad iberoamericana reúne a Estados de Europa y América que comparten vínculos históricos, culturales y lingüísticos. Estos encuentros sirven para abordar cuestiones que requieren colaboración internacional, como la educación, el desarrollo económico, la protección del medioambiente y la innovación tecnológica.\n\nLa celebración de la cumbre en España también pone de relieve la importancia de la diplomacia y de las relaciones entre Europa y América Latina.",
+          etiquetas: ["España", "Internacional", "ESO", "Bach", "PAU", "Universidad"],
+          fuente: "La Moncloa",
+          enlace: "https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/paginas/index.aspx?mode=Light",
+          importante: true,
+          ejemplo: false
+        }
+      ];
   </script>
   <script>
     /* ---- Idioma / Language (ES · EN) ---- */
@@ -5480,85 +5989,85 @@
       return { make, ndc, EC };
     })();
     const qrCv = $('qr-cv'); let qrM = null, qrLogo = null, qrSv = '', qrN = 0;
-(function () {
-  const F = (id, l, x) => `<div class="fld"><label for="${id}">${l}</label>${x}</div>`;
-  const I = (id, l, ph, t) => F(id, l, `<input id="${id}" type="${t || 'text'}" placeholder="${ph || ''}" autocomplete="off">`);
-  const S = (id, l, o, d) => F(id, l, `<select id="${id}">${o.map(x => `<option value="${x[0]}"${x[0] === d ? ' selected' : ''}>${x[1]}</option>`).join('')}</select>`);
-  const B = (k, h) => `<div data-qt="${k}" hidden>${h}</div>`;
-  const TY = [['txt', 'Texto o enlace', 'Text or link'], ['wifi', 'Wi-Fi', 'Wi-Fi'], ['mail', 'Correo electrónico', 'Email'], ['tel', 'Teléfono', 'Phone'], ['sms', 'SMS', 'SMS'], ['vc', 'Contacto (vCard)', 'Contact (vCard)']];
-  $('qr-form').insertAdjacentHTML('beforeend',
-    S('qr-type', tr('Tipo de contenido', 'Content type'), TY.map(x => [x[0], tr(x[1], x[2])]), 'txt') +
-    B('txt', F('qr-in', tr('Enlace o texto', 'Link or text'), '<textarea id="qr-in" maxlength="2000" placeholder="https://..."></textarea>')) +
-    B('wifi', I('qr-ws', tr('Nombre de la red (SSID)', 'Network name (SSID)')) + I('qr-wp', tr('Contraseña', 'Password')) +
-      S('qr-wt', tr('Seguridad', 'Security'), [['WPA', 'WPA/WPA2/WPA3'], ['WEP', 'WEP'], ['nopass', tr('Sin contraseña', 'None')]], 'WPA') +
-      `<label class="chk"><input type="checkbox" id="qr-wh"><span>${tr('Red oculta', 'Hidden network')}</span></label>`) +
-    B('mail', I('qr-ma', tr('Dirección de correo', 'Email address'), 'nombre@ejemplo.com', 'email') + I('qr-ms', tr('Asunto (opcional)', 'Subject (optional)')) + F('qr-mb', tr('Mensaje (opcional)', 'Message (optional)'), '<textarea id="qr-mb" maxlength="500"></textarea>')) +
-    B('tel', I('qr-tn', tr('Número de teléfono', 'Phone number'), '+34 600 000 000', 'tel')) +
-    B('sms', I('qr-sn', tr('Número de teléfono', 'Phone number'), '+34 600 000 000', 'tel') + I('qr-sm', tr('Mensaje (opcional)', 'Message (optional)'))) +
-    B('vc', `<div class="two">${I('qr-vn', tr('Nombre', 'First name'))}${I('qr-vl', tr('Apellidos', 'Last name'))}</div><div class="two">${I('qr-vt', tr('Teléfono', 'Phone'), '', 'tel')}${I('qr-ve', tr('Correo', 'Email'), '', 'email')}</div><div class="two">${I('qr-vo', tr('Organización', 'Organisation'))}${I('qr-vu', tr('Web', 'Website'), 'https://')}</div>`) +
-    `<h2 style="margin-top:18px">${tr('Aspecto', 'Appearance')}</h2>` +
-    `<div class="two">${S('qr-ecc', tr('Corrección de errores', 'Error correction'), [['L', tr('Baja (7 %)', 'Low (7%)')], ['M', tr('Media (15 %)', 'Medium (15%)')], ['Q', tr('Alta (25 %)', 'High (25%)')], ['H', tr('Máxima (30 %)', 'Maximum (30%)')]], 'M')}${S('qr-sz', tr('Tamaño de la imagen', 'Image size'), [['256', '256 px'], ['512', '512 px'], ['1024', '1024 px'], ['2048', '2048 px']], '512')}</div>` +
-    `<div class="two">${S('qr-st', tr('Estilo de los módulos', 'Module style'), [['sq', tr('Cuadrados', 'Squares')], ['rd', tr('Redondeados', 'Rounded')], ['dt', tr('Puntos', 'Dots')]], 'sq')}${S('qr-qz', tr('Margen', 'Margin'), [['1', tr('Mínimo', 'Minimal')], ['2', tr('Pequeño', 'Small')], ['4', tr('Estándar', 'Standard')], ['6', tr('Grande', 'Large')]], '4')}</div>` +
-    `<div class="two">${F('qr-fg', tr('Color del código', 'Code colour'), '<input id="qr-fg" type="color" value="#000000">')}${F('qr-bg', tr('Color de fondo', 'Background colour'), '<input id="qr-bg" type="color" value="#ffffff">')}</div>` +
-    `<label class="chk"><input type="checkbox" id="qr-tr"><span>${tr('Fondo transparente (PNG y SVG)', 'Transparent background (PNG and SVG)')}</span></label>` +
-    F('qr-lg', tr('Logo en el centro (opcional)', 'Centre logo (optional)'), '<input id="qr-lg" type="file" accept="image/*">') +
-    `<div class="ex-bar" style="margin:0"><button type="button" class="tog" id="qr-lgx" hidden style="margin-left:0">${tr('Quitar logo', 'Remove logo')}</button></div>`);
-  $('qr-ecc').closest('.fld').insertAdjacentHTML('beforeend', '');
-  $('qr-msg').insertAdjacentHTML('afterend', '<p class="sub" id="qr-wn" role="status" aria-live="polite"></p>');
-  $('qr-svg').insertAdjacentHTML('afterend', `<button type="button" class="tog" id="qr-cp" disabled>${tr('Copiar imagen', 'Copy image')}</button>`);
-})();
-function qrText() {
-  const v = id => $(id).value.trim(), ty = $('qr-type').value, e = s => s.replace(/([\\;,:"])/g, '\\$1');
-  if (ty === 'txt') return $('qr-in').value;
-  if (ty === 'wifi') { const t = $('qr-wt').value; return v('qr-ws') ? `WIFI:T:${t};S:${e(v('qr-ws'))};${t === 'nopass' ? '' : `P:${e($('qr-wp').value)};`}${$('qr-wh').checked ? 'H:true;' : ''};` : '' }
-  if (ty === 'mail') { const p = []; if (v('qr-ms')) p.push('subject=' + encodeURIComponent(v('qr-ms'))); if ($('qr-mb').value.trim()) p.push('body=' + encodeURIComponent($('qr-mb').value.trim())); return v('qr-ma') ? 'mailto:' + v('qr-ma') + (p.length ? '?' + p.join('&') : '') : '' }
-  if (ty === 'tel') return v('qr-tn') ? 'tel:' + v('qr-tn').replace(/[\s()-]/g, '') : '';
-  if (ty === 'sms') return v('qr-sn') ? 'SMSTO:' + v('qr-sn').replace(/[\s()-]/g, '') + ':' + v('qr-sm') : '';
-  const c = s => s.replace(/([\\;,])/g, '\\$1'), n = v('qr-vn'), l = v('qr-vl');
-  if (!n && !l && !v('qr-vt') && !v('qr-ve')) return '';
-  return ['BEGIN:VCARD', 'VERSION:3.0', `N:${c(l)};${c(n)};;;`, `FN:${c((n + ' ' + l).trim())}`, v('qr-vo') && `ORG:${c(v('qr-vo'))}`, v('qr-vt') && `TEL;TYPE=CELL:${v('qr-vt')}`, v('qr-ve') && `EMAIL:${v('qr-ve')}`, v('qr-vu') && `URL:${v('qr-vu')}`, 'END:VCARD'].filter(Boolean).join('\n');
-}
-function qrSvg(mm, o) {
-  const n = mm.n, q = o.q, N = n + 2 * q, st = o.st, r = st === 'rd' ? .32 : .5, er = st === 'rd' ? 1.6 : st === 'dt' ? 2.6 : 0;
-  const eye = (x, y) => (x < 7 && y < 7) || (x >= n - 7 && y < 7) || (x < 7 && y >= n - 7);
-  let d = '', s = '';
-  for (let y = 0; y < n; y++)for (let x = 0; x < n; x++) {
-    if (!mm.get(x, y) || eye(x, y)) continue; const X = x + q, Y = y + q, w = 1 - 2 * r;
-    if (st === 'sq') d += `M${X},${Y}h1v1h-1z`;
-    else if (st === 'dt') d += `M${X + .5},${Y + .5}m-.45,0a.45,.45 0 1,0 .9,0a.45,.45 0 1,0 -.9,0`;
-    else d += `M${X + r},${Y}h${w}a${r},${r} 0 0 1 ${r},${r}v${w}a${r},${r} 0 0 1 -${r},${r}h-${w}a${r},${r} 0 0 1 -${r},-${r}v-${w}a${r},${r} 0 0 1 ${r},-${r}z`;
-  }
-  [[0, 0], [n - 7, 0], [0, n - 7]].forEach(([ex, ey]) => { const X = ex + q, Y = ey + q; s += `<rect x="${X + .5}" y="${Y + .5}" width="6" height="6" rx="${er * .8}" fill="none" stroke="${o.fg}" stroke-width="1"/><rect x="${X + 2}" y="${Y + 2}" width="3" height="3" rx="${er * .5}" fill="${o.fg}"/>` });
-  let lg = '';
-  if (o.logo) { const L = Math.round(n * .22), p = (N - L) / 2; lg = `<rect x="${p}" y="${p}" width="${L}" height="${L}" rx=".8" fill="${o.tp ? '#fff' : o.bg}"/><image href="${o.logo}" x="${p + .6}" y="${p + .6}" width="${L - 1.2}" height="${L - 1.2}" preserveAspectRatio="xMidYMid meet"/>` }
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${N} ${N}"${st === 'sq' ? ' shape-rendering="crispEdges"' : ''}>${o.tp ? '' : `<rect width="${N}" height="${N}" fill="${o.bg}"/>`}<path d="${d}" fill="${o.fg}"/>${s}${lg}</svg>`;
-}
-function qrSave(blob, name) { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1500) }
-const qrLum = h => { const c = [1, 3, 5].map(i => { const v = parseInt(h.substr(i, 2), 16) / 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4) }); return .2126 * c[0] + .7152 * c[1] + .0722 * c[2] };
-function qrDraw() {
-  const ty = $('qr-type').value; document.querySelectorAll('[data-qt]').forEach(b => { b.hidden = b.dataset.qt !== ty });
-  const t = qrText(), msg = $('qr-msg'), wn = $('qr-wn'); qrM = null; wn.textContent = ''; msg.textContent = '';
-  $('qr-ecc').disabled = !!qrLogo; $('qr-lgx').hidden = !qrLogo;
-  if (!t.trim()) msg.textContent = tr('Rellena los datos para generar el código.', 'Fill in the details to generate the code.');
-  else try { qrM = QRC.make(t, qrLogo ? 'H' : $('qr-ecc').value) } catch (e) { msg.textContent = tr('El contenido es demasiado largo para un código QR. Acórtalo o baja la corrección de errores.', 'The content is too long for a QR code. Shorten it or lower the error correction.') }
-  $('qr-png').disabled = $('qr-svg').disabled = $('qr-cp').disabled = !qrM; qrCv.hidden = !qrM;
-  if (!qrM) return;
-  msg.textContent = tr(`Código de ${qrM.n}×${qrM.n} módulos.`, `${qrM.n}×${qrM.n} module code.`) + (qrLogo ? tr(' Con logo se usa la corrección máxima.', ' With a logo, maximum error correction is used.') : '');
-  const fg = $('qr-fg').value, bg = $('qr-bg').value, tp = $('qr-tr').checked, px = +$('qr-sz').value;
-  const a = qrLum(fg), b = qrLum(bg), cr = (Math.max(a, b) + .05) / (Math.min(a, b) + .05);
-  if (!tp && cr < 3) wn.textContent = tr('Aviso: poco contraste entre el código y el fondo; puede no leerse.', 'Warning: low contrast between code and background; it may not scan.');
-  else if (!tp && a > b) wn.textContent = tr('Aviso: el código es más claro que el fondo; algunos lectores no lo leen.', 'Warning: the code is lighter than the background; some scanners cannot read it.');
-  qrSv = qrSvg(qrM, { fg, bg, tp, st: $('qr-st').value, q: +$('qr-qz').value, logo: qrLogo });
-  const k = ++qrN, im = new Image();
-  im.onload = () => { if (k !== qrN) return; qrCv.width = qrCv.height = px; const c = qrCv.getContext('2d'); c.clearRect(0, 0, px, px); c.drawImage(im, 0, 0, px, px) };
-  im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(qrSv);
-}
-$('qr-form').addEventListener('input', qrDraw); $('qr-form').addEventListener('change', qrDraw);
-$('qr-lg').addEventListener('change', e => { const f = e.target.files[0]; if (!f) return; if (f.size > 2e6) { $('qr-wn').textContent = tr('El logo pesa más de 2 MB.', 'The logo is larger than 2 MB.'); e.target.value = ''; return } const r = new FileReader(); r.onload = () => { qrLogo = r.result; qrDraw() }; r.readAsDataURL(f) });
-$('qr-lgx').addEventListener('click', () => { qrLogo = null; $('qr-lg').value = ''; qrDraw() });
-$('qr-png').addEventListener('click', () => qrCv.toBlob(b => b && qrSave(b, 'qr-aulalia.png')));
-$('qr-svg').addEventListener('click', () => qrM && qrSave(new Blob([qrSv], { type: 'image/svg+xml' }), 'qr-aulalia.svg'));
-$('qr-cp').addEventListener('click', () => qrCv.toBlob(b => { const w = $('qr-wn'); if (!b) return; (navigator.clipboard && window.ClipboardItem ? navigator.clipboard.write([new ClipboardItem({ 'image/png': b })]) : Promise.reject()).then(() => { w.textContent = tr('Imagen copiada.', 'Image copied.') }).catch(() => { w.textContent = tr('Tu navegador no permite copiar la imagen; descárgala.', 'Your browser cannot copy the image; download it instead.') }) }));
+    (function () {
+      const F = (id, l, x) => `<div class="fld"><label for="${id}">${l}</label>${x}</div>`;
+      const I = (id, l, ph, t) => F(id, l, `<input id="${id}" type="${t || 'text'}" placeholder="${ph || ''}" autocomplete="off">`);
+      const S = (id, l, o, d) => F(id, l, `<select id="${id}">${o.map(x => `<option value="${x[0]}"${x[0] === d ? ' selected' : ''}>${x[1]}</option>`).join('')}</select>`);
+      const B = (k, h) => `<div data-qt="${k}" hidden>${h}</div>`;
+      const TY = [['txt', 'Texto o enlace', 'Text or link'], ['wifi', 'Wi-Fi', 'Wi-Fi'], ['mail', 'Correo electrónico', 'Email'], ['tel', 'Teléfono', 'Phone'], ['sms', 'SMS', 'SMS'], ['vc', 'Contacto (vCard)', 'Contact (vCard)']];
+      $('qr-form').insertAdjacentHTML('beforeend',
+        S('qr-type', tr('Tipo de contenido', 'Content type'), TY.map(x => [x[0], tr(x[1], x[2])]), 'txt') +
+        B('txt', F('qr-in', tr('Enlace o texto', 'Link or text'), '<textarea id="qr-in" maxlength="2000" placeholder="https://..."></textarea>')) +
+        B('wifi', I('qr-ws', tr('Nombre de la red (SSID)', 'Network name (SSID)')) + I('qr-wp', tr('Contraseña', 'Password')) +
+          S('qr-wt', tr('Seguridad', 'Security'), [['WPA', 'WPA/WPA2/WPA3'], ['WEP', 'WEP'], ['nopass', tr('Sin contraseña', 'None')]], 'WPA') +
+          `<label class="chk"><input type="checkbox" id="qr-wh"><span>${tr('Red oculta', 'Hidden network')}</span></label>`) +
+        B('mail', I('qr-ma', tr('Dirección de correo', 'Email address'), 'nombre@ejemplo.com', 'email') + I('qr-ms', tr('Asunto (opcional)', 'Subject (optional)')) + F('qr-mb', tr('Mensaje (opcional)', 'Message (optional)'), '<textarea id="qr-mb" maxlength="500"></textarea>')) +
+        B('tel', I('qr-tn', tr('Número de teléfono', 'Phone number'), '+34 600 000 000', 'tel')) +
+        B('sms', I('qr-sn', tr('Número de teléfono', 'Phone number'), '+34 600 000 000', 'tel') + I('qr-sm', tr('Mensaje (opcional)', 'Message (optional)'))) +
+        B('vc', `<div class="two">${I('qr-vn', tr('Nombre', 'First name'))}${I('qr-vl', tr('Apellidos', 'Last name'))}</div><div class="two">${I('qr-vt', tr('Teléfono', 'Phone'), '', 'tel')}${I('qr-ve', tr('Correo', 'Email'), '', 'email')}</div><div class="two">${I('qr-vo', tr('Organización', 'Organisation'))}${I('qr-vu', tr('Web', 'Website'), 'https://')}</div>`) +
+        `<h2 style="margin-top:18px">${tr('Aspecto', 'Appearance')}</h2>` +
+        `<div class="two">${S('qr-ecc', tr('Corrección de errores', 'Error correction'), [['L', tr('Baja (7 %)', 'Low (7%)')], ['M', tr('Media (15 %)', 'Medium (15%)')], ['Q', tr('Alta (25 %)', 'High (25%)')], ['H', tr('Máxima (30 %)', 'Maximum (30%)')]], 'M')}${S('qr-sz', tr('Tamaño de la imagen', 'Image size'), [['256', '256 px'], ['512', '512 px'], ['1024', '1024 px'], ['2048', '2048 px']], '512')}</div>` +
+        `<div class="two">${S('qr-st', tr('Estilo de los módulos', 'Module style'), [['sq', tr('Cuadrados', 'Squares')], ['rd', tr('Redondeados', 'Rounded')], ['dt', tr('Puntos', 'Dots')]], 'sq')}${S('qr-qz', tr('Margen', 'Margin'), [['1', tr('Mínimo', 'Minimal')], ['2', tr('Pequeño', 'Small')], ['4', tr('Estándar', 'Standard')], ['6', tr('Grande', 'Large')]], '4')}</div>` +
+        `<div class="two">${F('qr-fg', tr('Color del código', 'Code colour'), '<input id="qr-fg" type="color" value="#000000">')}${F('qr-bg', tr('Color de fondo', 'Background colour'), '<input id="qr-bg" type="color" value="#ffffff">')}</div>` +
+        `<label class="chk"><input type="checkbox" id="qr-tr"><span>${tr('Fondo transparente (PNG y SVG)', 'Transparent background (PNG and SVG)')}</span></label>` +
+        F('qr-lg', tr('Logo en el centro (opcional)', 'Centre logo (optional)'), '<input id="qr-lg" type="file" accept="image/*">') +
+        `<div class="ex-bar" style="margin:0"><button type="button" class="tog" id="qr-lgx" hidden style="margin-left:0">${tr('Quitar logo', 'Remove logo')}</button></div>`);
+      $('qr-ecc').closest('.fld').insertAdjacentHTML('beforeend', '');
+      $('qr-msg').insertAdjacentHTML('afterend', '<p class="sub" id="qr-wn" role="status" aria-live="polite"></p>');
+      $('qr-svg').insertAdjacentHTML('afterend', `<button type="button" class="tog" id="qr-cp" disabled>${tr('Copiar imagen', 'Copy image')}</button>`);
+    })();
+    function qrText() {
+      const v = id => $(id).value.trim(), ty = $('qr-type').value, e = s => s.replace(/([\\;,:"])/g, '\\$1');
+      if (ty === 'txt') return $('qr-in').value;
+      if (ty === 'wifi') { const t = $('qr-wt').value; return v('qr-ws') ? `WIFI:T:${t};S:${e(v('qr-ws'))};${t === 'nopass' ? '' : `P:${e($('qr-wp').value)};`}${$('qr-wh').checked ? 'H:true;' : ''};` : '' }
+      if (ty === 'mail') { const p = []; if (v('qr-ms')) p.push('subject=' + encodeURIComponent(v('qr-ms'))); if ($('qr-mb').value.trim()) p.push('body=' + encodeURIComponent($('qr-mb').value.trim())); return v('qr-ma') ? 'mailto:' + v('qr-ma') + (p.length ? '?' + p.join('&') : '') : '' }
+      if (ty === 'tel') return v('qr-tn') ? 'tel:' + v('qr-tn').replace(/[\s()-]/g, '') : '';
+      if (ty === 'sms') return v('qr-sn') ? 'SMSTO:' + v('qr-sn').replace(/[\s()-]/g, '') + ':' + v('qr-sm') : '';
+      const c = s => s.replace(/([\\;,])/g, '\\$1'), n = v('qr-vn'), l = v('qr-vl');
+      if (!n && !l && !v('qr-vt') && !v('qr-ve')) return '';
+      return ['BEGIN:VCARD', 'VERSION:3.0', `N:${c(l)};${c(n)};;;`, `FN:${c((n + ' ' + l).trim())}`, v('qr-vo') && `ORG:${c(v('qr-vo'))}`, v('qr-vt') && `TEL;TYPE=CELL:${v('qr-vt')}`, v('qr-ve') && `EMAIL:${v('qr-ve')}`, v('qr-vu') && `URL:${v('qr-vu')}`, 'END:VCARD'].filter(Boolean).join('\n');
+    }
+    function qrSvg(mm, o) {
+      const n = mm.n, q = o.q, N = n + 2 * q, st = o.st, r = st === 'rd' ? .32 : .5, er = st === 'rd' ? 1.6 : st === 'dt' ? 2.6 : 0;
+      const eye = (x, y) => (x < 7 && y < 7) || (x >= n - 7 && y < 7) || (x < 7 && y >= n - 7);
+      let d = '', s = '';
+      for (let y = 0; y < n; y++)for (let x = 0; x < n; x++) {
+        if (!mm.get(x, y) || eye(x, y)) continue; const X = x + q, Y = y + q, w = 1 - 2 * r;
+        if (st === 'sq') d += `M${X},${Y}h1v1h-1z`;
+        else if (st === 'dt') d += `M${X + .5},${Y + .5}m-.45,0a.45,.45 0 1,0 .9,0a.45,.45 0 1,0 -.9,0`;
+        else d += `M${X + r},${Y}h${w}a${r},${r} 0 0 1 ${r},${r}v${w}a${r},${r} 0 0 1 -${r},${r}h-${w}a${r},${r} 0 0 1 -${r},-${r}v-${w}a${r},${r} 0 0 1 ${r},-${r}z`;
+      }
+      [[0, 0], [n - 7, 0], [0, n - 7]].forEach(([ex, ey]) => { const X = ex + q, Y = ey + q; s += `<rect x="${X + .5}" y="${Y + .5}" width="6" height="6" rx="${er * .8}" fill="none" stroke="${o.fg}" stroke-width="1"/><rect x="${X + 2}" y="${Y + 2}" width="3" height="3" rx="${er * .5}" fill="${o.fg}"/>` });
+      let lg = '';
+      if (o.logo) { const L = Math.round(n * .22), p = (N - L) / 2; lg = `<rect x="${p}" y="${p}" width="${L}" height="${L}" rx=".8" fill="${o.tp ? '#fff' : o.bg}"/><image href="${o.logo}" x="${p + .6}" y="${p + .6}" width="${L - 1.2}" height="${L - 1.2}" preserveAspectRatio="xMidYMid meet"/>` }
+      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${N} ${N}"${st === 'sq' ? ' shape-rendering="crispEdges"' : ''}>${o.tp ? '' : `<rect width="${N}" height="${N}" fill="${o.bg}"/>`}<path d="${d}" fill="${o.fg}"/>${s}${lg}</svg>`;
+    }
+    function qrSave(blob, name) { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1500) }
+    const qrLum = h => { const c = [1, 3, 5].map(i => { const v = parseInt(h.substr(i, 2), 16) / 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4) }); return .2126 * c[0] + .7152 * c[1] + .0722 * c[2] };
+    function qrDraw() {
+      const ty = $('qr-type').value; document.querySelectorAll('[data-qt]').forEach(b => { b.hidden = b.dataset.qt !== ty });
+      const t = qrText(), msg = $('qr-msg'), wn = $('qr-wn'); qrM = null; wn.textContent = ''; msg.textContent = '';
+      $('qr-ecc').disabled = !!qrLogo; $('qr-lgx').hidden = !qrLogo;
+      if (!t.trim()) msg.textContent = tr('Rellena los datos para generar el código.', 'Fill in the details to generate the code.');
+      else try { qrM = QRC.make(t, qrLogo ? 'H' : $('qr-ecc').value) } catch (e) { msg.textContent = tr('El contenido es demasiado largo para un código QR. Acórtalo o baja la corrección de errores.', 'The content is too long for a QR code. Shorten it or lower the error correction.') }
+      $('qr-png').disabled = $('qr-svg').disabled = $('qr-cp').disabled = !qrM; qrCv.hidden = !qrM;
+      if (!qrM) return;
+      msg.textContent = tr(`Código de ${qrM.n}×${qrM.n} módulos.`, `${qrM.n}×${qrM.n} module code.`) + (qrLogo ? tr(' Con logo se usa la corrección máxima.', ' With a logo, maximum error correction is used.') : '');
+      const fg = $('qr-fg').value, bg = $('qr-bg').value, tp = $('qr-tr').checked, px = +$('qr-sz').value;
+      const a = qrLum(fg), b = qrLum(bg), cr = (Math.max(a, b) + .05) / (Math.min(a, b) + .05);
+      if (!tp && cr < 3) wn.textContent = tr('Aviso: poco contraste entre el código y el fondo; puede no leerse.', 'Warning: low contrast between code and background; it may not scan.');
+      else if (!tp && a > b) wn.textContent = tr('Aviso: el código es más claro que el fondo; algunos lectores no lo leen.', 'Warning: the code is lighter than the background; some scanners cannot read it.');
+      qrSv = qrSvg(qrM, { fg, bg, tp, st: $('qr-st').value, q: +$('qr-qz').value, logo: qrLogo });
+      const k = ++qrN, im = new Image();
+      im.onload = () => { if (k !== qrN) return; qrCv.width = qrCv.height = px; const c = qrCv.getContext('2d'); c.clearRect(0, 0, px, px); c.drawImage(im, 0, 0, px, px) };
+      im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(qrSv);
+    }
+    $('qr-form').addEventListener('input', qrDraw); $('qr-form').addEventListener('change', qrDraw);
+    $('qr-lg').addEventListener('change', e => { const f = e.target.files[0]; if (!f) return; if (f.size > 2e6) { $('qr-wn').textContent = tr('El logo pesa más de 2 MB.', 'The logo is larger than 2 MB.'); e.target.value = ''; return } const r = new FileReader(); r.onload = () => { qrLogo = r.result; qrDraw() }; r.readAsDataURL(f) });
+    $('qr-lgx').addEventListener('click', () => { qrLogo = null; $('qr-lg').value = ''; qrDraw() });
+    $('qr-png').addEventListener('click', () => qrCv.toBlob(b => b && qrSave(b, 'qr-aulalia.png')));
+    $('qr-svg').addEventListener('click', () => qrM && qrSave(new Blob([qrSv], { type: 'image/svg+xml' }), 'qr-aulalia.svg'));
+    $('qr-cp').addEventListener('click', () => qrCv.toBlob(b => { const w = $('qr-wn'); if (!b) return; (navigator.clipboard && window.ClipboardItem ? navigator.clipboard.write([new ClipboardItem({ 'image/png': b })]) : Promise.reject()).then(() => { w.textContent = tr('Imagen copiada.', 'Image copied.') }).catch(() => { w.textContent = tr('Tu navegador no permite copiar la imagen; descárgala.', 'Your browser cannot copy the image; download it instead.') }) }));
 
     /* ---- Flashcards ---- */
     /* Elementos guardados en este navegador (mismo sistema que los exámenes) */
@@ -5955,7 +6464,7 @@ $('qr-cp').addEventListener('click', () => qrCv.toBlob(b => { const w = $('qr-wn
       }));
       return [...m.values()].map(u => { const k = norm(u.n); return { n: u.n, ai: u.ai, w: tbW(...u.base, ...TBX.filter(r => r[0].test(k)).map(r => r[1])) } });
     })();
-const TBN = {"Medicina": "Medicine", "Enfermería": "Nursing", "Farmacia": "Pharmacy", "Odontología": "Dentistry", "Veterinaria": "Veterinary Medicine", "Fisioterapia": "Physiotherapy", "Psicología": "Psychology", "Nutrición Humana y Dietética": "Human Nutrition and Dietetics", "Óptica y Optometría": "Optics and Optometry", "Logopedia": "Speech Therapy", "Terapia Ocupacional": "Occupational Therapy", "Podología": "Podiatry", "Biomedicina": "Biomedicine", "Biotecnología": "Biotechnology", "Bioquímica": "Biochemistry", "Biología Sanitaria": "Health Biology", "Ciencias Biomédicas": "Biomedical Sciences", "Genética": "Genetics", "Neurociencia": "Neuroscience", "Audiología General": "General Audiology", "Ciencias de la Actividad Física y del Deporte": "Physical Activity and Sport Sciences", "Terapias Naturales": "Natural Therapies", "Salud Pública": "Public Health", "Ciencia y Tecnología de los Alimentos": "Food Science and Technology", "Ingeniería Informática": "Computer Engineering", "Ingeniería del Software": "Software Engineering", "Ingeniería de Computadores": "Computer Systems Engineering", "Ingeniería de Datos": "Data Engineering", "Inteligencia Artificial": "Artificial Intelligence", "Ciencia de Datos": "Data Science", "Ciberseguridad": "Cybersecurity", "Ingeniería Multimedia": "Multimedia Engineering", "Ingeniería de Telecomunicación": "Telecommunications Engineering", "Ingeniería Electrónica": "Electronic Engineering", "Ingeniería Eléctrica": "Electrical Engineering", "Ingeniería Mecánica": "Mechanical Engineering", "Ingeniería Industrial": "Industrial Engineering", "Ingeniería de Organización Industrial": "Industrial Organisation Engineering", "Ingeniería de Diseño Industrial y Desarrollo del Producto": "Industrial Design and Product Development Engineering", "Ingeniería Aeroespacial": "Aerospace Engineering", "Ingeniería Aeronáutica": "Aeronautical Engineering", "Ingeniería Naval": "Naval Engineering", "Ingeniería de Automoción": "Automotive Engineering", "Ingeniería Robótica": "Robotics Engineering", "Ingeniería Biomédica": "Biomedical Engineering", "Ingeniería Química": "Chemical Engineering", "Ingeniería de Materiales": "Materials Engineering", "Ingeniería Civil": "Civil Engineering", "Ingeniería de Caminos, Canales y Puertos": "Civil Engineering (Roads, Canals and Ports)", "Ingeniería de Minas": "Mining Engineering", "Ingeniería Geológica": "Geological Engineering", "Ingeniería de Energías Renovables": "Renewable Energy Engineering", "Ingeniería de la Energía": "Energy Engineering", "Ingeniería Forestal": "Forestry Engineering", "Ingeniería Agrícola": "Agricultural Engineering", "Ingeniería Agroalimentaria": "Agri-food Engineering", "Ingeniería Ambiental": "Environmental Engineering", "Ingeniería Geomática y Topografía": "Geomatics and Surveying Engineering", "Arquitectura": "Architecture", "Fundamentos de la Arquitectura": "Foundations of Architecture", "Arquitectura Técnica": "Technical Architecture", "Ingeniería de Edificación": "Building Engineering", "Ingeniería de Sonido e Imagen": "Sound and Image Engineering", "Ingeniería Física": "Engineering Physics", "Ingeniería Matemática": "Mathematical Engineering", "Matemáticas": "Mathematics", "Física": "Physics", "Química": "Chemistry", "Biología": "Biology", "Geología": "Geology", "Ciencias Ambientales": "Environmental Sciences", "Ciencias del Mar": "Marine Sciences", "Geografía": "Geography", "Estadística": "Statistics", "Astronomía": "Astronomy", "Astrofísica": "Astrophysics", "Nanociencia y Nanotecnología": "Nanoscience and Nanotechnology", "Ciencias Experimentales": "Experimental Sciences", "Ciencias y Tecnología de los Alimentos": "Food Sciences and Technology", "Microbiología": "Microbiology", "Biología Molecular": "Molecular Biology", "Ciencias de la Tierra": "Earth Sciences", "Derecho": "Law", "Administración y Dirección de Empresas (ADE)": "Business Administration and Management (ADE)", "Economía": "Economics", "Finanzas y Contabilidad": "Finance and Accounting", "Marketing": "Marketing", "Publicidad y Relaciones Públicas": "Advertising and Public Relations", "Periodismo": "Journalism", "Comunicación Audiovisual": "Audiovisual Communication", "Relaciones Internacionales": "International Relations", "Ciencias Políticas": "Political Science", "Sociología": "Sociology", "Trabajo Social": "Social Work", "Educación Social": "Social Education", "Antropología Social y Cultural": "Social and Cultural Anthropology", "Criminología": "Criminology", "Relaciones Laborales y Recursos Humanos": "Labour Relations and Human Resources", "Turismo": "Tourism", "Comercio": "Commerce", "Comercio Internacional": "International Trade", "Estadística Aplicada": "Applied Statistics", "Gestión y Administración Pública": "Public Management and Administration", "Ciencia Política y Gestión Pública": "Political Science and Public Management", "Comunicación Digital": "Digital Communication", "Información y Documentación": "Information and Documentation", "Geografía y Ordenación del Territorio": "Geography and Spatial Planning", "Ciencias de la Seguridad": "Security Sciences", "Economía Financiera y Actuarial": "Financial and Actuarial Economics", "Gestión Deportiva": "Sports Management", "Protocolo y Organización de Eventos": "Protocol and Event Organisation", "Marketing e Investigación de Mercados": "Marketing and Market Research", "Inteligencia de Negocios": "Business Intelligence", "Educación Infantil": "Early Childhood Education", "Educación Primaria": "Primary Education", "Pedagogía": "Pedagogy", "Psicopedagogía": "Educational Psychology", "Educación Especial": "Special Education", "Ciencias de la Educación": "Education Sciences", "Educación Física": "Physical Education", "Educación Musical": "Music Education", "Educación Artística": "Arts Education", "Bellas Artes": "Fine Arts", "Diseño Gráfico": "Graphic Design", "Diseño de Moda": "Fashion Design", "Diseño de Interiores": "Interior Design", "Diseño de Producto": "Product Design", "Diseño Digital": "Digital Design", "Diseño Industrial": "Industrial Design", "Diseño y Desarrollo de Videojuegos": "Video Game Design and Development", "Animación": "Animation", "Ilustración": "Illustration", "Conservación y Restauración de Bienes Culturales": "Conservation and Restoration of Cultural Heritage", "Historia del Arte": "Art History", "Artes Digitales": "Digital Arts", "Creación Artística": "Artistic Creation", "Fotografía": "Photography", "Gestión Cultural": "Cultural Management", "Comunicación Corporativa": "Corporate Communication", "Comunicación Estratégica": "Strategic Communication", "Cine y Medios Audiovisuales": "Film and Audiovisual Media", "Producción Audiovisual": "Audiovisual Production", "Comunicación Transmedia": "Transmedia Communication", "Historia": "History", "Filosofía": "Philosophy", "Filología Hispánica": "Hispanic Philology", "Estudios Ingleses": "English Studies", "Estudios Franceses": "French Studies", "Estudios Alemanes": "German Studies", "Estudios Clásicos": "Classical Studies", "Filología Catalana": "Catalan Philology", "Filología Gallega": "Galician Philology", "Filología Vasca": "Basque Philology", "Filología Árabe": "Arabic Philology", "Filología Románica": "Romance Philology", "Traducción e Interpretación": "Translation and Interpreting", "Lenguas Modernas": "Modern Languages", "Lingüística": "Linguistics", "Literatura Comparada": "Comparative Literature", "Humanidades": "Humanities", "Estudios Literarios": "Literary Studies", "Estudios Internacionales": "International Studies", "Arqueología": "Archaeology", "Musicología": "Musicology", "Historia y Ciencias de la Música": "History and Music Sciences", "Deporte y Recreación": "Sport and Recreation", "Gestión del Deporte": "Sport Management", "Biología Ambiental": "Environmental Biology", "Enología": "Oenology", "Gastronomía": "Gastronomy", "Ingeniería de Montes": "Forest Engineering", "Ingeniería del Medio Natural": "Natural Environment Engineering", "Ciencias Agrarias": "Agricultural Sciences", "Producción Animal": "Animal Production", "Seguridad": "Security", "Gestión de Emergencias": "Emergency Management", "Estudios Militares": "Military Studies", "Náutica y Transporte Marítimo": "Nautical Science and Maritime Transport", "Ingeniería Marítima": "Maritime Engineering", "Logística y Transporte": "Logistics and Transport"};
+    const TBN = { "Medicina": "Medicine", "Enfermería": "Nursing", "Farmacia": "Pharmacy", "Odontología": "Dentistry", "Veterinaria": "Veterinary Medicine", "Fisioterapia": "Physiotherapy", "Psicología": "Psychology", "Nutrición Humana y Dietética": "Human Nutrition and Dietetics", "Óptica y Optometría": "Optics and Optometry", "Logopedia": "Speech Therapy", "Terapia Ocupacional": "Occupational Therapy", "Podología": "Podiatry", "Biomedicina": "Biomedicine", "Biotecnología": "Biotechnology", "Bioquímica": "Biochemistry", "Biología Sanitaria": "Health Biology", "Ciencias Biomédicas": "Biomedical Sciences", "Genética": "Genetics", "Neurociencia": "Neuroscience", "Audiología General": "General Audiology", "Ciencias de la Actividad Física y del Deporte": "Physical Activity and Sport Sciences", "Terapias Naturales": "Natural Therapies", "Salud Pública": "Public Health", "Ciencia y Tecnología de los Alimentos": "Food Science and Technology", "Ingeniería Informática": "Computer Engineering", "Ingeniería del Software": "Software Engineering", "Ingeniería de Computadores": "Computer Systems Engineering", "Ingeniería de Datos": "Data Engineering", "Inteligencia Artificial": "Artificial Intelligence", "Ciencia de Datos": "Data Science", "Ciberseguridad": "Cybersecurity", "Ingeniería Multimedia": "Multimedia Engineering", "Ingeniería de Telecomunicación": "Telecommunications Engineering", "Ingeniería Electrónica": "Electronic Engineering", "Ingeniería Eléctrica": "Electrical Engineering", "Ingeniería Mecánica": "Mechanical Engineering", "Ingeniería Industrial": "Industrial Engineering", "Ingeniería de Organización Industrial": "Industrial Organisation Engineering", "Ingeniería de Diseño Industrial y Desarrollo del Producto": "Industrial Design and Product Development Engineering", "Ingeniería Aeroespacial": "Aerospace Engineering", "Ingeniería Aeronáutica": "Aeronautical Engineering", "Ingeniería Naval": "Naval Engineering", "Ingeniería de Automoción": "Automotive Engineering", "Ingeniería Robótica": "Robotics Engineering", "Ingeniería Biomédica": "Biomedical Engineering", "Ingeniería Química": "Chemical Engineering", "Ingeniería de Materiales": "Materials Engineering", "Ingeniería Civil": "Civil Engineering", "Ingeniería de Caminos, Canales y Puertos": "Civil Engineering (Roads, Canals and Ports)", "Ingeniería de Minas": "Mining Engineering", "Ingeniería Geológica": "Geological Engineering", "Ingeniería de Energías Renovables": "Renewable Energy Engineering", "Ingeniería de la Energía": "Energy Engineering", "Ingeniería Forestal": "Forestry Engineering", "Ingeniería Agrícola": "Agricultural Engineering", "Ingeniería Agroalimentaria": "Agri-food Engineering", "Ingeniería Ambiental": "Environmental Engineering", "Ingeniería Geomática y Topografía": "Geomatics and Surveying Engineering", "Arquitectura": "Architecture", "Fundamentos de la Arquitectura": "Foundations of Architecture", "Arquitectura Técnica": "Technical Architecture", "Ingeniería de Edificación": "Building Engineering", "Ingeniería de Sonido e Imagen": "Sound and Image Engineering", "Ingeniería Física": "Engineering Physics", "Ingeniería Matemática": "Mathematical Engineering", "Matemáticas": "Mathematics", "Física": "Physics", "Química": "Chemistry", "Biología": "Biology", "Geología": "Geology", "Ciencias Ambientales": "Environmental Sciences", "Ciencias del Mar": "Marine Sciences", "Geografía": "Geography", "Estadística": "Statistics", "Astronomía": "Astronomy", "Astrofísica": "Astrophysics", "Nanociencia y Nanotecnología": "Nanoscience and Nanotechnology", "Ciencias Experimentales": "Experimental Sciences", "Ciencias y Tecnología de los Alimentos": "Food Sciences and Technology", "Microbiología": "Microbiology", "Biología Molecular": "Molecular Biology", "Ciencias de la Tierra": "Earth Sciences", "Derecho": "Law", "Administración y Dirección de Empresas (ADE)": "Business Administration and Management (ADE)", "Economía": "Economics", "Finanzas y Contabilidad": "Finance and Accounting", "Marketing": "Marketing", "Publicidad y Relaciones Públicas": "Advertising and Public Relations", "Periodismo": "Journalism", "Comunicación Audiovisual": "Audiovisual Communication", "Relaciones Internacionales": "International Relations", "Ciencias Políticas": "Political Science", "Sociología": "Sociology", "Trabajo Social": "Social Work", "Educación Social": "Social Education", "Antropología Social y Cultural": "Social and Cultural Anthropology", "Criminología": "Criminology", "Relaciones Laborales y Recursos Humanos": "Labour Relations and Human Resources", "Turismo": "Tourism", "Comercio": "Commerce", "Comercio Internacional": "International Trade", "Estadística Aplicada": "Applied Statistics", "Gestión y Administración Pública": "Public Management and Administration", "Ciencia Política y Gestión Pública": "Political Science and Public Management", "Comunicación Digital": "Digital Communication", "Información y Documentación": "Information and Documentation", "Geografía y Ordenación del Territorio": "Geography and Spatial Planning", "Ciencias de la Seguridad": "Security Sciences", "Economía Financiera y Actuarial": "Financial and Actuarial Economics", "Gestión Deportiva": "Sports Management", "Protocolo y Organización de Eventos": "Protocol and Event Organisation", "Marketing e Investigación de Mercados": "Marketing and Market Research", "Inteligencia de Negocios": "Business Intelligence", "Educación Infantil": "Early Childhood Education", "Educación Primaria": "Primary Education", "Pedagogía": "Pedagogy", "Psicopedagogía": "Educational Psychology", "Educación Especial": "Special Education", "Ciencias de la Educación": "Education Sciences", "Educación Física": "Physical Education", "Educación Musical": "Music Education", "Educación Artística": "Arts Education", "Bellas Artes": "Fine Arts", "Diseño Gráfico": "Graphic Design", "Diseño de Moda": "Fashion Design", "Diseño de Interiores": "Interior Design", "Diseño de Producto": "Product Design", "Diseño Digital": "Digital Design", "Diseño Industrial": "Industrial Design", "Diseño y Desarrollo de Videojuegos": "Video Game Design and Development", "Animación": "Animation", "Ilustración": "Illustration", "Conservación y Restauración de Bienes Culturales": "Conservation and Restoration of Cultural Heritage", "Historia del Arte": "Art History", "Artes Digitales": "Digital Arts", "Creación Artística": "Artistic Creation", "Fotografía": "Photography", "Gestión Cultural": "Cultural Management", "Comunicación Corporativa": "Corporate Communication", "Comunicación Estratégica": "Strategic Communication", "Cine y Medios Audiovisuales": "Film and Audiovisual Media", "Producción Audiovisual": "Audiovisual Production", "Comunicación Transmedia": "Transmedia Communication", "Historia": "History", "Filosofía": "Philosophy", "Filología Hispánica": "Hispanic Philology", "Estudios Ingleses": "English Studies", "Estudios Franceses": "French Studies", "Estudios Alemanes": "German Studies", "Estudios Clásicos": "Classical Studies", "Filología Catalana": "Catalan Philology", "Filología Gallega": "Galician Philology", "Filología Vasca": "Basque Philology", "Filología Árabe": "Arabic Philology", "Filología Románica": "Romance Philology", "Traducción e Interpretación": "Translation and Interpreting", "Lenguas Modernas": "Modern Languages", "Lingüística": "Linguistics", "Literatura Comparada": "Comparative Literature", "Humanidades": "Humanities", "Estudios Literarios": "Literary Studies", "Estudios Internacionales": "International Studies", "Arqueología": "Archaeology", "Musicología": "Musicology", "Historia y Ciencias de la Música": "History and Music Sciences", "Deporte y Recreación": "Sport and Recreation", "Gestión del Deporte": "Sport Management", "Biología Ambiental": "Environmental Biology", "Enología": "Oenology", "Gastronomía": "Gastronomy", "Ingeniería de Montes": "Forest Engineering", "Ingeniería del Medio Natural": "Natural Environment Engineering", "Ciencias Agrarias": "Agricultural Sciences", "Producción Animal": "Animal Production", "Seguridad": "Security", "Gestión de Emergencias": "Emergency Management", "Estudios Militares": "Military Studies", "Náutica y Transporte Marítimo": "Nautical Science and Maritime Transport", "Ingeniería Marítima": "Maritime Engineering", "Logística y Transporte": "Logistics and Transport" };
     const tbN = n => (EN && TBN[n]) || n;
     const TB = { lv: 'eso', len: 's', i: 0, ans: [], qs: [], more: false, lock: false };
     const tbScore = (w, s) => { let a = 0, b = 0; for (const k in w) { a += w[k] * s[k]; b += w[k] } return b ? a / b + a * 0.0005 : 0 };
@@ -6106,11 +6615,11 @@ const TBN = {"Medicina": "Medicine", "Enfermería": "Nursing", "Farmacia": "Phar
         rs.addEventListener('change', e => { if (e.target.classList.contains('ps')) pauAuto(e.target.parentNode); pauCalc() });
         document.getElementById('vista-simulador-pau').addEventListener('input', e => { if (e.target.id === 'pau-g') pauDeg(); pauCalc() });
       }
-      $('pau-g').value = PD.sel != null ? tbN(TBU[PD.sel].n) : ''; [...rs.children].forEach(pauAuto); pauCalc();
+      $('pau-g').value = PD.sel != null ? tbN(TBU[PD.sel].n) : '';[...rs.children].forEach(pauAuto); pauCalc();
     }
     function pauDeg() {
       const k = norm($('pau-g').value.trim()), i = TBU.findIndex(u => norm(u.n) === k || norm(tbN(u.n)) === k);
-      PD.sel = i < 0 ? null : i; [...$('pau-rows').children].forEach(pauAuto);
+      PD.sel = i < 0 ? null : i;[...$('pau-rows').children].forEach(pauAuto);
     }
     function pauCalc() {
       const out = $('pau-out'), err = [], g = (id, lab, req, mx = 10) => { const v = num($(id).value); if (v === null) { if (req) err.push(tr(`Falta: ${lab}.`, `Missing: ${lab}.`)); return null } if (isNaN(v) || v < 0 || v > mx) { err.push(tr(`${lab}: pon un número entre 0 y ${mx}.`, `${lab}: enter a number between 0 and ${mx}.`)); return null } return v };
@@ -6373,7 +6882,7 @@ const TBN = {"Medicina": "Medicine", "Enfermería": "Nursing", "Farmacia": "Phar
         `<div class="ex-bar"><button type="button" class="tog" id="rs-cp" disabled>${tr('Copiar', 'Copy')}</button><button type="button" class="tog" id="rs-dl" disabled>${tr('Descargar .txt', 'Download .txt')}</button></div></section></div>`;
       $('rs-file').addEventListener('change', e => fcRead(e.target.files[0], 'rs-in', 'rs-msg'));
       $('rs-go').onclick = run;
-      ['s', 'm', 'd'].forEach(k => { $('rs-l' + k).onclick = () => { lv = k; ['s', 'm', 'd'].forEach(j => $('rs-l' + j).setAttribute('aria-pressed', j === k)); $('rs-lt').textContent = D[k]; if (txt) run() } });
+      ['s', 'm', 'd'].forEach(k => { $('rs-l' + k).onclick = () => { lv = k;['s', 'm', 'd'].forEach(j => $('rs-l' + j).setAttribute('aria-pressed', j === k)); $('rs-lt').textContent = D[k]; if (txt) run() } });
       $('rs-cp').onclick = () => navigator.clipboard.writeText(txt).then(() => { $('rs-cp').textContent = tr('Copiado', 'Copied'); setTimeout(() => { $('rs-cp').textContent = tr('Copiar', 'Copy') }, 1500) }).catch(() => { });
       $('rs-dl').onclick = () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([txt], { type: 'text/plain;charset=utf-8' })); a.download = tr('resumen.txt', 'summary.txt'); a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000) };
     })();
@@ -6390,8 +6899,10 @@ const TBN = {"Medicina": "Medicine", "Enfermería": "Nursing", "Farmacia": "Phar
       home.hidden = !!cur;
       ['vista-calculadora', 'vista-examenes', 'vista-planificador', 'vista-rubricas', 'vista-noticias', 'vista-noticia', 'vista-qr', 'vista-flashcards', 'vista-ejercicios', 'vista-resumidor', 'vista-control', 'vista-examenes-oficiales', 'vista-test-rama', 'vista-simulador-pau', 'vista-ponderaciones', 'vista-privacidad'].forEach(i => { $(i).hidden = i !== cur });
       document.title = TT[h] ? TT[h][0] + ' · Aulalia' : 'Aulalia · Herramientas para estudiar mejor';
-      { const md = document.querySelector('meta[name="description"]'), pi = cur && document.querySelector('#' + cur + ' .intro'), og = n => document.querySelector('meta[property="og:' + n + '"]');
-        if (md) { if (!md.dataset.d) md.dataset.d = md.content; const t = pi ? pi.textContent.replace(/\s+/g, ' ').trim() : ''; md.content = t ? t.slice(0, 155) : md.dataset.d; if (og('description')) og('description').content = md.content; if (og('title')) og('title').content = document.title } }
+      {
+        const md = document.querySelector('meta[name="description"]'), pi = cur && document.querySelector('#' + cur + ' .intro'), og = n => document.querySelector('meta[property="og:' + n + '"]');
+        if (md) { if (!md.dataset.d) md.dataset.d = md.content; const t = pi ? pi.textContent.replace(/\s+/g, ' ').trim() : ''; md.content = t ? t.slice(0, 155) : md.dataset.d; if (og('description')) og('description').content = md.content; if (og('title')) og('title').content = document.title }
+      }
       window.scrollTo({ top: cur ? 0 : homeY, left: 0, behavior: 'instant' });
       if (TT[h]) $(TT[h][1]).focus({ preventScroll: true });
       if (h === '#examenes') exRender();
