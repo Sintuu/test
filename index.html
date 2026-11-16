@@ -20,7 +20,9 @@
       document.head.appendChild(a);
     }
     function consentOk(t) { return !!t && (t.gdprApplies === false || !!(t.purpose && t.purpose.consents && t.purpose.consents[1])) }
+    var LOCAL = location.protocol === 'file:' || /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
     addEventListener('load', function () {
+      if (LOCAL) return; /* en local no se carga publicidad ni CMP */
       setTimeout(function () {
         var c = document.createElement('script'); c.async = true; c.src = 'https://fundingchoicesmessages.google.com/i/pub-3197760514490618?ers=1'; document.head.appendChild(c);
         var i = document.createElement('iframe'); i.name = 'googlefcPresent'; i.style.display = 'none'; document.body.appendChild(i);
@@ -3040,7 +3042,6 @@
       width: 100%;
       max-width: 320px;
       height: auto;
-      image-rendering: pixelated;
       border: 1px solid var(--line);
       border-radius: 8px;
       margin: 0 0 14px
@@ -3453,32 +3454,10 @@
             <path d="M15 5l-7 7 7 7" />
           </svg>Volver a las herramientas</a>
         <h1 id="qr-t" tabindex="-1">Generador de códigos QR</h1>
-        <p class="intro">Escribe un enlace o un texto y descarga tu código QR en PNG o SVG. Se genera en tu navegador:
-          no se envía nada.</p>
+        <p class="intro">Crea códigos QR de enlaces, texto, Wi-Fi, correo, teléfono, SMS o contactos, personaliza su estilo y descárgalos en PNG o SVG. Se genera en tu navegador: no se envía nada.</p>
         <div class="calc-grid">
-          <section class="calc">
+          <section class="calc" id="qr-form">
             <h2>Contenido</h2>
-            <div class="fld"><label for="qr-in">Enlace o texto</label><textarea id="qr-in" maxlength="2000"
-                placeholder="https://..."></textarea></div>
-            <div class="two">
-              <div class="fld"><label for="qr-ecc">Corrección de errores</label><select id="qr-ecc">
-                  <option value="L">Baja (7 %)</option>
-                  <option value="M" selected>Media (15 %)</option>
-                  <option value="Q">Alta (25 %)</option>
-                  <option value="H">Máxima (30 %)</option>
-                </select></div>
-              <div class="fld"><label for="qr-sz">Tamaño de la imagen</label><select id="qr-sz">
-                  <option value="256">256 px</option>
-                  <option value="512" selected>512 px</option>
-                  <option value="1024">1024 px</option>
-                </select></div>
-            </div>
-            <div class="two">
-              <div class="fld"><label for="qr-fg">Color del código</label><input id="qr-fg" type="color"
-                  value="#000000"></div>
-              <div class="fld"><label for="qr-bg">Color de fondo</label><input id="qr-bg" type="color" value="#ffffff">
-              </div>
-            </div>
           </section>
           <section class="calc">
             <h2>Tu código QR</h2>
@@ -4276,7 +4255,7 @@
       "Buscar noticias": "Search news",
       "Comunidad": "Region",
       "Generador de códigos QR": "QR code generator",
-      "Escribe un enlace o un texto y descarga tu código QR en PNG o SVG. Se genera en tu navegador: no se envía nada.": "Type a link or text and download your QR code as PNG or SVG. It is generated in your browser: nothing is sent.",
+      "Crea códigos QR de enlaces, texto, Wi-Fi, correo, teléfono, SMS o contactos, personaliza su estilo y descárgalos en PNG o SVG. Se genera en tu navegador: no se envía nada.": "Create QR codes for links, text, Wi-Fi, email, phone, SMS or contacts, customise their style and download them as PNG or SVG. It is generated in your browser: nothing is sent.",
       "Contenido": "Content", "Enlace o texto": "Link or text", "Corrección de errores": "Error correction", "Baja (7 %)": "Low (7%)", "Media (15 %)": "Medium (15%)", "Alta (25 %)": "High (25%)", "Máxima (30 %)": "Maximum (30%)",
       "Tamaño de la imagen": "Image size", "Color del código": "Code colour", "Color de fondo": "Background colour", "Tu código QR": "Your QR code", "Descargar PNG": "Download PNG", "Descargar SVG": "Download SVG", "Volver a las noticias": "Back to the news",
       "Generador de flashcards": "Flashcard generator", "Sube tus apuntes en PDF o imagen, elige cómo repasar y estudia con tarjetas. Todo se procesa en tu navegador.": "Upload your notes as a PDF or image, choose how to revise and study with cards. Everything is processed in your browser.",
@@ -5071,13 +5050,23 @@
       });
     }
     $('pl-ics').onchange = e => { if (e.target.files[0]) plLoad(e.target.files[0]); e.target.value = '' };
-    const drop = document.createElement('div'); drop.id = 'pl-drop'; drop.hidden = true; drop.textContent = 'Suelta aquí tu archivo .ics para importar tus exámenes'; document.body.appendChild(drop);
-    const plOn = () => !$('vista-planificador').hidden, hasFiles = e => e.dataTransfer && [...e.dataTransfer.types].includes('Files');
-    let dd = 0;
-    addEventListener('dragenter', e => { if (plOn() && hasFiles(e)) { dd++; drop.hidden = false } });
-    addEventListener('dragleave', e => { if (plOn() && hasFiles(e)) { dd = Math.max(0, dd - 1); if (!dd) drop.hidden = true } });
-    addEventListener('dragover', e => { if (plOn() && hasFiles(e)) e.preventDefault() });
-    addEventListener('drop', e => { if (!plOn() || !hasFiles(e)) return; e.preventDefault(); dd = 0; drop.hidden = true; if (e.dataTransfer.files[0]) plLoad(e.dataTransfer.files[0]) });
+    /* Arrastrar y soltar: en cualquier pantalla con un selector de archivo, soltar un archivo en cualquier parte lo importa */
+    const drop = document.createElement('div'); drop.id = 'pl-drop'; drop.hidden = true; document.body.appendChild(drop);
+    const hasFiles = e => e.dataTransfer && [...e.dataTransfer.types].includes('Files');
+    const dzInput = () => document.querySelector('.view:not([hidden]) input[type=file]');
+    const dzOk = (f, acc) => !acc || acc.split(',').some(t => { t = t.trim().toLowerCase(); return t && (t[0] === '.' ? f.name.toLowerCase().endsWith(t) : t.endsWith('/*') ? f.type.startsWith(t.slice(0, -1)) : f.type === t) });
+    let dd = 0, dzT = 0;
+    const dzMsg = (t, ms) => { clearTimeout(dzT); drop.textContent = t; drop.hidden = false; if (ms) dzT = setTimeout(() => { drop.hidden = true }, ms) };
+    addEventListener('dragenter', e => { if (!hasFiles(e) || !dzInput()) return; dd++; dzMsg(dzInput().id === 'pl-ics' ? tr('Suelta aquí tu archivo .ics para importar tus exámenes', 'Drop your .ics file here to import your exams') : tr('Suelta aquí tu archivo para importarlo', 'Drop your file here to import it')) });
+    addEventListener('dragleave', e => { if (!hasFiles(e) || !dzInput()) return; dd = Math.max(0, dd - 1); if (!dd) drop.hidden = true });
+    addEventListener('dragover', e => { if (hasFiles(e) && dzInput()) e.preventDefault() });
+    addEventListener('drop', e => {
+      const inp = hasFiles(e) && dzInput(); if (!inp) return; e.preventDefault(); dd = 0; drop.hidden = true;
+      const fs = [...e.dataTransfer.files], f = inp.id === 'pl-ics' ? fs[0] : fs.find(x => dzOk(x, inp.accept));
+      if (!f) { dzMsg(tr('Este tipo de archivo no se puede importar aquí', 'This file type cannot be imported here'), 2200); return }
+      const dt = new DataTransfer(); dt.items.add(f); inp.files = dt.files;
+      ['input', 'change'].forEach(n => inp.dispatchEvent(new Event(n, { bubbles: true })));
+    });
     $('pl-imp').addEventListener('click', e => {
       if (e.target.id !== 'pl-impok') return;
       const sel = [...$('pl-imp').querySelectorAll('input:checked')].map(i => IMP[+i.dataset.i]);
@@ -5490,23 +5479,86 @@
       }
       return { make, ndc, EC };
     })();
-    const qrIn = $('qr-in'), qrCv = $('qr-cv'); let qrM = null;
-    function qrSvg(mm, fg, bg) { const q = 4, N = mm.n + 2 * q; let d = ''; for (let y = 0; y < mm.n; y++)for (let x = 0; x < mm.n; x++)if (mm.get(x, y)) d += `M${x + q},${y + q}h1v1h-1z`; return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${N} ${N}" shape-rendering="crispEdges"><rect width="${N}" height="${N}" fill="${bg}"/><path d="${d}" fill="${fg}"/></svg>` }
-    function qrSave(blob, name) { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1500) }
-    function qrDraw() {
-      const t = qrIn.value, msg = $('qr-msg'); qrM = null;
-      if (!t.trim()) msg.textContent = tr('Escribe un enlace o un texto para generar el código.', 'Type a link or text to generate the code.');
-      else try { qrM = QRC.make(t, $('qr-ecc').value) } catch (e) { msg.textContent = tr('El texto es demasiado largo para un código QR. Acórtalo o baja la corrección de errores.', 'The text is too long for a QR code. Shorten it or lower the error correction.') }
-      $('qr-png').disabled = $('qr-svg').disabled = !qrM; qrCv.hidden = !qrM;
-      if (!qrM) return;
-      msg.textContent = tr(`Código de ${qrM.n}×${qrM.n} módulos.`, `${qrM.n}×${qrM.n} module code.`);
-      const q = 4, N = qrM.n + 2 * q, sc = Math.max(1, Math.ceil(+$('qr-sz').value / N)), c = qrCv.getContext('2d');
-      qrCv.width = qrCv.height = N * sc; c.fillStyle = $('qr-bg').value; c.fillRect(0, 0, N * sc, N * sc); c.fillStyle = $('qr-fg').value;
-      for (let y = 0; y < qrM.n; y++)for (let x = 0; x < qrM.n; x++)if (qrM.get(x, y)) c.fillRect((x + q) * sc, (y + q) * sc, sc, sc);
-    }
-    ['input', 'change'].forEach(ev => ['qr-in', 'qr-ecc', 'qr-sz', 'qr-fg', 'qr-bg'].forEach(i => $(i).addEventListener(ev, qrDraw)));
-    $('qr-png').addEventListener('click', () => qrCv.toBlob(b => b && qrSave(b, 'qr-aulalia.png')));
-    $('qr-svg').addEventListener('click', () => qrM && qrSave(new Blob([qrSvg(qrM, $('qr-fg').value, $('qr-bg').value)], { type: 'image/svg+xml' }), 'qr-aulalia.svg'));
+    const qrCv = $('qr-cv'); let qrM = null, qrLogo = null, qrSv = '', qrN = 0;
+(function () {
+  const F = (id, l, x) => `<div class="fld"><label for="${id}">${l}</label>${x}</div>`;
+  const I = (id, l, ph, t) => F(id, l, `<input id="${id}" type="${t || 'text'}" placeholder="${ph || ''}" autocomplete="off">`);
+  const S = (id, l, o, d) => F(id, l, `<select id="${id}">${o.map(x => `<option value="${x[0]}"${x[0] === d ? ' selected' : ''}>${x[1]}</option>`).join('')}</select>`);
+  const B = (k, h) => `<div data-qt="${k}" hidden>${h}</div>`;
+  const TY = [['txt', 'Texto o enlace', 'Text or link'], ['wifi', 'Wi-Fi', 'Wi-Fi'], ['mail', 'Correo electrónico', 'Email'], ['tel', 'Teléfono', 'Phone'], ['sms', 'SMS', 'SMS'], ['vc', 'Contacto (vCard)', 'Contact (vCard)']];
+  $('qr-form').insertAdjacentHTML('beforeend',
+    S('qr-type', tr('Tipo de contenido', 'Content type'), TY.map(x => [x[0], tr(x[1], x[2])]), 'txt') +
+    B('txt', F('qr-in', tr('Enlace o texto', 'Link or text'), '<textarea id="qr-in" maxlength="2000" placeholder="https://..."></textarea>')) +
+    B('wifi', I('qr-ws', tr('Nombre de la red (SSID)', 'Network name (SSID)')) + I('qr-wp', tr('Contraseña', 'Password')) +
+      S('qr-wt', tr('Seguridad', 'Security'), [['WPA', 'WPA/WPA2/WPA3'], ['WEP', 'WEP'], ['nopass', tr('Sin contraseña', 'None')]], 'WPA') +
+      `<label class="chk"><input type="checkbox" id="qr-wh"><span>${tr('Red oculta', 'Hidden network')}</span></label>`) +
+    B('mail', I('qr-ma', tr('Dirección de correo', 'Email address'), 'nombre@ejemplo.com', 'email') + I('qr-ms', tr('Asunto (opcional)', 'Subject (optional)')) + F('qr-mb', tr('Mensaje (opcional)', 'Message (optional)'), '<textarea id="qr-mb" maxlength="500"></textarea>')) +
+    B('tel', I('qr-tn', tr('Número de teléfono', 'Phone number'), '+34 600 000 000', 'tel')) +
+    B('sms', I('qr-sn', tr('Número de teléfono', 'Phone number'), '+34 600 000 000', 'tel') + I('qr-sm', tr('Mensaje (opcional)', 'Message (optional)'))) +
+    B('vc', `<div class="two">${I('qr-vn', tr('Nombre', 'First name'))}${I('qr-vl', tr('Apellidos', 'Last name'))}</div><div class="two">${I('qr-vt', tr('Teléfono', 'Phone'), '', 'tel')}${I('qr-ve', tr('Correo', 'Email'), '', 'email')}</div><div class="two">${I('qr-vo', tr('Organización', 'Organisation'))}${I('qr-vu', tr('Web', 'Website'), 'https://')}</div>`) +
+    `<h2 style="margin-top:18px">${tr('Aspecto', 'Appearance')}</h2>` +
+    `<div class="two">${S('qr-ecc', tr('Corrección de errores', 'Error correction'), [['L', tr('Baja (7 %)', 'Low (7%)')], ['M', tr('Media (15 %)', 'Medium (15%)')], ['Q', tr('Alta (25 %)', 'High (25%)')], ['H', tr('Máxima (30 %)', 'Maximum (30%)')]], 'M')}${S('qr-sz', tr('Tamaño de la imagen', 'Image size'), [['256', '256 px'], ['512', '512 px'], ['1024', '1024 px'], ['2048', '2048 px']], '512')}</div>` +
+    `<div class="two">${S('qr-st', tr('Estilo de los módulos', 'Module style'), [['sq', tr('Cuadrados', 'Squares')], ['rd', tr('Redondeados', 'Rounded')], ['dt', tr('Puntos', 'Dots')]], 'sq')}${S('qr-qz', tr('Margen', 'Margin'), [['1', tr('Mínimo', 'Minimal')], ['2', tr('Pequeño', 'Small')], ['4', tr('Estándar', 'Standard')], ['6', tr('Grande', 'Large')]], '4')}</div>` +
+    `<div class="two">${F('qr-fg', tr('Color del código', 'Code colour'), '<input id="qr-fg" type="color" value="#000000">')}${F('qr-bg', tr('Color de fondo', 'Background colour'), '<input id="qr-bg" type="color" value="#ffffff">')}</div>` +
+    `<label class="chk"><input type="checkbox" id="qr-tr"><span>${tr('Fondo transparente (PNG y SVG)', 'Transparent background (PNG and SVG)')}</span></label>` +
+    F('qr-lg', tr('Logo en el centro (opcional)', 'Centre logo (optional)'), '<input id="qr-lg" type="file" accept="image/*">') +
+    `<div class="ex-bar" style="margin:0"><button type="button" class="tog" id="qr-lgx" hidden style="margin-left:0">${tr('Quitar logo', 'Remove logo')}</button></div>`);
+  $('qr-ecc').closest('.fld').insertAdjacentHTML('beforeend', '');
+  $('qr-msg').insertAdjacentHTML('afterend', '<p class="sub" id="qr-wn" role="status" aria-live="polite"></p>');
+  $('qr-svg').insertAdjacentHTML('afterend', `<button type="button" class="tog" id="qr-cp" disabled>${tr('Copiar imagen', 'Copy image')}</button>`);
+})();
+function qrText() {
+  const v = id => $(id).value.trim(), ty = $('qr-type').value, e = s => s.replace(/([\\;,:"])/g, '\\$1');
+  if (ty === 'txt') return $('qr-in').value;
+  if (ty === 'wifi') { const t = $('qr-wt').value; return v('qr-ws') ? `WIFI:T:${t};S:${e(v('qr-ws'))};${t === 'nopass' ? '' : `P:${e($('qr-wp').value)};`}${$('qr-wh').checked ? 'H:true;' : ''};` : '' }
+  if (ty === 'mail') { const p = []; if (v('qr-ms')) p.push('subject=' + encodeURIComponent(v('qr-ms'))); if ($('qr-mb').value.trim()) p.push('body=' + encodeURIComponent($('qr-mb').value.trim())); return v('qr-ma') ? 'mailto:' + v('qr-ma') + (p.length ? '?' + p.join('&') : '') : '' }
+  if (ty === 'tel') return v('qr-tn') ? 'tel:' + v('qr-tn').replace(/[\s()-]/g, '') : '';
+  if (ty === 'sms') return v('qr-sn') ? 'SMSTO:' + v('qr-sn').replace(/[\s()-]/g, '') + ':' + v('qr-sm') : '';
+  const c = s => s.replace(/([\\;,])/g, '\\$1'), n = v('qr-vn'), l = v('qr-vl');
+  if (!n && !l && !v('qr-vt') && !v('qr-ve')) return '';
+  return ['BEGIN:VCARD', 'VERSION:3.0', `N:${c(l)};${c(n)};;;`, `FN:${c((n + ' ' + l).trim())}`, v('qr-vo') && `ORG:${c(v('qr-vo'))}`, v('qr-vt') && `TEL;TYPE=CELL:${v('qr-vt')}`, v('qr-ve') && `EMAIL:${v('qr-ve')}`, v('qr-vu') && `URL:${v('qr-vu')}`, 'END:VCARD'].filter(Boolean).join('\n');
+}
+function qrSvg(mm, o) {
+  const n = mm.n, q = o.q, N = n + 2 * q, st = o.st, r = st === 'rd' ? .32 : .5, er = st === 'rd' ? 1.6 : st === 'dt' ? 2.6 : 0;
+  const eye = (x, y) => (x < 7 && y < 7) || (x >= n - 7 && y < 7) || (x < 7 && y >= n - 7);
+  let d = '', s = '';
+  for (let y = 0; y < n; y++)for (let x = 0; x < n; x++) {
+    if (!mm.get(x, y) || eye(x, y)) continue; const X = x + q, Y = y + q, w = 1 - 2 * r;
+    if (st === 'sq') d += `M${X},${Y}h1v1h-1z`;
+    else if (st === 'dt') d += `M${X + .5},${Y + .5}m-.45,0a.45,.45 0 1,0 .9,0a.45,.45 0 1,0 -.9,0`;
+    else d += `M${X + r},${Y}h${w}a${r},${r} 0 0 1 ${r},${r}v${w}a${r},${r} 0 0 1 -${r},${r}h-${w}a${r},${r} 0 0 1 -${r},-${r}v-${w}a${r},${r} 0 0 1 ${r},-${r}z`;
+  }
+  [[0, 0], [n - 7, 0], [0, n - 7]].forEach(([ex, ey]) => { const X = ex + q, Y = ey + q; s += `<rect x="${X + .5}" y="${Y + .5}" width="6" height="6" rx="${er * .8}" fill="none" stroke="${o.fg}" stroke-width="1"/><rect x="${X + 2}" y="${Y + 2}" width="3" height="3" rx="${er * .5}" fill="${o.fg}"/>` });
+  let lg = '';
+  if (o.logo) { const L = Math.round(n * .22), p = (N - L) / 2; lg = `<rect x="${p}" y="${p}" width="${L}" height="${L}" rx=".8" fill="${o.tp ? '#fff' : o.bg}"/><image href="${o.logo}" x="${p + .6}" y="${p + .6}" width="${L - 1.2}" height="${L - 1.2}" preserveAspectRatio="xMidYMid meet"/>` }
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${N} ${N}"${st === 'sq' ? ' shape-rendering="crispEdges"' : ''}>${o.tp ? '' : `<rect width="${N}" height="${N}" fill="${o.bg}"/>`}<path d="${d}" fill="${o.fg}"/>${s}${lg}</svg>`;
+}
+function qrSave(blob, name) { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1500) }
+const qrLum = h => { const c = [1, 3, 5].map(i => { const v = parseInt(h.substr(i, 2), 16) / 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4) }); return .2126 * c[0] + .7152 * c[1] + .0722 * c[2] };
+function qrDraw() {
+  const ty = $('qr-type').value; document.querySelectorAll('[data-qt]').forEach(b => { b.hidden = b.dataset.qt !== ty });
+  const t = qrText(), msg = $('qr-msg'), wn = $('qr-wn'); qrM = null; wn.textContent = ''; msg.textContent = '';
+  $('qr-ecc').disabled = !!qrLogo; $('qr-lgx').hidden = !qrLogo;
+  if (!t.trim()) msg.textContent = tr('Rellena los datos para generar el código.', 'Fill in the details to generate the code.');
+  else try { qrM = QRC.make(t, qrLogo ? 'H' : $('qr-ecc').value) } catch (e) { msg.textContent = tr('El contenido es demasiado largo para un código QR. Acórtalo o baja la corrección de errores.', 'The content is too long for a QR code. Shorten it or lower the error correction.') }
+  $('qr-png').disabled = $('qr-svg').disabled = $('qr-cp').disabled = !qrM; qrCv.hidden = !qrM;
+  if (!qrM) return;
+  msg.textContent = tr(`Código de ${qrM.n}×${qrM.n} módulos.`, `${qrM.n}×${qrM.n} module code.`) + (qrLogo ? tr(' Con logo se usa la corrección máxima.', ' With a logo, maximum error correction is used.') : '');
+  const fg = $('qr-fg').value, bg = $('qr-bg').value, tp = $('qr-tr').checked, px = +$('qr-sz').value;
+  const a = qrLum(fg), b = qrLum(bg), cr = (Math.max(a, b) + .05) / (Math.min(a, b) + .05);
+  if (!tp && cr < 3) wn.textContent = tr('Aviso: poco contraste entre el código y el fondo; puede no leerse.', 'Warning: low contrast between code and background; it may not scan.');
+  else if (!tp && a > b) wn.textContent = tr('Aviso: el código es más claro que el fondo; algunos lectores no lo leen.', 'Warning: the code is lighter than the background; some scanners cannot read it.');
+  qrSv = qrSvg(qrM, { fg, bg, tp, st: $('qr-st').value, q: +$('qr-qz').value, logo: qrLogo });
+  const k = ++qrN, im = new Image();
+  im.onload = () => { if (k !== qrN) return; qrCv.width = qrCv.height = px; const c = qrCv.getContext('2d'); c.clearRect(0, 0, px, px); c.drawImage(im, 0, 0, px, px) };
+  im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(qrSv);
+}
+$('qr-form').addEventListener('input', qrDraw); $('qr-form').addEventListener('change', qrDraw);
+$('qr-lg').addEventListener('change', e => { const f = e.target.files[0]; if (!f) return; if (f.size > 2e6) { $('qr-wn').textContent = tr('El logo pesa más de 2 MB.', 'The logo is larger than 2 MB.'); e.target.value = ''; return } const r = new FileReader(); r.onload = () => { qrLogo = r.result; qrDraw() }; r.readAsDataURL(f) });
+$('qr-lgx').addEventListener('click', () => { qrLogo = null; $('qr-lg').value = ''; qrDraw() });
+$('qr-png').addEventListener('click', () => qrCv.toBlob(b => b && qrSave(b, 'qr-aulalia.png')));
+$('qr-svg').addEventListener('click', () => qrM && qrSave(new Blob([qrSv], { type: 'image/svg+xml' }), 'qr-aulalia.svg'));
+$('qr-cp').addEventListener('click', () => qrCv.toBlob(b => { const w = $('qr-wn'); if (!b) return; (navigator.clipboard && window.ClipboardItem ? navigator.clipboard.write([new ClipboardItem({ 'image/png': b })]) : Promise.reject()).then(() => { w.textContent = tr('Imagen copiada.', 'Image copied.') }).catch(() => { w.textContent = tr('Tu navegador no permite copiar la imagen; descárgala.', 'Your browser cannot copy the image; download it instead.') }) }));
 
     /* ---- Flashcards ---- */
     /* Elementos guardados en este navegador (mismo sistema que los exámenes) */
